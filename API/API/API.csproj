@@ -101,9 +101,22 @@
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Database\DataContext.cs" />
+    <Compile Include="Database\Model\Access.cs" />
+    <Compile Include="Database\Model\Change.cs" />
+    <Compile Include="Database\Model\File.cs" />
+    <Compile Include="Database\Model\FileType.cs" />
+    <Compile Include="Database\Model\Song.cs" />
+    <Compile Include="Database\Model\SongType.cs" />
+    <Compile Include="Database\Model\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903161558469_Init.cs" />
+    <Compile Include="Migrations\201903161558469_Init.Designer.cs">
+      <DependentUpon>201903161558469_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +135,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201903161558469_Init.resx">
+      <DependentUpon>201903161558469_Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
