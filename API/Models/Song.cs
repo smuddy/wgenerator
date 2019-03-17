@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace API.Database.Model {
+namespace API.Models {
     public class Song {
         public int ID { get; set; }
         public string Name { get; set; }

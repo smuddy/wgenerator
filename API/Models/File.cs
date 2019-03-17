@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace API.Database.Model {
+namespace API.Models {
     public class File {
         public int ID { get; set; }
         public Guid ReferenceFile { get; set; }

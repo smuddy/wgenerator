@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace API.Database.Model {
+namespace API.Models {
     public class Change {
         public int ID { get; set; }
         public int UserId { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace API.Database.Model {
+﻿namespace API.Models {
     public enum Access {
         Inactive,
         Reader,

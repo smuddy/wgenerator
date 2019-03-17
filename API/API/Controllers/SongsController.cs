@@ -1,9 +1,10 @@
 ﻿using API.Database;
-using API.Database.Model;
+using API.Models;
 using Microsoft.AspNet.OData;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 namespace ProductService.Controllers {
@@ -73,6 +74,15 @@ namespace ProductService.Controllers {
             return Updated(update);
         }
 
+        public async Task<IHttpActionResult> Delete([FromODataUri] int key) {
+            var product = await db.Songs.FindAsync(key);
+            if (product == null) {
+                return NotFound();
+            }
+            db.Songs.Remove(product);
+            await db.SaveChangesAsync();
+            return StatusCode(HttpStatusCode.NoContent);
+        }
 
     }
 }

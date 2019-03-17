@@ -1,8 +1,11 @@
-﻿using API.Database.Model;
+﻿using API.Models;
 using System.Data.Entity;
 
 namespace API.Database {
     public class DataContext : DbContext {
+
+        public DataContext() : base("DataContext") { }
+
         public DbSet<Song> Songs { get; set; }
         public DbSet<Change> Changes { get; set; }
         public DbSet<File> Files { get; set; }

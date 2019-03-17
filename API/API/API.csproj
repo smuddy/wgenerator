@@ -15,7 +15,7 @@
     <AssemblyName>API</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -130,13 +130,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\SongsController.cs" />
     <Compile Include="Database\DataContext.cs" />
-    <Compile Include="Database\Model\Access.cs" />
-    <Compile Include="Database\Model\Change.cs" />
-    <Compile Include="Database\Model\File.cs" />
-    <Compile Include="Database\Model\FileType.cs" />
-    <Compile Include="Database\Model\Song.cs" />
-    <Compile Include="Database\Model\SongType.cs" />
-    <Compile Include="Database\Model\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -160,7 +153,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Models\API.Models.csproj">
+      <Project>{8d72ff7d-c085-4c06-9d66-9537b7ac924d}</Project>
+      <Name>API.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
@@ -187,7 +185,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50752</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50752/</IISUrl>
+          <IISUrl>http://localhost/API</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
