@@ -1,8 +1,8 @@
 ﻿using API.Database;
+using API.Services;
 using Autofac;
 using Autofac.Integration.WebApi;
 using ProductService.Controllers;
-using System.Reflection;
 using System.Web.Http;
 
 namespace API.App_Start {
@@ -28,7 +28,7 @@ namespace API.App_Start {
         }
 
         private static void RegisterServices(this ContainerBuilder builder) {
-            // ... builder.RegisterType<object>();
+            builder.RegisterType<Logger>();
         }
 
         private static void RegisterDataProvider(this ContainerBuilder builder) {
