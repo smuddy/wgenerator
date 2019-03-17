@@ -52,6 +52,7 @@
     <Compile Include="Change.cs" />
     <Compile Include="File.cs" />
     <Compile Include="FileType.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Song.cs" />
     <Compile Include="SongType.cs" />

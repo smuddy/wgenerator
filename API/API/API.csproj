@@ -141,6 +141,10 @@
     <Compile Include="Migrations\201903172015115_SongNumber.Designer.cs">
       <DependentUpon>201903172015115_SongNumber.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903172028249_Log.cs" />
+    <Compile Include="Migrations\201903172028249_Log.Designer.cs">
+      <DependentUpon>201903172028249_Log.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -173,6 +177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903172015115_SongNumber.resx">
       <DependentUpon>201903172015115_SongNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903172028249_Log.resx">
+      <DependentUpon>201903172028249_Log.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

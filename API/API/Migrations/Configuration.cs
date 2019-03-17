@@ -3,7 +3,7 @@ namespace API.Migrations {
 
     internal sealed class Configuration : DbMigrationsConfiguration<Database.DataContext> {
         public Configuration() {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
     }
 }
