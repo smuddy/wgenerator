@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ODataModule } from 'odata-v4-ng';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,7 @@ import { SongComponent } from './components/song/song.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ODataModule,
 
     MatCardModule,
     MatTableModule,

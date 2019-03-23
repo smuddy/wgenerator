@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SongListModel } from 'src/app/models/song-list.model';
+import { Song } from 'src/app/models/song.model';
 
 @Component({
   selector: 'app-table',
@@ -7,13 +7,13 @@ import { SongListModel } from 'src/app/models/song-list.model';
   styleUrls: ['./table.component.less']
 })
 export class TableComponent implements OnInit {
-  @Input() public songs: SongListModel;
+  @Input() public songs: Song[];
   public columns = [
-    'Id',
+    'Number',
     'Name',
     'Key',
-    'Type',
-    'Velocity',
+    'SongType',
+    'Tempo',
   ];
 
   constructor() { }

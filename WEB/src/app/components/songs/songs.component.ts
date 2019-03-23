@@ -1,6 +1,6 @@
+import { Song } from './../../models/song.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SongListModel } from 'src/app/models/song-list.model';
 
 @Component({
   selector: 'app-songs',
@@ -8,12 +8,12 @@ import { SongListModel } from 'src/app/models/song-list.model';
   styleUrls: ['./songs.component.less']
 })
 export class SongsComponent implements OnInit {
-  public songs: SongListModel;
+  public songs: Song[];
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.data.subscribe((data: { songs: SongListModel }) => {
+    this.route.data.subscribe((data: { songs: Song[] }) => {
       this.songs = data.songs;
     });
   }

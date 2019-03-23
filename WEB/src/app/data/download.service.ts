@@ -1,6 +1,6 @@
+import { base } from './urls';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { urlSongFiles } from './urls';
 
 
 @Injectable({
@@ -11,7 +11,7 @@ export class DownloadService {
 
   public get(id: number, withKey: boolean) {
     return this.httpClient
-      .get(urlSongFiles + '/' + id + '?withKey=' + withKey, {
+      .get(base + '/' + id + '?withKey=' + withKey, {
         responseType: 'blob' as 'json'
       })
       .subscribe(

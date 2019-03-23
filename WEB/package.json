@@ -25,7 +25,9 @@
     "@fortawesome/angular-fontawesome": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
+    "angular2-uuid": "^1.1.1",
     "core-js": "^2.5.4",
+    "odata-v4-ng": "^1.1.0",
     "rxjs": "^6.3.3",
     "zone.js": "~0.8.26"
   },

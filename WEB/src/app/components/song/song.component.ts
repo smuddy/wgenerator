@@ -1,8 +1,8 @@
 import { DownloadService } from './../../data/download.service';
 import { Component, OnInit } from '@angular/core';
-import { SongDetailModel } from 'src/app/models/song-list-detail.model';
 import { ActivatedRoute } from '@angular/router';
 import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
+import { Song } from 'src/app/models/song.model';
 
 @Component({
   selector: 'app-song',
@@ -10,7 +10,7 @@ import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./song.component.less']
 })
 export class SongComponent implements OnInit {
-  public song: SongDetailModel;
+  public song: Song;
   public faArrow = faLongArrowAltLeft;
 
   constructor(
@@ -19,14 +19,13 @@ export class SongComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.data.subscribe((data: { song: SongDetailModel }) => {
+    this.route.data.subscribe((data: { song: Song }) => {
       this.song = data.song;
     });
   }
 
   public onClickDownload(): void {
-    const id = this.song.Id;
-    const withKey = this.song.HasKeyFile;
-    this.downloadService.get(id, withKey);
+    const id = this.song.ID;
+    this.downloadService.get(id, false);
   }
 }
