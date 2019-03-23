@@ -1,13 +1,13 @@
-import { DownloadService } from './../../data/download.service';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
-import { Song } from 'src/app/models/song.model';
+import { DownloadService } from "./../../data/download.service";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { faLongArrowAltLeft } from "@fortawesome/free-solid-svg-icons";
+import { Song } from "src/app/models/song.model";
 
 @Component({
-  selector: 'app-song',
-  templateUrl: './song.component.html',
-  styleUrls: ['./song.component.less']
+  selector: "app-song",
+  templateUrl: "./song.component.html",
+  styleUrls: ["./song.component.less"]
 })
 export class SongComponent implements OnInit {
   public song: Song;
@@ -27,5 +27,9 @@ export class SongComponent implements OnInit {
   public onClickDownload(): void {
     const id = this.song.ID;
     this.downloadService.get(id, false);
+  }
+
+  public get text(): string[] {
+    return this.song.Text.split(/\r?\n/).filter(_ => _ !== ' ');
   }
 }

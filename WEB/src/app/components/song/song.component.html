@@ -6,10 +6,10 @@
       </button>
     </div>
     <mat-card-title>{{ song.Name }}</mat-card-title>
-    <mat-card-subtitle>{{ song.Key }} - {{ song.Velocity }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ song.Key }} - {{ song.Tempo }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <p>{{ song.Text }}</p>
+    <p *ngFor="let line of text">{{ line }}</p>
   </mat-card-content>
   <mat-card-actions>
     <button mat-button (click)="onClickDownload()">Herunterladen</button>
