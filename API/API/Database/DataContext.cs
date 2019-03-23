@@ -1,11 +1,12 @@
-﻿using API.Migrations;
+﻿using API.App_Start;
+using API.Migrations;
 using API.Models;
 using System.Data.Entity;
 
 namespace API.Database {
     public class DataContext : DbContext {
 
-        public DataContext() : base("DataContext") {
+        public DataContext() : base(EnvironmentConfig.Read()?.ConnectionString ?? "DataContext") {
             System.Data.Entity.Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
         }
 
