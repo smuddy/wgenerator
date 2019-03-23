@@ -1,0 +1,31 @@
+<table *ngIf="songs.SongList" mat-table [dataSource]="songs.SongList" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="Id">
+    <th mat-header-cell *matHeaderCellDef>#</th>
+    <td mat-cell *matCellDef="let element">{{element.Id}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="Name">
+    <th mat-header-cell *matHeaderCellDef>Titel</th>
+    <td mat-cell *matCellDef="let element">{{element.Name}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="Key">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">{{element.Key}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="Type">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">{{element.Type}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="Velocity">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">{{element.Velocity}}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: columns;" [routerLink]="['/songs', row.Id]" routerLinkActive="router-link-active" ></tr>
+
+</table>
