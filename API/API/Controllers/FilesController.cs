@@ -12,15 +12,17 @@ namespace API.Controllers {
     public class FilesController : ApiController {
         private readonly DataContext dataContext;
         private readonly IFileService fileService;
+        private readonly IFileGarbageCollectionService fileGarbageCollectionService;
         private readonly string dataPath;
 
         public FilesController(
             DataContext dataContext,
-            IFileService fileService
+            IFileService fileService,
+            IFileGarbageCollectionService fileGarbageCollectionService
             ) {
             this.dataContext = dataContext;
             this.fileService = fileService;
-
+            this.fileGarbageCollectionService = fileGarbageCollectionService;
             dataPath = System.Web.Hosting.HostingEnvironment.MapPath(@"~/App_Data");
         }
 
@@ -28,6 +30,7 @@ namespace API.Controllers {
         [Route("api/songs/{songId}/files/{fileId}")]
         public HttpResponseMessage Get(long songId, long fileId) {
             var response = new HttpResponseMessage(HttpStatusCode.OK);
+            fileGarbageCollectionService.Collect(dataPath);
 
             var file = dataContext.Files.Find(fileId);
             if (file == null || file.Song.ID != songId) return new HttpResponseMessage(HttpStatusCode.NotFound);
@@ -46,6 +49,8 @@ namespace API.Controllers {
         // POST: api/Files
         [Route("api/songs/{songId}/files")]
         public async Task<HttpResponseMessage> Post(long songId, CancellationToken c) {
+            fileGarbageCollectionService.Collect(dataPath);
+
             // get file from network input
             var files = HttpContext.Current.Request.Files;
             if (files.Count != 1) return new HttpResponseMessage(HttpStatusCode.BadRequest);

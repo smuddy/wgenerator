@@ -33,6 +33,7 @@ namespace API.App_Start {
             builder.RegisterType<Logger>();
 
             builder.RegisterType<FileService>().As<IFileService>().SingleInstance();
+            builder.RegisterType<FileGarbageCollectionService>().As<IFileGarbageCollectionService>();
         }
 
         private static void RegisterDataProvider(this ContainerBuilder builder) {
