@@ -8,5 +8,7 @@ namespace API.Models {
         public Guid ReferenceFile { get; set; }
         public string Name { get; set; }
         public FileType FileType { get; set; }
+
+        public virtual Song Song { get; set; }
     }
 }
