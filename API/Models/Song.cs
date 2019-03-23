@@ -16,5 +16,7 @@ namespace API.Models {
         public bool Final { get; set; }
 
         public virtual ICollection<Change> Changes { get; set; }
+
+        public virtual ICollection<File> Files { get; set; }
     }
 }

@@ -1,5 +1,5 @@
-﻿using API.Models;
-using API.Migrations;
+﻿using API.Migrations;
+using API.Models;
 using System.Data.Entity;
 
 namespace API.Database {

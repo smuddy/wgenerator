@@ -1,4 +1,5 @@
-﻿using API.Database;
+﻿using API.Controllers;
+using API.Database;
 using API.Services;
 using Autofac;
 using Autofac.Integration.WebApi;
@@ -25,10 +26,13 @@ namespace API.App_Start {
 
         private static void RegisterControllers(this ContainerBuilder builder) {
             builder.RegisterType<SongsController>().InstancePerRequest();
+            builder.RegisterType<FilesController>().InstancePerRequest();
         }
 
         private static void RegisterServices(this ContainerBuilder builder) {
             builder.RegisterType<Logger>();
+
+            builder.RegisterType<FileService>().As<IFileService>().SingleInstance();
         }
 
         private static void RegisterDataProvider(this ContainerBuilder builder) {
