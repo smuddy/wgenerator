@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ODataModule } from 'odata-v4-ng';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +23,7 @@ import { SongComponent } from './components/songs/song/song.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     ODataModule,
