@@ -1,2 +1,3 @@
 <app-table></app-table>
-<app-song></app-song>
+<app-song *ngIf="!songsService.edit"></app-song>
+<app-song-edit *ngIf="songsService.edit"></app-song-edit>

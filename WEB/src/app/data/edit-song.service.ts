@@ -8,9 +8,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class EditSongService {
 
-    constructor(private songService: SongsService) { }
+    constructor(private songsService: SongsService) { }
 
-    public initEditForm(song: Song): FormGroup {
+    public initEditForm(): FormGroup {
+        const song = this.songsService.selectedSong.value;
         const form = new FormGroup({
             ID: new FormControl(song.ID),
             Number: new FormControl(song.Number),

@@ -4,33 +4,22 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
+import { faLongArrowAltLeft, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Song } from 'src/app/models/song.model';
 import { DownloadService } from 'src/app/data/download.service';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { blend } from 'src/app/services/animation';
 
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('blend', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('700ms', style({ opacity: 0 })),
-        animate('300ms', style({ opacity: 1 }))
-      ]),
-      transition(':leave', [
-        style({ opacity: 1 }),
-        animate('300ms', style({ opacity: 0 }))
-      ])
-    ])
-  ]
+  animations: [blend]
 })
 export class SongComponent {
   public song: Song;
   public faArrow = faLongArrowAltLeft;
+  public faEdit = faEdit;
   public selectedSongId = 0;
 
   constructor(
@@ -56,6 +45,10 @@ export class SongComponent {
   public onClickDownload(): void {
     const id = this.song.ID;
     this.downloadService.get(id, false);
+  }
+
+  public onClickEdit(): void {
+    this.songService.edit = true;
   }
 
   public get text(): string[] {

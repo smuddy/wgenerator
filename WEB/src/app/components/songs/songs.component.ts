@@ -7,7 +7,7 @@ import { SongsService } from 'src/app/data/songs.service';
   styleUrls: ['./songs.component.less']
 })
 export class SongsComponent {
-  constructor(songService: SongsService) {
-    songService.loadSongList();
+  constructor(public songsService: SongsService) {
+    songsService.loadSongList();
   }
 }

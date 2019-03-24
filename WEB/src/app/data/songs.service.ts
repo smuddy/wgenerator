@@ -8,6 +8,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class SongsService extends OdataService {
+  public edit = false;
+
   public songs: BehaviorSubject<Song[]> = new BehaviorSubject<Song[]>([]);
   public selectedSong: BehaviorSubject<Song> = new BehaviorSubject<Song>(null);
 
@@ -20,6 +22,7 @@ export class SongsService extends OdataService {
   }
 
   public selectSong(id: number): void {
+    this.edit = false;
     const filter = this.songs.value.filter(_ => _.ID === id);
     const song = filter.length === 1 ? filter[0] : null;
     this.selectedSong.next(song);
