@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ODataModule } from 'odata-v4-ng';
 
@@ -10,15 +11,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { TableComponent } from './components/songs/table/table.component';
 import { SongsComponent } from './components/songs/songs.component';
-import { SongComponent } from './components/song/song.component';
+import { SongComponent } from './components/songs/song/song.component';
 
 @NgModule({
   declarations: [AppComponent, SongsComponent, TableComponent, SongComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ODataModule,
@@ -26,6 +29,7 @@ import { SongComponent } from './components/song/song.component';
     MatCardModule,
     MatTableModule,
     MatButtonModule,
+    MatChipsModule,
 
     FontAwesomeModule
   ],
