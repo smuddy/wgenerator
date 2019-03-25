@@ -7,7 +7,13 @@
         </button>
       </div>
       <mat-card-title>{{ song.Name }}</mat-card-title>
-      <mat-card-subtitle>{{ song.Key }} - {{ song.Tempo }}</mat-card-subtitle>
+      <mat-card-subtitle>
+        <mat-chip-list>
+          <mat-chip *ngIf="renderSongType(song.SongType)" [style.background]="renderSongType(song.SongType).color">{{ renderSongType(song.SongType).name }}</mat-chip>
+          <mat-chip *ngIf="song.Key">Tonart: {{ song.Key }}</mat-chip>
+          <mat-chip *ngIf="song.Tempo">Tempo: {{ song.Tempo }}</mat-chip>
+        </mat-chip-list></mat-card-subtitle
+      >
     </mat-card-header>
     <mat-card-content>
       <p *ngFor="let line of text">{{ line }}</p>
@@ -16,7 +22,7 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-button (click)="onClickEdit()">
-        <fa-icon [icon]="faEdit"></fa-icon> Bearbeiten
+        <fa-icon [icon]="faEdit"></fa-icon> bearbeiten
       </button>
     </mat-card-actions>
   </mat-card>

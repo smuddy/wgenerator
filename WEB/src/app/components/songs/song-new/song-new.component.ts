@@ -31,4 +31,8 @@ export class SongNewComponent implements OnInit {
     this.songsService.state = State.list;
   }
 
+  public onClickAdd(): void {
+    this.songsService.saveNewSong$(this.form.value).subscribe();
+  }
+
 }

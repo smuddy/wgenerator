@@ -3,7 +3,7 @@ import { ODataService } from 'odata-v4-ng';
 import { OdataService } from './odata.service';
 import { Song } from '../models/song.model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, switchMap } from 'rxjs/operators';
 import { State } from './state';
 
 @Injectable({
@@ -19,9 +19,22 @@ export class SongsService extends OdataService {
     super(odataService, 'songs');
   }
 
-  public loadSongList(): void {
+  public loadSongList$(): Observable<Song[]> {
     const properties = ['ID', 'Name', 'Number', 'SongType', 'Key', 'Tempo'];
-    this.list<Song>(properties).subscribe(_ => this.songs.next(_));
+    const list = this.list$<Song>(properties).pipe(
+      tap(_ => this.songs.next(_))
+    );
+    return list;
+  }
+
+  public loadSongListAndGoTo$(id: number): Observable<Song[]> {
+    const properties = ['ID', 'Name', 'Number', 'SongType', 'Key', 'Tempo'];
+    const list = this.list$<Song>(properties).pipe(tap(_ => {
+      this.songs.next(_);
+      this.selectSong(id);
+    }));
+
+    return list;
   }
 
   public selectSong(id: number): void {
@@ -32,7 +45,7 @@ export class SongsService extends OdataService {
       return;
     }
 
-    this.get<Song>(id, ['Text', 'Comments']).subscribe(_ => {
+    this.get$<Song>(id, ['Text', 'Comments']).subscribe(_ => {
       song.Text = _.Text;
       song.Comments = _.Comments;
       this.selectedSong.next(song);
@@ -44,8 +57,8 @@ export class SongsService extends OdataService {
     this.selectedSong.next(null);
   }
 
-  public patch(id: number, control: string, value: any): Observable<boolean> {
-    const patch = super.patch(id, control, value).pipe(
+  public patch$(id: number, control: string, value: any): Observable<boolean> {
+    const patch = super.patch$(id, control, value).pipe(
       tap(() => {
         const songs = this.songs.value;
         const song = songs.filter(_ => _.ID === id)[0];
@@ -54,6 +67,15 @@ export class SongsService extends OdataService {
         this.selectedSong.next(song);
       })
     );
+
     return patch;
+  }
+
+  public saveNewSong$(values: any): Observable<Song[]> {
+    const newSong = super
+      .post$<Song>(values)
+      .pipe(switchMap(_ => this.loadSongListAndGoTo$(_.ID)));
+
+      return newSong;
   }
 }

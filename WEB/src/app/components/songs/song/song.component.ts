@@ -57,4 +57,12 @@ export class SongComponent {
   public get comments(): string[] {
     return this.song && this.song.Comments ? this.song.Comments.split(/\r?\n/) : [];
   }
+
+  public renderSongType(songType: string) {
+    switch (songType) {
+      case 'Praise': return {name: 'Lobpreis', color: '#99FFB8'};
+      case 'Worship': return {name: 'Anbetung', color: '#C999FF'};
+      default: return null;
+    }
+  }
 }

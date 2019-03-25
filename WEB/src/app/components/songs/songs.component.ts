@@ -12,6 +12,6 @@ import { State } from 'src/app/data/state';
 export class SongsComponent {
   public State = State;
   constructor(public songsService: SongsService) {
-    songsService.loadSongList();
+    songsService.loadSongList$().subscribe();
   }
 }

@@ -42,7 +42,7 @@ export class EditSongService {
     private attachSync(form: FormGroup, song: Song) {
         const controls = Object.keys(form.controls);
         controls.forEach(control => {
-            form.controls[control].valueChanges.pipe(switchMap(value => this.songsService.patch(song.ID, control, value))).subscribe();
+            form.controls[control].valueChanges.pipe(switchMap(value => this.songsService.patch$(song.ID, control, value))).subscribe();
         });
     }
 
