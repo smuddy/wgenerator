@@ -9,11 +9,13 @@ import { switchMap, tap } from 'rxjs/operators';
 export class EditSongService {
   constructor(private songsService: SongsService) {}
 
-  public initEditForm(): FormGroup {
+  public initEditForm(attachSync: boolean): FormGroup {
     const song = this.songsService.selectedSong.value;
     const form = new FormGroup({
-      ID: new FormControl(song.ID, { updateOn: 'blur' }),
-      Number: new FormControl(song.Number, { updateOn: 'blur' }),
+      Number: new FormControl(song.Number, {
+        updateOn: 'blur',
+        validators: [Validators.required, Validators.min(1)]
+      }),
       Name: new FormControl(song.Name, {
         updateOn: 'blur',
         validators: Validators.required
@@ -28,13 +30,15 @@ export class EditSongService {
       Comments: new FormControl(song.Comments, { updateOn: 'blur' }),
     });
 
-    const controls = Object.keys(form.controls);
-    controls.forEach(control => {
-      form.controls[control].valueChanges.pipe(
-        switchMap(value => this.songsService.patch(song.ID, control, value))
-      ).subscribe();
-    });
+    if (attachSync) { this.attachSync(form, song); }
 
     return form;
   }
+
+    private attachSync(form: FormGroup, song: import("/Users/benjamin/src/wgenerator/WEB/src/app/models/song.model").Song) {
+        const controls = Object.keys(form.controls);
+        controls.forEach(control => {
+            form.controls[control].valueChanges.pipe(switchMap(value => this.songsService.patch(song.ID, control, value))).subscribe();
+        });
+    }
 }
