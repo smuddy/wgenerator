@@ -36,18 +36,20 @@ html {
     transition: all 300ms ease-in-out;
   }
 
-  tr.selected {
-    background-color: #0002;
-  }
-  tr:hover {
-    cursor: pointer;
-    background-color: #0001;
-    td {
-      color: #ff9900;
+  tbody {
+    tr.selected {
+      background-color: #0002;
     }
-  }
-  td.mat-cell {
-    padding: 0 5px;
+    tr:hover {
+      cursor: pointer;
+      background-color: #0001;
+      td {
+        color: #ff9900;
+      }
+    }
+    td.mat-cell {
+      padding: 0 5px;
+    }
   }
 
   &.pinned {

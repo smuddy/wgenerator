@@ -1,8 +1,8 @@
-<div class="song-detail-container">
-  <mat-card class="mat-elevation-z8" [@blend] *ngIf="selectedSongId !== 0">
+<div class="song-detail-container" *ngIf="song">
+  <mat-card class="mat-elevation-z8">
     <mat-card-header>
       <div mat-card-avatar>
-        <button mat-icon-button (click)="onBack()">
+        <button mat-icon-button (click)="onBack()" color="warn">
           <fa-icon [icon]="faArrow"></fa-icon>
         </button>
       </div>
@@ -15,7 +15,6 @@
       <p *ngFor="let line of comments">{{ line }}</p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button (click)="onClickDownload()">Herunterladen</button>
       <button mat-button (click)="onClickEdit()">
         <fa-icon [icon]="faEdit"></fa-icon> Bearbeiten
       </button>

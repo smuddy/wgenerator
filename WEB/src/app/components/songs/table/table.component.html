@@ -1,8 +1,9 @@
 <div
   class="page-container mat-elevation-z8"
-  [class.pinned]="selectedSongId !== 0"
+  [class.pinned]="songsService.state !== State.list"
 >
   <div class="table-container">
+    <button mat-icon-button (click)="onClickNew()" class="button-new"><fa-icon [icon]="faNew"></fa-icon></button>
     <table
       mat-table
       [dataSource]="songsService.songs | async"

@@ -7,14 +7,13 @@ import {
 import { faLongArrowAltLeft, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Song } from 'src/app/models/song.model';
 import { DownloadService } from 'src/app/data/download.service';
-import { blend } from 'src/app/services/animation';
+import { State } from 'src/app/data/state';
 
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [blend]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SongComponent {
   public song: Song;
@@ -48,14 +47,14 @@ export class SongComponent {
   }
 
   public onClickEdit(): void {
-    this.songService.edit = true;
+    this.songService.state = State.edit;
   }
 
   public get text(): string[] {
-    return this.song.Text ? this.song.Text.split(/\r?\n/) : [];
+    return this.song && this.song.Text ? this.song.Text.split(/\r?\n/) : [];
   }
 
   public get comments(): string[] {
-    return this.song.Comments ? this.song.Comments.split(/\r?\n/) : [];
+    return this.song && this.song.Comments ? this.song.Comments.split(/\r?\n/) : [];
   }
 }

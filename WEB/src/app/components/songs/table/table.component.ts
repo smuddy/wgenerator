@@ -4,6 +4,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
+import { State } from 'src/app/data/state';
+import { faFileMedical } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-table',
@@ -13,10 +15,12 @@ import {
 })
 export class TableComponent {
   public selectedSongId = 0;
+  public State = State;
+  public faNew = faFileMedical;
   public columnsFull = ['Number', 'Name', 'Key', 'SongType', 'Tempo'];
   public columnsPinned = ['Number', 'Name'];
   public get columns(): string[] {
-    return this.selectedSongId === 0 ? this.columnsFull : this.columnsPinned;
+    return this.songsService.state === State.list ? this.columnsFull : this.columnsPinned;
   }
 
   constructor(
@@ -42,4 +46,11 @@ export class TableComponent {
     this.songsService.selectSong(id);
     this.change.detectChanges();
   }
+
+  public onClickNew(): void {
+    this.songsService.selectSong(null);
+    this.songsService.state = State.new;
+    this.change.detectChanges();
+  }
+
 }

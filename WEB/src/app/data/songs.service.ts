@@ -4,12 +4,13 @@ import { OdataService } from './odata.service';
 import { Song } from '../models/song.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { State } from './state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SongsService extends OdataService {
-  public edit = false;
+  public state = State.list;
 
   public songs: BehaviorSubject<Song[]> = new BehaviorSubject<Song[]>([]);
   public selectedSong: BehaviorSubject<Song> = new BehaviorSubject<Song>(null);
@@ -24,7 +25,7 @@ export class SongsService extends OdataService {
   }
 
   public selectSong(id: number): void {
-    this.edit = false;
+    this.state = State.read;
     const filter = this.songs.value.filter(_ => _.ID === id);
     const song = filter.length === 1 ? filter[0] : null;
     if (!song) {
@@ -39,6 +40,7 @@ export class SongsService extends OdataService {
   }
 
   public resetSelectedSong() {
+    this.state = State.list;
     this.selectedSong.next(null);
   }
 

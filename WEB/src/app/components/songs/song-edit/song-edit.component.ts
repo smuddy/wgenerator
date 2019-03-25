@@ -6,56 +6,20 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { blend } from 'src/app/services/animation';
 import { EditSongService } from 'src/app/data/edit-song.service';
 import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
+import { State } from 'src/app/data/state';
 
 @Component({
   selector: 'app-song-edit',
   templateUrl: './song-edit.component.html',
   styleUrls: ['./song-edit.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [blend]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SongEditComponent implements OnInit {
   public form: FormGroup = null;
   public faArrow = faLongArrowAltLeft;
-  public keys = [
-    'C',
-    'C#',
-    'Db',
-    'D',
-    'D#',
-    'Eb',
-    'E',
-    'F',
-    'F#',
-    'Gb',
-    'G',
-    'G#',
-    'Ab',
-    'A',
-    'A#',
-    'B',
-    'H',
-    'c',
-    'c#',
-    'db',
-    'd',
-    'd#',
-    'eb',
-    'e',
-    'f',
-    'f#',
-    'gb',
-    'g',
-    'g#',
-    'ab',
-    'a',
-    'A#',
-    'b',
-    'h'
-  ];
+
 
   constructor(
     private editSongService: EditSongService,
@@ -64,11 +28,11 @@ export class SongEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.form = this.editSongService.initEditForm();
+    this.form = this.editSongService.initEditForm(true);
     this.change.markForCheck();
   }
 
   public onBack(): void {
-    this.songsService.edit = false;
+    this.songsService.state = State.read;
   }
 }
