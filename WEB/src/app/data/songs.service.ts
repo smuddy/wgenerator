@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { ODataService } from 'odata-v4-ng';
 import { OdataService } from './odata.service';
 import { Song } from '../models/song.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +19,39 @@ export class SongsService extends OdataService {
   }
 
   public loadSongList(): void {
-    this.list<Song>().subscribe(_ => this.songs.next(_));
+    const properties = ['ID', 'Name', 'Number', 'SongType', 'Key', 'Tempo'];
+    this.list<Song>(properties).subscribe(_ => this.songs.next(_));
   }
 
   public selectSong(id: number): void {
     this.edit = false;
     const filter = this.songs.value.filter(_ => _.ID === id);
     const song = filter.length === 1 ? filter[0] : null;
-    this.selectedSong.next(song);
+    if (!song) {
+      return;
+    }
+
+    this.get<Song>(id, ['Text', 'Comments']).subscribe(_ => {
+      song.Text = _.Text;
+      song.Comments = _.Comments;
+      this.selectedSong.next(song);
+    });
   }
 
   public resetSelectedSong() {
     this.selectedSong.next(null);
+  }
+
+  public patch(id: number, control: string, value: any): Observable<boolean> {
+    const patch = super.patch(id, control, value).pipe(
+      tap(() => {
+        const songs = this.songs.value;
+        const song = songs.filter(_ => _.ID === id)[0];
+        song[control] = value;
+        this.songs.next(songs);
+        this.selectedSong.next(song);
+      })
+    );
+    return patch;
   }
 }

@@ -52,6 +52,10 @@ export class SongComponent {
   }
 
   public get text(): string[] {
-    return this.song.Text.split(/\r?\n/).filter(_ => _ !== ' ');
+    return this.song.Text ? this.song.Text.split(/\r?\n/) : [];
+  }
+
+  public get comments(): string[] {
+    return this.song.Comments ? this.song.Comments.split(/\r?\n/) : [];
   }
 }
