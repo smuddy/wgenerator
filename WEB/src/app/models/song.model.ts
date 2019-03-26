@@ -1,3 +1,5 @@
+import { File } from './file.model';
+
 export interface Song {
   ID: number;
   Number: number;
@@ -8,4 +10,5 @@ export interface Song {
   Tempo: number;
   SongType: string;
   Final: boolean;
+  Files: File[];
 }

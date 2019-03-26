@@ -56,7 +56,8 @@ export class EditSongService {
         SongType: null,
         Key: null,
         Comments: null,
-        Final: false
+        Final: false,
+        Files: []
       };
 
       return song;

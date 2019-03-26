@@ -1,5 +1,5 @@
 import { Song } from 'src/app/models/song.model';
-import { ODataService, ODataQuery } from 'odata-v4-ng';
+import { ODataService, ODataQuery, Expand } from 'odata-v4-ng';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { base } from './urls';
@@ -21,11 +21,13 @@ export class OdataService {
 
   public get$<TResponse>(
     id: number,
-    properties: string[]
+    properties: string[],
+    expands: string[]
   ): Observable<TResponse> {
     const query = new ODataQuery(this.odataService, this.url)
       .entitySet(this.entity)
       .entityKey(id)
+      .expand(expands.map(_ => new Expand(_)))
       .select(properties);
     const get = query.get().pipe(map(_ => _.toEntity<TResponse>()));
 

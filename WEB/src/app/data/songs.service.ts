@@ -45,9 +45,10 @@ export class SongsService extends OdataService {
       return;
     }
 
-    this.get$<Song>(id, ['Text', 'Comments']).subscribe(_ => {
+    this.get$<Song>(id, ['Text', 'Comments'], ['Files']).subscribe(_ => {
       song.Text = _.Text;
       song.Comments = _.Comments;
+      song.Files = _.Files;
       this.selectedSong.next(song);
     });
   }
