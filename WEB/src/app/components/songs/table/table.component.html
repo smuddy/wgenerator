@@ -3,7 +3,13 @@
   [class.pinned]="songsService.state !== State.list"
 >
   <div class="table-container">
-    <button mat-icon-button (click)="onClickNew()" class="button-new">
+    <button
+      mat-icon-button
+      (click)="onClickNew()"
+      class="button-new"
+      matTooltip="neuen Titel anlegen"
+      matTooltipPosition="left"
+    >
       <fa-icon [icon]="faNew"></fa-icon>
     </button>
     <table

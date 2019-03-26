@@ -23,7 +23,6 @@ export class SongComponent {
 
   constructor(
     private songService: SongsService,
-    private downloadService: DownloadService,
     change: ChangeDetectorRef
   ) {
     songService.selectedSong.subscribe(_ => {
@@ -39,11 +38,6 @@ export class SongComponent {
   }
   public onBack(): void {
     this.songService.resetSelectedSong();
-  }
-
-  public onClickDownload(): void {
-    const id = this.song.ID;
-    this.downloadService.get(id, false);
   }
 
   public onClickEdit(): void {
