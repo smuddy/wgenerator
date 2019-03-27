@@ -1,5 +1,5 @@
 <app-table></app-table>
-<app-song [@blend] *ngIf="songsService.state === State.read"></app-song>
-<app-song-files [@blend] *ngIf="songsService.state === State.read"></app-song-files>
 <app-song-edit [@blend] *ngIf="songsService.state === State.edit"></app-song-edit>
 <app-song-new [@blend] *ngIf="songsService.state === State.new"></app-song-new>
+<app-song [@blend] *ngIf="songsService.state === State.read"></app-song>
+<app-song-files [@blend] *ngIf="songsService.state === State.read"></app-song-files>

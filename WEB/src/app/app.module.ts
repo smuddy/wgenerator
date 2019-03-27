@@ -17,6 +17,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { TableComponent } from './components/songs/table/table.component';
 import { SongsComponent } from './components/songs/songs.component';
@@ -43,7 +44,6 @@ import { FileUploadModule } from 'ng2-file-upload';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule,
     HttpClientModule,
     ODataModule,
 
@@ -55,9 +55,11 @@ import { FileUploadModule } from 'ng2-file-upload';
     MatRadioModule,
     MatSelectModule,
     MatTooltipModule,
+    MatProgressBarModule,
 
     FontAwesomeModule,
     FileUploadModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

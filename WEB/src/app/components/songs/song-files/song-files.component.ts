@@ -32,6 +32,8 @@ export class SongFilesComponent {
         this.selectedSongId = _.ID;
         this.song = _;
         this.newFileUploader = this.fileuploadFactory.provideForNewFiles(_.ID);
+        this.newFileUploader.onCompleteItem = () => songService.selectSong(_.ID);
+        this.newFileUploader.onProgressItem = () => change.markForCheck;
       } else {
         this.selectedSongId = 0;
         this.song = null;
@@ -41,7 +43,6 @@ export class SongFilesComponent {
     });
   }
 
-  public onClickNew(): void {}
   public onClickDownload(id: number): void {}
   public onFileOverNew(hover: boolean) {
     this.fileOverNew = hover;
