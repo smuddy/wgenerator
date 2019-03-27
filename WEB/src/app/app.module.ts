@@ -25,6 +25,7 @@ import { SongEditComponent } from './components/songs/song-edit/song-edit.compon
 import { SongNewComponent } from './components/songs/song-new/song-new.component';
 import { SongFormComponent } from './components/songs/song-form/song-form.component';
 import { SongFilesComponent } from './components/songs/song-files/song-files.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { SongFilesComponent } from './components/songs/song-files/song-files.com
     MatSelectModule,
     MatTooltipModule,
 
-    FontAwesomeModule
+    FontAwesomeModule,
+    FileUploadModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
