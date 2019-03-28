@@ -1,4 +1,5 @@
 ﻿using API.Database;
+using API.Models;
 using API.Services;
 using System.Net;
 using System.Net.Http;
@@ -27,22 +28,18 @@ namespace API.Controllers {
         }
 
         // GET: api/Files/5
-        [Route("api/songs/{songId}/files/{fileId}")]
-        public HttpResponseMessage Get(long songId, long fileId) {
+        [Route("api/songs/{songId}/files/{fileId}", Order = 1)]
+        public async Task<HttpResponseMessage> Get(long songId, long fileId) {
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             fileGarbageCollectionService.Collect(dataPath);
 
-            var file = dataContext.Files.Find(fileId);
+            var file = await dataContext.Files.FindAsync(fileId);
             if (file == null || file.Song.ID != songId) return new HttpResponseMessage(HttpStatusCode.NotFound);
             var reference = file.ReferenceFile;
-            var filename = file.Name;
 
             var stream = fileService.Load(dataPath, reference.ToString());
             response.Content = new StreamContent(stream);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {
-                FileName = filename
-            };
             return response;
         }
 
@@ -65,7 +62,7 @@ namespace API.Controllers {
             var filename = await fileService.Save(stream, dataPath, c);
 
             // attach file reference to song
-            song.Files.Add(new Models.File {
+            song.Files.Add(new File {
                 Name = file.FileName,
                 ReferenceFile = filename
             });
@@ -74,9 +71,29 @@ namespace API.Controllers {
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
+        [Route("api/songs/{songId}/files/{fileId}/edit"), HttpGet]
+        public async Task<HttpResponseMessage> Edit(long songId, long fileId, string Name, FileType FileType, CancellationToken c) {
+            var file = await dataContext.Files.FindAsync(fileId);
+            if (file == null || file.Song.ID != songId) return new HttpResponseMessage(HttpStatusCode.NotFound);
 
+            file.Name = Name;
+            file.FileType = FileType;
+            await dataContext.SaveChangesAsync();
 
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
 
+        [Route("api/songs/{songId}/files/{fileId}/delete"), HttpGet]
+        public async Task<HttpResponseMessage> Delete(long songId, long fileId, CancellationToken c) {
+            var file = await dataContext.Files.FindAsync(fileId);
+            if (file == null || file.Song.ID != songId) return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+            dataContext.Files.Remove(file);
+            await dataContext.SaveChangesAsync();
+            fileGarbageCollectionService.Collect(dataPath);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
 
 
         //// PUT: api/Files/5

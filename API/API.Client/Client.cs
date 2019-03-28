@@ -35,6 +35,12 @@ namespace API.Client {
             return insertedSong;
         }
 
+        public async Task<Song> Patch(long id, object value) {
+            var client = new ODataClient(url).For<Song>().Key(id);
+            var insertedSong = await client.Set(value).UpdateEntryAsync();
+            return insertedSong;
+        }
+
         public async Task<int> Delete(long id) {
             var client = new ODataClient(url).For<Song>();
             var count = await client.Key(id).DeleteEntriesAsync();
