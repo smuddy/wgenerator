@@ -28,7 +28,7 @@ export class SongEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.form = this.editSongService.initEditForm(true);
+    this.form = this.editSongService.initSongEditForm(true);
     this.change.markForCheck();
   }
 

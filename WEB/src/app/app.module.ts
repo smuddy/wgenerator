@@ -27,6 +27,7 @@ import { SongNewComponent } from './components/songs/song-new/song-new.component
 import { SongFormComponent } from './components/songs/song-form/song-form.component';
 import { SongFilesComponent } from './components/songs/song-files/song-files.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { SongFileEditComponent } from './components/songs/song-file-edit/song-file-edit.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     SongEditComponent,
     SongNewComponent,
     SongFormComponent,
-    SongFilesComponent
+    SongFilesComponent,
+    SongFileEditComponent
   ],
   imports: [
     BrowserModule,

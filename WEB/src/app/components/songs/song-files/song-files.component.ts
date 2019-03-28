@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Song } from 'src/app/models/song.model';
 import { SongsService } from 'src/app/data/songs.service';
 import { DownloadService } from 'src/app/data/download.service';
-import { faFileUpload, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faFileUpload, faDownload, faEdit, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
 import { FileuploadFactory } from 'src/app/services/fileupload.factory';
 import { FileUploader } from 'ng2-file-upload';
 
@@ -15,9 +15,12 @@ export class SongFilesComponent {
   public song: Song;
   public selectedSongId = 0;
   public faFileUpload = faFileUpload;
+  public faArrow = faLongArrowAltLeft;
   public faDownload = faDownload;
+  public faEdit = faEdit;
   public columns = ['name', 'action'];
   public newFileUploader: FileUploader;
+  public fileEditId: number;
 
   public fileOverNew = false;
 
@@ -49,4 +52,8 @@ export class SongFilesComponent {
   public onFileOverNew(hover: boolean) {
     this.fileOverNew = hover;
   }
+  public onClickEdit(fileId: number) {
+    this.fileEditId = fileId;
+  }
+
 }

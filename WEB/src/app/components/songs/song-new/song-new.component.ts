@@ -23,7 +23,7 @@ export class SongNewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.form = this.editSongService.initEditForm(false);
+    this.form = this.editSongService.initSongEditForm(false);
     this.change.markForCheck();
   }
 
