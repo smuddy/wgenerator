@@ -31,7 +31,7 @@
           <td mat-cell *matCellDef="let element">
             <button
               mat-icon-button
-              (click)="onClickDownload(element.ID)"
+              (click)="onClickDownload(element.ID, element.Name)"
               matTooltip="Datei herunterladen"
               matTooltipPosition="left"
             >

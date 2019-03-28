@@ -43,7 +43,9 @@ export class SongFilesComponent {
     });
   }
 
-  public onClickDownload(id: number): void {}
+  public onClickDownload(fileId: number, filename): void {
+    this.downloadService.get(this.selectedSongId, fileId, filename);
+  }
   public onFileOverNew(hover: boolean) {
     this.fileOverNew = hover;
   }
