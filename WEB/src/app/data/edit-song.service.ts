@@ -10,8 +10,10 @@ import { Song } from '../models/song.model';
 export class EditSongService {
   constructor(private songsService: SongsService) {}
 
-  public initEditForm(attachSync: boolean): FormGroup {
-    const song = attachSync ? this.songsService.selectedSong.value : this.defaultValues();
+  public initSongEditForm(attachSync: boolean): FormGroup {
+    const song = attachSync
+      ? this.songsService.selectedSong.value
+      : this.defaultValues();
     const form = new FormGroup({
       Number: new FormControl(song.Number, {
         updateOn: 'blur',
@@ -31,42 +33,65 @@ export class EditSongService {
         validators: Validators.required
       }),
       Tempo: new FormControl(song.Tempo, { updateOn: 'blur' }),
-      Comments: new FormControl(song.Comments, { updateOn: 'blur' }),
+      Comments: new FormControl(song.Comments, { updateOn: 'blur' })
     });
 
-    if (attachSync) { this.attachSync(form, song); }
+    if (attachSync) {
+      this.attachSync(form, song);
+    }
 
     return form;
   }
 
-    private attachSync(form: FormGroup, song: Song) {
-        const controls = Object.keys(form.controls);
-        controls.forEach(control => {
-            form.controls[control].valueChanges.pipe(switchMap(value => this.songsService.patch$(song.ID, control, value))).subscribe();
-        });
-    }
+  public initFileEditForm(fileId: number): FormGroup {
+    const file = this.songsService.selectedSong.value.Files.filter(
+      _ => _.ID === fileId
+    )[0];
+    const form = new FormGroup({
+      Name: new FormControl(file.Name, {
+        updateOn: 'blur',
+        validators: Validators.required
+      }),
+      FileType: new FormControl(file.FileType, {
+        updateOn: 'blur'
+      })
+    });
 
-    private defaultValues(): Song {
-      const song: Song = {
-        ID: null,
-        Number: this.firstFreeNumber(),
-        Name: null,
-        Tempo: null,
-        Text: null,
-        SongType: null,
-        Key: null,
-        Comments: null,
-        Final: false,
-        Files: []
-      };
+    return form;
+  }
 
-      return song;
-    }
+  private attachSync(form: FormGroup, song: Song) {
+    const controls = Object.keys(form.controls);
+    controls.forEach(control => {
+      form.controls[control].valueChanges
+        .pipe(
+          switchMap(value => this.songsService.patch$(song.ID, control, value))
+        )
+        .subscribe();
+    });
+  }
 
-    private firstFreeNumber(): number {
-      let number = 0;
-      const numbers = this.songsService.songs.value.map(_ => _.Number);
-      while (numbers.indexOf(++number) !== -1) { }
-      return number;
-    }
+  private defaultValues(): Song {
+    const song: Song = {
+      ID: null,
+      Number: this.firstFreeNumber(),
+      Name: null,
+      Tempo: null,
+      Text: null,
+      SongType: null,
+      Key: null,
+      Comments: null,
+      Final: false,
+      Files: []
+    };
+
+    return song;
+  }
+
+  private firstFreeNumber(): number {
+    let number = 0;
+    const numbers = this.songsService.songs.value.map(_ => _.Number);
+    while (numbers.indexOf(++number) !== -1) {}
+    return number;
+  }
 }
