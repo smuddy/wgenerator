@@ -1,8 +1,10 @@
+import { FileType } from './../models/files-types.model.ts';
 import { SongsService } from 'src/app/data/songs.service';
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
 import { Song } from '../models/song.model';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +45,7 @@ export class EditSongService {
     return form;
   }
 
-  public initFileEditForm(fileId: number): FormGroup {
+  public initFileEditForm(songId: number, fileId: number): {form: FormGroup, changeSubscription: Subscription } {
     const file = this.songsService.selectedSong.value.Files.filter(
       _ => _.ID === fileId
     )[0];
@@ -57,7 +59,12 @@ export class EditSongService {
       })
     });
 
-    return form;
+    const changeSubscription = form.valueChanges.pipe(
+      switchMap(_ => this.songsService.updateFile$(songId, fileId, _.Name, _.FileType)),
+      switchMap(() => this.songsService.selectSong(songId))
+    ).subscribe();
+
+    return {form : form, changeSubscription: changeSubscription};
   }
 
   private attachSync(form: FormGroup, song: Song) {
@@ -65,7 +72,8 @@ export class EditSongService {
     controls.forEach(control => {
       form.controls[control].valueChanges
         .pipe(
-          switchMap(value => this.songsService.patch$(song.ID, control, value))
+          switchMap(value => this.songsService.patch$(song.ID, control, value)),
+          switchMap(() => this.songsService.selectSong(song.ID))
         )
         .subscribe();
     });

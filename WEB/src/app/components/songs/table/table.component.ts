@@ -43,12 +43,12 @@ export class TableComponent {
   }
 
   public onClick(id: number): void {
-    this.songsService.selectSong(id);
+    this.songsService.selectSong(id).subscribe();
     this.change.detectChanges();
   }
 
   public onClickNew(): void {
-    this.songsService.selectSong(null);
+    this.songsService.selectSong(null).subscribe();
     this.songsService.state = State.new;
     this.change.detectChanges();
   }

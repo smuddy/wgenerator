@@ -35,7 +35,7 @@ export class SongFilesComponent {
         this.selectedSongId = _.ID;
         this.song = _;
         this.newFileUploader = this.fileuploadFactory.provideForNewFiles(_.ID);
-        this.newFileUploader.onCompleteItem = () => songService.selectSong(_.ID);
+        this.newFileUploader.onCompleteItem = () => songService.selectSong(_.ID).subscribe();
         this.newFileUploader.onProgressItem = () => change.markForCheck;
       } else {
         this.selectedSongId = 0;

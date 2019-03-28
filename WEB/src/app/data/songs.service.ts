@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { FileType } from './../models/files-types.model.ts';
 import { Injectable } from '@angular/core';
 import { ODataService } from 'odata-v4-ng';
 import { OdataService } from './odata.service';
@@ -5,6 +7,7 @@ import { Song } from '../models/song.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 import { State } from './state';
+import { base } from './urls';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,7 @@ export class SongsService extends OdataService {
   public songs: BehaviorSubject<Song[]> = new BehaviorSubject<Song[]>([]);
   public selectedSong: BehaviorSubject<Song> = new BehaviorSubject<Song>(null);
 
-  constructor(odataService: ODataService) {
+  constructor(odataService: ODataService, private httpClient: HttpClient) {
     super(odataService, 'songs');
   }
 
@@ -27,17 +30,19 @@ export class SongsService extends OdataService {
     return list;
   }
 
-  public loadSongListAndGoTo$(id: number): Observable<Song[]> {
+  public loadSongListAndGoTo$(id: number): Observable<Song> {
     const properties = ['ID', 'Name', 'Number', 'SongType', 'Key', 'Tempo'];
-    const list = this.list$<Song>(properties).pipe(tap(_ => {
-      this.songs.next(_);
-      this.selectSong(id);
-    }));
+    const list = this.list$<Song>(properties).pipe(
+      tap(_ => {
+        this.songs.next(_);
+      }),
+      switchMap(() => this.selectSong(id))
+    );
 
     return list;
   }
 
-  public selectSong(id: number): void {
+  public selectSong(id: number): Observable<Song> {
     this.state = State.read;
     const filter = this.songs.value.filter(_ => _.ID === id);
     const song = filter.length === 1 ? filter[0] : null;
@@ -45,12 +50,14 @@ export class SongsService extends OdataService {
       return;
     }
 
-    this.get$<Song>(id, ['Text', 'Comments'], ['Files']).subscribe(_ => {
+    const get = this.get$<Song>(id, ['Text', 'Comments'], ['Files']).pipe(tap(_ => {
       song.Text = _.Text;
       song.Comments = _.Comments;
       song.Files = _.Files;
       this.selectedSong.next(song);
-    });
+    }));
+
+    return get;
   }
 
   public resetSelectedSong() {
@@ -72,11 +79,31 @@ export class SongsService extends OdataService {
     return patch;
   }
 
-  public saveNewSong$(values: any): Observable<Song[]> {
+  public saveNewSong$(values: any): Observable<Song> {
     const newSong = super
       .post$<Song>(values)
       .pipe(switchMap(_ => this.loadSongListAndGoTo$(_.ID)));
 
-      return newSong;
+    return newSong;
+  }
+
+  public updateFile$(
+    songId: number,
+    fileId: number,
+    name: string,
+    fileType: FileType
+  ): Observable<any> {
+    const url =
+      base +
+      '/api/songs/' +
+      songId +
+      '/files/' +
+      fileId +
+      '/edit?Name=' +
+      name +
+      '&FileType=' +
+      fileType;
+    const get = this.httpClient.get(url);
+    return get;
   }
 }
