@@ -106,4 +106,19 @@ export class SongsService extends OdataService {
     const get = this.httpClient.get(url);
     return get;
   }
+
+  public deleteFile$(
+    songId: number,
+    fileId: number
+  ): Observable<any> {
+    const url =
+      base +
+      '/api/songs/' +
+      songId +
+      '/files/' +
+      fileId +
+      '/delete';
+    const get = this.httpClient.get(url);
+    return get;
+  }
 }

@@ -1,8 +1,15 @@
+import { switchMap } from 'rxjs/operators';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Song } from 'src/app/models/song.model';
 import { SongsService } from 'src/app/data/songs.service';
 import { DownloadService } from 'src/app/data/download.service';
-import { faFileUpload, faDownload, faEdit, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFileUpload,
+  faDownload,
+  faEdit,
+  faLongArrowAltLeft,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons';
 import { FileuploadFactory } from 'src/app/services/fileupload.factory';
 import { FileUploader } from 'ng2-file-upload';
 
@@ -15,6 +22,7 @@ export class SongFilesComponent {
   public song: Song;
   public selectedSongId = 0;
   public faFileUpload = faFileUpload;
+  public faTrash = faTrash;
   public faArrow = faLongArrowAltLeft;
   public faDownload = faDownload;
   public faEdit = faEdit;
@@ -27,7 +35,7 @@ export class SongFilesComponent {
   constructor(
     private downloadService: DownloadService,
     private fileuploadFactory: FileuploadFactory,
-    songService: SongsService,
+    private songService: SongsService,
     change: ChangeDetectorRef
   ) {
     songService.selectedSong.subscribe(_ => {
@@ -35,7 +43,8 @@ export class SongFilesComponent {
         this.selectedSongId = _.ID;
         this.song = _;
         this.newFileUploader = this.fileuploadFactory.provideForNewFiles(_.ID);
-        this.newFileUploader.onCompleteItem = () => songService.selectSong(_.ID).subscribe();
+        this.newFileUploader.onCompleteItem = () =>
+          songService.selectSong(_.ID).subscribe();
         this.newFileUploader.onProgressItem = () => change.markForCheck;
       } else {
         this.selectedSongId = 0;
@@ -49,11 +58,17 @@ export class SongFilesComponent {
   public onClickDownload(fileId: number, filename): void {
     this.downloadService.get(this.selectedSongId, fileId, filename);
   }
-  public onFileOverNew(hover: boolean) {
+  public onFileOverNew(hover: boolean): void {
     this.fileOverNew = hover;
   }
-  public onClickEdit(fileId: number) {
+  public onClickEdit(fileId: number): void {
     this.fileEditId = fileId;
   }
-
+  public onClickDelete(fileId: number): void {
+    const songId = this.song.ID;
+    this.songService
+      .deleteFile$(songId, fileId)
+      .pipe(switchMap(() => this.songService.selectSong(songId)))
+      .subscribe();
+  }
 }

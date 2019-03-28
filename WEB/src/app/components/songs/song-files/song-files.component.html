@@ -38,15 +38,6 @@
           <td mat-cell *matCellDef="let element">
             <button
               mat-icon-button
-              (click)="onClickDownload(element.ID, element.Name)"
-              matTooltip="Datei herunterladen"
-              matTooltipPosition="left"
-              *ngIf="fileEditId !== element.ID"
-            >
-              <fa-icon [icon]="faDownload"></fa-icon>
-            </button>
-            <button
-              mat-icon-button
               (click)="onClickEdit(element.ID)"
               matTooltip="Eintrag bearbeiten"
               matTooltipPosition="left"
@@ -56,12 +47,30 @@
             </button>
             <button
               mat-icon-button
+              (click)="onClickDownload(element.ID, element.Name)"
+              matTooltip="Datei herunterladen"
+              matTooltipPosition="left"
+              *ngIf="fileEditId !== element.ID"
+            >
+              <fa-icon [icon]="faDownload"></fa-icon>
+            </button>
+            <button
+              mat-icon-button
               matTooltip="Zurück zur Tabelle"
               matTooltipPosition="left"
               (click)="onClickEdit(null)"
               *ngIf="fileEditId === element.ID"
             >
               <fa-icon [icon]="faArrow"></fa-icon>
+            </button>
+            <button
+              mat-icon-button
+              matTooltip="Anhang löschen"
+              matTooltipPosition="left"
+              (click)="onClickDelete(element.ID)"
+              *ngIf="fileEditId === element.ID"
+            >
+              <fa-icon [icon]="faTrash"></fa-icon>
             </button>
           </td>
         </ng-container>
