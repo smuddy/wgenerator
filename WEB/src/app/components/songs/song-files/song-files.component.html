@@ -1,90 +1,90 @@
-<div class="song-detail-container files" *ngIf="song">
-  <mat-card class="mat-elevation-z8">
-    <mat-card-content>
-      <table mat-table [dataSource]="song.Files" class="mat-elevation-z8">
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>
-            Angehängte Dateien
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <span *ngIf="fileEditId !== element.ID">{{ element.Name }}</span>
-            <app-song-file-edit
-              [fileId]="element.ID"
-              (back)="onClickEdit(null)"
-              *ngIf="fileEditId === element.ID"
-            ></app-song-file-edit>
-          </td>
-        </ng-container>
+<div *ngIf="song" class="song-detail-container files">
+    <mat-card class="mat-elevation-z8">
+        <mat-card-content>
+            <table [dataSource]="song.Files" class="mat-elevation-z8" mat-table>
+                <ng-container matColumnDef="name">
+                    <th *matHeaderCellDef mat-header-cell>
+                        Angehängte Dateien
+                    </th>
+                    <td *matCellDef="let element" mat-cell>
+                        <span *ngIf="fileEditId !== element.ID">{{ element.Name }}</span>
+                        <app-song-file-edit
+                                (back)="onClickEdit(null)"
+                                *ngIf="fileEditId === element.ID"
+                                [fileId]="element.ID"
+                        ></app-song-file-edit>
+                    </td>
+                </ng-container>
 
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>
-            <input
-              type="file"
-              ng2FileSelect
-              [uploader]="newFileUploader"
-              multiple
-              style="display:none"
-              #newFileUploaderRef
-            />
-            <button
-              mat-icon-button
-              (click)="newFileUploaderRef.click()"
-              matTooltip="neue Datei hochladen"
-              matTooltipPosition="left"
-            >
-              <fa-icon [icon]="faFileUpload"></fa-icon>
-            </button>
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <button
-              mat-icon-button
-              (click)="onClickEdit(element.ID)"
-              matTooltip="Eintrag bearbeiten"
-              matTooltipPosition="left"
-              *ngIf="fileEditId !== element.ID"
-            >
-              <fa-icon [icon]="faEdit"></fa-icon>
-            </button>
-            <button
-              mat-icon-button
-              (click)="onClickDownload(element.ID, element.Name)"
-              matTooltip="Datei herunterladen"
-              matTooltipPosition="left"
-              *ngIf="fileEditId !== element.ID"
-            >
-              <fa-icon [icon]="faDownload"></fa-icon>
-            </button>
-            <button
-              mat-icon-button
-              matTooltip="Zurück zur Tabelle"
-              matTooltipPosition="left"
-              (click)="onClickEdit(null)"
-              *ngIf="fileEditId === element.ID"
-            >
-              <fa-icon [icon]="faArrow"></fa-icon>
-            </button>
-            <button
-              mat-icon-button
-              matTooltip="Anhang löschen"
-              matTooltipPosition="left"
-              (click)="onClickDelete(element.ID)"
-              *ngIf="fileEditId === element.ID"
-            >
-              <fa-icon [icon]="faTrash"></fa-icon>
-            </button>
-          </td>
-        </ng-container>
+                <ng-container matColumnDef="action">
+                    <th *matHeaderCellDef mat-header-cell>
+                        <input
+                            #newFileUploaderRef
+                            [uploader]="newFileUploader"
+                            multiple
+                            ng2FileSelect
+                            style="display:none"
+                            type="file"
+                        />
+                        <button
+                                (click)="newFileUploaderRef.click()"
+                                mat-icon-button
+                                matTooltip="neue Datei hochladen"
+                                matTooltipPosition="left"
+                        >
+                            <fa-icon [icon]="faFileUpload"></fa-icon>
+                        </button>
+                    </th>
+                    <td *matCellDef="let element" mat-cell>
+                        <button
+                                (click)="onClickEdit(element.ID)"
+                                *ngIf="fileEditId !== element.ID"
+                                mat-icon-button
+                                matTooltip="Eintrag bearbeiten"
+                                matTooltipPosition="left"
+                        >
+                            <fa-icon [icon]="faEdit"></fa-icon>
+                        </button>
+                        <button
+                                (click)="onClickDownload(element.ID, element.Name)"
+                                *ngIf="fileEditId !== element.ID"
+                                mat-icon-button
+                                matTooltip="Datei herunterladen"
+                                matTooltipPosition="left"
+                        >
+                            <fa-icon [icon]="faDownload"></fa-icon>
+                        </button>
+                        <button
+                                (click)="onClickEdit(null)"
+                                *ngIf="fileEditId === element.ID"
+                                mat-icon-button
+                                matTooltip="Zurück zur Tabelle"
+                                matTooltipPosition="left"
+                        >
+                            <fa-icon [icon]="faArrow"></fa-icon>
+                        </button>
+                        <button
+                                (click)="onClickDelete(element.ID)"
+                                *ngIf="fileEditId === element.ID"
+                                mat-icon-button
+                                matTooltip="Anhang löschen"
+                                matTooltipPosition="left"
+                        >
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                    </td>
+                </ng-container>
 
-        <tr
-          mat-header-row
-          *matHeaderRowDef="columns"
-          ng2FileDrop
-          [uploader]="newFileUploader"
-          (fileOver)="onFileOverNew($event)"
-          [class.file-over]="fileOverNew"
-        ></tr>
-        <tr mat-row *matRowDef="let row; columns: columns"></tr>
-      </table>
-    </mat-card-content>
-  </mat-card>
+                <tr
+                        (fileOver)="onFileOverNew($event)"
+                        *matHeaderRowDef="columns"
+                        [class.file-over]="fileOverNew"
+                        [uploader]="newFileUploader"
+                        mat-header-row
+                        ng2FileDrop
+                ></tr>
+                <tr *matRowDef="let row; columns: columns" mat-row></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
 </div>

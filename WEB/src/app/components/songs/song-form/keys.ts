@@ -33,4 +33,4 @@ export const keys = [
     'A#',
     'b',
     'h'
-  ];
+];

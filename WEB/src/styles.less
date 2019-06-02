@@ -19,17 +19,21 @@ html {
   overflow: hidden;
   border-radius: 8px;
   transition: all 300ms ease-in-out;
+
   .mat-table tbody {
     background: none;
   }
+
   th.mat-header-cell:first-of-type {
     border-top-left-radius: 8px;
     transition: all 300ms ease-in-out;
   }
+
   th.mat-header-cell:last-of-type {
     border-top-right-radius: 8px;
     transition: all 300ms ease-in-out;
   }
+
   .mat-table thead {
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
@@ -40,13 +44,16 @@ html {
     tr.selected {
       background-color: #0002;
     }
+
     tr:hover {
       cursor: pointer;
       background-color: #0001;
+
       td {
         color: #ff9900;
       }
     }
+
     td.mat-cell {
       padding: 0 5px;
     }
@@ -58,14 +65,17 @@ html {
     bottom: 0;
     right: 70vw;
     border-radius: 0px;
+
     th.mat-header-cell:first-of-type {
       border-top-left-radius: 0px;
       transition: all 300ms ease-in-out;
     }
+
     th.mat-header-cell:last-of-type {
       border-top-right-radius: 0px;
       transition: all 300ms ease-in-out;
     }
+
     .mat-table thead {
       border-top-right-radius: 0px;
       border-top-left-radius: 0px;
@@ -95,9 +105,11 @@ html {
 
 .song-detail-container {
   margin-left: 30vw;
+
   .mat-form-field-infix {
     width: 80px;
   }
+
   .mat-radio-button {
     margin: 15px 10px 0 10px;
   }
@@ -106,15 +118,17 @@ html {
     .mat-card {
       padding: 0;
     }
+
     table {
       width: 100%;
       background: none;
       box-shadow: none;
     }
+
     td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
       padding-right: 8px;
       text-align: right;
-  }
+    }
   }
 }
 

@@ -1,75 +1,75 @@
 <div
-  class="page-container mat-elevation-z8"
-  [class.pinned]="songsService.state !== State.list"
+        [class.pinned]="songsService.state !== State.list"
+        class="page-container mat-elevation-z8"
 >
-  <div class="table-container">
-    <button
-      mat-icon-button
-      (click)="onClickNew()"
-      class="button-new"
-      matTooltip="neuen Titel anlegen"
-      matTooltipPosition="left"
-    >
-      <fa-icon [icon]="faNew"></fa-icon>
-    </button>
-    <table
-      mat-table
-      [dataSource]="songsService.songs | async"
-      class="mat-elevation-z8"
-    >
-      <ng-container matColumnDef="Number">
-        <th mat-header-cell *matHeaderCellDef>#</th>
-        <td mat-cell *matCellDef="let element">
-          <mat-chip-list>
-            <mat-chip>{{ element.Number }}</mat-chip>
-          </mat-chip-list>
-        </td>
-      </ng-container>
+    <div class="table-container">
+        <button
+                (click)="onClickNew()"
+                class="button-new"
+                mat-icon-button
+                matTooltip="neuen Titel anlegen"
+                matTooltipPosition="left"
+        >
+            <fa-icon [icon]="faNew"></fa-icon>
+        </button>
+        <table
+                [dataSource]="songsService.songs | async"
+                class="mat-elevation-z8"
+                mat-table
+        >
+            <ng-container matColumnDef="Number">
+                <th *matHeaderCellDef mat-header-cell>#</th>
+                <td *matCellDef="let element" mat-cell>
+                    <mat-chip-list>
+                        <mat-chip>{{ element.Number }}</mat-chip>
+                    </mat-chip-list>
+                </td>
+            </ng-container>
 
-      <ng-container matColumnDef="Name">
-        <th mat-header-cell *matHeaderCellDef>Titel</th>
-        <td mat-cell *matCellDef="let element">{{ element.Name }}</td>
-      </ng-container>
+            <ng-container matColumnDef="Name">
+                <th *matHeaderCellDef mat-header-cell>Titel</th>
+                <td *matCellDef="let element" mat-cell>{{ element.Name }}</td>
+            </ng-container>
 
-      <ng-container matColumnDef="Key">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <mat-chip-list *ngIf="element.Key">
-            <mat-chip>{{ element.Key }}</mat-chip>
-          </mat-chip-list>
-        </td>
-      </ng-container>
+            <ng-container matColumnDef="Key">
+                <th *matHeaderCellDef mat-header-cell></th>
+                <td *matCellDef="let element" mat-cell>
+                    <mat-chip-list *ngIf="element.Key">
+                        <mat-chip>{{ element.Key }}</mat-chip>
+                    </mat-chip-list>
+                </td>
+            </ng-container>
 
-      <ng-container matColumnDef="SongType">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <mat-chip-list
-            *ngIf="element.SongType && element.SongType !== 'None'"
-          >
-            <mat-chip
-              [style.background-color]="renderSongType(element.SongType).color"
-              >{{ renderSongType(element.SongType).name }}</mat-chip
-            >
-          </mat-chip-list>
-        </td>
-      </ng-container>
+            <ng-container matColumnDef="SongType">
+                <th *matHeaderCellDef mat-header-cell></th>
+                <td *matCellDef="let element" mat-cell>
+                    <mat-chip-list
+                            *ngIf="element.SongType && element.SongType !== 'None'"
+                    >
+                        <mat-chip
+                                [style.background-color]="renderSongType(element.SongType).color"
+                        >{{ renderSongType(element.SongType).name }}</mat-chip
+                        >
+                    </mat-chip-list>
+                </td>
+            </ng-container>
 
-      <ng-container matColumnDef="Tempo">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <mat-chip-list *ngIf="element.Tempo">
-            <mat-chip>{{ element.Tempo }}</mat-chip>
-          </mat-chip-list>
-        </td>
-      </ng-container>
+            <ng-container matColumnDef="Tempo">
+                <th *matHeaderCellDef mat-header-cell></th>
+                <td *matCellDef="let element" mat-cell>
+                    <mat-chip-list *ngIf="element.Tempo">
+                        <mat-chip>{{ element.Tempo }}</mat-chip>
+                    </mat-chip-list>
+                </td>
+            </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="columns; sticky: true"></tr>
-      <tr
-        [class.selected]="selectedSongId === row.ID"
-        mat-row
-        *matRowDef="let row; columns: columns"
-        (click)="onClick(row.ID)"
-      ></tr>
-    </table>
-  </div>
+            <tr *matHeaderRowDef="columns; sticky: true" mat-header-row></tr>
+            <tr
+                    (click)="onClick(row.ID)"
+                    *matRowDef="let row; columns: columns"
+                    [class.selected]="selectedSongId === row.ID"
+                    mat-row
+            ></tr>
+        </table>
+    </div>
 </div>

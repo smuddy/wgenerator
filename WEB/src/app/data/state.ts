@@ -1,6 +1,6 @@
 export enum State {
-  read,
-  edit,
-  new,
-  list
+    read,
+    edit,
+    new,
+    list
 }

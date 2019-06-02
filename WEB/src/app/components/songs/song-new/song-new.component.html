@@ -1,22 +1,23 @@
 <div class="song-detail-container">
-    <mat-card class="mat-elevation-z8" *ngIf="form">
-      <mat-card-header>
-        <div mat-card-avatar>
-          <button mat-icon-button (click)="onBack()" color="warn">
-            <fa-icon [icon]="faArrow"></fa-icon>
-          </button>
-        </div>
-        <mat-card-title>Neuen Titel anlegen</mat-card-title>
-        <mat-card-subtitle>
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <app-song-form [form]="form"></app-song-form>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button (click)="onClickAdd()">
-          <fa-icon [icon]="faSave"></fa-icon> neu anlegen
-        </button>
-      </mat-card-actions>
+    <mat-card *ngIf="form" class="mat-elevation-z8">
+        <mat-card-header>
+            <div mat-card-avatar>
+                <button (click)="onBack()" color="warn" mat-icon-button>
+                    <fa-icon [icon]="faArrow"></fa-icon>
+                </button>
+            </div>
+            <mat-card-title>Neuen Titel anlegen</mat-card-title>
+            <mat-card-subtitle>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <app-song-form [form]="form"></app-song-form>
+        </mat-card-content>
+        <mat-card-actions>
+            <button (click)="onClickAdd()" mat-button>
+                <fa-icon [icon]="faSave"></fa-icon>
+                neu anlegen
+            </button>
+        </mat-card-actions>
     </mat-card>
-  </div>
+</div>
