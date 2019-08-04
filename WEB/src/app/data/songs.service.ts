@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {FileType} from './../models/files-types.model.ts';
+import {FileType} from '../models/files-types.model.ts';
 import {Injectable} from '@angular/core';
 import {ODataService} from 'odata-v4-ng';
 import {OdataService} from './odata.service';
