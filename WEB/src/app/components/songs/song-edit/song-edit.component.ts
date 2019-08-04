@@ -29,6 +29,6 @@ export class SongEditComponent implements OnInit {
     }
 
     public onBack(): void {
-        this.songsService.state = State.read;
+        this.songsService.state.next(State.read);
     }
 }

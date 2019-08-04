@@ -1,5 +1,5 @@
 <div
-        [class.pinned]="songsService.state !== State.list"
+        [class.pinned]="(songsService.state | async) !== State.list"
         class="page-container mat-elevation-z8"
 >
     <div class="table-container">
@@ -63,10 +63,10 @@
                 </td>
             </ng-container>
 
-            <tr *matHeaderRowDef="columns; sticky: true" mat-header-row></tr>
+            <tr *matHeaderRowDef="columns | async; sticky: true" mat-header-row></tr>
             <tr
                     (click)="onClick(row.ID)"
-                    *matRowDef="let row; columns: columns"
+                    *matRowDef="let row; columns: columns | async"
                     [class.selected]="selectedSongId === row.ID"
                     mat-row
             ></tr>

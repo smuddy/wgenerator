@@ -13,7 +13,7 @@ import {base} from './urls';
     providedIn: 'root'
 })
 export class SongsService extends OdataService {
-    public state = State.list;
+    public state = new BehaviorSubject<State>(State.list);
 
     public songs: BehaviorSubject<Song[]> = new BehaviorSubject<Song[]>([]);
     public selectedSong: BehaviorSubject<Song> = new BehaviorSubject<Song>(null);
@@ -43,7 +43,7 @@ export class SongsService extends OdataService {
     }
 
     public selectSong(id: number): Observable<Song> {
-        this.state = State.read;
+        this.state.next(State.read);
         const filter = this.songs.value.filter(_ => _.ID === id);
         const song = filter.length === 1 ? filter[0] : null;
         if (!song) {
@@ -61,7 +61,7 @@ export class SongsService extends OdataService {
     }
 
     public resetSelectedSong() {
-        this.state = State.list;
+        this.state.next(State.list);
         this.selectedSong.next(null);
     }
 

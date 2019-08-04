@@ -45,7 +45,7 @@ export class SongComponent {
     }
 
     public onClickEdit(): void {
-        this.songService.state = State.edit;
+        this.songService.state.next(State.edit);
     }
 
     public renderSongType(songType: string) {

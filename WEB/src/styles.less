@@ -10,15 +10,10 @@ html {
 }
 
 .page-container {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  bottom: 20px;
-  right: 20px;
+  padding: 20px;
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 8px;
-  transition: all 300ms ease-in-out;
 
   .mat-table tbody {
     background: none;
@@ -26,18 +21,15 @@ html {
 
   th.mat-header-cell:first-of-type {
     border-top-left-radius: 8px;
-    transition: all 300ms ease-in-out;
   }
 
   th.mat-header-cell:last-of-type {
     border-top-right-radius: 8px;
-    transition: all 300ms ease-in-out;
   }
 
   .mat-table thead {
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-    transition: all 300ms ease-in-out;
   }
 
   tbody {
@@ -60,26 +52,21 @@ html {
   }
 
   &.pinned {
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 70vw;
-    border-radius: 0px;
+    padding: 0;
+    max-width: 300px;
+    border-radius: 0;
 
     th.mat-header-cell:first-of-type {
       border-top-left-radius: 0px;
-      transition: all 300ms ease-in-out;
     }
 
     th.mat-header-cell:last-of-type {
       border-top-right-radius: 0px;
-      transition: all 300ms ease-in-out;
     }
 
     .mat-table thead {
       border-top-right-radius: 0px;
       border-top-left-radius: 0px;
-      transition: all 300ms ease-in-out;
     }
   }
 }
@@ -88,7 +75,7 @@ html {
   width: 600px;
   border-radius: 8px;
   background: #fffd;
-  margin: 20px;
+  margin: 10px;
   box-sizing: border-box;
 }
 
@@ -104,7 +91,7 @@ html {
 }
 
 .song-detail-container {
-  margin-left: 30vw;
+
 
   .mat-form-field-infix {
     width: 80px;

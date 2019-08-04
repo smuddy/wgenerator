@@ -2,6 +2,8 @@ import {SongsService} from '../../../data/songs.service';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {State} from 'src/app/data/state';
 import {faFileMedical} from '@fortawesome/free-solid-svg-icons';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-table',
@@ -27,8 +29,8 @@ export class TableComponent {
         );
     }
 
-    public get columns(): string[] {
-        return this.songsService.state === State.list ? this.columnsFull : this.columnsPinned;
+    public get columns(): Observable<string[]> {
+        return this.songsService.state.pipe(map(_ => _ === State.list ? this.columnsFull : this.columnsPinned));
     }
 
     public renderSongType(songType: string) {
@@ -49,7 +51,7 @@ export class TableComponent {
 
     public onClickNew(): void {
         this.songsService.selectSong(null).subscribe();
-        this.songsService.state = State.new;
+        this.songsService.state.next(State.new);
         this.change.detectChanges();
     }
 

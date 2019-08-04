@@ -29,7 +29,7 @@ export class SongNewComponent implements OnInit {
     }
 
     public onBack(): void {
-        this.songsService.state = State.list;
+        this.songsService.state.next(State.list);
         this.songsService.resetSelectedSong();
     }
 
