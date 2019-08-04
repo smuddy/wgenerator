@@ -1,9 +1,9 @@
-import {SongsService} from 'src/app/data/songs.service';
 import {FormGroup} from '@angular/forms';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {EditSongService} from 'src/app/data/edit-song.service';
 import {faLongArrowAltLeft} from '@fortawesome/free-solid-svg-icons';
-import {State} from 'src/app/data/state';
+import {ActivatedRoute} from '@angular/router';
+import {Song} from '../../../models/song.model';
 
 @Component({
     selector: 'app-song-edit',
@@ -14,21 +14,16 @@ import {State} from 'src/app/data/state';
 export class SongEditComponent implements OnInit {
     public form: FormGroup = null;
     public faArrow = faLongArrowAltLeft;
-
+    public songId: number;
 
     constructor(
-        private editSongService: EditSongService,
-        private songsService: SongsService,
-        private change: ChangeDetectorRef
-    ) {
+        private editSongService: EditSongService, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.form = this.editSongService.initSongEditForm(true);
-        this.change.markForCheck();
-    }
-
-    public onBack(): void {
-        this.songsService.state.next(State.read);
+        this.route.data.subscribe((data: { song: Song }) => {
+            this.songId = data.song.ID;
+            this.form = this.editSongService.initSongEditForm(true, data.song);
+        });
     }
 }

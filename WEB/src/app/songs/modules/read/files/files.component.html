@@ -1,4 +1,4 @@
-<div *ngIf="song" class="song-detail-container files">
+<div class="song-detail-container files">
     <mat-card class="mat-elevation-z8">
         <mat-card-content>
             <table [dataSource]="song.Files" class="mat-elevation-z8" mat-table>
@@ -11,7 +11,8 @@
                         <app-song-file-edit
                                 (back)="onClickEdit(null)"
                                 *ngIf="fileEditId === element.ID"
-                                [fileId]="element.ID"
+                                [file]="element"
+                                [songId]="song.ID"
                         ></app-song-file-edit>
                     </td>
                 </ng-container>

@@ -1,9 +1,9 @@
-import {EditSongService} from '../../../data/edit-song.service';
+import {EditSongService} from '../../../../data/edit-song.service';
 import {FormGroup} from '@angular/forms';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {faLongArrowAltLeft, faSave} from '@fortawesome/free-solid-svg-icons';
-import {State} from 'src/app/data/state';
 import {SongsService} from 'src/app/data/songs.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-song-new',
@@ -19,22 +19,18 @@ export class SongNewComponent implements OnInit {
     constructor(
         private editSongService: EditSongService,
         private songsService: SongsService,
-        private change: ChangeDetectorRef
+        private router: Router
     ) {
     }
 
     ngOnInit() {
-        this.form = this.editSongService.initSongEditForm(false);
-        this.change.markForCheck();
-    }
-
-    public onBack(): void {
-        this.songsService.state.next(State.list);
-        this.songsService.resetSelectedSong();
+        this.form = this.editSongService.initSongEditForm(false, null);
     }
 
     public onClickAdd(): void {
-        this.songsService.saveNewSong$(this.form.value).subscribe();
+        this.songsService.saveNewSong$(this.form.value).subscribe(song => {
+            this.router.navigateByUrl('/songs/' + song.ID + '/read');
+        });
     }
 
 }

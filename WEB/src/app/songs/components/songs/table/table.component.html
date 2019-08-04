@@ -4,11 +4,11 @@
 >
     <div class="table-container">
         <button
-                (click)="onClickNew()"
                 class="button-new"
                 mat-icon-button
                 matTooltip="neuen Titel anlegen"
                 matTooltipPosition="left"
+                [routerLink]="'/songs/new'"
         >
             <fa-icon [icon]="faNew"></fa-icon>
         </button>
@@ -65,10 +65,10 @@
 
             <tr *matHeaderRowDef="columns | async; sticky: true" mat-header-row></tr>
             <tr
-                    (click)="onClick(row.ID)"
                     *matRowDef="let row; columns: columns | async"
-                    [class.selected]="selectedSongId === row.ID"
+                    [routerLink]="'/songs/' + row.ID"
                     mat-row
+                    routerLinkActive="selected"
             ></tr>
         </table>
     </div>

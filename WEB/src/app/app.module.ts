@@ -18,28 +18,11 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-
-import {TableComponent} from './components/songs/table/table.component';
-import {SongsComponent} from './components/songs/songs.component';
-import {SongComponent} from './components/songs/song/song.component';
-import {SongEditComponent} from './components/songs/song-edit/song-edit.component';
-import {SongNewComponent} from './components/songs/song-new/song-new.component';
-import {SongFormComponent} from './components/songs/song-form/song-form.component';
-import {SongFilesComponent} from './components/songs/song-files/song-files.component';
 import {FileUploadModule} from 'ng2-file-upload';
-import {SongFileEditComponent} from './components/songs/song-file-edit/song-file-edit.component';
 
 @NgModule({
     declarations: [
-        AppComponent,
-        SongsComponent,
-        TableComponent,
-        SongComponent,
-        SongEditComponent,
-        SongNewComponent,
-        SongFormComponent,
-        SongFilesComponent,
-        SongFileEditComponent
+        AppComponent
     ],
     imports: [
         BrowserModule,

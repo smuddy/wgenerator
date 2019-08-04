@@ -1,122 +1,108 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-body {
-  margin: 0px;
-}
-
 html {
   background-image: url(https://images.unsplash.com/photo-1476136236990-838240be4859?ixlib=rb-1.2.1&auto=format&fit=crop&w=2167&q=80);
 }
 
-.page-container {
-  padding: 20px;
-  box-sizing: border-box;
-  overflow: hidden;
-  border-radius: 8px;
+body {
+  margin: 0;
 
-  .mat-table tbody {
-    background: none;
+  app-root {
+    padding: 10px;
+    display: block;
   }
 
-  th.mat-header-cell:first-of-type {
-    border-top-left-radius: 8px;
-  }
+  .page-container {
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 8px;
 
-  th.mat-header-cell:last-of-type {
-    border-top-right-radius: 8px;
-  }
-
-  .mat-table thead {
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
-  }
-
-  tbody {
-    tr.selected {
-      background-color: #0002;
+    .mat-table tbody {
+      background: none;
     }
-
-    tr:hover {
-      cursor: pointer;
-      background-color: #0001;
-
-      td {
-        color: #ff9900;
-      }
-    }
-
-    td.mat-cell {
-      padding: 0 5px;
-    }
-  }
-
-  &.pinned {
-    padding: 0;
-    max-width: 300px;
-    border-radius: 0;
 
     th.mat-header-cell:first-of-type {
-      border-top-left-radius: 0px;
+      border-top-left-radius: 8px;
     }
 
     th.mat-header-cell:last-of-type {
-      border-top-right-radius: 0px;
+      border-top-right-radius: 8px;
     }
 
     .mat-table thead {
-      border-top-right-radius: 0px;
-      border-top-left-radius: 0px;
+      border-top-right-radius: 8px;
+      border-top-left-radius: 8px;
     }
-  }
-}
-
-.mat-card {
-  width: 600px;
-  border-radius: 8px;
-  background: #fffd;
-  margin: 10px;
-  box-sizing: border-box;
-}
-
-.mat-card-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 520px;
-}
-
-.mat-card-content {
-  white-space: pre-wrap;
-}
-
-.song-detail-container {
 
 
-  .mat-form-field-infix {
-    width: 80px;
-  }
-
-  .mat-radio-button {
-    margin: 15px 10px 0 10px;
-  }
-
-  &.files {
-    .mat-card {
+    &.pinned {
       padding: 0;
-    }
+      max-width: 300px;
+      border-radius: 0;
 
-    table {
-      width: 100%;
-      background: none;
-      box-shadow: none;
-    }
+      th.mat-header-cell:first-of-type {
+        border-top-left-radius: 0;
+      }
 
-    td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
-      padding-right: 8px;
-      text-align: right;
+      th.mat-header-cell:last-of-type {
+        border-top-right-radius: 0;
+      }
+
+      .mat-table thead {
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+      }
     }
   }
+
+  .mat-card {
+    width: 600px;
+    border-radius: 8px;
+    background: #fffd;
+    margin: 10px;
+    box-sizing: border-box;
+  }
+
+  .mat-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 520px;
+  }
+
+  .mat-card-content {
+    white-space: pre-wrap;
+  }
+
+  .song-detail-container {
+
+
+    .mat-form-field-infix {
+      width: 80px;
+    }
+
+    .mat-radio-button {
+      margin: 15px 10px 0 10px;
+    }
+
+    &.files {
+      .mat-card {
+        padding: 0;
+      }
+
+      table {
+        width: 100%;
+        background: none;
+        box-shadow: none;
+      }
+
+      td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
+        padding-right: 8px;
+        text-align: right;
+      }
+    }
+  }
+
 }
-
-

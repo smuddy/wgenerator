@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {base} from './urls';
 
-export class OdataService {
+export class ODataBaseService {
     private url: string;
 
     constructor(private odataService: ODataService, private entity: string) {
@@ -21,14 +21,14 @@ export class OdataService {
 
     public get$<TResponse>(
         id: number,
-        properties: string[],
+        select: string[],
         expands: string[]
     ): Observable<TResponse> {
         const query = new ODataQuery(this.odataService, this.url)
             .entitySet(this.entity)
             .entityKey(id)
             .expand(expands.map(_ => new Expand(_)))
-            .select(properties);
+            .select(select);
         const get = query.get().pipe(map(_ => _.toEntity<TResponse>()));
 
         return get;

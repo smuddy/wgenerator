@@ -1,8 +1,8 @@
-<div *ngIf="song" class="song-detail-container">
+<div class="song-detail-container">
     <mat-card class="mat-elevation-z8">
         <mat-card-header>
             <div mat-card-avatar>
-                <button (click)="onBack()" color="warn" mat-icon-button>
+                <button color="warn" mat-icon-button routerLink="/songs">
                     <fa-icon [icon]="faArrow"></fa-icon>
                 </button>
             </div>
@@ -23,7 +23,7 @@
             <p *ngFor="let line of comments">{{ line }}</p>
         </mat-card-content>
         <mat-card-actions>
-            <button (click)="onClickEdit()" mat-button>
+            <button [routerLink]="'/songs/' + song.ID + '/edit'" mat-button>
                 <fa-icon [icon]="faEdit"></fa-icon>
                 bearbeiten
             </button>

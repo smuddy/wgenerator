@@ -1,22 +1,21 @@
 import {HttpClient} from '@angular/common/http';
-import {FileType} from '../models/files-types.model.ts';
 import {Injectable} from '@angular/core';
 import {ODataService} from 'odata-v4-ng';
-import {OdataService} from './odata.service';
-import {Song} from '../models/song.model';
+import {ODataBaseService} from './ODataBaseService';
+import {Song} from '../songs/models/song.model';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {switchMap, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {State} from './state';
 import {base} from './urls';
+import {FileType} from '../songs/models/files-types.model';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SongsService extends OdataService {
+export class SongsService extends ODataBaseService {
     public state = new BehaviorSubject<State>(State.list);
 
     public songs: BehaviorSubject<Song[]> = new BehaviorSubject<Song[]>([]);
-    public selectedSong: BehaviorSubject<Song> = new BehaviorSubject<Song>(null);
 
     constructor(odataService: ODataService, private httpClient: HttpClient) {
         super(odataService, 'songs');
@@ -30,40 +29,6 @@ export class SongsService extends OdataService {
         return list;
     }
 
-    public loadSongListAndGoTo$(id: number): Observable<Song> {
-        const properties = ['ID', 'Name', 'Number', 'SongType', 'Key', 'Tempo'];
-        const list = this.list$<Song>(properties).pipe(
-            tap(_ => {
-                this.songs.next(_);
-            }),
-            switchMap(() => this.selectSong(id))
-        );
-
-        return list;
-    }
-
-    public selectSong(id: number): Observable<Song> {
-        this.state.next(State.read);
-        const filter = this.songs.value.filter(_ => _.ID === id);
-        const song = filter.length === 1 ? filter[0] : null;
-        if (!song) {
-            return;
-        }
-
-        const get = this.get$<Song>(id, ['Text', 'Comments'], ['Files']).pipe(tap(_ => {
-            song.Text = _.Text;
-            song.Comments = _.Comments;
-            song.Files = _.Files;
-            this.selectedSong.next(song);
-        }));
-
-        return get;
-    }
-
-    public resetSelectedSong() {
-        this.state.next(State.list);
-        this.selectedSong.next(null);
-    }
 
     public patch$(id: number, control: string, value: any): Observable<boolean> {
         const patch = super.patch$(id, control, value).pipe(
@@ -72,7 +37,6 @@ export class SongsService extends OdataService {
                 const song = songs.filter(_ => _.ID === id)[0];
                 song[control] = value;
                 this.songs.next(songs);
-                this.selectedSong.next(song);
             })
         );
 
@@ -80,9 +44,7 @@ export class SongsService extends OdataService {
     }
 
     public saveNewSong$(values: any): Observable<Song> {
-        const newSong = super
-            .post$<Song>(values)
-            .pipe(switchMap(_ => this.loadSongListAndGoTo$(_.ID)));
+        const newSong = super.post$<Song>(values);
 
         return newSong;
     }
@@ -93,16 +55,7 @@ export class SongsService extends OdataService {
         name: string,
         fileType: FileType
     ): Observable<any> {
-        const url =
-            base +
-            '/api/songs/' +
-            songId +
-            '/files/' +
-            fileId +
-            '/edit?Name=' +
-            name +
-            '&FileType=' +
-            fileType;
+        const url = `${base}/api/songs/${songId}/files/${fileId}/edit?Name=${name}&FileType=${fileType}`;
         const get = this.httpClient.get(url);
         return get;
     }
@@ -111,13 +64,7 @@ export class SongsService extends OdataService {
         songId: number,
         fileId: number
     ): Observable<any> {
-        const url =
-            base +
-            '/api/songs/' +
-            songId +
-            '/files/' +
-            fileId +
-            '/delete';
+        const url = `${base}/api/songs/${songId}/files/${fileId}/delete`;
         const get = this.httpClient.get(url);
         return get;
     }

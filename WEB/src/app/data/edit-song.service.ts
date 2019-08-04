@@ -2,19 +2,21 @@ import {SongsService} from 'src/app/data/songs.service';
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {switchMap} from 'rxjs/operators';
-import {Song} from '../models/song.model';
+import {Song} from '../songs/models/song.model';
 import {Subscription} from 'rxjs';
+import {File} from '../songs/models/file.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class EditSongService {
+
     constructor(private songsService: SongsService) {
     }
 
-    public initSongEditForm(attachSync: boolean): FormGroup {
+    public initSongEditForm(attachSync: boolean, _song: Song): FormGroup {
         const song = attachSync
-            ? this.songsService.selectedSong.value
+            ? _song
             : this.defaultValues();
         const form = new FormGroup({
             Number: new FormControl(song.Number, {
@@ -45,10 +47,7 @@ export class EditSongService {
         return form;
     }
 
-    public initFileEditForm(songId: number, fileId: number): { form: FormGroup, changeSubscription: Subscription } {
-        const file = this.songsService.selectedSong.value.Files.filter(
-            _ => _.ID === fileId
-        )[0];
+    public initFileEditForm(songId: number, file: File): { form: FormGroup, changeSubscription: Subscription } {
         const form = new FormGroup({
             Name: new FormControl(file.Name, {
                 updateOn: 'blur',
@@ -60,8 +59,7 @@ export class EditSongService {
         });
 
         const changeSubscription = form.valueChanges.pipe(
-            switchMap(_ => this.songsService.updateFile$(songId, fileId, _.Name, _.FileType)),
-            switchMap(() => this.songsService.selectSong(songId))
+            switchMap(_ => this.songsService.updateFile$(songId, file.ID, _.Name, _.FileType)),
         ).subscribe();
 
         return {form: form, changeSubscription: changeSubscription};
@@ -73,7 +71,6 @@ export class EditSongService {
             form.controls[control].valueChanges
                 .pipe(
                     switchMap(value => this.songsService.patch$(song.ID, control, value)),
-                    switchMap(() => this.songsService.selectSong(song.ID))
                 )
                 .subscribe();
         });
