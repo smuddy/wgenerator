@@ -1,6 +1,6 @@
-import {base} from './urls';
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +11,7 @@ export class DownloadService {
 
     public get(songId: number, fileId: number, filename: string) {
         return this.httpClient
-            .get(base + '/api/songs/' + songId + '/files/' + fileId, {
+            .get(`${environment.api}/api/songs/${songId}/files/${fileId}`, {
                 responseType: 'blob' as 'json',
                 observe: 'response'
             })
