@@ -13,6 +13,6 @@ export class SongsComponent {
     constructor(
         public songsService: SongsService
     ) {
-        songsService.loadSongList$().subscribe();
+        songsService.loadSongList$(0, 15).subscribe();
     }
 }

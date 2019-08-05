@@ -13,7 +13,7 @@
             <fa-icon [icon]="faNew"></fa-icon>
         </button>
         <table
-                [dataSource]="songsService.songs | async"
+                [dataSource]="(songsService.songs | async).data"
                 class="mat-elevation-z8"
                 mat-table
         >
@@ -72,4 +72,5 @@
             ></tr>
         </table>
     </div>
+    <mat-paginator [length]="(songsService.songs | async).count" [pageSize]="15"></mat-paginator>
 </div>

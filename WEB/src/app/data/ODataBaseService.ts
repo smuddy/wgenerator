@@ -1,20 +1,27 @@
 import {Expand, ODataQuery, ODataService} from 'odata-v4-ng';
 import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
-import {base} from './urls';
+import {environment} from '../../environments/environment';
 
 export class ODataBaseService {
-    private url: string;
+    private readonly url: string;
 
     constructor(private odataService: ODataService, private entity: string) {
-        this.url = base + '/odata/';
+        this.url = `${environment.api}/odata/`;
     }
 
-    public list$<TResponse>(properties: string[]): Observable<TResponse[]> {
+    public list$<TResponse>(properties: string[], skip: number = null, top: number = null): Observable<{ count: number, data: TResponse[] }> {
         const query = new ODataQuery(this.odataService, this.url)
             .entitySet(this.entity)
+            .countOption(true)
+            .skip(skip)
+            .top(top)
             .select(properties);
-        const get = query.get().pipe(map(_ => _.toPropertyValue<TResponse[]>()));
+
+        const get = query.get().pipe(map(_ => ({
+            count: _.getBodyAsJson()['@odata.count'],
+            data: _.toPropertyValue<TResponse[]>()
+        })));
 
         return get;
     }

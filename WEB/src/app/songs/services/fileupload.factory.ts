@@ -1,6 +1,6 @@
-import {base} from '../../data/urls';
 import {Injectable} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -8,7 +8,7 @@ import {FileUploader} from 'ng2-file-upload';
 export class FileuploadFactory {
     public static provideForNewFiles(songId: number): FileUploader {
         const uploader = new FileUploader({
-            url: `${base}/api/songs/${songId}/files`,
+            url: `${environment.api}/api/songs/${songId}/files`,
             autoUpload: true,
             isHTML5: true
         });

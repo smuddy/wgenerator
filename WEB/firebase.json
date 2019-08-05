@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "public": "dist/wgenerator",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

@@ -6,8 +6,8 @@ import {Song} from '../songs/models/song.model';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {State} from './state';
-import {base} from './urls';
 import {FileType} from '../songs/models/files-types.model';
+import {environment} from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -15,26 +15,25 @@ import {FileType} from '../songs/models/files-types.model';
 export class SongsService extends ODataBaseService {
     public state = new BehaviorSubject<State>(State.list);
 
-    public songs: BehaviorSubject<Song[]> = new BehaviorSubject<Song[]>([]);
+    public songs = new BehaviorSubject<{ count: number, data: Song[] }>({count: 0, data: []});
 
     constructor(odataService: ODataService, private httpClient: HttpClient) {
         super(odataService, 'songs');
     }
 
-    public loadSongList$(): Observable<Song[]> {
+    public loadSongList$(page: number, pageSize: number): Observable<{ count: number, data: Song[] }> {
         const properties = ['ID', 'Name', 'Number', 'SongType', 'Key', 'Tempo'];
-        const list = this.list$<Song>(properties).pipe(
+        const list = this.list$<Song>(properties, page * pageSize, pageSize).pipe(
             tap(_ => this.songs.next(_))
         );
         return list;
     }
 
-
     public patch$(id: number, control: string, value: any): Observable<boolean> {
         const patch = super.patch$(id, control, value).pipe(
             tap(() => {
                 const songs = this.songs.value;
-                const song = songs.filter(_ => _.ID === id)[0];
+                const song = songs.data.filter(_ => _.ID === id)[0];
                 song[control] = value;
                 this.songs.next(songs);
             })
@@ -55,7 +54,7 @@ export class SongsService extends ODataBaseService {
         name: string,
         fileType: FileType
     ): Observable<any> {
-        const url = `${base}/api/songs/${songId}/files/${fileId}/edit?Name=${name}&FileType=${fileType}`;
+        const url = `${environment.api}/api/songs/${songId}/files/${fileId}/edit?Name=${name}&FileType=${fileType}`;
         const get = this.httpClient.get(url);
         return get;
     }
@@ -64,7 +63,7 @@ export class SongsService extends ODataBaseService {
         songId: number,
         fileId: number
     ): Observable<any> {
-        const url = `${base}/api/songs/${songId}/files/${fileId}/delete`;
+        const url = `${environment.api}/api/songs/${songId}/files/${fileId}/delete`;
         const get = this.httpClient.get(url);
         return get;
     }

@@ -1,9 +1,10 @@
 import {SongsService} from '../../../../data/songs.service';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import {State} from 'src/app/data/state';
 import {faFileMedical} from '@fortawesome/free-solid-svg-icons';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
+import {MatPaginator} from '@angular/material';
 
 @Component({
     selector: 'app-table',
@@ -11,16 +12,26 @@ import {map} from 'rxjs/operators';
     styleUrls: ['./table.component.less'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableComponent {
+export class TableComponent implements AfterViewInit {
     public State = State;
     public faNew = faFileMedical;
     public columnsFull = ['Number', 'Name', 'Key', 'SongType', 'Tempo'];
     public columnsPinned = ['Number', 'Name'];
 
+    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+
     constructor(
         public songsService: SongsService,
-        private change: ChangeDetectorRef
+        private ref: ChangeDetectorRef
     ) {
+    }
+
+    public ngAfterViewInit(): void {
+        this.paginator.page.pipe(
+            switchMap(_ => this.songsService.loadSongList$(_.pageIndex, _.pageSize))
+        ).subscribe(() => {
+            this.ref.markForCheck();
+        });
     }
 
     public get columns(): Observable<string[]> {

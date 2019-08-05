@@ -5,7 +5,7 @@ import {SongsRoutingModule} from './songs-routing.module';
 import {SongsComponent} from './components/songs/songs.component';
 import {TableComponent} from './components/songs/table/table.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {MatButtonModule, MatChipsModule, MatTableModule} from '@angular/material';
+import {MatButtonModule, MatChipsModule, MatPaginatorModule, MatTableModule} from '@angular/material';
 
 
 @NgModule({
@@ -17,7 +17,8 @@ import {MatButtonModule, MatChipsModule, MatTableModule} from '@angular/material
 
         MatTableModule,
         MatChipsModule,
-        MatButtonModule
+        MatButtonModule,
+        MatPaginatorModule
     ]
 })
 export class SongsModule {

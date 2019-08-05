@@ -95,7 +95,7 @@ export class EditSongService {
 
     private firstFreeNumber(): number {
         let number = 0;
-        const numbers = this.songsService.songs.value.map(_ => _.Number);
+        const numbers = this.songsService.songs.value.data.map(_ => _.Number);
         while (numbers.indexOf(++number) !== -1) {
         }
         return number;
