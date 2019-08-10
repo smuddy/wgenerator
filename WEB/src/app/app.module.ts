@@ -19,6 +19,11 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {FileUploadModule} from 'ng2-file-upload';
+import {AngularFireModule} from '@angular/fire';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {environment} from '../environments/environment';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
 
 @NgModule({
     declarations: [
@@ -45,6 +50,11 @@ import {FileUploadModule} from 'ng2-file-upload';
         FontAwesomeModule,
         FileUploadModule,
         AppRoutingModule,
+
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+        AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+        AngularFireDatabaseModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

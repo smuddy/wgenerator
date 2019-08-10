@@ -2,7 +2,14 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 html {
-  background-image: url(https://images.unsplash.com/photo-1476136236990-838240be4859?ixlib=rb-1.2.1&auto=format&fit=crop&w=2167&q=80);
+  background: #2c3e50; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #2c3e50, #3498db); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #2c3e50, #3498db); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100vh;
+}
+
+.card-3 {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 body {
@@ -14,53 +21,28 @@ body {
   }
 
   .page-container {
-    padding: 10px;
-    box-sizing: border-box;
+    .card-3;
+    margin: 10px;
     overflow: hidden;
     border-radius: 8px;
 
-    .mat-table tbody {
+    table.mat-table thead,
+    table.mat-table tbody {
       background: none;
-    }
-
-    th.mat-header-cell:first-of-type {
-      border-top-left-radius: 8px;
-    }
-
-    th.mat-header-cell:last-of-type {
-      border-top-right-radius: 8px;
-    }
-
-    .mat-table thead {
-      border-top-right-radius: 8px;
-      border-top-left-radius: 8px;
     }
 
 
     &.pinned {
       padding: 0;
       max-width: 300px;
-      border-radius: 0;
-
-      th.mat-header-cell:first-of-type {
-        border-top-left-radius: 0;
-      }
-
-      th.mat-header-cell:last-of-type {
-        border-top-right-radius: 0;
-      }
-
-      .mat-table thead {
-        border-top-right-radius: 0;
-        border-top-left-radius: 0;
-      }
     }
   }
 
   .mat-card {
+    .card-3;
     width: 600px;
     border-radius: 8px;
-    background: #fffd;
+    background: #fffa;
     margin: 10px;
     box-sizing: border-box;
   }
@@ -92,7 +74,7 @@ body {
         padding: 0;
       }
 
-      table {
+      table.mat-table {
         width: 100%;
         background: none;
         box-shadow: none;
@@ -103,6 +85,37 @@ body {
         text-align: right;
       }
     }
+  }
+
+  .mat-paginator {
+    background: #fffa;
+  }
+
+  table.mat-table {
+    background: #fffa;
+
+    tr.selected {
+      background-color: #0002;
+    }
+
+    tr:hover {
+      cursor: pointer;
+      background-color: #0001;
+
+      td {
+        color: #ff9900;
+      }
+    }
+
+    tr:focus {
+      outline: none;
+    }
+
+    td.mat-cell {
+      padding: 0 5px;
+    }
+
+
   }
 
 }
