@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {map} from 'rxjs/operators';
 import {User, UserDB} from './user.model';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Role} from './roles.model';
 import {RoleDefinitions} from './role.definition';
 
@@ -18,7 +18,7 @@ export class AccessRightService {
 
     public getUserInfo(userId: string): Observable<User> {
         if (userId === null) {
-            return null;
+            return of(null);
         }
 
         const user$ = this.angularFirestore
