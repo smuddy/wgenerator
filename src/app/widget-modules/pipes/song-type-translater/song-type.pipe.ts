@@ -7,12 +7,12 @@ export class SongTypePipe implements PipeTransform {
 
   transform(songTypeKey: string): string {
     switch (songTypeKey) {
-      case "Worship":
-        return "Anbetung";
-      case "Praise":
-        return "Lobpreis";
+      case 'Worship':
+        return 'Anbetung';
+      case 'Praise':
+        return 'Lobpreis';
       default:
-        return ""
+        return ''
     }
   }
 

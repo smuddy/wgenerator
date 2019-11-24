@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
-import {Song} from "../models/song";
-import {SongDataService} from "./song-data.service";
+import {Observable} from 'rxjs';
+import {Song} from '../models/song';
+import {SongDataService} from './song-data.service';
 
 @Injectable({
   providedIn: 'root'

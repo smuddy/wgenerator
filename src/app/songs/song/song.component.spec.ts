@@ -1,8 +1,8 @@
 import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
 import {SongComponent} from './song.component';
-import {of} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {of} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 
 describe('SongComponent', () => {
   let component: SongComponent;
