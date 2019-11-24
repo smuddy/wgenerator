@@ -30,7 +30,8 @@
             ],
             "styles": [
               "src/custom-theme.scss",
-              "src/styles.less"
+              "src/styles/styles.less",
+              "src/styles/shadow.less"
             ],
             "scripts": []
           },
@@ -97,9 +98,7 @@
               "src/assets",
               "src/manifest.webmanifest"
             ],
-            "styles": [
-              "src/styles.less"
-            ],
+            "styles": [],
             "scripts": []
           }
         },
