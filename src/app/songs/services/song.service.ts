@@ -12,5 +12,6 @@ export class SongService {
   }
 
   public list = (): Observable<Song[]> => this.songDataService.list();
+  public read = (songId: string): Observable<Song | undefined> => this.songDataService.read(songId);
 
 }

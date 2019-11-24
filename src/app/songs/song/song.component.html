@@ -1,1 +1,15 @@
-<p>song works with songId: {{songId}}!</p>
+<app-card *ngIf="song$ | async as song" [heading]="song.number + ' - ' + song.title">
+  <div class="song">
+    <div class="text">{{song.text}}</div>
+    <div>
+      <div class="detail">
+        <div>Typ</div>
+        <div>{{song.type | songType}}</div>
+        <div>Tonart</div>
+        <div>{{song.key}}</div>
+        <div>Tempo</div>
+        <div>{{song.tempo}}</div>
+      </div>
+    </div>
+  </div>
+</app-card>
