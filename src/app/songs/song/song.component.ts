@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {SongService} from '../services/song.service';
+import {map, switchMap} from 'rxjs/operators';
+import {Song} from '../models/song';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-song',
@@ -7,13 +11,16 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./song.component.less']
 })
 export class SongComponent implements OnInit {
-  public songId: string;
+  public song$: Observable<Song>;
 
-  constructor(private activatedRoute: ActivatedRoute) {
+  constructor(private activatedRoute: ActivatedRoute, private songService: SongService) {
   }
 
   public ngOnInit(): void {
-    this.activatedRoute.params.subscribe(params => this.songId = params.songId);
+    this.song$ = this.activatedRoute.params.pipe(
+      map(param => param.songId),
+      switchMap(songId => this.songService.read(songId))
+    );
   }
 
 }

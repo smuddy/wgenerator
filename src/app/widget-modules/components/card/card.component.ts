@@ -7,6 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class CardComponent implements OnInit {
   @Input() padding = true;
+  @Input() heading: string;
 
   constructor() {
   }

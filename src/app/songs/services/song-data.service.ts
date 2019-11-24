@@ -22,5 +22,11 @@ export class SongDataService {
   }
 
   public list = (): Observable<Song[]> => this.songs;
+  public read = (songId: string): Observable<Song | undefined> =>
+    this.afs.doc<Song>('songs/' + songId).valueChanges().pipe(map(song => ({
+      ...song,
+      id: songId
+    } as Song)))
+
 
 }
