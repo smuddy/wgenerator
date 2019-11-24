@@ -1,8 +1,8 @@
 import {async, TestBed} from '@angular/core/testing';
 
 import {SongService} from './song.service';
-import {SongDataService} from "./song-data.service";
-import {of} from "rxjs";
+import {SongDataService} from './song-data.service';
+import {of} from 'rxjs';
 
 describe('SongService', () => {
 

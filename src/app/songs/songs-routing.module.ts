@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SongComponent} from "./song/song.component";
-import {SongListComponent} from "./song-list/song-list.component";
+import {SongComponent} from './song/song.component';
+import {SongListComponent} from './song-list/song-list.component';
 
 
 const routes: Routes = [
