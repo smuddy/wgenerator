@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {SongService} from '../services/song.service';
 import {Song} from '../models/song';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-songs',
@@ -8,15 +10,15 @@ import {Song} from '../models/song';
   styleUrls: ['./song-list.component.less']
 })
 export class SongListComponent implements OnInit {
-  public songs: Song[];
+  public songs: Observable<Song[]>;
 
   constructor(private songService: SongService) {
   }
 
   ngOnInit() {
-    this.songService.list().subscribe(songs => {
-      this.songs = songs.sort((a, b) => a.number - b.number);
-    });
+    this.songs = this.songService.list().pipe(map(songs =>
+      songs.sort((a, b) => a.number - b.number)
+    ));
   }
 
 }
