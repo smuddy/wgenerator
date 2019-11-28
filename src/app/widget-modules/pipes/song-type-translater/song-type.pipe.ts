@@ -12,7 +12,7 @@ export class SongTypePipe implements PipeTransform {
       case 'Praise':
         return 'Lobpreis';
       default:
-        return ''
+        return '';
     }
   }
 

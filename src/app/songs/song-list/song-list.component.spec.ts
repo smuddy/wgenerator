@@ -40,8 +40,8 @@ describe('SongListComponent', () => {
 
   it('should read songs from SongService', fakeAsync(() => {
     tick();
-    expect(component.songs$).toEqual(<any>[
+    expect(component.songs$).toEqual([
       {title: 'title1'}
-    ]);
+    ] as any);
   }));
 });

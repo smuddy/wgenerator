@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {FilterComponent} from './filter.component';
+import {ButtonRowComponent} from './button-row.component';
 
-describe('FilterComponent', () => {
-  let component: FilterComponent;
-  let fixture: ComponentFixture<FilterComponent>;
+describe('ButtonRowComponent', () => {
+  let component: ButtonRowComponent;
+  let fixture: ComponentFixture<ButtonRowComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FilterComponent]
+      declarations: [ButtonRowComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FilterComponent);
+    fixture = TestBed.createComponent(ButtonRowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
