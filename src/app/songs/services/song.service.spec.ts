@@ -27,10 +27,10 @@ describe('SongService', () => {
 
   it('should list songs', async(() => {
     const service: SongService = TestBed.get(SongService);
-    service.list$().subscribe(songs => {
-      expect(songs).toEqual(<any>[
+    service.list$().subscribe(s => {
+      expect(s).toEqual([
         {title: 'title1'}
-      ]);
+      ] as any);
     });
   }));
 });

@@ -22,11 +22,16 @@ export class SongDataService {
   }
 
   public list = (): Observable<Song[]> => this.songs;
-  public read = (songId: string): Observable<Song | undefined> =>
-    this.afs.doc<Song>('songs/' + songId).valueChanges().pipe(map(song => ({
+
+  public read(songId: string): Observable<Song | undefined> {
+    return this.afs.doc<Song>('songs/' + songId).valueChanges().pipe(map(song => ({
       ...song,
       id: songId
-    } as Song)))
+    } as Song)));
+  }
 
-
+  public async update(songId: string, data: any): Promise<void> {
+    await this.afs.doc<Song>('songs/' + songId).update(data);
+  }
 }
+

@@ -15,7 +15,7 @@ describe('SongDataService', () => {
   };
 
   const mockAngularFirestore = {
-    collection: path => angularFirestoreCollection
+    collection: () => angularFirestoreCollection
   };
 
   beforeEach(() => TestBed.configureTestingModule({
@@ -31,11 +31,11 @@ describe('SongDataService', () => {
 
   it('should list songs', async(() => {
     const service: SongDataService = TestBed.get(SongDataService);
-    service.list().subscribe(songs => {
-        expect(songs).toEqual(<any>[
+    service.list().subscribe(s => {
+      expect(s).toEqual([
           {title: 'title1'}
-        ]);
+      ] as any);
       }
-    )
+    );
   }));
 });
