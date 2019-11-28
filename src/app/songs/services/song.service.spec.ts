@@ -27,7 +27,7 @@ describe('SongService', () => {
 
   it('should list songs', async(() => {
     const service: SongService = TestBed.get(SongService);
-    service.list().subscribe(songs => {
+    service.list$().subscribe(songs => {
       expect(songs).toEqual(<any>[
         {title: 'title1'}
       ]);
