@@ -1,0 +1,22 @@
+<app-card heading="Angehängte Dateien">
+
+
+  <div *ngIf="currentUpload">
+    <div class="progress">
+      <div class="progress-bar progress-bar-animated" [ngStyle]="{ 'width': currentUpload?.progress + '%' }"></div>
+    </div>
+    Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
+  </div>
+  <div class="upload">
+    <label>
+      <input type="file" (change)="detectFiles($event)">
+    </label>
+
+    <button mat-icon-button
+            [disabled]="!selectedFiles"
+            (click)="uploadSingle()">
+      <mat-icon>cloud_upload</mat-icon>
+    </button>
+  </div>
+</app-card>
+

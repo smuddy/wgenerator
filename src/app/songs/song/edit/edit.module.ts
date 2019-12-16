@@ -10,10 +10,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import {ButtonRowModule} from '../../../widget-modules/components/button-row/button-row.module';
 import {RouterModule} from '@angular/router';
+import { EditSongComponent } from './edit-song/edit-song.component';
+import { EditFileComponent } from './edit-file/edit-file.component';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
-  declarations: [EditComponent],
+  declarations: [EditComponent, EditSongComponent, EditFileComponent],
   exports: [EditComponent],
   imports: [
     CommonModule,
@@ -27,6 +30,8 @@ import {RouterModule} from '@angular/router';
     MatCheckboxModule,
     MatSelectModule,
     ButtonRowModule,
+
+    MatIconModule,
 
   ]
 })

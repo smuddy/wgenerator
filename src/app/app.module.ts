@@ -9,6 +9,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApplicationFrameModule} from './application-frame/application-frame.module';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
+    AngularFireStorageModule,
+    AngularFireDatabaseModule
 
   ],
   providers: [],
