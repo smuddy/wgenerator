@@ -8,6 +8,10 @@ service cloud.firestore {
       allow read: if true;
       allow write: if true;
     }
+    match /songs/{song}/files/{file} {
+      allow read: if true;
+      allow write: if true;
+    }
   	match /lastmodified/{lastmodified} {
       allow read: if true;
       allow write: if true;
