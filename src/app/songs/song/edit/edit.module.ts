@@ -13,10 +13,11 @@ import {RouterModule} from '@angular/router';
 import { EditSongComponent } from './edit-song/edit-song.component';
 import { EditFileComponent } from './edit-file/edit-file.component';
 import {MatIconModule} from '@angular/material/icon';
+import { FileComponent } from './edit-file/file/file.component';
 
 
 @NgModule({
-  declarations: [EditComponent, EditSongComponent, EditFileComponent],
+  declarations: [EditComponent, EditSongComponent, EditFileComponent, FileComponent],
   exports: [EditComponent],
   imports: [
     CommonModule,
