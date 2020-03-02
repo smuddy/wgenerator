@@ -1,7 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {LegalOwnerPipe} from './legal-owner.pipe';
-
 
 
 @NgModule({
@@ -13,4 +12,5 @@ import {LegalOwnerPipe} from './legal-owner.pipe';
     CommonModule
   ]
 })
-export class LegalOwnerTranslatorModule { }
+export class LegalOwnerTranslatorModule {
+}

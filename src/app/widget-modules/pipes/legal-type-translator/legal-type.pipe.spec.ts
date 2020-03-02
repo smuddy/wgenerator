@@ -1,4 +1,4 @@
-import { LegalTypePipe } from './legal-type.pipe';
+import {LegalTypePipe} from './legal-type.pipe';
 
 describe('LegalTypePipe', () => {
   it('create an instance', () => {

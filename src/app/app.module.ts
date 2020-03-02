@@ -6,11 +6,13 @@ import {AppComponent} from './app.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ApplicationFrameModule} from './application-frame/application-frame.module';
+import {ApplicationFrameModule} from './widget-modules/application-frame/application-frame.module';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireAuthGuardModule} from '@angular/fire/auth-guard';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence({synchronizeTabs: true}),
     AngularFireStorageModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireAuthGuardModule,
 
   ],
   providers: [],

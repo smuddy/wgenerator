@@ -1,4 +1,4 @@
-import { LegalOwnerPipe } from './legal-owner.pipe';
+import {LegalOwnerPipe} from './legal-owner.pipe';
 
 describe('LegalOwnerPipe', () => {
   it('create an instance', () => {

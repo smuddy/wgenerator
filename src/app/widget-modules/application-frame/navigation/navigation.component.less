@@ -1,0 +1,52 @@
+@import "../../../../styles/styles";
+@import "../../../../styles/shadow";
+
+nav {
+  &.head {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: @navigation-background;
+    .card-3;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    a {
+      display: block;
+      height: 60px;
+      color: @navigation-link-color;
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 20px;
+      box-sizing: border-box;
+      background: transparent;
+      transition: @transition;
+
+      &:hover {
+        background: #eee;
+      }
+
+      &.active {
+        background: @primary-color;
+        color: #fff;
+      }
+    }
+
+  }
+}
+
+.actions {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+
+.links {
+  display: flex;
+}

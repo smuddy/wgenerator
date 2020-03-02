@@ -1,0 +1,19 @@
+<app-card>
+  <div [formGroup]="form" class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>E-Mail Addresse</mat-label>
+      <input (keyup.enter)="onLogin()" formControlName="user" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Passwort</mat-label>
+      <input (keyup.enter)="onLogin()" formControlName="pass" matInput type="password">
+    </mat-form-field>
+    <app-button-row>
+      <button (click)="onLogin()" mat-button>Anmelden</button>
+      <p *ngIf="errorMessage" class="error">{{errorMessage|authMessage}}</p>
+    </app-button-row>
+
+  </div>
+
+</app-card>
