@@ -1,0 +1,95 @@
+<app-card *ngIf="song" [heading]="song.number + ' bearbeiten'">
+
+  <form [formGroup]="form" class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Titel</mat-label>
+      <input formControlName="title" matInput>
+    </mat-form-field>
+
+    <div class="third">
+      <mat-form-field appearance="outline">
+        <mat-label>Typ</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let type of types" [value]="type">{{type | songType}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Tonart</mat-label>
+        <mat-select formControlName="key">
+          <mat-option *ngFor="let key of keys" [value]="key">{{key}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Tempo</mat-label>
+        <input formControlName="tempo" matInput>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Songtext</mat-label>
+      <textarea [mat-autosize]="true" formControlName="text" matInput></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Kommentar</mat-label>
+      <textarea [mat-autosize]="true" formControlName="comment" matInput></textarea>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rechtlicher Status</mat-label>
+      <mat-select formControlName="legalType">
+        <mat-option *ngFor="let key of legalType" [value]="key">{{key|legalType}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rechteinhaber</mat-label>
+      <mat-select formControlName="legalOwner">
+        <mat-option *ngFor="let key of legalOwner" [value]="key">{{key|legalOwner}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rechteinhaber Link</mat-label>
+      <input formControlName="legalLink" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rechteinhaber ID (z.B. CCLI Liednummer)</mat-label>
+      <input formControlName="legalOwnerId" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Lizenznummer</mat-label>
+      <input formControlName="legalLicenseId" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Künstler</mat-label>
+      <input formControlName="artist" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Verlag</mat-label>
+      <input formControlName="label" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nutzungsbedingungen</mat-label>
+      <input formControlName="termsOfUse" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>abweichende Quelle</mat-label>
+      <input formControlName="origin" matInput>
+    </mat-form-field>
+
+  </form>
+
+  <app-button-row>
+    <button (click)="onSave()" color="primary" mat-flat-button>Speichern</button>
+    <button mat-stroked-button routerLink="../">Abbrechen</button>
+  </app-button-row>
+</app-card>
+

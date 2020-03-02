@@ -1,0 +1,7 @@
+<app-card *ngIf="user$|async as user">
+  <h2>Hallo {{user.name}}</h2>
+  <p>{{user.role|role}}</p>
+  <app-button-row>
+    <button mat-button routerLink="../logout">Abmelden</button>
+  </app-button-row>
+</app-card>
