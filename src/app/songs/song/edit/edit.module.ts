@@ -10,10 +10,12 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import {ButtonRowModule} from '../../../widget-modules/components/button-row/button-row.module';
 import {RouterModule} from '@angular/router';
-import { EditSongComponent } from './edit-song/edit-song.component';
-import { EditFileComponent } from './edit-file/edit-file.component';
+import {EditSongComponent} from './edit-song/edit-song.component';
+import {EditFileComponent} from './edit-file/edit-file.component';
 import {MatIconModule} from '@angular/material/icon';
-import { FileComponent } from './edit-file/file/file.component';
+import {FileComponent} from './edit-file/file/file.component';
+import {LegalOwnerTranslatorModule} from '../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
+import {LegalTypeTranslatorModule} from '../../../widget-modules/pipes/legal-type-translator/legal-type-translator.module';
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import { FileComponent } from './edit-file/file/file.component';
     ButtonRowModule,
 
     MatIconModule,
+    LegalOwnerTranslatorModule,
+    LegalTypeTranslatorModule,
 
   ]
 })

@@ -6,20 +6,22 @@ import {SongTypeTranslaterModule} from '../../widget-modules/pipes/song-type-tra
 import {MatButtonModule} from '@angular/material/button';
 import {ButtonRowModule} from '../../widget-modules/components/button-row/button-row.module';
 import {RouterModule} from '@angular/router';
+import {LegalOwnerTranslatorModule} from '../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
 
 
 @NgModule({
   declarations: [SongComponent],
   exports: [SongComponent],
-  imports: [
-    CommonModule,
-    CardModule,
-    RouterModule,
+    imports: [
+        CommonModule,
+        CardModule,
+        RouterModule,
 
-    SongTypeTranslaterModule,
-    MatButtonModule,
-    ButtonRowModule,
-  ]
+        SongTypeTranslaterModule,
+        MatButtonModule,
+        ButtonRowModule,
+        LegalOwnerTranslatorModule,
+    ]
 })
 export class SongModule {
 }

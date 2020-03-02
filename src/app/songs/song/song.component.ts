@@ -4,6 +4,8 @@ import {SongService} from '../services/song.service';
 import {map, switchMap} from 'rxjs/operators';
 import {Song} from '../models/song';
 import {Observable} from 'rxjs';
+import {FileDataService} from '../services/file-data.service';
+import {File} from '../services/file';
 
 @Component({
   selector: 'app-song',
@@ -12,8 +14,13 @@ import {Observable} from 'rxjs';
 })
 export class SongComponent implements OnInit {
   public song$: Observable<Song>;
+  public files$: Observable<File[]>;
 
-  constructor(private activatedRoute: ActivatedRoute, private songService: SongService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private songService: SongService,
+    private fileService: FileDataService,
+  ) {
   }
 
   public ngOnInit(): void {
@@ -21,6 +28,12 @@ export class SongComponent implements OnInit {
       map(param => param.songId),
       switchMap(songId => this.songService.read(songId))
     );
+
+    this.files$ = this.activatedRoute.params.pipe(
+      map(param => param.songId),
+      switchMap(songId => this.fileService.get$(songId))
+    );
+
   }
 
 }

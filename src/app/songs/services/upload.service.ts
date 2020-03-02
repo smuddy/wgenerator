@@ -4,20 +4,23 @@ import {FileDataService} from './file-data.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {File} from './file';
+import {FileBase} from './fileBase';
+import {FileServer} from './fileServer';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class UploadService {
-  private basePath = '/attachments';
+export class UploadService extends FileBase {
 
   constructor(private fileDataService: FileDataService, private angularFireStorage: AngularFireStorage) {
+    super();
   }
 
   public async pushUpload(songId: string, upload: Upload) {
-    const path = `${this.basePath}/${songId}`;
-    const filePath = `${path}/${upload.file.name}`;
-    upload.path = path;
+    const directory = this.directory(songId);
+    const filePath = `${directory}/${upload.file.name}`;
+    upload.path = directory;
 
     const ref = this.angularFireStorage.ref(filePath);
     const task = ref.put(upload.file);
@@ -48,7 +51,7 @@ export class UploadService {
   }
 
   private async saveFileData(songId: string, upload: Upload) {
-    const file: File = {
+    const file: FileServer = {
       name: upload.file.name,
       path: upload.path,
       createdAt: new Date()

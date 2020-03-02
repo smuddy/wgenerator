@@ -14,9 +14,10 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class SongListComponent implements OnInit {
 
+  public songs$: Observable<Song[]>;
+
   constructor(private songService: SongService, private activatedRoute: ActivatedRoute) {
   }
-  public songs$: Observable<Song[]>;
 
   private static filter(song: Song, filterValue: string): boolean {
     if (!filterValue) {

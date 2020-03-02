@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Song} from '../../../models/song';
 import {FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -16,6 +16,8 @@ export class EditSongComponent implements OnInit {
   public form: FormGroup;
   public keys = this.songService.KEYS;
   public types = this.songService.TYPES;
+  public legalOwner = this.songService.LEGAL_OWNER;
+  public legalType = this.songService.LEGAL_TYPE;
 
   constructor(
     private activatedRoute: ActivatedRoute,

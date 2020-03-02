@@ -27,7 +27,7 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
 
 
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule.enablePersistence({synchronizeTabs: true}),
     AngularFireStorageModule,
     AngularFireDatabaseModule
 
