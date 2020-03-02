@@ -3,18 +3,18 @@
 
   <div *ngIf="currentUpload">
     <div class="progress">
-      <div class="progress-bar progress-bar-animated" [ngStyle]="{ 'width': currentUpload?.progress + '%' }"></div>
+      <div [ngStyle]="{ 'width': currentUpload?.progress + '%' }" class="progress-bar progress-bar-animated"></div>
     </div>
     Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
   </div>
   <div class="upload">
     <label>
-      <input type="file" (change)="detectFiles($event)">
+      <input (change)="detectFiles($event)" type="file">
     </label>
 
-    <button mat-icon-button
+    <button (click)="uploadSingle()"
             [disabled]="!selectedFiles"
-            (click)="uploadSingle()">
+            mat-icon-button>
       <mat-icon>cloud_upload</mat-icon>
     </button>
   </div>

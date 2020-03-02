@@ -130,5 +130,8 @@
       }
     }
   },
-  "defaultProject": "wgenerator"
+  "defaultProject": "wgenerator",
+  "cli": {
+    "analytics": "4047dcd7-89f4-402f-958e-e365a5505c55"
+  }
 }

@@ -1,18 +1,29 @@
 <app-card *ngIf="song$ | async as song" [heading]="song.number + ' - ' + song.title">
   <div class="song">
-    <div class="text">{{song.text}}</div>
     <div>
       <div class="detail">
-        <div>Typ</div>
-        <div>{{song.type | songType}}</div>
-        <div>Tonart</div>
-        <div>{{song.key}}</div>
-        <div>Tempo</div>
-        <div>{{song.tempo}}</div>
+        <div>Typ: {{song.type | songType}}</div>
+        <div>Tonart: {{song.key}}</div>
+        <div>Tempo: {{song.tempo}}</div>
+        <div *ngIf="song.legalOwner">Rechteinhaber: {{song.legalOwner|legalOwner}}</div>
+        <div *ngIf="song.legalOwnerId">Rechteinhaber ID: {{song.legalOwnerId}}</div>
+        <div *ngIf="song.legalLicenseId">Lizenznummer: {{song.legalLicenseId}}</div>
+        <div *ngIf="song.artist">Künstler: {{song.artist}}</div>
+        <div *ngIf="song.label">Verlag: {{song.label}}</div>
+        <div *ngIf="song.origin">Quelle: {{song.origin}}</div>
       </div>
     </div>
+
+    <div class="text">{{song.text}}</div>
+    <div class="text">{{song.comment}}</div>
+    <div>
+      <h3>Anhänge</h3>
+      <div *ngFor="let file of (files$|async)">{{file.name}}</div>
+    </div>
   </div>
+
   <app-button-row>
     <button color="primary" mat-flat-button routerLink="edit">Bearbeiten</button>
   </app-button-row>
+
 </app-card>

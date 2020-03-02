@@ -8,4 +8,15 @@ export interface Song {
   text: string;
   title: string;
   type: string;
+
+  legalType: string;
+  legalLink: string;
+  legalOwner: string;
+  legalOwnerId: string;
+  legalLicenseId: string;
+
+  artist: string;
+  label: string;
+  termsOfUse: string;
+  origin: string;
 }

@@ -1,5 +1,5 @@
-export interface File {
-    name: string;
-    path: string;
-    createdAt: Date;
+import {FileServer} from './fileServer';
+
+export interface File extends FileServer {
+  id: string;
 }
