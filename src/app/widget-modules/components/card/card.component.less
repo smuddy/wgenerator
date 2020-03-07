@@ -6,11 +6,18 @@
   border-radius: 8px;
   background: #fffe;
   overflow: hidden;
-  width: 50vw;
+  width: 800px;
+  @media screen and (max-width: 860px) {
+    width: 100vw;
+    border-radius: 0px;
+    background: #fffa;
+  }
 
   &.padding {
     padding: 20px;
   }
+
+  box-sizing: border-box;
 }
 
 .heading {

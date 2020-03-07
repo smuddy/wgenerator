@@ -1,0 +1,26 @@
+@import "../../../../../styles/styles";
+
+.list-item {
+  padding: 5px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 34px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+
+  cursor: pointer;
+
+  &:hover {
+    background: @primary-color;
+    color: #fff;
+  }
+}
+
+.number {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+}

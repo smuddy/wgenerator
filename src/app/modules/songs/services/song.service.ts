@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Song} from '../models/song';
+import {Song} from './song';
 import {SongDataService} from './song-data.service';
 import {tap} from 'rxjs/operators';
 
@@ -26,8 +26,8 @@ export class SongService {
     importCCLI = (songs: Song[]) => this.updateFromCLI(songs);
   }
 
-  public list$ = (): Observable<Song[]> => this.songDataService.list().pipe(tap(_ => this.list = _));
-  public read = (songId: string): Observable<Song | undefined> => this.songDataService.read(songId);
+  public list$ = (): Observable<Song[]> => this.songDataService.list$().pipe(tap(_ => this.list = _));
+  public read = (songId: string): Observable<Song | undefined> => this.songDataService.read$(songId);
 
   public async update(songId: string, data: any): Promise<void> {
     await this.songDataService.update(songId, data);

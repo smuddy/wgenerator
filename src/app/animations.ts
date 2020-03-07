@@ -1,4 +1,4 @@
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {animate, query, state, style, transition, trigger} from '@angular/animations';
 
 export const fade = [
   // the fade-in/fade-out animation.
@@ -18,3 +18,23 @@ export const fade = [
       animate(300, style({opacity: 0, display: 'block', transform: 'translateY(-20px)'})))
   ])
 ];
+
+export const fader =
+  trigger('fader', [
+    transition('* <=> *', [
+      // Set a default  style for enter and leave
+      query(':enter, :leave', [
+        style({
+          position: 'absolute',
+          left: 0,
+          width: '100%',
+          opacity: 0,
+          transform: 'scale(0.96) translateY(-10px)',
+        }),
+      ], {optional: true}),
+      // Animate the new page in
+      query(':enter', [
+        animate('200ms ease', style({opacity: 1, transform: 'scale(1) translateY(0)'})),
+      ], {optional: true}),
+    ]),
+  ]);

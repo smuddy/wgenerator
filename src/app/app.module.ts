@@ -13,6 +13,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireAuthGuardModule} from '@angular/fire/auth-guard';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,6 @@ import {AngularFireAuthGuardModule} from '@angular/fire/auth-guard';
 
     ApplicationFrameModule,
 
-
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence({synchronizeTabs: true}),
     AngularFireStorageModule,
@@ -36,8 +36,11 @@ import {AngularFireAuthGuardModule} from '@angular/fire/auth-guard';
     AngularFireAuthGuardModule,
 
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
+  ],
+  bootstrap: [AppComponent],
+
 })
 export class AppModule {
 }

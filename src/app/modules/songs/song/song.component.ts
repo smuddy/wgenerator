@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {SongService} from '../services/song.service';
 import {map, switchMap} from 'rxjs/operators';
-import {Song} from '../models/song';
+import {Song} from '../services/song';
 import {Observable} from 'rxjs';
 import {FileDataService} from '../services/file-data.service';
 import {File} from '../services/file';
@@ -31,7 +31,7 @@ export class SongComponent implements OnInit {
 
     this.files$ = this.activatedRoute.params.pipe(
       map(param => param.songId),
-      switchMap(songId => this.fileService.get$(songId))
+      switchMap(songId => this.fileService.read$(songId))
     );
 
   }

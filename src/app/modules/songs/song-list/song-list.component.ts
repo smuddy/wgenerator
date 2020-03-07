@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SongService} from '../services/song.service';
-import {Song} from '../models/song';
+import {Song} from '../services/song';
 import {debounceTime, map} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
 import {fade} from '../../../animations';

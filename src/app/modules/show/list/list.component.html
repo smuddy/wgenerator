@@ -1,0 +1,7 @@
+<div>
+  <app-list-header></app-list-header>
+
+  <app-card *ngIf="shows$ | async as shows" [@fade] [padding]="false">
+    <app-list-item *ngFor="let show of shows" [routerLink]="show.id" [show]="show"></app-list-item>
+  </app-card>
+</div>
