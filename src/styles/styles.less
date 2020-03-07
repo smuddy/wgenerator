@@ -19,3 +19,27 @@ body {
   background: linear-gradient(to top, #373b44, #4286f4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background-attachment: fixed;
 }
+
+p {
+  margin: 8px 0;
+}
+
+h1, h2, h3, h4 {
+  color: @navigation-link-color;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.mat-form-field .mat-form-field-infix {
+  width: unset;
+}
+
+
+.content > *:not(router-outlet) {
+  margin-top: 60px;
+  @media screen and (max-width: 860px) {
+    margin-top: 40px;
+  }
+  display: flex;
+  justify-content: center;
+}

@@ -3,19 +3,19 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {Observable} from 'rxjs';
 import {filter, switchMap} from 'rxjs/operators';
 import {User} from './user';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {DbService} from './db.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+  constructor(private afAuth: AngularFireAuth, private db: DbService) {
   }
 
   public get user$(): Observable<User> {
     return this.afAuth.authState.pipe(
       filter(_ => !!_),
-      switchMap(auth => this.afs.doc<User>('user/' + auth.uid).valueChanges())
+      switchMap(auth => this.db.doc$<User>('user/' + auth.uid))
     );
   }
 }

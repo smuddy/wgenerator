@@ -55,6 +55,6 @@ export class UploadService extends FileBase {
       path: upload.path,
       createdAt: new Date()
     };
-    await this.fileDataService.put(songId, file);
+    await this.fileDataService.set(songId, file);
   }
 }

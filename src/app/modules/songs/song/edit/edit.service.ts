@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Song} from '../../models/song';
+import {Song} from '../../services/song';
 import {FormControl, FormGroup} from '@angular/forms';
 
 @Injectable({

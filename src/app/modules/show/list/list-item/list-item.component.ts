@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Song} from '../../services/song';
+import {Show} from '../../services/show';
 
 @Component({
   selector: 'app-list-item',
@@ -7,7 +7,7 @@ import {Song} from '../../services/song';
   styleUrls: ['./list-item.component.less']
 })
 export class ListItemComponent implements OnInit {
-  @Input() public song: Song;
+  @Input() public show: Show;
 
   constructor() {
   }
