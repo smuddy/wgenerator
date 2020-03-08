@@ -2,6 +2,14 @@
   <app-card
     heading="{{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}}">
 
-
+    <div class="add-row">
+      <mat-form-field *ngIf="(songs$|async) as songs" appearance="outline">
+        <mat-label>Lied hinzufügen...</mat-label>
+        <mat-select (selectionChange)="onAddSongSelectionChanged($event)">
+          <mat-option *ngFor="let song of songs" [value]="song.id">{{song.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-button>aus Übersicht</button>
+    </div>
   </app-card>
 </div>

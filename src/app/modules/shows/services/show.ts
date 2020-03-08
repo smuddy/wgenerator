@@ -10,3 +10,4 @@ export interface Show {
   public: boolean;
   reported: boolean;
 }
+
