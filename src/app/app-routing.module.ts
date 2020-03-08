@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
 
 const routes: Routes = [
@@ -15,8 +15,8 @@ const routes: Routes = [
     data: {authGuardPipe: () => redirectUnauthorizedTo(['user', 'login'])}
   },
   {
-    path: 'show',
-    loadChildren: () => import('./modules/show/show.module').then(m => m.ShowModule),
+    path: 'shows',
+    loadChildren: () => import('./modules/shows/shows.module').then(m => m.ShowsModule),
     canActivate: [AngularFireAuthGuard],
     data: {authGuardPipe: () => redirectUnauthorizedTo(['user', 'login'])}
   },
@@ -27,7 +27,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

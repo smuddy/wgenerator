@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {NewComponent} from './new/new.component';
 import {ListComponent} from './list/list.component';
+import {ShowComponent} from './show/show.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'new',
     component: NewComponent
+  },
+  {
+    path: ':showId',
+    component: ShowComponent
   }
 ];
 
@@ -20,5 +25,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ShowRoutingModule {
+export class ShowsRoutingModule {
 }

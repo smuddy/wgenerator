@@ -1,0 +1,43 @@
+@import "../../../../../../styles/styles";
+
+a {
+  display: block;
+  height: 60px;
+  color: @navigation-link-color;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 20px;
+  box-sizing: border-box;
+  background: transparent;
+  transition: @transition;
+
+  fa-icon {
+    display: inline-block;
+    transform: scale(1);
+    transition: @transition;
+  }
+
+  @media screen and (max-width: 860px) {
+    .link-text {
+      display: none;
+    }
+  }
+
+  &:hover {
+    background: #eee;
+
+    fa-icon {
+      transform: scale(1.2);
+    }
+  }
+
+  &.active {
+    background: @primary-color;
+    color: #fff;
+
+    fa-icon {
+      transform: scale(1.3);
+    }
+  }
+}

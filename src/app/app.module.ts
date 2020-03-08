@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ApplicationFrameModule} from './widget-modules/application-frame/application-frame.module';
+import {ApplicationFrameModule} from './widget-modules/components/application-frame/application-frame.module';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';

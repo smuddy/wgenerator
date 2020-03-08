@@ -32,14 +32,5 @@ export class TextRenderingService {
   constructor() {
   }
 
-  public render(text: string): Section[] {
-    const lines = text.match(/[^\r\n]+/g);
-
-
-  }
-
-  private findSection(line: string) {
-
-  }
 
 }

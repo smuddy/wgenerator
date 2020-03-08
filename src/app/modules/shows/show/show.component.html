@@ -1,0 +1,7 @@
+<div *ngIf="(show$|async) as show">
+  <app-card
+    heading="{{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}}">
+
+
+  </app-card>
+</div>
