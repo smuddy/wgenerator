@@ -11,11 +11,11 @@ export class FilterComponent {
   constructor(private router: Router) {
   }
 
-  public onInputChange(text: string): void {
+  public async onInputChange(text: string): Promise<void> {
     const route = text
       ? this.router.createUrlTree(['songs'], {queryParams: {q: text}})
       : this.router.createUrlTree(['songs']);
 
-    this.router.navigateByUrl(route);
+    await this.router.navigateByUrl(route);
   }
 }

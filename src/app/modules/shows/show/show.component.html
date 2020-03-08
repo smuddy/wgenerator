@@ -2,8 +2,17 @@
   <app-card
     heading="{{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}}">
 
-    <div class="add-row">
-      <mat-form-field *ngIf="(songs$|async) as songs" appearance="outline">
+    <div *ngIf="showSongs" class="song-list">
+      <app-song *ngFor="let song of showSongs"
+                [showId]="showId"
+                [showSongId]="song.id"
+                [showSongs]="showSongs"
+                [song]="getSong(songs, song.songId)"
+      ></app-song>
+    </div>
+
+    <div *ngIf="songs" class="add-row">
+      <mat-form-field appearance="outline">
         <mat-label>Lied hinzufügen...</mat-label>
         <mat-select (selectionChange)="onAddSongSelectionChanged($event)">
           <mat-option *ngFor="let song of songs" [value]="song.id">{{song.title}}</mat-option>

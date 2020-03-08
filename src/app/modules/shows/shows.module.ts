@@ -18,10 +18,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {ShowTypeTranslaterModule} from '../../widget-modules/pipes/show-type-translater/show-type-translater.module';
 import {MatNativeDateModule} from '@angular/material/core';
 import {ShowComponent} from './show/show.component';
+import {SongComponent} from './show/song/song.component';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {MenuButtonModule} from '../../widget-modules/components/menu-button/menu-button.module';
 
 
 @NgModule({
-  declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent],
+  declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent],
   imports: [
     CommonModule,
     ShowsRoutingModule,
@@ -36,7 +39,9 @@ import {ShowComponent} from './show/show.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    ShowTypeTranslaterModule
+    ShowTypeTranslaterModule,
+    FontAwesomeModule,
+    MenuButtonModule
   ]
 })
 export class ShowsModule {
