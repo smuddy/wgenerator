@@ -1,0 +1,10 @@
+<div *ngIf="song" class="song">
+  <p>
+    <app-menu-button (click)="reorder(true)" [icon]="faUp"></app-menu-button>
+    <app-menu-button (click)="reorder(false)" [icon]="faDown"></app-menu-button>
+    {{song.title}}</p>
+  <div class="menu">
+    <app-menu-button (click)="onDelete()" [icon]="faDelete"></app-menu-button>
+
+  </div>
+</div>

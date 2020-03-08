@@ -6,11 +6,14 @@ input {
   border: none;
   border-bottom: 1px solid #ccc;
   color: #888;
-  margin-right: 20px;
 
   &:focus {
     outline: none;
     border-bottom: 2px solid @primary-color;
     margin-bottom: -1px;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 100px;
   }
 }

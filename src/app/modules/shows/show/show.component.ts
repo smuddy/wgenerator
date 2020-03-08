@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {ShowService} from '../services/show.service';
 import {Observable} from 'rxjs';
@@ -8,6 +8,7 @@ import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
 import {MatSelectChange} from '@angular/material/select';
 import {ShowSongService} from '../services/show-song.service';
+import {ShowSong} from '../services/showSong';
 
 @Component({
   selector: 'app-show',
@@ -16,8 +17,9 @@ import {ShowSongService} from '../services/show-song.service';
 })
 export class ShowComponent implements OnInit {
   public show$: Observable<Show>;
-  public songs$: Observable<Song[]>;
-  private showId: string;
+  public songs: Song[];
+  public showSongs: ShowSong[];
+  public showId: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -33,23 +35,38 @@ export class ShowComponent implements OnInit {
       tap(_ => this.showId = _),
       switchMap(showId => this.showService.read$(showId))
     );
-    this.songs$ = this.songService.list$().pipe(map(_ => _
-      .filter(_ => !!_.title)
-      .filter(_ => _.title !== 'nicht gefunden')
-      .filter(_ => _.title !== 'nicht vorhanden')
-      .sort((a, b) => {
-        if (a.title < b.title) {
-          return -1;
-        }
-        if (a.title > b.title) {
-          return 1;
-        }
-        return 0;
-      })));
+    this.activatedRoute.params.pipe(
+      map(param => param.showId),
+      switchMap(showId => this.showSongService.list$(showId)),
+      filter(_ => !!_)
+    ).subscribe(_ => this.showSongs = _);
+    this.songService.list$().pipe(
+      map(_ => _
+        .filter(_ => !!_)
+        .filter(_ => !!_.title)
+        .filter(_ => _.title !== 'nicht gefunden')
+        .filter(_ => _.title !== 'nicht vorhanden')
+        .sort((a, b) => {
+          if (a.title < b.title) {
+            return -1;
+          }
+          if (a.title > b.title) {
+            return 1;
+          }
+          return 0;
+        })),
+      filter(_ => !!_)
+    ).subscribe(_ => this.songs = _);
   }
 
   public async onAddSongSelectionChanged(event: MatSelectChange) {
-    await this.showSongService.new$(this.showId, event.value);
+    await this.showSongService.new$(this.showId, event.value, this.showSongs.reduce((oa, u) => Math.max(oa, u.order), 0) + 1);
     event.source.value = null;
+  }
+
+  public getSong(songs: Song[], songId: string): Song {
+    if (!songs) return null;
+    const filtered = songs.filter(_ => _.id === songId);
+    return filtered.length > 0 ? filtered[0] : null;
   }
 }
