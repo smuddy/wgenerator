@@ -1,4 +1,4 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SongComponent} from './song.component';
 import {of} from 'rxjs';
@@ -32,8 +32,4 @@ describe('SongComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should provide songId', fakeAsync(() => {
-    tick();
-    expect(component.songId).toBe('4711');
-  }));
 });
