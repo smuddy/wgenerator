@@ -11,15 +11,12 @@ declare var importCCLI: any;
 })
 export class SongService {
 
-  public TYPES = ['Praise', 'Worship'];
+  public static TYPES = ['Praise', 'Worship'];
 
-  public LEGAL_OWNER = ['CCLI', 'other'];
-  public LEGAL_TYPE = ['open', 'allowed'];
+  public static LEGAL_OWNER = ['CCLI', 'other'];
+  public static LEGAL_TYPE = ['open', 'allowed'];
 
-  public KEYS = [
-    'C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'B', 'H',
-    'c', 'c#', 'db', 'd', 'd#', 'eb', 'e', 'f', 'f#', 'gb', 'g', 'g#', 'ab', 'a', 'a#', 'b', 'h'
-  ];
+
   private list: Song[];
 
   constructor(private songDataService: SongDataService) {

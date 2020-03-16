@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SongService} from '../../../services/song.service';
 import {EditService} from '../edit.service';
 import {first, map, switchMap} from 'rxjs/operators';
+import {KEYS} from '../../../services/key.helper';
 
 @Component({
   selector: 'app-edit-song',
@@ -14,10 +15,10 @@ import {first, map, switchMap} from 'rxjs/operators';
 export class EditSongComponent implements OnInit {
   public song: Song;
   public form: FormGroup;
-  public keys = this.songService.KEYS;
-  public types = this.songService.TYPES;
-  public legalOwner = this.songService.LEGAL_OWNER;
-  public legalType = this.songService.LEGAL_TYPE;
+  public keys = KEYS;
+  public types = SongService.TYPES;
+  public legalOwner = SongService.LEGAL_OWNER;
+  public legalType = SongService.LEGAL_TYPE;
 
   constructor(
     private activatedRoute: ActivatedRoute,

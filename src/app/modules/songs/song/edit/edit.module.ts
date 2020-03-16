@@ -16,6 +16,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {FileComponent} from './edit-file/file/file.component';
 import {LegalOwnerTranslatorModule} from '../../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
 import {LegalTypeTranslatorModule} from '../../../../widget-modules/pipes/legal-type-translator/legal-type-translator.module';
+import {KeyTranslatorModule} from '../../../../widget-modules/pipes/key-translator/key-translator.module';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import {LegalTypeTranslatorModule} from '../../../../widget-modules/pipes/legal-
     MatIconModule,
     LegalOwnerTranslatorModule,
     LegalTypeTranslatorModule,
+    KeyTranslatorModule,
 
   ]
 })

@@ -1,32 +1,51 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Song} from '../../../songs/services/song';
 import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash';
 import {faCaretUp} from '@fortawesome/free-solid-svg-icons/faCaretUp';
 import {faCaretDown} from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import {ShowSongService} from '../../services/show-song.service';
 import {ShowSong} from '../../services/showSong';
+import {getScale} from '../../../songs/services/key.helper';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.less']
 })
-export class SongComponent {
-  @Input() public song: Song;
+export class SongComponent implements OnInit {
+  @Input() public showSong: ShowSong;
+
   @Input() public showId: string;
-  @Input() public showSongId: string;
+  public keys: string[];
   @Input() public showSongs: ShowSong[];
   public faDelete = faTrash;
   public faUp = faCaretUp;
   public faDown = faCaretDown;
+  public keyFormControl: FormControl;
+
+  public _song: Song;
+
+  @Input()
+  public set song(song: Song) {
+    this._song = song;
+    this.keys = !!song ? getScale(song.key) : [];
+  };
 
   constructor(
     private showSongService: ShowSongService,
   ) {
   }
 
+  public ngOnInit(): void {
+    this.keyFormControl = new FormControl(this.showSong.key);
+    this.keyFormControl.valueChanges.subscribe(async value => {
+      await this.showSongService.update$(this.showId, this.showSong.id, {key: value});
+    })
+  }
+
   public async onDelete(): Promise<void> {
-    await this.showSongService.delete$(this.showId, this.showSongId);
+    await this.showSongService.delete$(this.showId, this.showSong.id);
   }
 
 
