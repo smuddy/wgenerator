@@ -7,8 +7,7 @@ export enum SectionType {
 }
 
 export enum LineType {
-  title,
-  chrod,
+  chord,
   text,
 }
 
@@ -49,7 +48,7 @@ export class TextRenderingService {
 
   private getLineOfLineText(text: string): Line {
     const matches = !!text.match(this.regexChords);
-    const type = matches ? LineType.chrod : LineType.text;
+    const type = matches ? LineType.chord : LineType.text;
     return {type, text}
   }
 
