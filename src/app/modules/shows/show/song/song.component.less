@@ -1,13 +1,49 @@
 .song {
   border-bottom: 1px solid #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 20px 20px auto 70px 25px;
+  @media screen and (max-width: 860px) {
+    grid-template-columns: 40px 40px auto 70px 45px;
+  }
+  grid-template-areas: "up down title keys delete";
+
+  & > * {
+    display: flex;
+    align-items: center;
+  }
+
+  overflow: hidden;
+}
+
+mat-form-field {
+  width: 40px;
+  margin: -24px 0 -20px 0;
+}
+
+.btnUp {
+  grid-area: up;
+}
+
+.btnDown {
+  grid-area: down;
+}
+
+.title {
+  grid-area: title;
+}
+
+.keys {
+  grid-area: keys;
+  justify-content: flex-end;
+}
+
+.btnDelete {
+  grid-area: delete;
+  justify-content: flex-end;
 }
 
 .menu {
   display: flex;
-
 }
 
 button {

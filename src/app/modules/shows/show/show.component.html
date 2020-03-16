@@ -5,7 +5,7 @@
     <div *ngIf="showSongs" class="song-list">
       <app-song *ngFor="let song of showSongs"
                 [showId]="showId"
-                [showSongId]="song.id"
+                [showSong]="song"
                 [showSongs]="showSongs"
                 [song]="getSong(songs, song.songId)"
       ></app-song>

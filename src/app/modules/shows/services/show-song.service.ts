@@ -2,17 +2,23 @@ import {Injectable} from '@angular/core';
 import {ShowSongDataService} from './show-song-data.service';
 import {Observable} from 'rxjs';
 import {ShowSong} from './showSong';
+import {SongDataService} from '../../songs/services/song-data.service';
+import {take} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShowSongService {
 
-  constructor(private showSongDataService: ShowSongDataService) {
+  constructor(
+    private showSongDataService: ShowSongDataService,
+    private songDataService: SongDataService
+  ) {
   }
 
   public async new$(showId: string, songId: string, order: number): Promise<string> {
-    const data = {songId, order};
+    const song = await this.songDataService.read$(songId).pipe(take(1)).toPromise();
+    const data = {songId, order, key: song.key, keyOriginal: song.key};
     return await this.showSongDataService.add(showId, data);
   }
 

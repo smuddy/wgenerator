@@ -1,10 +1,14 @@
-<div *ngIf="song" class="song">
-  <p>
-    <app-menu-button (click)="reorder(true)" [icon]="faUp"></app-menu-button>
-    <app-menu-button (click)="reorder(false)" [icon]="faDown"></app-menu-button>
-    {{song.title}}</p>
-  <div class="menu">
-    <app-menu-button (click)="onDelete()" [icon]="faDelete"></app-menu-button>
-
-  </div>
+<div *ngIf="_song" class="song">
+  <app-menu-button (click)="reorder(true)" [icon]="faUp" class="btnUp"></app-menu-button>
+  <app-menu-button (click)="reorder(false)" [icon]="faDown" class="btnDown"></app-menu-button>
+  <span class="title">{{_song.title}}</span>
+  <span class="keys">
+    <span *ngIf="showSong.keyOriginal!==showSong.key">{{showSong.keyOriginal}}&nbsp;→&nbsp;</span>
+    <mat-form-field *ngIf="keys" appearance="standard">
+        <mat-select [formControl]="keyFormControl">
+          <mat-option *ngFor="let key of keys" [value]="key">{{key}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  </span>
+  <app-menu-button (click)="onDelete()" [icon]="faDelete" class="btnDelete"></app-menu-button>
 </div>
