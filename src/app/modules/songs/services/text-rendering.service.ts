@@ -28,15 +28,15 @@ export interface Section {
 })
 export class TextRenderingService {
 
-  constructor() {
-  }
-
   private regexSection = /(Strophe|Refrain|Bridge)/;
   private regexChords = /\b([CDEFGAHBcdefgahb](#|##|b|bb|sus|maj|maj7|min|aug|\d+|\/[CDEFGAHBcdefgahb])?\b)/;
 
+  constructor() {
+  }
+
   public parse(text: string): Section[] {
     const arrayOfLines = text.split(/\r?\n/).filter(_ => _);
-    const sections = arrayOfLines.reduce((array, line) => {
+    return arrayOfLines.reduce((array, line) => {
       if (line.match(this.regexSection)) return [...array, {
         type: this.getSectionTypeOfLine(line),
         number: -1,
@@ -45,8 +45,6 @@ export class TextRenderingService {
       array[array.length - 1].lines.push(this.getLineOfLineText(line));
       return array;
     }, [] as Section[]);
-
-    return sections;
   }
 
   private getLineOfLineText(text: string): Line {
