@@ -24,6 +24,11 @@ export class SongComponent implements OnInit {
   public faDown = faCaretDown;
   public keyFormControl: FormControl;
 
+  constructor(
+    private showSongService: ShowSongService,
+  ) {
+  }
+
   public _song: Song;
 
   @Input()
@@ -31,11 +36,6 @@ export class SongComponent implements OnInit {
     this._song = song;
     this.keys = !!song ? getScale(song.key) : [];
   };
-
-  constructor(
-    private showSongService: ShowSongService,
-  ) {
-  }
 
   public ngOnInit(): void {
     this.keyFormControl = new FormControl(this.showSong.key);
