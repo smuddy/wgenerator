@@ -60,15 +60,15 @@ Cool bridge without any chords
   it('should parse chord lines', () => {
     const service: TextRenderingService = TestBed.get(TextRenderingService);
     const sections = service.parse(testText);
-    expect(sections[0].lines[0].type).toBe(LineType.chrod);
+    expect(sections[0].lines[0].type).toBe(LineType.chord);
     expect(sections[0].lines[0].text).toBe('C D E F G A H');
-    expect(sections[0].lines[2].type).toBe(LineType.chrod);
+    expect(sections[0].lines[2].type).toBe(LineType.chord);
     expect(sections[0].lines[2].text).toBe(' a d e f g a h c b');
-    expect(sections[1].lines[0].type).toBe(LineType.chrod);
+    expect(sections[1].lines[0].type).toBe(LineType.chord);
     expect(sections[1].lines[0].text).toBe('C D E F G A H');
-    expect(sections[1].lines[2].type).toBe(LineType.chrod);
+    expect(sections[1].lines[2].type).toBe(LineType.chord);
     expect(sections[1].lines[2].text).toBe(' a d e f g a h c b');
-    expect(sections[2].lines[0].type).toBe(LineType.chrod);
+    expect(sections[2].lines[0].type).toBe(LineType.chord);
     expect(sections[2].lines[0].text).toBe('c# cb c7 cmaj7 c/e');
   });
 });
