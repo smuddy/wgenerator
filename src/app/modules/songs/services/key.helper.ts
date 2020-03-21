@@ -1,7 +1,8 @@
 export const KEYS = [
-  'C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'B', 'H',
-  'c', 'c#', 'db', 'd', 'd#', 'eb', 'e', 'f', 'f#', 'gb', 'g', 'g#', 'ab', 'a', 'a#', 'b', 'h'
+  'C#', 'C', 'Db', 'D#', 'D', 'Eb', 'E', 'F#', 'F', 'Gb', 'G#', 'G', 'Ab', 'A#', 'A', 'B', 'H',
+  'c#', 'c', 'db', 'd#', 'd', 'eb', 'e', 'f#', 'f', 'gb', 'g#', 'g', 'ab', 'a#', 'a', 'b', 'h'
 ];
+export const KEYS_REGEX = new RegExp('(' + KEYS.reduce((a, b) => a + '|' + b) + ')', 'gm');
 export const KEYS_MAJOR_FLAT = [
   'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'H',
 ];

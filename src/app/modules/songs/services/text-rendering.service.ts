@@ -11,9 +11,18 @@ export enum LineType {
   text,
 }
 
+export interface Chord {
+  chord: string;
+  length: number;
+  position: number;
+  slashChord?: string;
+  add?: string;
+}
+
 export interface Line {
   type: LineType;
   text: string;
+  chords?: Chord[]
 }
 
 export interface Section {
@@ -27,8 +36,8 @@ export interface Section {
 })
 export class TextRenderingService {
 
+
   private regexSection = /(Strophe|Refrain|Bridge)/;
-  private regexChords = /\b([CDEFGAHBcdefgahb](#|##|b|bb|sus|maj|maj7|min|aug|\d+|\/[CDEFGAHBcdefgahb])?\b)/;
 
   constructor() {
   }
@@ -47,9 +56,13 @@ export class TextRenderingService {
   }
 
   private getLineOfLineText(text: string): Line {
-    const matches = !!text.match(this.regexChords);
-    const type = matches ? LineType.chord : LineType.text;
-    return {type, text}
+    const regex = /\b(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?.?\b/mg;
+
+    const match = text.match(regex);
+    const hasMatches = !!match;
+    const type = hasMatches ? LineType.chord : LineType.text;
+
+    return {type, text, chords: hasMatches ? this.readChords(text) : undefined}
   }
 
   private getSectionTypeOfLine(line: string): SectionType {
@@ -62,6 +75,26 @@ export class TextRenderingService {
       case  "Bridge":
         return SectionType.Bridge;
     }
+  }
+
+  private readChords(chordLine: string): Chord[] {
+    let match;
+    const chords: Chord[] = [];
+
+    const regex = /\b(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?.?\b/mg;
+
+    while ((match = regex.exec(chordLine)) !== null) {
+      const chord: Chord = {
+        chord: match[1],
+        length: match[0].length,
+        position: regex.lastIndex - match[0].length,
+      };
+      if (match[3]) chord.slashChord = match[3];
+      if (match[4]) chord.add = match[4];
+
+      chords.push(chord);
+    }
+    return chords;
   }
 
 }
