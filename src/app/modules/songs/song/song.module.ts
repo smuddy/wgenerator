@@ -7,6 +7,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {ButtonRowModule} from '../../../widget-modules/components/button-row/button-row.module';
 import {RouterModule} from '@angular/router';
 import {LegalOwnerTranslatorModule} from '../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
+import {SongTextModule} from '../../../widget-modules/components/song-text/song-text.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {LegalOwnerTranslatorModule} from '../../../widget-modules/pipes/legal-ow
     MatButtonModule,
     ButtonRowModule,
     LegalOwnerTranslatorModule,
+    SongTextModule,
   ]
 })
 export class SongModule {

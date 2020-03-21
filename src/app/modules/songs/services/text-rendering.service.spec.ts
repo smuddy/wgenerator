@@ -35,9 +35,13 @@ Cool bridge without any chords
     const service: TextRenderingService = TestBed.get(TextRenderingService);
     const sections = service.parse(testText);
     expect(sections[0].type).toBe(SectionType.Verse);
+    expect(sections[0].number).toBe(0);
     expect(sections[1].type).toBe(SectionType.Verse);
+    expect(sections[1].number).toBe(1);
     expect(sections[2].type).toBe(SectionType.Chorus);
+    expect(sections[2].number).toBe(0);
     expect(sections[3].type).toBe(SectionType.Bridge);
+    expect(sections[3].number).toBe(0);
   });
 
   it('should parse text lines', () => {
@@ -60,6 +64,7 @@ Cool bridge without any chords
   it('should parse chord lines', () => {
     const service: TextRenderingService = TestBed.get(TextRenderingService);
     const sections = service.parse(testText);
+    console.log(sections);
     expect(sections[0].lines[0].type).toBe(LineType.chord);
     expect(sections[0].lines[0].text).toBe('C D E F G A H');
     expect(sections[0].lines[2].type).toBe(LineType.chord);
@@ -72,7 +77,6 @@ Cool bridge without any chords
     expect(sections[2].lines[0].text).toBe('c c# db c7   cmaj7    c/e');
 
     // c c# db c7   cmaj7    c/e
-    console.log(sections[2].lines[0].chords);
     expect(sections[2].lines[0].chords).toEqual([
       {chord: 'c', length: 2, position: 0},
       {chord: 'c#', length: 3, position: 2},

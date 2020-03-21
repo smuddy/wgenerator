@@ -15,7 +15,10 @@
         </div>
       </div>
 
-      <div class="text">{{song.text}}</div>
+      <!-- <div class="text">{{song.text}}</div>-->
+      <app-song-text [text]="song.text"></app-song-text>
+
+
       <div class="text">{{song.comment}}</div>
       <div>
         <h3>Anhänge</h3>

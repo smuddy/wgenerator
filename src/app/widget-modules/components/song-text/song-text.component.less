@@ -1,0 +1,48 @@
+.song-text {
+  white-space: pre-wrap;
+  position: relative;
+
+  &.chords {
+    font-family: 'Ubuntu Mono', monospace;
+  }
+
+  &:hover .menu {
+    opacity: 1;
+  }
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  background: #eee;
+  border-radius: 8px;
+  padding: 5px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 300ms all ease-in-out;
+  cursor: pointer;
+  opacity: 0;
+
+  &:hover {
+    background: #ddd;
+  }
+
+
+}
+
+.section {
+  margin-bottom: 20px;
+  border-left: 3px solid #ddd;
+}
+
+.chorus {
+  margin-left: 20px;
+  border-left: none;
+}
+
+.chord {
+  font-weight: bold;
+}
