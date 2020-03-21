@@ -35,8 +35,6 @@ export interface Section {
   providedIn: 'root'
 })
 export class TextRenderingService {
-
-
   private regexSection = /(Strophe|Refrain|Bridge)/;
 
   constructor() {
@@ -44,29 +42,40 @@ export class TextRenderingService {
 
   public parse(text: string): Section[] {
     const arrayOfLines = text.split(/\r?\n/).filter(_ => _);
-    return arrayOfLines.reduce((array, line) => {
+    const indices = {
+      [SectionType.Bridge]: 0,
+      [SectionType.Chorus]: 0,
+      [SectionType.Verse]: 0,
+    };
+    const sections = arrayOfLines.reduce((array, line) => {
+      const type = this.getSectionTypeOfLine(line);
       if (line.match(this.regexSection)) return [...array, {
-        type: this.getSectionTypeOfLine(line),
-        number: -1,
+        type: type,
+        number: indices[type]++,
         lines: []
       }];
       array[array.length - 1].lines.push(this.getLineOfLineText(line));
       return array;
     }, [] as Section[]);
+    console.log(indices);
+
+    return sections;
   }
 
   private getLineOfLineText(text: string): Line {
-    const regex = /\b(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?.?\b/mg;
-
-    const match = text.match(regex);
-    const hasMatches = !!match;
+    if (!text) return null;
+    const cords = this.readChords(text);
+    const hasMatches = cords.length > 0;
     const type = hasMatches ? LineType.chord : LineType.text;
 
-    return {type, text, chords: hasMatches ? this.readChords(text) : undefined}
+    return {type, text, chords: hasMatches ? cords : undefined}
   }
 
   private getSectionTypeOfLine(line: string): SectionType {
-    const typeString = line.match(this.regexSection)[1];
+    if (!line) return null;
+    const match = line.match(this.regexSection);
+    if (!match || match.length < 2) return null;
+    const typeString = match[1];
     switch (typeString) {
       case  "Strophe":
         return SectionType.Verse;
@@ -81,7 +90,8 @@ export class TextRenderingService {
     let match;
     const chords: Chord[] = [];
 
-    const regex = /\b(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?.?\b/mg;
+    // https://regex101.com/r/68jMB8/3
+    const regex = /\b(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?\s?\b/mg;
 
     while ((match = regex.exec(chordLine)) !== null) {
       const chord: Chord = {
