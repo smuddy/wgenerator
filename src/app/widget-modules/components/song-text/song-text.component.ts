@@ -64,4 +64,5 @@ export class SongTextComponent implements OnInit {
         return 'show';
     }
   }
+
 }
