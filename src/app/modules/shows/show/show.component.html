@@ -2,12 +2,12 @@
   <app-card
     heading="{{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}}">
 
-    <div *ngIf="showSongs" class="song-list">
+    <div *ngIf="showSongs && songs" class="song-list">
       <app-song *ngFor="let song of showSongs"
                 [showId]="showId"
                 [showSong]="song"
                 [showSongs]="showSongs"
-                [song]="getSong(songs, song.songId)"
+                [song]="getSong(song.songId)"
       ></app-song>
     </div>
 

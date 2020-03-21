@@ -64,9 +64,8 @@ export class ShowComponent implements OnInit {
     event.source.value = null;
   }
 
-  public getSong(songs: Song[], songId: string): Song {
-    if (!songs) return null;
-    const filtered = songs.filter(_ => _.id === songId);
+  public getSong(songId: string): Song {
+    const filtered = this.songs.filter(_ => _.id === songId);
     return filtered.length > 0 ? filtered[0] : null;
   }
 }
