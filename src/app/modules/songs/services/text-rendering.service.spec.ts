@@ -16,7 +16,7 @@ Text Line 1-2
 Text Line 2-2
 
 Refrain
-c# cb c7 cmaj7 c/e
+c c# db c7   cmaj7    c/e
 and the chorus
 
 Bridge
@@ -69,6 +69,17 @@ Cool bridge without any chords
     expect(sections[1].lines[2].type).toBe(LineType.chord);
     expect(sections[1].lines[2].text).toBe(' a d e f g a h c b');
     expect(sections[2].lines[0].type).toBe(LineType.chord);
-    expect(sections[2].lines[0].text).toBe('c# cb c7 cmaj7 c/e');
+    expect(sections[2].lines[0].text).toBe('c c# db c7   cmaj7    c/e');
+
+    // c c# db c7   cmaj7    c/e
+    console.log(sections[2].lines[0].chords);
+    expect(sections[2].lines[0].chords).toEqual([
+      {chord: 'c', length: 2, position: 0},
+      {chord: 'c#', length: 3, position: 2},
+      {chord: 'db', length: 3, position: 5},
+      {chord: 'c', length: 2, position: 8, add: '7'},
+      {chord: 'c', length: 5, position: 13, add: 'maj7'},
+      {chord: 'c', length: 3, position: 22, slashChord: 'e'},
+    ]);
   });
 });
