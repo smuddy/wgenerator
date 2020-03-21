@@ -54,7 +54,7 @@ export class SongComponent implements OnInit {
   }
 
   public async reorderUp(): Promise<void> {
-    const index = this.showSongs.findIndex(_ => _.songId === this.song.id);
+    const index = this.showSongs.findIndex(_ => _.songId === this._song.id);
     if (index === 0) return;
 
     const song = this.showSongs[index];
@@ -65,7 +65,7 @@ export class SongComponent implements OnInit {
   }
 
   public async reorderDown(): Promise<void> {
-    const index = this.showSongs.findIndex(_ => _.songId === this.song.id);
+    const index = this.showSongs.findIndex(_ => _.songId === this._song.id);
     if (index === this.showSongs.length - 1) return;
 
     const song = this.showSongs[index];
