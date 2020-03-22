@@ -1,4 +1,4 @@
-<div *ngIf="_song" class="row">
+<div *ngIf="_song">
   <div class="song">
     <app-menu-button (click)="reorder(true)" [icon]="faUp" class="btnUp"></app-menu-button>
     <app-menu-button (click)="reorder(false)" [icon]="faDown" class="btnDown"></app-menu-button>
