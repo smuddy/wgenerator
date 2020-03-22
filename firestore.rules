@@ -7,21 +7,22 @@ service cloud.firestore {
     }
 
     match /songs/{song} {
-      allow read: if true;
-      allow write: if true;
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null;
     }
     match /songs/{song}/files/{file} {
-      allow read: if true;
-      allow write: if true;
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null;
     }
     match /shows/{show} {
-      allow read: if true;
-      allow write: if true;
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null;
     }
     match /shows/{show}/songs/{song} {
-      allow read: if true;
-      allow write: if true;
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null;
     }
 
   }
 }
+
