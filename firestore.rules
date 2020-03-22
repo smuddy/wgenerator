@@ -2,8 +2,10 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /user/{user} {
-      allow read: if true;
+      allow read: if resource.id == request.auth.uid;
+      allow write: if resource.id == request.auth.uid;
     }
+
     match /songs/{song} {
       allow read: if true;
       allow write: if true;
@@ -20,6 +22,6 @@ service cloud.firestore {
       allow read: if true;
       allow write: if true;
     }
+
   }
 }
-
