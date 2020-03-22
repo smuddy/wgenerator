@@ -1,12 +1,10 @@
-<div [class.chords]="_chordMode!=='hide'" class="song-text">
+<div (click)="onClick()" [class.chords]="_chordMode!=='hide'" class="song-text">
 
   <div (click)="onChordClick()" class="menu">
     <fa-icon [icon]="faLines"></fa-icon>
   </div>
 
   <div *ngFor="let section of sections" [class.chorus]="section.type===1" class="section">
-    <div *ngFor="let line of getLines(section)" [class.chord]="line.type===0" class="line">
-      {{line.text}}
-    </div>
+    <div *ngFor="let line of getLines(section)" [class.chord]="line.type===0" class="line">{{line.text}}</div>
   </div>
 </div>
