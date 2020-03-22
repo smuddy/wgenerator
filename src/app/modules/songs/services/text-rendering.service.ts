@@ -57,7 +57,6 @@ export class TextRenderingService {
       array[array.length - 1].lines.push(this.getLineOfLineText(line));
       return array;
     }, [] as Section[]);
-    console.log(indices);
 
     return sections;
   }
@@ -90,8 +89,8 @@ export class TextRenderingService {
     let match;
     const chords: Chord[] = [];
 
-    // https://regex101.com/r/68jMB8/3
-    const regex = /\b(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?\s?\b/mg;
+    // https://regex101.com/r/68jMB8/5
+    const regex = /\b(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?\b\s/mg;
 
     while ((match = regex.exec(chordLine)) !== null) {
       const chord: Chord = {

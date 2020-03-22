@@ -20,6 +20,7 @@ export class ShowComponent implements OnInit {
   public songs: Song[];
   public showSongs: ShowSong[];
   public showId: string;
+  public showText: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,

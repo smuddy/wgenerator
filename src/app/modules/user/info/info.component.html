@@ -1,6 +1,18 @@
 <app-card *ngIf="user$|async as user">
   <h2>Hallo {{user.name}}</h2>
   <p>{{user.role|role}}</p>
+
+  <mat-form-field appearance="outline">
+    <mat-label>bevorzugte Anzeige der Akkorde</mat-label>
+    <mat-select (ngModelChange)="onChordModeChanged(user.id, $event)" [ngModel]="user.chordMode">
+      <mat-option [value]="null"></mat-option>
+      <mat-option value="hide">nur den Liedtext anzeigen</mat-option>
+      <mat-option value="onlyFirst">in Strophen die Akkorde nur für die erste anzeigen</mat-option>
+      <mat-option value="show">alle azeigen</mat-option>
+    </mat-select>
+    <mat-hint>Das ist nur die Voreinstellung, die Anzeige kann für jedes Lied geändert werden.</mat-hint>
+  </mat-form-field>
+
   <app-button-row>
     <button mat-button routerLink="../logout">Abmelden</button>
   </app-button-row>

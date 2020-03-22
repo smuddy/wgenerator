@@ -5,7 +5,7 @@ import {ShowsRoutingModule} from './shows-routing.module';
 import {NewComponent} from './new/new.component';
 import {CardModule} from '../../widget-modules/components/card/card.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {ListComponent} from './list/list.component';
 import {ListItemComponent} from './list/list-item/list-item.component';
@@ -21,6 +21,7 @@ import {ShowComponent} from './show/show.component';
 import {SongComponent} from './show/song/song.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MenuButtonModule} from '../../widget-modules/components/menu-button/menu-button.module';
+import {SongTextModule} from '../../widget-modules/components/song-text/song-text.module';
 
 
 @NgModule({
@@ -41,7 +42,9 @@ import {MenuButtonModule} from '../../widget-modules/components/menu-button/menu
     MatSelectModule,
     ShowTypeTranslaterModule,
     FontAwesomeModule,
-    MenuButtonModule
+    MenuButtonModule,
+    FormsModule,
+    SongTextModule
   ]
 })
 export class ShowsModule {

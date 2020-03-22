@@ -41,7 +41,7 @@ export class EditSongComponent implements OnInit {
 
   public async onSave(): Promise<void> {
     const data = this.form.value;
-    await this.songService.update(this.song.id, data);
+    await this.songService.update$(this.song.id, data);
     await this.router.navigateByUrl('songs/' + this.song.id);
   }
 

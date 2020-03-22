@@ -12,6 +12,6 @@ export class SongDataService {
 
   public list$ = (): Observable<Song[]> => this.dbService.col$('songs');
   public read$ = (songId: string): Observable<Song | undefined> => this.dbService.doc$('songs/' + songId);
-  public update = async (songId: string, data: any): Promise<void> => await this.dbService.doc('songs/' + songId).update(data);
+  public update$ = async (songId: string, data: any): Promise<void> => await this.dbService.doc('songs/' + songId).update(data);
 }
 
