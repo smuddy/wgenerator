@@ -26,8 +26,8 @@ export class SongService {
   public list$ = (): Observable<Song[]> => this.songDataService.list$().pipe(tap(_ => this.list = _));
   public read = (songId: string): Observable<Song | undefined> => this.songDataService.read$(songId);
 
-  public async update(songId: string, data: any): Promise<void> {
-    await this.songDataService.update(songId, data);
+  public async update$(songId: string, data: Partial<Song>): Promise<void> {
+    await this.songDataService.update$(songId, data);
   }
 
 // https://www.csvjson.com/csv2json
@@ -48,11 +48,12 @@ export class SongService {
       if (mappedSongs.length === 1) {
         const mappedSong = mappedSongs[0];
         const id = _.id;
-        return await this.update(id, mappedSong);
+        return await this.update$(id, mappedSong);
       }
     });
 
     await Promise.all(promises);
   }
+
 
 }

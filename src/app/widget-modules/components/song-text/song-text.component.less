@@ -2,8 +2,22 @@
   white-space: pre-wrap;
   position: relative;
 
+
   &.chords {
     font-family: 'Ubuntu Mono', monospace;
+
+    @media screen and (max-width: 600px) {
+      font-size: 11px;
+    }
+    @media screen and (max-width: 500px) {
+      font-size: 9px;
+    }
+    @media screen and (max-width: 400px) {
+      font-size: 8px;
+    }
+    @media screen and (max-width: 350px) {
+      font-size: 7px;
+    }
   }
 
   &:hover .menu {

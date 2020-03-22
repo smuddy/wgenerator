@@ -15,10 +15,12 @@ import {FormControl} from '@angular/forms';
 })
 export class SongComponent implements OnInit {
   @Input() public showSong: ShowSong;
-
-  @Input() public showId: string;
-  public keys: string[];
   @Input() public showSongs: ShowSong[];
+  @Input() public showId: string;
+  @Input() public showText: boolean;
+
+
+  public keys: string[];
   public faDelete = faTrash;
   public faUp = faCaretUp;
   public faDown = faCaretDown;

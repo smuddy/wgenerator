@@ -18,4 +18,8 @@ export class UserService {
       switchMap(auth => this.db.doc$<User>('user/' + auth.uid))
     );
   }
+
+  public async update$(uid: string, data: Partial<User>): Promise<void> {
+    await this.db.doc<User>('user/' + uid).update(data);
+  }
 }

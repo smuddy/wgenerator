@@ -2,12 +2,15 @@
   <app-card
     heading="{{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}}">
 
+    <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
+
     <div *ngIf="showSongs && songs" class="song-list">
       <app-song *ngFor="let song of showSongs"
                 [showId]="showId"
                 [showSong]="song"
                 [showSongs]="showSongs"
                 [song]="getSong(song.songId)"
+                [showText]="showText"
       ></app-song>
     </div>
 
