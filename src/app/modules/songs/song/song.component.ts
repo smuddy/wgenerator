@@ -17,7 +17,7 @@ import {User} from '../../../services/user';
 export class SongComponent implements OnInit {
   public song$: Observable<Song>;
   public files$: Observable<File[]>;
-  private user$: Observable<User>;
+  public user$: Observable<User>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
