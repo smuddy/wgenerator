@@ -5,7 +5,7 @@
     <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
 
     <div *ngIf="showSongs && songs" class="song-list">
-      <app-song *ngFor="let song of showSongs"
+      <app-song *ngFor="let song of showSongs" class="song-row"
                 [showId]="showId"
                 [showSong]="song"
                 [showSongs]="showSongs"
