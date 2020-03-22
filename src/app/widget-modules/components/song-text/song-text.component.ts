@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   Line,
   LineType,
@@ -26,7 +26,7 @@ export class SongTextComponent implements OnInit {
   @Output() public chordModeChanged = new EventEmitter<ChordMode>();
   public faLines = faGripLines;
 
-  constructor(private textRenderingService: TextRenderingService) {
+  constructor(private textRenderingService: TextRenderingService, private elRef: ElementRef) {
   }
 
   @Input()
@@ -71,4 +71,7 @@ export class SongTextComponent implements OnInit {
     }
   }
 
+  public onClick() {
+    scrollTo(0, this.elRef.nativeElement.offsetTop - 20);
+  }
 }
