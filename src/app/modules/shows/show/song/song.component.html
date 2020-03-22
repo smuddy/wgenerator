@@ -13,5 +13,6 @@
   </span>
     <app-menu-button (click)="onDelete()" [icon]="faDelete" class="btnDelete"></app-menu-button>
   </div>
-  <app-song-text *ngIf="showText" [text]="_song.text"></app-song-text>
+  <app-song-text (chordModeChanged)="onChordModeChanged($event)" *ngIf="showText" [chordMode]="showSong.chordMode"
+                 [text]="_song.text"></app-song-text>
 </div>

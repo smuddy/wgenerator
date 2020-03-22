@@ -6,6 +6,8 @@ import {Song} from '../services/song';
 import {Observable} from 'rxjs';
 import {FileDataService} from '../services/file-data.service';
 import {File} from '../services/file';
+import {UserService} from '../../../services/user.service';
+import {User} from '../../../services/user';
 
 @Component({
   selector: 'app-song',
@@ -15,12 +17,15 @@ import {File} from '../services/file';
 export class SongComponent implements OnInit {
   public song$: Observable<Song>;
   public files$: Observable<File[]>;
+  private user$: Observable<User>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private songService: SongService,
     private fileService: FileDataService,
+    private userService: UserService,
   ) {
+    this.user$ = userService.user$;
   }
 
   public ngOnInit(): void {

@@ -17,7 +17,12 @@ export type ChordMode = 'show' | 'hide' | 'onlyFirst'
 })
 export class SongTextComponent implements OnInit {
   public sections: Section[];
-  public chordMode: ChordMode = 'hide';
+  public _chordMode: ChordMode = 'hide';
+  @Input()
+  public set chordMode(value: ChordMode) {
+    this._chordMode = value ?? 'hide';
+  }
+
   @Output() public chordModeChanged = new EventEmitter<ChordMode>();
   public faLines = faGripLines;
 
@@ -37,7 +42,7 @@ export class SongTextComponent implements OnInit {
     return section.lines.filter(_ => {
       if (_.type !== LineType.chord) return true;
 
-      switch (this.chordMode) {
+      switch (this._chordMode) {
         case 'show':
           return true;
         case 'hide':
@@ -50,12 +55,13 @@ export class SongTextComponent implements OnInit {
 
   public onChordClick(): void {
     const next = this.getNextChordMode();
+
     this.chordMode = next;
-    this.chordModeChanged.next(next);
+    this.chordModeChanged.emit(next);
   }
 
   private getNextChordMode(): ChordMode {
-    switch (this.chordMode) {
+    switch (this._chordMode) {
       case 'show':
         return 'hide';
       case 'hide':

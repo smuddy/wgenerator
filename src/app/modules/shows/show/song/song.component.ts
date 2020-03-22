@@ -7,6 +7,7 @@ import {ShowSongService} from '../../services/show-song.service';
 import {ShowSong} from '../../services/showSong';
 import {getScale} from '../../../songs/services/key.helper';
 import {FormControl} from '@angular/forms';
+import {ChordMode} from '../../../../widget-modules/components/song-text/song-text.component';
 
 @Component({
   selector: 'app-song',
@@ -77,5 +78,7 @@ export class SongComponent implements OnInit {
     await this.showSongService.update$(this.showId, toggleSong.id, {order: song.order});
   }
 
-
+  public async onChordModeChanged(value: ChordMode): Promise<void> {
+    await this.showSongService.update$(this.showId, this.showSong.id, {chordMode: value});
+  }
 }

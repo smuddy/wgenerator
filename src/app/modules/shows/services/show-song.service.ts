@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {ShowSong} from './showSong';
 import {SongDataService} from '../../songs/services/song-data.service';
 import {take} from 'rxjs/operators';
+import {UserService} from '../../../services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,15 @@ export class ShowSongService {
 
   constructor(
     private showSongDataService: ShowSongDataService,
-    private songDataService: SongDataService
+    private songDataService: SongDataService,
+    private userService: UserService,
   ) {
   }
 
   public async new$(showId: string, songId: string, order: number): Promise<string> {
     const song = await this.songDataService.read$(songId).pipe(take(1)).toPromise();
-    const data = {songId, order, key: song.key, keyOriginal: song.key};
+    const user = await this.userService.user$.pipe(take(1)).toPromise();
+    const data: Partial<ShowSong> = {songId, order, key: song.key, keyOriginal: song.key, chordMode: user.chordMode};
     return await this.showSongDataService.add(showId, data);
   }
 
