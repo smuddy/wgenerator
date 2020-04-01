@@ -14,6 +14,7 @@ import {Song} from '../../songs/services/song';
 export class MonitorComponent implements OnInit {
   public song: Song;
   private index: number;
+  private zoom: number;
   private sections: Section[];
 
   constructor(
@@ -29,6 +30,7 @@ export class MonitorComponent implements OnInit {
       map(_ => _.showId),
       switchMap(_ => this.showService.read$(_)),
       tap(_ => this.index = _.presentationSection),
+      tap(_ => this.zoom = _.presentationZoom ?? 30),
       switchMap(_ => this.songService.read(_.presentationSongId))
     ).subscribe(_ => {
       this.song = _;
