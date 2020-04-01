@@ -7,6 +7,9 @@ import {ShowSongService} from '../../shows/services/show-song.service';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
 import {Section, TextRenderingService} from '../../songs/services/text-rendering.service';
+import {faSearchPlus} from '@fortawesome/free-solid-svg-icons/faSearchPlus';
+import {faSearchMinus} from '@fortawesome/free-solid-svg-icons/faSearchMinus';
+import {faDesktop} from '@fortawesome/free-solid-svg-icons/faDesktop';
 
 export interface PresentationSong {
   id: string;
@@ -21,10 +24,14 @@ export interface PresentationSong {
 })
 export class RemoteComponent {
   public shows$: Observable<Show[]>;
-  public show$: Observable<Show>;
+  public show: Show;
   public songs: Song[];
   public presentationSongs: PresentationSong[];
   public currentShowId: string;
+
+  public faZoomIn = faSearchPlus;
+  public faZoomOut = faSearchMinus;
+  public faDesktop = faDesktop;
 
   constructor(
     private showDataService: ShowDataService,
@@ -38,7 +45,7 @@ export class RemoteComponent {
 
   public onShowChanged(change: MatSelectChange): void {
     this.currentShowId = change.value;
-    this.show$ = this.showDataService.read$(change.value);
+    this.showDataService.read$(change.value).subscribe(_ => this.show = _);
     this.showSongService.list$(change.value).subscribe(_ => {
       this.presentationSongs = _
         .map(song => this.songs.filter(f => f.id == song.songId)[0])
@@ -59,5 +66,18 @@ export class RemoteComponent {
       presentationSongId: id,
       presentationSection: index
     })
+  }
+
+  public async onZoomIn() {
+    debugger
+    await this.showDataService.update(this.currentShowId, {
+      presentationZoom: (this.show.presentationZoom ?? 30) + 2,
+    });
+  }
+
+  public async onZoomOut() {
+    await this.showDataService.update(this.currentShowId, {
+      presentationZoom: (this.show.presentationZoom ?? 30) - 2,
+    });
   }
 }

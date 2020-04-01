@@ -10,10 +10,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {ShowTypeTranslaterModule} from '../../widget-modules/pipes/show-type-translater/show-type-translater.module';
 import {SectionTypeTranslatorModule} from '../../widget-modules/pipes/section-type-translator/section-type-translator.module';
 import {SongTextModule} from '../../widget-modules/components/song-text/song-text.module';
+import {LegalComponent} from './monitor/legal/legal.component';
+import {MatButtonModule} from '@angular/material/button';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
-  declarations: [MonitorComponent, RemoteComponent],
+  declarations: [MonitorComponent, RemoteComponent, LegalComponent],
   imports: [
     CommonModule,
     PresentationRoutingModule,
@@ -22,7 +25,9 @@ import {SongTextModule} from '../../widget-modules/components/song-text/song-tex
     MatSelectModule,
     ShowTypeTranslaterModule,
     SectionTypeTranslatorModule,
-    SongTextModule
+    SongTextModule,
+    MatButtonModule,
+    FontAwesomeModule
   ]
 })
 export class PresentationModule {

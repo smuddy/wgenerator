@@ -1,5 +1,6 @@
-<div class="fullscreen">
+<div [style.font-size.px]="zoom" class="fullscreen">
 
   <app-song-text [showSwitch]="false" [text]="song.text" chordMode="hide"></app-song-text>
 
+  <app-legal [song]="song"></app-legal>
 </div>

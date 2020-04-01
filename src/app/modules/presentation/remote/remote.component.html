@@ -11,7 +11,7 @@
 
     <div *ngFor="let song of presentationSongs" class="song">
       <div class="title">{{song.title}}</div>
-      <div *ngIf="show$|async as show" class="song-parts">
+      <div *ngIf="show" class="song-parts">
         <div (click)="onSectionClick(song.id, i)" *ngFor="let section of song.sections; index as i"
              [class.active]="show.presentationSongId===song.id && show.presentationSection===i"
              class="song-part">
@@ -21,8 +21,19 @@
       </div>
     </div>
 
-    <a [routerLink]="'/presentation/monitor/' + currentShowId">Presenter öffnen</a>
+    <div *ngIf="show">
+      <button [routerLink]="'/presentation/monitor/' + currentShowId" mat-icon-button>
+        <fa-icon [icon]="faDesktop"></fa-icon>
+      </button>
 
+      <button (click)="onZoomIn()" mat-icon-button>
+        <fa-icon [icon]="faZoomIn"></fa-icon>
+      </button>
+      {{show.presentationZoom}}px
+      <button (click)="onZoomOut()" mat-icon-button>
+        <fa-icon [icon]="faZoomOut"></fa-icon>
+      </button>
+    </div>
   </app-card>
 
 
