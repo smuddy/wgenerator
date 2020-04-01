@@ -1,0 +1,67 @@
+@import "../../../../styles/shadow";
+
+.song {
+  background: #fffa;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-weight: bold;
+  padding: 0 10px 10px 10px;
+
+}
+
+.song-parts {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  @media screen and (max-width: 860px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  @media screen and (max-width: 660px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  @media screen and (max-width: 460px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  grid-gap: 10px;
+}
+
+.song-part {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: 300ms all ease-in-out;
+  cursor: pointer;
+  .card-1;
+
+  &:hover {
+    .card-2;
+  }
+
+  &.active {
+    .card-5;
+
+    .head {
+      background: #4286f4;
+      color: white;
+      border-bottom: 0.5px solid #4286f4;
+    }
+  }
+}
+
+.head {
+  transition: 300ms all ease-in-out;
+  background: #f4f4f4;
+  border-bottom: 0.5px solid #ddd;
+  padding: 10px;
+  font-weight: bold;
+
+}
+
+.fragment {
+  padding: 10px;
+}

@@ -21,6 +21,12 @@ const routes: Routes = [
     data: {authGuardPipe: () => redirectUnauthorizedTo(['user', 'login'])}
   },
   {
+    path: 'presentation',
+    loadChildren: () => import('./modules/presentation/presentation.module').then(m => m.PresentationModule),
+    canActivate: [AngularFireAuthGuard],
+    data: {authGuardPipe: () => redirectUnauthorizedTo(['user', 'login'])}
+  },
+  {
     path: 'user',
     loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
   }
