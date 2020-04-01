@@ -1,7 +1,6 @@
 import * as firebase from 'firebase';
 import Timestamp = firebase.firestore.Timestamp;
 
-
 export interface Show {
   id: string;
   showType: string;
@@ -9,5 +8,9 @@ export interface Show {
   owner: string;
   public: boolean;
   reported: boolean;
+
+  presentationSongId: string;
+  presentationSection: number;
+
 }
 

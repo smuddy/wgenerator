@@ -1,6 +1,6 @@
 <div (click)="onClick()" [class.chords]="_chordMode!=='hide'" class="song-text">
 
-  <div (click)="onChordClick()" class="menu">
+  <div (click)="onChordClick()" *ngIf="showSwitch" class="menu">
     <fa-icon [icon]="faLines"></fa-icon>
   </div>
 

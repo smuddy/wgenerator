@@ -18,6 +18,7 @@ export type ChordMode = 'show' | 'hide' | 'onlyFirst'
 export class SongTextComponent implements OnInit {
   public sections: Section[];
   public _chordMode: ChordMode = 'hide';
+  @Input() showSwitch = false;
   @Input()
   public set chordMode(value: ChordMode) {
     this._chordMode = value ?? 'hide';
