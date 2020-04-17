@@ -3,7 +3,7 @@
     heading="{{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}} - {{getStatus(show)}}">
     <i *ngIf="show.public">öffentliche Veranstaltung</i>
     <i *ngIf="!show.public">geschlossene Veranstaltung</i>
-    <p>
+    <p *ngIf="!show.published">
       <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
     </p>
     <div *ngIf="showSongs && songs" class="song-list">
@@ -12,11 +12,12 @@
                 [showSongs]="showSongs"
                 [showText]="showText"
                 [song]="getSong(song.songId)"
+                [show]="show"
                 class="song-row"
       ></app-song>
     </div>
 
-    <div *ngIf="songs" class="add-row">
+    <div *ngIf="songs && !show.published" class="add-row">
       <mat-form-field appearance="outline">
         <mat-label>Lied hinzufügen...</mat-label>
         <mat-select (selectionChange)="onAddSongSelectionChanged($event)">

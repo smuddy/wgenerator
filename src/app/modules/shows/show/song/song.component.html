@@ -1,5 +1,7 @@
 <div *ngIf="_song">
-  <div class="song">
+  <div *ngIf="show.published" class="title published">{{_song.title}}</div>
+
+  <div *ngIf="!show.published" class="song">
     <app-menu-button (click)="reorder(true)" [icon]="faUp" class="btnUp"></app-menu-button>
     <app-menu-button (click)="reorder(false)" [icon]="faDown" class="btnDown"></app-menu-button>
     <span class="title">{{_song.title}}</span>
@@ -13,6 +15,7 @@
   </span>
     <app-menu-button (click)="onDelete()" [icon]="faDelete" class="btnDelete"></app-menu-button>
   </div>
-  <app-song-text (chordModeChanged)="onChordModeChanged($event)" *ngIf="showText" [chordMode]="showSong.chordMode"
-                 [showSwitch]="true" [text]="_song.text"></app-song-text>
+  <app-song-text (chordModeChanged)="onChordModeChanged($event)" *ngIf="showText || show.published"
+                 [chordMode]="showSong.chordMode"
+                 [showSwitch]="!show.published" [text]="_song.text"></app-song-text>
 </div>
