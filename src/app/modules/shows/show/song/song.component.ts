@@ -8,6 +8,7 @@ import {ShowSong} from '../../services/showSong';
 import {getScale} from '../../../songs/services/key.helper';
 import {FormControl} from '@angular/forms';
 import {ChordMode} from '../../../../widget-modules/components/song-text/song-text.component';
+import {Show} from '../../services/show';
 
 @Component({
   selector: 'app-song',
@@ -15,6 +16,7 @@ import {ChordMode} from '../../../../widget-modules/components/song-text/song-te
   styleUrls: ['./song.component.less']
 })
 export class SongComponent implements OnInit {
+  @Input() public show: Show;
   @Input() public showSong: ShowSong;
   @Input() public showSongs: ShowSong[];
   @Input() public showId: string;
