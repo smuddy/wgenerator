@@ -24,7 +24,7 @@
           <mat-option *ngFor="let song of songs" [value]="song.id">{{song.title}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <button mat-button>aus Übersicht</button>
+
     </div>
     <app-button-row>
       <button (click)="onArchive(true)" *ngIf="!show.archived" mat-button>Archivieren</button>
