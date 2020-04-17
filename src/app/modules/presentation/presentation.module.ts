@@ -13,6 +13,8 @@ import {SongTextModule} from '../../widget-modules/components/song-text/song-tex
 import {LegalComponent} from './monitor/legal/legal.component';
 import {MatButtonModule} from '@angular/material/button';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {MatSliderModule} from '@angular/material/slider';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     SectionTypeTranslatorModule,
     SongTextModule,
     MatButtonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatSliderModule,
+    FormsModule
   ]
 })
 export class PresentationModule {

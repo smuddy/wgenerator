@@ -16,7 +16,8 @@
       </div>
 
       <!-- <div class="text">{{song.text}}</div>-->
-      <app-song-text *ngIf="user$|async as user" [chordMode]="user.chordMode" [text]="song.text"></app-song-text>
+      <app-song-text *ngIf="user$|async as user" [chordMode]="user.chordMode" [showSwitch]="true"
+                     [text]="song.text"></app-song-text>
 
       <div class="text">{{song.comment}}</div>
       <div>

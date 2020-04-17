@@ -8,6 +8,8 @@ export interface Show {
   owner: string;
   public: boolean;
   reported: boolean;
+  published: boolean;
+  archived: boolean;
 
   presentationSongId: string;
   presentationSection: number;

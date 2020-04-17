@@ -69,4 +69,18 @@ export class ShowComponent implements OnInit {
     const filtered = this.songs.filter(_ => _.id === songId);
     return filtered.length > 0 ? filtered[0] : null;
   }
+
+  public async onArchive(archived: boolean): Promise<void> {
+    await this.showService.update$(this.showId, {archived});
+  }
+
+  public async onPublish(published: boolean): Promise<void> {
+    await this.showService.update$(this.showId, {published});
+  }
+
+  public getStatus(show: Show): string {
+    if (show.published) return 'veröffentlicht';
+    if (show.reported) return 'gemeldet';
+    return 'entwurf';
+  }
 }
