@@ -17,17 +17,19 @@ export type ChordMode = 'show' | 'hide' | 'onlyFirst'
 })
 export class SongTextComponent implements OnInit {
   public sections: Section[];
-  public _chordMode: ChordMode = 'hide';
+  @Input() public scrollIndex = 0;
   @Input() showSwitch = false;
-  @Input()
-  public set chordMode(value: ChordMode) {
-    this._chordMode = value ?? 'hide';
-  }
-
   @Output() public chordModeChanged = new EventEmitter<ChordMode>();
   public faLines = faGripLines;
 
   constructor(private textRenderingService: TextRenderingService, private elRef: ElementRef) {
+  }
+
+  public _chordMode: ChordMode = 'hide';
+
+  @Input()
+  public set chordMode(value: ChordMode) {
+    this._chordMode = value ?? 'hide';
   }
 
   @Input()
@@ -61,6 +63,10 @@ export class SongTextComponent implements OnInit {
     this.chordModeChanged.emit(next);
   }
 
+  public onClick() {
+    scrollTo(0, this.elRef.nativeElement.offsetTop - 20);
+  }
+
   private getNextChordMode(): ChordMode {
     switch (this._chordMode) {
       case 'show':
@@ -70,9 +76,5 @@ export class SongTextComponent implements OnInit {
       case 'onlyFirst':
         return 'show';
     }
-  }
-
-  public onClick() {
-    scrollTo(0, this.elRef.nativeElement.offsetTop - 20);
   }
 }

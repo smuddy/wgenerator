@@ -1,6 +1,9 @@
 <div *ngIf="shows$|async as shows">
   <app-card>
-    <mat-form-field appearance="outline">
+
+    <p *ngIf="!shows.length">Es ist derzeit keine Veranstaltung vorhanden</p>
+
+    <mat-form-field *ngIf="shows.length>0" appearance="outline">
       <mat-label>Veranstaltung</mat-label>
       <mat-select (selectionChange)="onShowChanged($event)">
         <mat-option *ngFor="let show of shows" [value]="show.id">
@@ -21,18 +24,20 @@
       </div>
     </div>
 
-    <div *ngIf="show">
+    <div *ngIf="show" class="div-bottom">
       <button [routerLink]="'/presentation/monitor/' + currentShowId" mat-icon-button>
         <fa-icon [icon]="faDesktop"></fa-icon>
       </button>
 
-      <button (click)="onZoomIn()" mat-icon-button>
-        <fa-icon [icon]="faZoomIn"></fa-icon>
-      </button>
-      {{show.presentationZoom}}px
-      <button (click)="onZoomOut()" mat-icon-button>
-        <fa-icon [icon]="faZoomOut"></fa-icon>
-      </button>
+      <mat-slider
+        (ngModelChange)="onZoom($event)"
+        [max]="100"
+        [min]="10"
+        [ngModel]="show.presentationZoom"
+        [step]="2"
+        [thumbLabel]="true"
+      >
+      </mat-slider>
     </div>
   </app-card>
 

@@ -1,16 +1,18 @@
 <div *ngIf="(show$|async) as show">
   <app-card
-    heading="{{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}}">
-
-    <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
-
+    heading="{{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}} - {{getStatus(show)}}">
+    <i *ngIf="show.public">öffentliche Veranstaltung</i>
+    <i *ngIf="!show.public">geschlossene Veranstaltung</i>
+    <p>
+      <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
+    </p>
     <div *ngIf="showSongs && songs" class="song-list">
-      <app-song *ngFor="let song of showSongs" class="song-row"
-                [showId]="showId"
+      <app-song *ngFor="let song of showSongs" [showId]="showId"
                 [showSong]="song"
                 [showSongs]="showSongs"
-                [song]="getSong(song.songId)"
                 [showText]="showText"
+                [song]="getSong(song.songId)"
+                class="song-row"
       ></app-song>
     </div>
 
@@ -23,5 +25,11 @@
       </mat-form-field>
       <button mat-button>aus Übersicht</button>
     </div>
+    <app-button-row>
+      <button (click)="onArchive(true)" *ngIf="!show.archived" mat-button>Archivieren</button>
+      <button (click)="onArchive(false)" *ngIf="show.archived" mat-button>Wiederherstellen</button>
+      <button (click)="onPublish(true)" *ngIf="!show.published" mat-button>Veröffentlichen</button>
+      <button (click)="onPublish(false)" *ngIf="show.published" mat-button>Veröffentlichung zurückziehen</button>
+    </app-button-row>
   </app-card>
 </div>

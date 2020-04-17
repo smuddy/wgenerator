@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {ShowDataService} from '../../shows/services/show-data.service';
 import {Observable} from 'rxjs';
 import {Show} from '../../shows/services/show';
 import {MatSelectChange} from '@angular/material/select';
@@ -7,9 +6,8 @@ import {ShowSongService} from '../../shows/services/show-song.service';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
 import {Section, TextRenderingService} from '../../songs/services/text-rendering.service';
-import {faSearchPlus} from '@fortawesome/free-solid-svg-icons/faSearchPlus';
-import {faSearchMinus} from '@fortawesome/free-solid-svg-icons/faSearchMinus';
 import {faDesktop} from '@fortawesome/free-solid-svg-icons/faDesktop';
+import {ShowService} from '../../shows/services/show.service';
 
 export interface PresentationSong {
   id: string;
@@ -29,23 +27,21 @@ export class RemoteComponent {
   public presentationSongs: PresentationSong[];
   public currentShowId: string;
 
-  public faZoomIn = faSearchPlus;
-  public faZoomOut = faSearchMinus;
   public faDesktop = faDesktop;
 
   constructor(
-    private showDataService: ShowDataService,
+    private showService: ShowService,
     private showSongService: ShowSongService,
     private songService: SongService,
     private textRenderingService: TextRenderingService
   ) {
-    this.shows$ = showDataService.list$();
+    this.shows$ = showService.list$(true);
     songService.list$().subscribe(_ => this.songs = _);
   }
 
   public onShowChanged(change: MatSelectChange): void {
     this.currentShowId = change.value;
-    this.showDataService.read$(change.value).subscribe(_ => this.show = _);
+    this.showService.read$(change.value).subscribe(_ => this.show = _);
     this.showSongService.list$(change.value).subscribe(_ => {
       this.presentationSongs = _
         .map(song => this.songs.filter(f => f.id == song.songId)[0])
@@ -62,22 +58,15 @@ export class RemoteComponent {
   }
 
   public async onSectionClick(id: string, index: number): Promise<void> {
-    await this.showDataService.update(this.currentShowId, {
+    await this.showService.update$(this.currentShowId, {
       presentationSongId: id,
       presentationSection: index
     })
   }
 
-  public async onZoomIn() {
-    debugger
-    await this.showDataService.update(this.currentShowId, {
-      presentationZoom: (this.show.presentationZoom ?? 30) + 2,
-    });
-  }
-
-  public async onZoomOut() {
-    await this.showDataService.update(this.currentShowId, {
-      presentationZoom: (this.show.presentationZoom ?? 30) - 2,
+  public async onZoom(zoom: number) {
+    await this.showService.update$(this.currentShowId, {
+      presentationZoom: zoom,
     });
   }
 }

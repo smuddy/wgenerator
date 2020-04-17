@@ -13,8 +13,8 @@ import {Song} from '../../songs/services/song';
 })
 export class MonitorComponent implements OnInit {
   public song: Song;
+  public zoom: number;
   private index: number;
-  private zoom: number;
   private sections: Section[];
 
   constructor(

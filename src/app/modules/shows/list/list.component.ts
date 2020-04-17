@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Show} from '../services/show';
-import {ShowDataService} from '../services/show-data.service';
 import {fade} from '../../../animations';
+import {ShowService} from '../services/show.service';
 
 @Component({
   selector: 'app-list',
@@ -13,8 +13,8 @@ import {fade} from '../../../animations';
 export class ListComponent {
   public shows$: Observable<Show[]>;
 
-  constructor(showDataService: ShowDataService) {
-    this.shows$ = showDataService.list$();
+  constructor(showService: ShowService) {
+    this.shows$ = showService.list$();
   }
 
 }
