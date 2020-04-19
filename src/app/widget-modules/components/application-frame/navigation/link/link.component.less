@@ -1,16 +1,17 @@
 @import "../../../../../../styles/styles";
 
 a {
+  opacity: 0.8;
   display: block;
-  height: 60px;
-  color: @navigation-link-color;
-  font-size: 20px;
+  height: 50px;
+  font-size: 16px;
   font-weight: bold;
   text-decoration: none;
-  padding: 20px;
+  padding: 15px;
   box-sizing: border-box;
   background: transparent;
   transition: @transition;
+  border-color: #222;
 
   fa-icon {
     display: inline-block;
@@ -25,7 +26,8 @@ a {
   }
 
   &:hover {
-    background: #eee;
+    opacity: 0.9;
+    border-bottom: 5px solid #555;
 
     fa-icon {
       transform: scale(1.2);
@@ -33,8 +35,8 @@ a {
   }
 
   &.active {
-    background: @primary-color;
-    color: #fff;
+    border-bottom: 5px solid @primary-color;
+    opacity: 1;
 
     fa-icon {
       transform: scale(1.3);
