@@ -1,7 +1,6 @@
 @primary-color: #4286f4;
 
 @navigation-background: #fffffff1;
-@navigation-link-color: #555;
 
 @transition: all 300ms ease-in-out;
 
@@ -18,8 +17,8 @@ body {
   font-size: 14px;
 
   background: #373b44; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #373b44, #4286f4); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #373b44, #4286f4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to bottom, #373b44, @primary-color); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #373b44, @primary-color); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background-attachment: fixed;
 }
 
@@ -28,9 +27,13 @@ p {
 }
 
 h1, h2, h3, h4 {
-  color: @navigation-link-color;
+  opacity: 0.5;
   padding: 0;
   margin: 0 0 20px 0;
+}
+
+a {
+  color: inherit;
 }
 
 .mat-form-field {
@@ -47,9 +50,12 @@ h1, h2, h3, h4 {
 
 
 .content > *:not(router-outlet) {
-  margin-top: 60px;
   display: flex;
   justify-content: center;
+}
+
+.content {
+  padding-top: 50px;
 }
 
 .btn-icon {
