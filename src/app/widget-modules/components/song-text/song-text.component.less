@@ -25,6 +25,15 @@
   }
 }
 
+.line {
+  opacity: 1;
+  transition: 1000ms all ease-in-out;
+
+  &.disabled {
+    opacity: 0.5;
+  }
+}
+
 .menu {
   position: absolute;
   right: 0;
@@ -48,8 +57,6 @@
   &:hover {
     background: #ddd;
   }
-
-
 }
 
 .section {
@@ -70,3 +77,12 @@
 .chord {
   color: #009;
 }
+
+.offset {
+  position: fixed;
+  top: 0;
+
+  transition: 1000ms all ease-in-out;
+}
+
+
