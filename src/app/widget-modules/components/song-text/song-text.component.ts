@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {
   Line,
   LineType,
@@ -7,20 +7,25 @@ import {
   TextRenderingService
 } from '../../../modules/songs/services/text-rendering.service';
 import {faGripLines} from '@fortawesome/free-solid-svg-icons/faGripLines';
+import {songSwitch} from './animation';
 
 export type ChordMode = 'show' | 'hide' | 'onlyFirst'
 
 @Component({
   selector: 'app-song-text',
   templateUrl: './song-text.component.html',
-  styleUrls: ['./song-text.component.less']
+  styleUrls: ['./song-text.component.less'],
+  animations: [songSwitch],
 })
 export class SongTextComponent implements OnInit {
   public sections: Section[];
-  @Input() public scrollIndex = 0;
-  @Input() showSwitch = false;
+  @Input() public index = -1;
+  @Input() public fullscreen = false;
+  @Input() public showSwitch = false;
   @Output() public chordModeChanged = new EventEmitter<ChordMode>();
+  @ViewChildren('section') viewSections: QueryList<ElementRef>;
   public faLines = faGripLines;
+  public offset = 0;
 
   constructor(private textRenderingService: TextRenderingService, private elRef: ElementRef) {
   }
@@ -34,11 +39,22 @@ export class SongTextComponent implements OnInit {
 
   @Input()
   public set text(value: string) {
-    this.sections = this.textRenderingService.parse(value).sort((a, b) => a.type - b.type);
-    console.log(this.sections)
+    this.sections = null;
+    this.offset = 0;
+    setTimeout(() =>
+      this.sections = this.textRenderingService.parse(value).sort((a, b) => a.type - b.type), 100);
   }
 
+
   ngOnInit(): void {
+    setInterval(() => {
+        if (!this.fullscreen || this.index === -1) {
+          this.offset = 0;
+          return;
+        }
+        this.offset = -this.viewSections.toArray()[this.index].nativeElement.offsetTop;
+      }
+      , 100);
   }
 
   public getLines(section: Section): Line[] {
@@ -76,5 +92,10 @@ export class SongTextComponent implements OnInit {
       case 'onlyFirst':
         return 'show';
     }
+  }
+
+  checkDisabled(i: number) {
+    return this.index !== -1 && this.index !== i;
+
   }
 }

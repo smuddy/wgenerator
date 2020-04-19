@@ -13,7 +13,9 @@
     </mat-form-field>
 
     <div *ngFor="let song of presentationSongs" class="song">
-      <div class="title">{{song.title}}</div>
+      <div [class.active]="show.presentationSongId===song.id" class="title song-part">
+        <div (click)="onSectionClick(song.id, -1)" class="head">{{song.title}}</div>
+      </div>
       <div *ngIf="show" class="song-parts">
         <div (click)="onSectionClick(song.id, i)" *ngFor="let section of song.sections; index as i"
              [class.active]="show.presentationSongId===song.id && show.presentationSection===i"
@@ -25,9 +27,9 @@
     </div>
 
     <div *ngIf="show" class="div-bottom">
-      <button [routerLink]="'/presentation/monitor/' + currentShowId" mat-icon-button>
+      <a [routerLink]="'/presentation/monitor/' + currentShowId">
         <fa-icon [icon]="faDesktop"></fa-icon>
-      </button>
+      </a>
 
       <mat-slider
         (ngModelChange)="onZoom($event)"
