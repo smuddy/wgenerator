@@ -10,6 +10,8 @@ import {MatSelectChange} from '@angular/material/select';
 import {ShowSongService} from '../services/show-song.service';
 import {ShowSong} from '../services/showSong';
 import {DocxService} from '../services/docx.service';
+import {FormControl} from '@angular/forms';
+import {filterSong} from '../../../services/filter.helper';
 
 @Component({
   selector: 'app-show',
@@ -88,5 +90,12 @@ export class ShowComponent implements OnInit {
 
   public async onDownload(): Promise<void> {
     await this.docxService.create(this.showId);
+  }
+
+  public filteredSongsControl = new FormControl();
+
+  filteredSongs() {
+    const filterValue = this.filteredSongsControl.value;
+    return filterValue ? this.songs.filter(_ => filterSong(_, filterValue)) : this.songs;
   }
 }

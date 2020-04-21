@@ -22,6 +22,10 @@ export class UserService {
     return this._user$.pipe(filter(_ => !!_));
   }
 
+  public getUserbyId$(userId: string): Observable<User> {
+    return this.db.doc$<User>('user/' + userId);
+  }
+
   public async update$(uid: string, data: Partial<User>): Promise<void> {
     await this.db.doc<User>('user/' + uid).update(data);
   }
