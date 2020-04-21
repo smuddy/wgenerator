@@ -10,6 +10,8 @@ import {SongService} from '../../songs/services/song.service';
 import {ShowSong} from './showSong';
 import {Show} from './show';
 import {ChordMode} from '../../../widget-modules/components/song-text/song-text.component';
+import {UserService} from '../../../services/user.service';
+import {User} from '../../../services/user';
 
 
 @Injectable({
@@ -21,37 +23,38 @@ export class DocxService {
     private showService: ShowService,
     private showSongService: ShowSongService,
     private songService: SongService,
-    private textRenderingService: TextRenderingService
+    private textRenderingService: TextRenderingService,
+    private userService: UserService,
   ) {
-
   }
 
   public async create(showId: string): Promise<any> {
-    const {show, songs} = await this.prepareData(showId);
+    const {show, songs, user} = await this.prepareData(showId);
+    const type = new ShowTypePipe().transform(show.showType);
+    const title = `${type} ${show.date.toDate().toLocaleDateString()}`;
 
     const paragraphs = [
-      ...this.renderTitle(show),
+      ...this.renderTitle(title),
       ...this.renderSongs(songs),
     ];
     console.log(paragraphs);
 
-    const document = this.prepareNewDocument();
+    const document = this.prepareNewDocument(type, user.name);
     document.addSection({
       properties: {top: 400, bottom: 400, left: 400, right: 400},
       children: paragraphs,
     });
 
-
     const blob = await Packer.toBlob(document);
 
     // saveAs from FileSaver will download the file
-    this.saveAs(blob, 'example.docx');
+    this.saveAs(blob, `${title}.docx`);
   }
 
-  private prepareNewDocument(): Document {
+  private prepareNewDocument(type: string, name: string): Document {
     return new Document({
-      creator: 'TODO',
-      title: 'Gottesdienst',
+      creator: name,
+      title: type,
       description: '... mit Beschreibung',
       styles: {
         paragraphStyles: [
@@ -125,8 +128,7 @@ export class DocxService {
 
   }
 
-  private renderTitle(show: Show): Paragraph[] {
-    const type = new ShowTypePipe().transform(show.showType);
+  private renderTitle(type: string): Paragraph[] {
 
     const songTitle = new Paragraph({
       text: type,
@@ -137,8 +139,9 @@ export class DocxService {
     return [songTitle]
   }
 
-  private async prepareData(showId: string): Promise<{ songs: ({ showSong: ShowSong, song: Song, sections: Section[] })[]; show: Show }> {
+  private async prepareData(showId: string): Promise<{ songs: ({ showSong: ShowSong, song: Song, sections: Section[] })[]; show: Show, user: User }> {
     const show = await this.showService.read$(showId).pipe(first()).toPromise();
+    const user = await this.userService.getUserbyId$(show.owner).pipe(first()).toPromise();
 
     const showSongs = await this.showSongService.list$(showId).pipe(first()).toPromise();
     const songsAsync = await showSongs.map(async showSong => {
@@ -151,20 +154,24 @@ export class DocxService {
       }
     })
     const songs = await Promise.all(songsAsync);
-    return {songs, show};
+    return {songs, show, user};
   }
 
   private saveAs(blob, fileName) {
     const a = document.createElement('a') as any;
+
     document.body.appendChild(a);
+    a.setAttribute('target', '_self');
     a.style = 'display: none';
 
     const url = window.URL.createObjectURL(blob);
     a.href = url;
     a.download = fileName;
     a.click();
-    window.URL.revokeObjectURL(url);
 
-    document.body.removeChild(a);
+    setTimeout(() => {
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    }, 1000);
   };
 }

@@ -5,6 +5,7 @@ import {debounceTime, map} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
 import {fade} from '../../../animations';
 import {ActivatedRoute} from '@angular/router';
+import {filterSong} from '../../../services/filter.helper';
 
 @Component({
   selector: 'app-songs',
@@ -19,21 +20,6 @@ export class SongListComponent implements OnInit {
   constructor(private songService: SongService, private activatedRoute: ActivatedRoute) {
   }
 
-  private static filter(song: Song, filterValue: string): boolean {
-    if (!filterValue) {
-      return true;
-    }
-
-    const textMatch = song.text && SongListComponent.normalize(song.text).indexOf(SongListComponent.normalize(filterValue)) !== -1;
-    const titleMatch = song.title && SongListComponent.normalize(song.title).indexOf(SongListComponent.normalize(filterValue)) !== -1;
-
-    return textMatch || titleMatch;
-  }
-
-  private static normalize(input: string): string {
-    return input.toLowerCase().replace(/\s/g, '');
-  }
-
   ngOnInit() {
     const filter$ = this.activatedRoute.queryParams.pipe(
       debounceTime(300),
@@ -45,7 +31,7 @@ export class SongListComponent implements OnInit {
     );
 
     this.songs$ = combineLatest([filter$, songs$]).pipe(
-      map(_ => _[1].filter(song => SongListComponent.filter(song, _[0])))
+      map(_ => _[1].filter(song => filterSong(song, _[0])))
     );
   }
 }
