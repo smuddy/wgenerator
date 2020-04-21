@@ -9,6 +9,7 @@ import {Song} from '../../songs/services/song';
 import {MatSelectChange} from '@angular/material/select';
 import {ShowSongService} from '../services/show-song.service';
 import {ShowSong} from '../services/showSong';
+import {DocxService} from '../services/docx.service';
 
 @Component({
   selector: 'app-show',
@@ -27,6 +28,7 @@ export class ShowComponent implements OnInit {
     private showService: ShowService,
     private songService: SongService,
     private showSongService: ShowSongService,
+    private docxService: DocxService,
   ) {
   }
 
@@ -82,5 +84,9 @@ export class ShowComponent implements OnInit {
     if (show.published) return 'veröffentlicht';
     if (show.reported) return 'gemeldet';
     return 'entwurf';
+  }
+
+  public async onDownload(): Promise<void> {
+    await this.docxService.create(this.showId);
   }
 }

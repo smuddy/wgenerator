@@ -31,6 +31,9 @@
       <button (click)="onArchive(false)" *ngIf="show.archived" mat-button>Wiederherstellen</button>
       <button (click)="onPublish(true)" *ngIf="!show.published" mat-button>Veröffentlichen</button>
       <button (click)="onPublish(false)" *ngIf="show.published" mat-button>Veröffentlichung zurückziehen</button>
+
+      <button (click)="onDownload()" mat-button>Herunterladen</button>
+
     </app-button-row>
   </app-card>
 </div>
