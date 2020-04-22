@@ -15,6 +15,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireAuthGuardModule} from '@angular/fire/auth-guard';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
     FontAwesomeModule,
+    PerfectScrollbarModule,
 
   ],
   providers: [

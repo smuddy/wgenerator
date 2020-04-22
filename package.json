@@ -30,6 +30,7 @@
     "docx": "^5.0.2",
     "firebase": ">= 5.5.7 <8",
     "ngx-mat-select-search": "^2.1.2",
+    "ngx-perfect-scrollbar": "^9.0.0",
     "rxjs": "~6.5.5",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
