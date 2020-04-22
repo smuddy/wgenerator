@@ -15,7 +15,7 @@ const routes: Routes = [
     component: RemoteComponent
   },
   {
-    path: 'monitor/:showId',
+    path: 'monitor',
     component: MonitorComponent
   }
 ];

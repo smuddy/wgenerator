@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Show} from '../../shows/services/show';
-import {MatSelectChange} from '@angular/material/select';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
@@ -9,6 +8,9 @@ import {Section, TextRenderingService} from '../../songs/services/text-rendering
 import {faDesktop} from '@fortawesome/free-solid-svg-icons/faDesktop';
 import {ShowService} from '../../shows/services/show.service';
 import {ShowSong} from '../../shows/services/show-song';
+import {GlobalSettingsService} from '../../../services/global-settings.service';
+import {FormControl} from '@angular/forms';
+import {distinctUntilChanged, map} from 'rxjs/operators';
 
 export interface PresentationSong {
   id: string;
@@ -30,21 +32,30 @@ export class RemoteComponent {
   public currentShowId: string;
 
   public faDesktop = faDesktop;
+  public showControl = new FormControl();
 
   constructor(
     private showService: ShowService,
     private showSongService: ShowSongService,
     private songService: SongService,
     private textRenderingService: TextRenderingService,
+    private globalSettingsService: GlobalSettingsService,
   ) {
     this.shows$ = showService.list$(true);
     songService.list$().subscribe(_ => this.songs = _);
+
+    globalSettingsService.get$.pipe(
+      map(_ => _.currentShow),
+      distinctUntilChanged()
+    ).subscribe(_ => this.showControl.setValue(_));
+    this.showControl.valueChanges.subscribe(value => this.onShowChanged(value));
   }
 
-  public onShowChanged(change: MatSelectChange): void {
-    this.currentShowId = change.value;
-    this.showService.read$(change.value).subscribe(_ => this.show = _);
-    this.showSongService.list$(change.value).subscribe(_ => {
+  public onShowChanged(change: string): void {
+    this.globalSettingsService.set({currentShow: change});
+    this.currentShowId = change;
+    this.showService.read$(change).subscribe(_ => this.show = _);
+    this.showSongService.list$(change).subscribe(_ => {
       this.showSongs = _;
       this.presentationSongs = _
         .map(song => this.songs.filter(f => f.id == song.songId)[0])

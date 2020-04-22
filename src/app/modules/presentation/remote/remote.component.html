@@ -5,7 +5,7 @@
 
     <mat-form-field *ngIf="shows.length>0" appearance="outline">
       <mat-label>Veranstaltung</mat-label>
-      <mat-select (selectionChange)="onShowChanged($event)">
+      <mat-select [formControl]="showControl">
         <mat-option *ngFor="let show of shows" [value]="show.id">
           {{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}}
         </mat-option>
@@ -27,7 +27,7 @@
     </div>
 
     <div *ngIf="show" class="div-bottom">
-      <a [routerLink]="'/presentation/monitor/' + currentShowId">
+      <a routerLink="/presentation/monitor" target="_blank">
         <fa-icon [icon]="faDesktop"></fa-icon>
       </a>
 
