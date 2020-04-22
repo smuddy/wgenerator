@@ -1,0 +1,11 @@
+<div *ngIf="songs" class="add-row">
+  <mat-form-field appearance="outline">
+    <mat-label>Lied hinzufügen...</mat-label>
+    <mat-select (selectionChange)="onAddSongSelectionChanged($event)">
+      <mat-option>
+        <ngx-mat-select-search [formControl]="filteredSongsControl"></ngx-mat-select-search>
+      </mat-option>
+      <mat-option *ngFor="let song of filteredSongs()" [value]="song.id">{{song.title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

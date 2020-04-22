@@ -7,7 +7,7 @@ import {ShowSongService} from './show-song.service';
 import {Line, LineType, Section, TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Song} from '../../songs/services/song';
 import {SongService} from '../../songs/services/song.service';
-import {ShowSong} from './showSong';
+import {ShowSong} from './show-song';
 import {Show} from './show';
 import {ChordMode} from '../../../widget-modules/components/song-text/song-text.component';
 import {UserService} from '../../../services/user.service';

@@ -41,6 +41,10 @@
       >
       </mat-slider>
     </div>
+
+
+    <app-add-song *ngIf="show" [addedLive]="true" [showId]="currentShowId" [showSongs]="showSongs"
+                  [songs]="songs"></app-add-song>
   </app-card>
 
 

@@ -15,6 +15,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatSliderModule} from '@angular/material/slider';
 import {FormsModule} from '@angular/forms';
+import {AddSongModule} from '../../widget-modules/components/add-song/add-song.module';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {FormsModule} from '@angular/forms';
     MatButtonModule,
     FontAwesomeModule,
     MatSliderModule,
-    FormsModule
+    FormsModule,
+    AddSongModule
   ]
 })
 export class PresentationModule {

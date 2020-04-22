@@ -4,7 +4,7 @@ import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash';
 import {faCaretUp} from '@fortawesome/free-solid-svg-icons/faCaretUp';
 import {faCaretDown} from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import {ShowSongService} from '../../services/show-song.service';
-import {ShowSong} from '../../services/showSong';
+import {ShowSong} from '../../services/show-song';
 import {getScale} from '../../../songs/services/key.helper';
 import {FormControl} from '@angular/forms';
 import {ChordMode} from '../../../../widget-modules/components/song-text/song-text.component';

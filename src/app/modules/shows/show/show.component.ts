@@ -6,12 +6,9 @@ import {Observable} from 'rxjs';
 import {Show} from '../services/show';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
-import {MatSelectChange} from '@angular/material/select';
 import {ShowSongService} from '../services/show-song.service';
-import {ShowSong} from '../services/showSong';
+import {ShowSong} from '../services/show-song';
 import {DocxService} from '../services/docx.service';
-import {FormControl} from '@angular/forms';
-import {filterSong} from '../../../services/filter.helper';
 
 @Component({
   selector: 'app-show',
@@ -46,27 +43,8 @@ export class ShowComponent implements OnInit {
       filter(_ => !!_)
     ).subscribe(_ => this.showSongs = _);
     this.songService.list$().pipe(
-      map(_ => _
-        .filter(_ => !!_)
-        .filter(_ => !!_.title)
-        .filter(_ => _.title !== 'nicht gefunden')
-        .filter(_ => _.title !== 'nicht vorhanden')
-        .sort((a, b) => {
-          if (a.title < b.title) {
-            return -1;
-          }
-          if (a.title > b.title) {
-            return 1;
-          }
-          return 0;
-        })),
       filter(_ => !!_)
     ).subscribe(_ => this.songs = _);
-  }
-
-  public async onAddSongSelectionChanged(event: MatSelectChange) {
-    await this.showSongService.new$(this.showId, event.value, this.showSongs.reduce((oa, u) => Math.max(oa, u.order), 0) + 1);
-    event.source.value = null;
   }
 
   public getSong(songId: string): Song {
@@ -90,12 +68,5 @@ export class ShowComponent implements OnInit {
 
   public async onDownload(): Promise<void> {
     await this.docxService.create(this.showId);
-  }
-
-  public filteredSongsControl = new FormControl();
-
-  filteredSongs() {
-    const filterValue = this.filteredSongsControl.value;
-    return filterValue ? this.songs.filter(_ => filterSong(_, filterValue)) : this.songs;
   }
 }

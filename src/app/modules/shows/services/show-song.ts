@@ -6,5 +6,6 @@ export interface ShowSong {
   key: string;
   keyOriginal: string;
   order: number;
-  chordMode: ChordMode
+  chordMode: ChordMode;
+  addedLive: boolean;
 }
