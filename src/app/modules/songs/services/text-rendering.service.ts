@@ -41,6 +41,7 @@ export class TextRenderingService {
   }
 
   public parse(text: string): Section[] {
+    if (!text) return [];
     const arrayOfLines = text.split(/\r?\n/).filter(_ => _);
     const indices = {
       [SectionType.Bridge]: 0,

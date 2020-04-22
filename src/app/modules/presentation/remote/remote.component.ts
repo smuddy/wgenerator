@@ -11,6 +11,7 @@ import {ShowSong} from '../../shows/services/show-song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {FormControl} from '@angular/forms';
 import {distinctUntilChanged, map} from 'rxjs/operators';
+import {fade} from '../../../animations';
 
 export interface PresentationSong {
   id: string;
@@ -21,7 +22,8 @@ export interface PresentationSong {
 @Component({
   selector: 'app-remote',
   templateUrl: './remote.component.html',
-  styleUrls: ['./remote.component.less']
+  styleUrls: ['./remote.component.less'],
+  animations: [fade]
 })
 export class RemoteComponent {
   public shows$: Observable<Show[]>;

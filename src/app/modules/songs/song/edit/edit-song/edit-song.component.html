@@ -35,6 +35,20 @@
       <textarea [mat-autosize]="true" formControlName="comment" matInput></textarea>
     </mat-form-field>
 
+    <mat-form-field appearance="outline">
+      <mat-chip-list #chipList aria-label="Fruit selection">
+        <mat-chip (removed)="removeFlag(flag)" *ngFor="let flag of flags"
+                  [removable]="true" [selectable]="false">
+          {{flag}}&nbsp;
+          <fa-icon (click)="removeFlag(flag)" [icon]="faRemove"></fa-icon>
+        </mat-chip>
+        <input (matChipInputTokenEnd)="addFlag($event)"
+               [matChipInputAddOnBlur]="true"
+               [matChipInputFor]="chipList"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               placeholder="Attribute">
+      </mat-chip-list>
+    </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Rechtlicher Status</mat-label>

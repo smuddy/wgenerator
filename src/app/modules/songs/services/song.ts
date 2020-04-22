@@ -8,6 +8,7 @@ export interface Song {
   text: string;
   title: string;
   type: string;
+  flags: string;
 
   legalType: string;
   legalLink: string;

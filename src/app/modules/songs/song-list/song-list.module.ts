@@ -5,6 +5,7 @@ import {ListItemComponent} from './list-item/list-item.component';
 import {CardModule} from '../../../widget-modules/components/card/card.module';
 import {RouterModule} from '@angular/router';
 import {LegalTypeTranslatorModule} from '../../../widget-modules/pipes/legal-type-translator/legal-type-translator.module';
+import {ListHeaderModule} from '../../../widget-modules/components/list-header/list-header.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {LegalTypeTranslatorModule} from '../../../widget-modules/pipes/legal-typ
     RouterModule,
 
     CardModule,
-    LegalTypeTranslatorModule
+    LegalTypeTranslatorModule,
+    ListHeaderModule
   ]
 })
 export class SongListModule {
