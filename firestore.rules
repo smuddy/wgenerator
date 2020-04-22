@@ -23,6 +23,11 @@ service cloud.firestore {
       allow write: if request.auth.uid != null;
     }
 
+    match /global/{global} {
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null;
+    }
+
   }
 }
 

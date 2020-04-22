@@ -14,7 +14,7 @@ import {LegalComponent} from './monitor/legal/legal.component';
 import {MatButtonModule} from '@angular/material/button';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatSliderModule} from '@angular/material/slider';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AddSongModule} from '../../widget-modules/components/add-song/add-song.module';
 
 
@@ -33,7 +33,8 @@ import {AddSongModule} from '../../widget-modules/components/add-song/add-song.m
     FontAwesomeModule,
     MatSliderModule,
     FormsModule,
-    AddSongModule
+    AddSongModule,
+    ReactiveFormsModule
   ]
 })
 export class PresentationModule {

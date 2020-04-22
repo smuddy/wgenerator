@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {ShowService} from '../../shows/services/show.service';
 import {SongService} from '../../songs/services/song.service';
 import {Section, TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Song} from '../../songs/services/song';
+import {GlobalSettingsService} from '../../../services/global-settings.service';
 
 @Component({
   selector: 'app-monitor',
@@ -18,16 +18,17 @@ export class MonitorComponent implements OnInit {
   private sections: Section[];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private showService: ShowService,
     private songService: SongService,
     private textRenderingService: TextRenderingService,
+    private globalSettingsService: GlobalSettingsService,
   ) {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.pipe(
-      map(_ => _.showId),
+    this.globalSettingsService.get$.pipe(
+      map(_ => _.currentShow),
+      distinctUntilChanged(),
       switchMap(_ => this.showService.read$(_)),
       tap(_ => this.index = _.presentationSection),
       tap(_ => this.zoom = _.presentationZoom ?? 30),
