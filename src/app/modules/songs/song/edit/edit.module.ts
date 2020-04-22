@@ -17,6 +17,8 @@ import {FileComponent} from './edit-file/file/file.component';
 import {LegalOwnerTranslatorModule} from '../../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
 import {LegalTypeTranslatorModule} from '../../../../widget-modules/pipes/legal-type-translator/legal-type-translator.module';
 import {KeyTranslatorModule} from '../../../../widget-modules/pipes/key-translator/key-translator.module';
+import {MatChipsModule} from '@angular/material/chips';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -39,6 +41,8 @@ import {KeyTranslatorModule} from '../../../../widget-modules/pipes/key-translat
     LegalOwnerTranslatorModule,
     LegalTypeTranslatorModule,
     KeyTranslatorModule,
+    MatChipsModule,
+    FontAwesomeModule,
 
   ]
 })

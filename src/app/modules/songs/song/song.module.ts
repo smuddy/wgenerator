@@ -8,6 +8,7 @@ import {ButtonRowModule} from '../../../widget-modules/components/button-row/but
 import {RouterModule} from '@angular/router';
 import {LegalOwnerTranslatorModule} from '../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
 import {SongTextModule} from '../../../widget-modules/components/song-text/song-text.module';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import {SongTextModule} from '../../../widget-modules/components/song-text/song-
     ButtonRowModule,
     LegalOwnerTranslatorModule,
     SongTextModule,
+    MatChipsModule,
   ]
 })
 export class SongModule {

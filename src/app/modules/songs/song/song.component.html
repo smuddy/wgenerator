@@ -19,6 +19,10 @@
       <app-song-text *ngIf="user$|async as user" [chordMode]="user.chordMode" [showSwitch]="true"
                      [text]="song.text"></app-song-text>
 
+      <mat-chip-list aria-label="Attribute">
+        <mat-chip *ngFor="let flag of getFlags(song.flags)">{{flag}}</mat-chip>
+      </mat-chip-list>
+
       <div class="text">{{song.comment}}</div>
       <div>
         <h3>Anhänge</h3>

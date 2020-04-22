@@ -6,6 +6,9 @@ import {SongService} from '../../../services/song.service';
 import {EditService} from '../edit.service';
 import {first, map, switchMap} from 'rxjs/operators';
 import {KEYS} from '../../../services/key.helper';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {faTimesCircle} from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 
 @Component({
   selector: 'app-edit-song',
@@ -19,6 +22,9 @@ export class EditSongComponent implements OnInit {
   public types = SongService.TYPES;
   public legalOwner = SongService.LEGAL_OWNER;
   public legalType = SongService.LEGAL_TYPE;
+  public flags: string[] = [];
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  public faRemove = faTimesCircle;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,6 +42,8 @@ export class EditSongComponent implements OnInit {
     ).subscribe(song => {
       this.song = song;
       this.form = this.editService.createSongForm(song);
+      this.form.controls.flags.valueChanges.subscribe(_ => this.onFlagsChanged(_))
+      this.onFlagsChanged(this.form.controls.flags.value);
     });
   }
 
@@ -45,4 +53,31 @@ export class EditSongComponent implements OnInit {
     await this.router.navigateByUrl('songs/' + this.song.id);
   }
 
+  public removeFlag(flag: string): void {
+    const flags = this.flags.filter(_ => _ !== flag);
+    this.form.controls.flags.setValue(flags.reduce((a, b) => `${a};${b}`, ''));
+  }
+
+  public addFlag(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      const flags = [...this.flags, value.trim()];
+      this.form.controls.flags.setValue(flags.reduce((a, b) => `${a};${b}`, ''));
+    }
+
+    if (input) input.value = '';
+  }
+
+  private onFlagsChanged(flagArray: string): void {
+    console.log(flagArray);
+    if (!flagArray) {
+      this.flags = [];
+      return;
+    }
+
+    this.flags = flagArray.split(';').filter(_ => !!_);
+  }
 }

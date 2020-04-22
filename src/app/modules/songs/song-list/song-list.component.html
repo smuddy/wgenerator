@@ -1,3 +1,7 @@
-<app-card *ngIf="songs$ | async as songs" [@fade] [padding]="false">
-  <app-list-item *ngFor="let song of songs" [routerLink]="song.id" [song]="song"></app-list-item>
-</app-card>
+<div>
+  <app-list-header></app-list-header>
+
+  <app-card *ngIf="songs$ | async as songs" [@fade] [padding]="false">
+    <app-list-item *ngFor="let song of songs" [routerLink]="song.id" [song]="song"></app-list-item>
+  </app-card>
+</div>

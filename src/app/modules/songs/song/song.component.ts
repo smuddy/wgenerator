@@ -41,4 +41,9 @@ export class SongComponent implements OnInit {
 
   }
 
+  public getFlags = (flags: string): string[] => {
+    if (!flags) return [];
+    return flags.split(';').filter(_ => !!_);
+  };
+
 }

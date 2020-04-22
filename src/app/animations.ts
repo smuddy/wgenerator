@@ -5,17 +5,13 @@ export const fade = [
   trigger('fade', [
 
     // the "in" style determines the "resting" state of the element when it is visible.
-    state('in', style({opacity: 1, display: 'block', transform: 'translateY(0px)'})),
+    state('in', style({opacity: 1, transform: 'translateY(0px)'})),
 
     // fade in when created. this could also be written as transition('void => *')
     transition(':enter', [
-      style({opacity: 0, display: 'block', transform: 'translateY(-20px)'}),
-      animate(300)
+      style({opacity: 0, transform: 'translateY(-10px)'}),
+      animate(200)
     ]),
-
-    // fade out when destroyed. this could also be written as transition('void => *')
-    transition(':leave',
-      animate(300, style({opacity: 0, display: 'block', transform: 'translateY(-20px)'})))
   ])
 ];
 
@@ -29,7 +25,7 @@ export const fader =
           left: 0,
           width: '100%',
           opacity: 0,
-          transform: 'scale(0.96) translateY(-10px)',
+          transform: 'scale(1) translateY(-10px)',
         }),
       ], {optional: true}),
       // Animate the new page in

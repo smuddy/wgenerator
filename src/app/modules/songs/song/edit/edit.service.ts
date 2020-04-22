@@ -15,6 +15,7 @@ export class EditService {
       text: new FormControl(song.text),
       title: new FormControl(song.title),
       comment: new FormControl(song.comment),
+      flags: new FormControl(song.flags),
       key: new FormControl(song.key),
       tempo: new FormControl(song.tempo),
       type: new FormControl(song.type),
