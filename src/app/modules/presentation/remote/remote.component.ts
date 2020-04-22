@@ -8,6 +8,7 @@ import {Song} from '../../songs/services/song';
 import {Section, TextRenderingService} from '../../songs/services/text-rendering.service';
 import {faDesktop} from '@fortawesome/free-solid-svg-icons/faDesktop';
 import {ShowService} from '../../shows/services/show.service';
+import {ShowSong} from '../../shows/services/show-song';
 
 export interface PresentationSong {
   id: string;
@@ -23,6 +24,7 @@ export interface PresentationSong {
 export class RemoteComponent {
   public shows$: Observable<Show[]>;
   public show: Show;
+  public showSongs: ShowSong[];
   public songs: Song[];
   public presentationSongs: PresentationSong[];
   public currentShowId: string;
@@ -33,7 +35,7 @@ export class RemoteComponent {
     private showService: ShowService,
     private showSongService: ShowSongService,
     private songService: SongService,
-    private textRenderingService: TextRenderingService
+    private textRenderingService: TextRenderingService,
   ) {
     this.shows$ = showService.list$(true);
     songService.list$().subscribe(_ => this.songs = _);
@@ -43,6 +45,7 @@ export class RemoteComponent {
     this.currentShowId = change.value;
     this.showService.read$(change.value).subscribe(_ => this.show = _);
     this.showSongService.list$(change.value).subscribe(_ => {
+      this.showSongs = _;
       this.presentationSongs = _
         .map(song => this.songs.filter(f => f.id == song.songId)[0])
         .map(song => ({

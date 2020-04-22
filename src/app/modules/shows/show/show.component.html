@@ -17,18 +17,9 @@
       ></app-song>
     </div>
 
-    <div *ngIf="songs && !show.published" class="add-row">
-      <mat-form-field appearance="outline">
-        <mat-label>Lied hinzufügen...</mat-label>
-        <mat-select (selectionChange)="onAddSongSelectionChanged($event)">
-          <mat-option>
-            <ngx-mat-select-search [formControl]="filteredSongsControl"></ngx-mat-select-search>
-          </mat-option>
-          <mat-option *ngFor="let song of filteredSongs()" [value]="song.id">{{song.title}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <app-add-song *ngIf="songs && !show.published" [showId]="showId" [showSongs]="showSongs"
+                  [songs]="songs"></app-add-song>
 
-    </div>
     <app-button-row>
       <button (click)="onArchive(true)" *ngIf="!show.archived" mat-button>Archivieren</button>
       <button (click)="onArchive(false)" *ngIf="show.archived" mat-button>Wiederherstellen</button>

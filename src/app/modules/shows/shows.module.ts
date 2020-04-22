@@ -23,6 +23,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MenuButtonModule} from '../../widget-modules/components/menu-button/menu-button.module';
 import {SongTextModule} from '../../widget-modules/components/song-text/song-text.module';
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
+import {AddSongModule} from '../../widget-modules/components/add-song/add-song.module';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
     FormsModule,
     SongTextModule,
     NgxMatSelectSearchModule,
+    AddSongModule,
   ]
 })
 export class ShowsModule {
