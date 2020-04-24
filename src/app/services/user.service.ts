@@ -29,4 +29,16 @@ export class UserService {
   public async update$(uid: string, data: Partial<User>): Promise<void> {
     await this.db.doc<User>('users/' + uid).update(data);
   }
+
+  public async login(user: string, password: string): Promise<any> {
+    await this.afAuth.auth.signInWithEmailAndPassword(user, password);
+  }
+
+  public async logout(): Promise<any> {
+    await this.afAuth.auth.signOut();
+  }
+
+  public async changePassword(email: string): Promise<any> {
+    await this.afAuth.auth.sendPasswordResetEmail(email);
+  }
 }

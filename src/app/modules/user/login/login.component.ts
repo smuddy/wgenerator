@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
+import {UserService} from '../../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   public form: FormGroup;
   public errorMessage: string;
 
-  constructor(public afAuth: AngularFireAuth, private router: Router) {
+  constructor(private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.form.updateValueAndValidity();
     if (this.form.valid) {
       try {
-        await this.afAuth.auth.signInWithEmailAndPassword(this.form.value.user, this.form.value.pass);
+        await this.userService.login(this.form.value.user, this.form.value.pass);
         await this.router.navigateByUrl('/');
       } catch (ex) {
         this.errorMessage = ex.code;

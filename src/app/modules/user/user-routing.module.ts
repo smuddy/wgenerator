@@ -4,6 +4,8 @@ import {LoginComponent} from './login/login.component';
 import {InfoComponent} from './info/info.component';
 import {LogoutComponent} from './logout/logout.component';
 import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
+import {PasswordComponent} from './password/password.component';
+import {PasswordSendComponent} from './password-send/password-send.component';
 
 
 const routes: Routes = [
@@ -19,6 +21,14 @@ const routes: Routes = [
   {
     path: 'logout',
     component: LogoutComponent
+  },
+  {
+    path: 'password',
+    component: PasswordComponent
+  },
+  {
+    path: 'password-send',
+    component: PasswordSendComponent
   },
   {
     path: 'info',

@@ -13,10 +13,12 @@ import {InfoComponent} from './info/info.component';
 import {LogoutComponent} from './logout/logout.component';
 import {RolePipe} from './info/role.pipe';
 import {MatSelectModule} from '@angular/material/select';
+import {PasswordComponent} from './password/password.component';
+import {PasswordSendComponent} from './password-send/password-send.component';
 
 
 @NgModule({
-  declarations: [LoginComponent, AuthMessagePipe, InfoComponent, LogoutComponent, RolePipe],
+  declarations: [LoginComponent, AuthMessagePipe, InfoComponent, LogoutComponent, RolePipe, PasswordComponent, PasswordSendComponent],
   imports: [
     CommonModule,
     UserRoutingModule,
