@@ -12,7 +12,7 @@ export class UserService {
   constructor(private afAuth: AngularFireAuth, private db: DbService) {
     this.afAuth.authState.pipe(
       filter(_ => !!_),
-      switchMap(auth => this.db.doc$<User>('user/' + auth.uid)),
+      switchMap(auth => this.db.doc$<User>('users/' + auth.uid)),
     ).subscribe(_ => this._user$.next(_));
   }
 
@@ -23,10 +23,10 @@ export class UserService {
   }
 
   public getUserbyId$(userId: string): Observable<User> {
-    return this.db.doc$<User>('user/' + userId);
+    return this.db.doc$<User>('users/' + userId);
   }
 
   public async update$(uid: string, data: Partial<User>): Promise<void> {
-    await this.db.doc<User>('user/' + uid).update(data);
+    await this.db.doc<User>('users/' + uid).update(data);
   }
 }
