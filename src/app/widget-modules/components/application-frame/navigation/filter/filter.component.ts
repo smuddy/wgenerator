@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-filter',
@@ -7,11 +7,15 @@ import {Router} from '@angular/router';
   styleUrls: ['./filter.component.less']
 })
 export class FilterComponent {
+  public value: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, activatedRoute: ActivatedRoute) {
+    activatedRoute.queryParams.subscribe(_ => {
+      if (_.q) this.value = _.q;
+    })
   }
 
-  public async onInputChange(text: string): Promise<void> {
+  public async valueChange(text: string): Promise<void> {
     const route = text
       ? this.router.createUrlTree(['songs'], {queryParams: {q: text}})
       : this.router.createUrlTree(['songs']);
