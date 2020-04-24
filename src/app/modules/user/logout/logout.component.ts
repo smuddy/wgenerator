@@ -1,6 +1,6 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
 import {Router} from '@angular/router';
+import {UserService} from '../../../services/user.service';
 
 @Component({
   selector: 'app-logout',
@@ -8,11 +8,11 @@ import {Router} from '@angular/router';
   styleUrls: ['./logout.component.less']
 })
 export class LogoutComponent implements AfterViewInit {
-  constructor(public afAuth: AngularFireAuth, private router: Router) {
+  constructor(private userService: UserService, private router: Router) {
   }
 
   public async ngAfterViewInit() {
-    await this.afAuth.auth.signOut();
+    await this.userService.logout();
     await this.router.navigateByUrl('/');
   }
 }
