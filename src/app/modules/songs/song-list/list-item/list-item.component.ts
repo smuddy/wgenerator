@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Song} from '../../services/song';
+import {faBalanceScaleRight} from '@fortawesome/free-solid-svg-icons/faBalanceScaleRight';
 
 @Component({
   selector: 'app-list-item',
@@ -8,6 +9,7 @@ import {Song} from '../../services/song';
 })
 export class ListItemComponent implements OnInit {
   @Input() public song: Song;
+  public faLegal = faBalanceScaleRight;
 
   constructor() {
   }

@@ -16,10 +16,7 @@ export class FilterComponent {
   }
 
   public async valueChange(text: string): Promise<void> {
-    const route = text
-      ? this.router.createUrlTree(['songs'], {queryParams: {q: text}})
-      : this.router.createUrlTree(['songs']);
-
+    const route = this.router.createUrlTree(['songs'], {queryParams: {q: text}, queryParamsHandling: 'merge'});
     await this.router.navigateByUrl(route);
   }
 }

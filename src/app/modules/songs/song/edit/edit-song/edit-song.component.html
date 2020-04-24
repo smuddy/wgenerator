@@ -36,7 +36,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip-list #chipList>
         <mat-chip (removed)="removeFlag(flag)" *ngFor="let flag of flags"
                   [removable]="true" [selectable]="false">
           {{flag}}&nbsp;
