@@ -1,6 +1,8 @@
 <div class="list-item">
   <div class="number">{{song.number}}</div>
-  <div>{{song.title}}</div>
+  <div>
+    <span *ngIf="song.legalType==='open'" class="warning"><fa-icon [icon]="faLegal"></fa-icon> &nbsp;</span>
+    {{song.title}}</div>
   <div>{{song.key}}</div>
-  <div>{{song.legalType | legalType}}</div>
+
 </div>

@@ -1,8 +1,15 @@
 <div class="header">
-  <button mat-icon-button>
+
+  <button (click)="onFilterClick()" [class.filter-active]="anyFilterActive" mat-icon-button>
     <fa-icon [icon]="faFilter"></fa-icon>
   </button>
   <button mat-icon-button routerLink="new">
     <fa-icon [icon]="faNew"></fa-icon>
   </button>
+</div>
+
+<div *ngIf="filterVisible || anyFilterActive" @fade>
+  <app-card>
+    <ng-content></ng-content>
+  </app-card>
 </div>

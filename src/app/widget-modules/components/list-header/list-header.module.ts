@@ -4,6 +4,7 @@ import {ListHeaderComponent} from './list-header.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatButtonModule} from '@angular/material/button';
 import {RouterModule} from '@angular/router';
+import {CardModule} from '../card/card.module';
 
 @NgModule({
   declarations: [ListHeaderComponent],
@@ -14,7 +15,8 @@ import {RouterModule} from '@angular/router';
     CommonModule,
     FontAwesomeModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    CardModule,
   ]
 })
 export class ListHeaderModule {
