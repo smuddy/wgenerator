@@ -1,5 +1,6 @@
 <div *ngIf="(show$|async) as show">
   <app-card
+    closeLink="../"
     heading="{{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}} - {{getStatus(show)}}">
     <i *ngIf="show.public">öffentliche Veranstaltung</i>
     <i *ngIf="!show.public">geschlossene Veranstaltung</i>

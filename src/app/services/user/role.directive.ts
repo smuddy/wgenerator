@@ -33,10 +33,9 @@ export class RoleDirective implements OnInit {
   }
 
   private updateView() {
+    this.viewContainer.clear();
     if (this.loggedIn && this.checkPermission()) {
       this.viewContainer.createEmbeddedView(this.templateRef);
-    } else {
-      this.viewContainer.clear();
     }
   }
 

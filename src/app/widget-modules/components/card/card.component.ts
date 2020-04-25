@@ -1,18 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.less']
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
   @Input() padding = true;
   @Input() heading: string;
+  @Input() closeLink: string;
 
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
+  public faClose = faTimes;
 }

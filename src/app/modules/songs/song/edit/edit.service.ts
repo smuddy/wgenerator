@@ -19,6 +19,7 @@ export class EditService {
       key: new FormControl(song.key),
       tempo: new FormControl(song.tempo),
       type: new FormControl(song.type),
+      status: new FormControl(song.status ?? 'draft'),
 
       legalType: new FormControl(song.legalType),
       legalLink: new FormControl(song.legalLink),

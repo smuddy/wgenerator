@@ -6,9 +6,18 @@
     width: 100%;
   }
 
-  .third {
+  .fourth {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    @media screen and (max-width: 860px) {
+      grid-template-columns: 1fr 1fr;
+    }
+    column-gap: 20px;
+  }
+
+  .half {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     column-gap: 20px;
   }
 

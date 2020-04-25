@@ -20,6 +20,7 @@ export class EditSongComponent implements OnInit {
   public form: FormGroup;
   public keys = KEYS;
   public types = SongService.TYPES;
+  public status = SongService.STATUS;
   public legalOwner = SongService.LEGAL_OWNER;
   public legalType = SongService.LEGAL_TYPE;
   public flags: string[] = [];
@@ -37,7 +38,7 @@ export class EditSongComponent implements OnInit {
   public ngOnInit(): void {
     this.activatedRoute.params.pipe(
       map(param => param.songId),
-      switchMap(songId => this.songService.read(songId)),
+      switchMap(songId => this.songService.read$(songId)),
       first()
     ).subscribe(song => {
       this.song = song;
@@ -55,7 +56,7 @@ export class EditSongComponent implements OnInit {
 
   public removeFlag(flag: string): void {
     const flags = this.flags.filter(_ => _ !== flag);
-    this.form.controls.flags.setValue(flags.reduce((a, b) => `${a};${b}`, ''));
+    this.form.controls.flags.setValue(flags.join(';'));
   }
 
   public addFlag(event: MatChipInputEvent): void {
@@ -65,14 +66,13 @@ export class EditSongComponent implements OnInit {
     // Add our fruit
     if ((value || '').trim()) {
       const flags = [...this.flags, value.trim()];
-      this.form.controls.flags.setValue(flags.reduce((a, b) => `${a};${b}`, ''));
+      this.form.controls.flags.setValue(flags.join(';'));
     }
 
     if (input) input.value = '';
   }
 
   private onFlagsChanged(flagArray: string): void {
-    console.log(flagArray);
     if (!flagArray) {
       this.flags = [];
       return;

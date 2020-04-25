@@ -9,6 +9,8 @@ import {RouterModule} from '@angular/router';
 import {LegalOwnerTranslatorModule} from '../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
 import {SongTextModule} from '../../../widget-modules/components/song-text/song-text.module';
 import {MatChipsModule} from '@angular/material/chips';
+import {RoleModule} from '../../../services/user/role.module';
+import {StatusTranslaterModule} from '../../../widget-modules/pipes/status-translater/status-translater.module';
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import {MatChipsModule} from '@angular/material/chips';
     LegalOwnerTranslatorModule,
     SongTextModule,
     MatChipsModule,
+    RoleModule,
+    StatusTranslaterModule,
   ]
 })
 export class SongModule {
