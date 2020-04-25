@@ -19,7 +19,7 @@ export class MonitorComponent implements OnInit {
   public zoom: number;
   public index: number;
   private sections: Section[];
-  private config$: Observable<Config>;
+  public config$: Observable<Config>;
 
   constructor(
     private showService: ShowService,
