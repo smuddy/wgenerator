@@ -3,7 +3,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {filter, switchMap} from 'rxjs/operators';
 import {User} from './user';
-import {DbService} from './db.service';
+import {DbService} from '../db.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,10 @@ export class UserService {
   public get user$(): Observable<User> {
     return this._user$.pipe(filter(_ => !!_));
   }
+
+  public loggedIn$ = () => this.afAuth.authState;
+
+  public list$ = (): Observable<User[]> => this.db.col$('users');
 
   public getUserbyId$(userId: string): Observable<User> {
     return this.db.doc$<User>('users/' + userId);

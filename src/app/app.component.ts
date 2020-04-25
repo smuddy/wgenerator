@@ -14,6 +14,4 @@ export class AppComponent implements OnInit {
     setTimeout(() => AppComponent.hideLoader(), 800);
 
   }
-
-  title = 'wgenerator';
 }

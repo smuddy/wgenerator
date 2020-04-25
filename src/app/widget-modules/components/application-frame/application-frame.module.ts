@@ -6,7 +6,7 @@ import {FilterComponent} from './navigation/filter/filter.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {LinkComponent} from './navigation/link/link.component';
 import {FormsModule} from '@angular/forms';
-
+import {RoleModule} from '../../../services/user/role.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,8 @@ import {FormsModule} from '@angular/forms';
     CommonModule,
     RouterModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    RoleModule
   ],
   exports: [
     NavigationComponent

@@ -83,6 +83,11 @@ export class SongTextComponent implements OnInit {
     scrollTo(0, this.elRef.nativeElement.offsetTop - 20);
   }
 
+  public checkDisabled(i: number) {
+    return this.index !== -1 && this.index !== i;
+
+  }
+
   private getNextChordMode(): ChordMode {
     switch (this._chordMode) {
       case 'show':
@@ -92,10 +97,5 @@ export class SongTextComponent implements OnInit {
       case 'onlyFirst':
         return 'show';
     }
-  }
-
-  checkDisabled(i: number) {
-    return this.index !== -1 && this.index !== i;
-
   }
 }

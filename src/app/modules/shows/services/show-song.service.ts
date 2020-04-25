@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {ShowSong} from './show-song';
 import {SongDataService} from '../../songs/services/song-data.service';
 import {take} from 'rxjs/operators';
-import {UserService} from '../../../services/user.service';
+import {UserService} from '../../../services/user/user.service';
 
 @Injectable({
   providedIn: 'root'

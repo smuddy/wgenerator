@@ -1,8 +1,8 @@
 <nav [class.hidden]="(windowScroll$|async)>60" class="head">
   <div class="links">
-    <app-link [icon]="faSongs" link="/songs" text="Lieder"></app-link>
-    <app-link [icon]="faShows" link="/shows" text="Veranstaltungen"></app-link>
-    <app-link [icon]="faPresentation" link="/presentation" text="Präsentation"></app-link>
+    <app-link *appRole="['user','presenter', 'leader']" [icon]="faSongs" link="/songs" text="Lieder"></app-link>
+    <app-link *appRole="['leader']" [icon]="faShows" link="/shows" text="Veranstaltungen"></app-link>
+    <app-link *appRole="['presenter']" [icon]="faPresentation" link="/presentation" text="Präsentation"></app-link>
     <app-link [icon]="faUser" link="/user" text="Benutzer"></app-link>
   </div>
   <div class="actions">
