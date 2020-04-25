@@ -17,10 +17,11 @@ import {PasswordComponent} from './password/password.component';
 import {PasswordSendComponent} from './password-send/password-send.component';
 import {UsersComponent} from './info/users/users.component';
 import {RoleModule} from '../../services/user/role.module';
+import {UserComponent} from './info/users/user/user.component';
 
 
 @NgModule({
-  declarations: [LoginComponent, AuthMessagePipe, InfoComponent, LogoutComponent, RolePipe, PasswordComponent, PasswordSendComponent, UsersComponent],
+  declarations: [LoginComponent, AuthMessagePipe, InfoComponent, LogoutComponent, RolePipe, PasswordComponent, PasswordSendComponent, UsersComponent, UserComponent],
   imports: [
     CommonModule,
     UserRoutingModule,

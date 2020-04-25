@@ -44,7 +44,7 @@ export class RoleDirective implements OnInit {
     if (this.currentUser && this.currentUser.role) {
       if (this.currentUser.role === 'admin') return true;
       for (const role of this.appRole) {
-        if (this.currentUser.role === role) return true;
+        if (this.currentUser.role.indexOf(role) !== -1) return true;
       }
     }
 

@@ -9,6 +9,8 @@ export class RolePipe implements PipeTransform {
 
   transform(role: roles): string {
     switch (role) {
+      case 'distributor':
+        return 'Mitarbeiter';
       case 'none':
         return 'keine Berechtigung';
       case 'admin':
@@ -19,6 +21,7 @@ export class RolePipe implements PipeTransform {
         return 'Lobpreisleiter';
       case 'presenter':
         return 'Präsentator';
+
     }
   }
 
