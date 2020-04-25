@@ -7,12 +7,14 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {LinkComponent} from './navigation/link/link.component';
 import {FormsModule} from '@angular/forms';
 import {RoleModule} from '../../../services/user/role.module';
+import {BrandComponent} from './navigation/brand/brand.component';
 
 @NgModule({
   declarations: [
     NavigationComponent,
     FilterComponent,
-    LinkComponent
+    LinkComponent,
+    BrandComponent
   ],
   imports: [
     CommonModule,
