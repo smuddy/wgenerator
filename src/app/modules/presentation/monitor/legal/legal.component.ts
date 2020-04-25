@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Song} from '../../../songs/services/song';
+import {Config} from '../../../../services/config';
 
 @Component({
   selector: 'app-legal',
@@ -8,4 +9,5 @@ import {Song} from '../../../songs/services/song';
 })
 export class LegalComponent {
   @Input() public song: Song;
+  @Input() public config: Config;
 }
