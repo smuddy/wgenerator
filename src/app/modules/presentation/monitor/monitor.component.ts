@@ -5,6 +5,9 @@ import {SongService} from '../../songs/services/song.service';
 import {Section, TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Song} from '../../songs/services/song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
+import {Config} from '../../../services/config';
+import {Observable} from 'rxjs';
+import {ConfigService} from '../../../services/config.service';
 
 @Component({
   selector: 'app-monitor',
@@ -16,13 +19,16 @@ export class MonitorComponent implements OnInit {
   public zoom: number;
   public index: number;
   private sections: Section[];
+  private config$: Observable<Config>;
 
   constructor(
     private showService: ShowService,
     private songService: SongService,
     private textRenderingService: TextRenderingService,
     private globalSettingsService: GlobalSettingsService,
+    private configService: ConfigService,
   ) {
+    this.config$ = configService.get$;
   }
 
   ngOnInit(): void {

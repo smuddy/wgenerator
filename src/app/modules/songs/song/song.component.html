@@ -9,7 +9,6 @@
           <div>Status: {{(song.status|status) || 'entwurf'}}</div>
           <div *ngIf="song.legalOwner">Rechteinhaber: {{song.legalOwner|legalOwner}}</div>
           <div *ngIf="song.legalOwnerId">Rechteinhaber ID: {{song.legalOwnerId}}</div>
-          <div *ngIf="song.legalLicenseId">Lizenznummer: {{song.legalLicenseId}}</div>
           <div *ngIf="song.artist">Künstler: {{song.artist}}</div>
           <div *ngIf="song.label">Verlag: {{song.label}}</div>
           <div *ngIf="song.origin">Quelle: {{song.origin}}</div>

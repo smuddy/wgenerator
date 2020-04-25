@@ -25,7 +25,6 @@ export class EditService {
       legalLink: new FormControl(song.legalLink),
       legalOwner: new FormControl(song.legalOwner),
       legalOwnerId: new FormControl(song.legalOwnerId),
-      legalLicenseId: new FormControl(song.legalLicenseId),
 
       artist: new FormControl(song.artist),
       label: new FormControl(song.label),

@@ -15,7 +15,6 @@ export interface Song {
   legalLink: string;
   legalOwner: string;
   legalOwnerId: string;
-  legalLicenseId: string;
 
   artist: string;
   label: string;
