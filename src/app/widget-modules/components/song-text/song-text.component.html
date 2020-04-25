@@ -1,9 +1,10 @@
 <div (click)="onClick()" *ngIf="sections" [@songSwitch]="sections" [class.chords]="_chordMode!=='hide'"
      class="song-text">
 
-  <div (click)="onChordClick()" *ngIf="showSwitch" class="menu">
+  <button (click)="onChordClick()" *ngIf="showSwitch" class="menu" mat-icon-button>
     <fa-icon [icon]="faLines"></fa-icon>
-  </div>
+  </button>
+
 
   <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
     <div #section *ngFor="let section of sections; let i = index" [class.chorus]="section.type===1" class="section">

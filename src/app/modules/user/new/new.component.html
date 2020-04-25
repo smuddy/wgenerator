@@ -1,0 +1,18 @@
+<app-card [formGroup]="form" closeLink="../" heading="neuen Benutzer anlegen">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input formControlName="name" matInput>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>E-Mail Adresse</mat-label>
+    <input formControlName="email" matInput>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Passwort</mat-label>
+    <input formControlName="password" matInput>
+  </mat-form-field>
+
+  <app-button-row>
+    <button (click)="onCreate()" mat-button>Benutzer anlegen</button>
+  </app-button-row>
+</app-card>

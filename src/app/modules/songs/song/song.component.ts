@@ -31,7 +31,7 @@ export class SongComponent implements OnInit {
   public ngOnInit(): void {
     this.song$ = this.activatedRoute.params.pipe(
       map(param => param.songId),
-      switchMap(songId => this.songService.read(songId))
+      switchMap(songId => this.songService.read$(songId))
     );
 
     this.files$ = this.activatedRoute.params.pipe(

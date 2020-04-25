@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Song} from './song';
 import {SongDataService} from './song-data.service';
-import {tap} from 'rxjs/operators';
+import {first, tap} from 'rxjs/operators';
 
 declare var importCCLI: any;
 
@@ -12,6 +12,7 @@ declare var importCCLI: any;
 export class SongService {
 
   public static TYPES = ['Praise', 'Worship'];
+  public static STATUS = ['draft', 'set', 'final'];
 
   public static LEGAL_OWNER = ['CCLI', 'other'];
   public static LEGAL_TYPE = ['open', 'allowed'];
@@ -24,7 +25,8 @@ export class SongService {
   }
 
   public list$ = (): Observable<Song[]> => this.songDataService.list$().pipe(tap(_ => this.list = _));
-  public read = (songId: string): Observable<Song | undefined> => this.songDataService.read$(songId);
+  public read$ = (songId: string): Observable<Song | undefined> => this.songDataService.read$(songId);
+  public read = (songId: string): Promise<Song | undefined> => this.read$(songId).pipe(first()).toPromise();
 
   public async update$(songId: string, data: Partial<Song>): Promise<void> {
     await this.songDataService.update$(songId, data);

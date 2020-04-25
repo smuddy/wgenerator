@@ -141,11 +141,11 @@ export class DocxService {
 
   private async prepareData(showId: string): Promise<{ songs: ({ showSong: ShowSong, song: Song, sections: Section[] })[]; show: Show, user: User }> {
     const show = await this.showService.read$(showId).pipe(first()).toPromise();
-    const user = await this.userService.getUserbyId$(show.owner).pipe(first()).toPromise();
+    const user = await this.userService.getUserbyId(show.owner);
 
-    const showSongs = await this.showSongService.list$(showId).pipe(first()).toPromise();
+    const showSongs = await this.showSongService.list(showId);
     const songsAsync = await showSongs.map(async showSong => {
-      const song = await this.songService.read(showSong.songId).pipe(first()).toPromise();
+      const song = await this.songService.read(showSong.songId);
       const sections = this.textRenderingService.parse(song.text);
       return {
         showSong,

@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SongTextComponent} from './song-text.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -9,7 +10,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
   exports: [SongTextComponent],
   imports: [
     CommonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatButtonModule
   ]
 })
 export class SongTextModule {

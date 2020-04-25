@@ -11,7 +11,8 @@
     </mat-form-field>
     <app-button-row>
       <button (click)="onLogin()" mat-button>Anmelden</button>
-      <button mat-button routerLink="/user/password">neues Passwort anfordern</button>
+      <button mat-button routerLink="/user/password">Passwort zurücksetzen</button>
+      <button mat-button routerLink="/user/new">neuen Benutzer anlegen</button>
       <p *ngIf="errorMessage" class="error">{{errorMessage|authMessage}}</p>
     </app-button-row>
 

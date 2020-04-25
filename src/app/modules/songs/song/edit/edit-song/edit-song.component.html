@@ -1,4 +1,4 @@
-<app-card *ngIf="song" [heading]="song.number + ' bearbeiten'">
+<app-card *ngIf="song" [heading]="song.number + ' bearbeiten'" closeLink="../">
 
   <form [formGroup]="form" class="form">
     <mat-form-field appearance="outline">
@@ -6,7 +6,7 @@
       <input formControlName="title" matInput>
     </mat-form-field>
 
-    <div class="third">
+    <div class="fourth">
       <mat-form-field appearance="outline">
         <mat-label>Typ</mat-label>
         <mat-select formControlName="type">
@@ -22,6 +22,12 @@
       <mat-form-field appearance="outline">
         <mat-label>Tempo</mat-label>
         <input formControlName="tempo" matInput>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let status of status" [value]="status">{{status | status}}</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
 
@@ -50,60 +56,61 @@
       </mat-chip-list>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Rechtlicher Status</mat-label>
-      <mat-select formControlName="legalType">
-        <mat-option *ngFor="let key of legalType" [value]="key">{{key|legalType}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="half">
+      <mat-form-field appearance="outline">
+        <mat-label>Rechtlicher Status</mat-label>
+        <mat-select formControlName="legalType">
+          <mat-option *ngFor="let key of legalType" [value]="key">{{key|legalType}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Rechteinhaber</mat-label>
-      <mat-select formControlName="legalOwner">
-        <mat-option *ngFor="let key of legalOwner" [value]="key">{{key|legalOwner}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Rechteinhaber</mat-label>
+        <mat-select formControlName="legalOwner">
+          <mat-option *ngFor="let key of legalOwner" [value]="key">{{key|legalOwner}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Rechteinhaber Link</mat-label>
-      <input formControlName="legalLink" matInput>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Rechteinhaber Link</mat-label>
+        <input formControlName="legalLink" matInput>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Rechteinhaber ID (z.B. CCLI Liednummer)</mat-label>
-      <input formControlName="legalOwnerId" matInput>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Rechteinhaber ID (z.B. CCLI Liednummer)</mat-label>
+        <input formControlName="legalOwnerId" matInput>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Lizenznummer</mat-label>
-      <input formControlName="legalLicenseId" matInput>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Lizenznummer</mat-label>
+        <input formControlName="legalLicenseId" matInput>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Künstler</mat-label>
-      <input formControlName="artist" matInput>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Künstler</mat-label>
+        <input formControlName="artist" matInput>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Verlag</mat-label>
-      <input formControlName="label" matInput>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Verlag</mat-label>
+        <input formControlName="label" matInput>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Nutzungsbedingungen</mat-label>
-      <input formControlName="termsOfUse" matInput>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nutzungsbedingungen</mat-label>
+        <input formControlName="termsOfUse" matInput>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>abweichende Quelle</mat-label>
-      <input formControlName="origin" matInput>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>abweichende Quelle</mat-label>
+        <input formControlName="origin" matInput>
+      </mat-form-field>
+    </div>
 
   </form>
 
   <app-button-row>
-    <button (click)="onSave()" color="primary" mat-flat-button>Speichern</button>
-    <button mat-stroked-button routerLink="../">Abbrechen</button>
+    <button (click)="onSave()" mat-button>Speichern</button>
   </app-button-row>
 </app-card>
 

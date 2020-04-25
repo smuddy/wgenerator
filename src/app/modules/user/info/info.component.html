@@ -1,5 +1,4 @@
-<app-card *ngIf="user$|async as user">
-  <h2>Hallo {{user.name}}</h2>
+<app-card *ngIf="user$|async as user" heading="Hallo {{user.name}}">
   <p>{{user.role|role}}</p>
 
   <mat-form-field appearance="outline">

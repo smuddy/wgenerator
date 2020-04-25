@@ -32,7 +32,7 @@ export class MonitorComponent implements OnInit {
       switchMap(_ => this.showService.read$(_)),
       tap(_ => this.index = _.presentationSection),
       tap(_ => this.zoom = _.presentationZoom ?? 30),
-      switchMap(_ => this.songService.read(_.presentationSongId))
+      switchMap(_ => this.songService.read$(_.presentationSongId))
     ).subscribe(_ => {
       this.song = _;
       this.sections = this.textRenderingService.parse(_.text);

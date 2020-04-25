@@ -19,6 +19,7 @@ import {LegalTypeTranslatorModule} from '../../../../widget-modules/pipes/legal-
 import {KeyTranslatorModule} from '../../../../widget-modules/pipes/key-translator/key-translator.module';
 import {MatChipsModule} from '@angular/material/chips';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {StatusTranslaterModule} from '../../../../widget-modules/pipes/status-translater/status-translater.module';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     KeyTranslatorModule,
     MatChipsModule,
     FontAwesomeModule,
+    StatusTranslaterModule,
 
   ]
 })

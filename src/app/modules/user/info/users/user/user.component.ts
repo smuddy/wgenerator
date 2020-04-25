@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {User} from '../../../../../services/user/user';
 import {UserService} from '../../../../../services/user/user.service';
 import {ROLE_TYPES} from '../../../../../services/user/roles';
@@ -8,7 +8,7 @@ import {ROLE_TYPES} from '../../../../../services/user/roles';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.less']
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
   public id: string;
   public name: string
   public roles: string[];
@@ -22,10 +22,6 @@ export class UserComponent implements OnInit {
     this.name = value.name;
     this.roles = this.getRoleArray(value.role);
   };
-
-  ngOnInit(): void {
-
-  }
 
   public async onRoleChanged(id: string, roles: string[]): Promise<void> {
     const role = roles.join(';');

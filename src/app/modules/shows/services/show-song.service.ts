@@ -3,7 +3,7 @@ import {ShowSongDataService} from './show-song-data.service';
 import {Observable} from 'rxjs';
 import {ShowSong} from './show-song';
 import {SongDataService} from '../../songs/services/song-data.service';
-import {take} from 'rxjs/operators';
+import {first, take} from 'rxjs/operators';
 import {UserService} from '../../../services/user/user.service';
 
 @Injectable({
@@ -33,6 +33,7 @@ export class ShowSongService {
   }
 
   public list$ = (showId: string): Observable<ShowSong[]> => this.showSongDataService.list$(showId, _ => _.orderBy('order'));
+  public list = (showId: string): Promise<ShowSong[]> => this.list$(showId).pipe(first()).toPromise();
   public delete$ = (showId: string, songId: string): Promise<void> => this.showSongDataService.delete(showId, songId);
   public update$ = async (showId: string, songId: string, data: Partial<ShowSong>): Promise<void> => await this.showSongDataService.update$(showId, songId, data);
 }
