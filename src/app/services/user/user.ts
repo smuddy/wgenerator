@@ -3,6 +3,6 @@ import {ChordMode} from '../../widget-modules/components/song-text/song-text.com
 export interface User {
   id: string;
   name: string;
-  role: 'admin';
+  role: string;
   chordMode: ChordMode
 }

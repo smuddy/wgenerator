@@ -1,0 +1,14 @@
+<div class="users">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input (change)="onNameChanged(id, $event)" [ngModel]="name" matInput>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Rolle</mat-label>
+    <mat-select (ngModelChange)="onRoleChanged(id, $event)" [ngModel]="roles" multiple>
+      <mat-option *ngFor="let role of ROLE_TYPES" [value]="role">{{role | role}}</mat-option>
+    </mat-select>
+
+  </mat-form-field>
+</div>
