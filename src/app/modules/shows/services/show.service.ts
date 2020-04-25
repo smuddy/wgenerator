@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {ShowDataService} from './show-data.service';
 import {Show} from './show';
 import {Observable} from 'rxjs';
-import {UserService} from '../../../services/user.service';
+import {UserService} from '../../../services/user/user.service';
 import {map, switchMap} from 'rxjs/operators';
-import {User} from '../../../services/user';
+import {User} from '../../../services/user/user';
 
 @Injectable({
   providedIn: 'root'

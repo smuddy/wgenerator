@@ -1,4 +1,4 @@
-import {ChordMode} from '../widget-modules/components/song-text/song-text.component';
+import {ChordMode} from '../../widget-modules/components/song-text/song-text.component';
 
 export interface User {
   id: string;

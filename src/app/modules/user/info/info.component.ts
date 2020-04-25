@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from '../../../services/user.service';
+import {UserService} from '../../../services/user/user.service';
 import {Observable} from 'rxjs';
-import {User} from '../../../services/user';
+import {User} from '../../../services/user/user';
 import {ChordMode} from '../../../widget-modules/components/song-text/song-text.component';
 
 @Component({

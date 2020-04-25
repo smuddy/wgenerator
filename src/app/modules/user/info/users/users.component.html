@@ -1,0 +1,18 @@
+<app-card heading="registrierte Benutzer">
+
+  <div *ngFor="let user of users$|async" class="users">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input (change)="onNameChanged(user.id, $event)" [ngModel]="user.name" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rolle</mat-label>
+      <mat-select (ngModelChange)="onRoleChanged(user.id, $event)" [ngModel]="user.role">
+        <mat-option *ngFor="let role of ROLE_TYPES" [value]="role">{{role | role}}</mat-option>
+      </mat-select>
+
+    </mat-form-field>
+  </div>
+
+</app-card>

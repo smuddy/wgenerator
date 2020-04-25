@@ -10,8 +10,8 @@ import {SongService} from '../../songs/services/song.service';
 import {ShowSong} from './show-song';
 import {Show} from './show';
 import {ChordMode} from '../../../widget-modules/components/song-text/song-text.component';
-import {UserService} from '../../../services/user.service';
-import {User} from '../../../services/user';
+import {UserService} from '../../../services/user/user.service';
+import {User} from '../../../services/user/user';
 
 
 @Injectable({

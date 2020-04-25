@@ -6,8 +6,8 @@ import {Song} from '../services/song';
 import {Observable} from 'rxjs';
 import {FileDataService} from '../services/file-data.service';
 import {File} from '../services/file';
-import {UserService} from '../../../services/user.service';
-import {User} from '../../../services/user';
+import {UserService} from '../../../services/user/user.service';
+import {User} from '../../../services/user/user';
 
 @Component({
   selector: 'app-song',

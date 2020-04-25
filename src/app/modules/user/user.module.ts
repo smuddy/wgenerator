@@ -15,10 +15,12 @@ import {RolePipe} from './info/role.pipe';
 import {MatSelectModule} from '@angular/material/select';
 import {PasswordComponent} from './password/password.component';
 import {PasswordSendComponent} from './password-send/password-send.component';
+import {UsersComponent} from './info/users/users.component';
+import {RoleModule} from '../../services/user/role.module';
 
 
 @NgModule({
-  declarations: [LoginComponent, AuthMessagePipe, InfoComponent, LogoutComponent, RolePipe, PasswordComponent, PasswordSendComponent],
+  declarations: [LoginComponent, AuthMessagePipe, InfoComponent, LogoutComponent, RolePipe, PasswordComponent, PasswordSendComponent, UsersComponent],
   imports: [
     CommonModule,
     UserRoutingModule,
@@ -30,6 +32,7 @@ import {PasswordSendComponent} from './password-send/password-send.component';
     MatButtonModule,
     MatSelectModule,
     FormsModule,
+    RoleModule,
 
 
   ]
