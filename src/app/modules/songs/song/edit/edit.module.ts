@@ -20,6 +20,7 @@ import {KeyTranslatorModule} from '../../../../widget-modules/pipes/key-translat
 import {MatChipsModule} from '@angular/material/chips';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {StatusTranslaterModule} from '../../../../widget-modules/pipes/status-translater/status-translater.module';
+import {ButtonModule} from '../../../../widget-modules/components/button/button.module';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import {StatusTranslaterModule} from '../../../../widget-modules/pipes/status-tr
     MatChipsModule,
     FontAwesomeModule,
     StatusTranslaterModule,
+    ButtonModule,
 
   ]
 })

@@ -9,6 +9,7 @@ import {KEYS} from '../../../services/key.helper';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {faTimesCircle} from '@fortawesome/free-solid-svg-icons/faTimesCircle';
+import {faSave} from '@fortawesome/free-solid-svg-icons/faSave';
 
 @Component({
   selector: 'app-edit-song',
@@ -26,6 +27,7 @@ export class EditSongComponent implements OnInit {
   public flags: string[] = [];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   public faRemove = faTimesCircle;
+  public faSave = faSave;
 
   constructor(
     private activatedRoute: ActivatedRoute,

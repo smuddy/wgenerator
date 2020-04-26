@@ -3,6 +3,7 @@ import {UserService} from '../../../services/user/user.service';
 import {Observable} from 'rxjs';
 import {User} from '../../../services/user/user';
 import {ChordMode} from '../../../widget-modules/components/song-text/song-text.component';
+import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons/faSignOutAlt';
 
 @Component({
   selector: 'app-info',
@@ -11,6 +12,7 @@ import {ChordMode} from '../../../widget-modules/components/song-text/song-text.
 })
 export class InfoComponent implements OnInit {
   public user$: Observable<User>;
+  public faSignOut = faSignOutAlt;
 
   constructor(private userService: UserService) {
   }

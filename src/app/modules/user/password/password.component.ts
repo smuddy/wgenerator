@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
+import {faWindowRestore} from '@fortawesome/free-solid-svg-icons/faWindowRestore';
 
 @Component({
   selector: 'app-password',
@@ -11,6 +12,7 @@ import {UserService} from '../../../services/user/user.service';
 export class PasswordComponent implements OnInit {
   public form: FormGroup;
   public errorMessage: string;
+  public faNewPassword = faWindowRestore;
 
   constructor(public userService: UserService, private router: Router) {
   }

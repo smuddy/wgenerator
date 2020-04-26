@@ -1,5 +1,5 @@
 <div>
-  <app-card>
+  <app-card closeLink="../">
     <h1>Neue Veranstaltung</h1>
 
     <div [formGroup]="form" class="split">
@@ -23,8 +23,7 @@
     </div>
 
     <app-button-row>
-      <button (click)="onSave()" color="primary" mat-flat-button>Anlegen</button>
-      <button mat-button routerLink="/show">Abbrechen</button>
+      <app-button (click)="onSave()" [icon]="faSave">Anlegen</app-button>
     </app-button-row>
   </app-card>
 </div>

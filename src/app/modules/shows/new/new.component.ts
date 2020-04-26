@@ -5,6 +5,7 @@ import {Show} from '../services/show';
 import {ShowService} from '../services/show.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {faSave} from '@fortawesome/free-solid-svg-icons/faSave';
 
 @Component({
   selector: 'app-new',
@@ -16,6 +17,7 @@ export class NewComponent implements OnInit {
   public showTypePublic = ShowService.SHOW_TYPE_PUBLIC;
   public showTypePrivate = ShowService.SHOW_TYPE_PRIVATE;
   public form: FormGroup;
+  public faSave = faSave;
 
   constructor(private showService: ShowService, showDataService: ShowDataService, private router: Router) {
     this.shows$ = showDataService.list$();
