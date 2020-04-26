@@ -58,7 +58,7 @@ export class UserService {
     await this.db.doc('users/' + userId).set({name, chordMode: 'onlyFirst'});
     const dUser = await this.readUser(aUser.user.uid);
     this._user$.next(dUser);
-    await this.router.navigateByUrl('/user/info');
+    await this.router.navigateByUrl('/brand/new-user');
   }
 
   private readUser$ = (uid) => this.db.doc$<User>('users/' + uid);

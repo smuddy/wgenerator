@@ -1,0 +1,118 @@
+@animation-duration: 20s;
+
+.frame {
+  width: 512px;
+  position: relative;
+}
+
+.brand {
+  position: absolute;
+  left: 0;
+  animation: @animation-duration brand ease-in-out forwards;
+  opacity: 0;
+}
+
+.text {
+  position: absolute;
+  left: 0;
+  transform: translateX(50%);
+  color: #fff;
+  margin-top: 60px;
+
+  .welcome {
+    opacity: 0;
+    font-size: 80px;
+    animation: @animation-duration welcome ease-in-out forwards;
+  }
+
+  .name {
+    opacity: 0;
+    font-size: 50px;
+    animation: @animation-duration name ease-in-out forwards;
+  }
+
+  .roles {
+    opacity: 0;
+    font-size: 20px;
+    margin-top: 40px;
+    animation: @animation-duration roles ease-in-out forwards;
+  }
+}
+
+@keyframes brand {
+  10% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  15% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  25% {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes welcome {
+  30% {
+    opacity: 0;
+    transform: scale(1.4);
+    filter: blur(50px);
+  }
+  40% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes name {
+  50% {
+    opacity: 0;
+    transform: scale(1.4);
+    filter: blur(50px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes roles {
+  70% {
+    opacity: 0;
+    transform: scale(1.4);
+    filter: blur(50px);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

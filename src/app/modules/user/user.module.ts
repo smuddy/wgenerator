@@ -20,6 +20,7 @@ import {RoleModule} from '../../services/user/role.module';
 import {UserComponent} from './info/users/user/user.component';
 import {NewComponent} from './new/new.component';
 import {ButtonModule} from '../../widget-modules/components/button/button.module';
+import {LogoModule} from '../../widget-modules/components/logo/logo.module';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import {ButtonModule} from '../../widget-modules/components/button/button.module
     FormsModule,
     RoleModule,
     ButtonModule,
+    LogoModule,
 
 
   ]

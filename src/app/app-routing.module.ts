@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
+import {RoleGuard} from './widget-modules/guards/role.guard';
 
 const routes: Routes = [
   {
@@ -11,24 +12,37 @@ const routes: Routes = [
   {
     path: 'songs',
     loadChildren: () => import('./modules/songs/songs.module').then(m => m.SongsModule),
-    canActivate: [AngularFireAuthGuard],
-    data: {authGuardPipe: () => redirectUnauthorizedTo(['user', 'login'])}
+    canActivate: [AngularFireAuthGuard, RoleGuard],
+    data: {
+      authGuardPipe: () => redirectUnauthorizedTo(['user', 'login']),
+      requiredRoles: ['user']
+    }
   },
   {
     path: 'shows',
     loadChildren: () => import('./modules/shows/shows.module').then(m => m.ShowsModule),
-    canActivate: [AngularFireAuthGuard],
-    data: {authGuardPipe: () => redirectUnauthorizedTo(['user', 'login'])}
+    canActivate: [AngularFireAuthGuard, RoleGuard],
+    data: {
+      authGuardPipe: () => redirectUnauthorizedTo(['user', 'login']),
+      requiredRoles: ['leader']
+    }
   },
   {
     path: 'presentation',
     loadChildren: () => import('./modules/presentation/presentation.module').then(m => m.PresentationModule),
-    canActivate: [AngularFireAuthGuard],
-    data: {authGuardPipe: () => redirectUnauthorizedTo(['user', 'login'])}
+    canActivate: [AngularFireAuthGuard, RoleGuard],
+    data: {
+      authGuardPipe: () => redirectUnauthorizedTo(['user', 'login']),
+      requiredRoles: ['presenter']
+    }
   },
   {
     path: 'user',
     loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+  },
+  {
+    path: 'brand',
+    loadChildren: () => import('./modules/brand/brand.module').then(m => m.BrandModule),
   }
 ];
 

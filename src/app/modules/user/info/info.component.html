@@ -1,5 +1,8 @@
 <app-card *ngIf="user$|async as user" heading="Hallo {{user.name}}">
-  <p>{{user.role|role}}</p>
+  <p>
+    <span *ngIf="getUserRoles(user.role).length===0" class="warn">Es wurden noch keine Berechtigungen zugeteilt, bitte wende Dich an den Administrator!</span>
+    <span>{{transdormUserRoles(user.role)}}</span>
+  </p>
 
   <mat-form-field appearance="outline">
     <mat-label>bevorzugte Anzeige der Akkorde</mat-label>
