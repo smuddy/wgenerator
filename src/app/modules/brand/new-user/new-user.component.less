@@ -2,6 +2,9 @@
 
 .frame {
   width: 512px;
+  @media screen and (max-width: 860px) {
+    width: 90vw
+  }
   position: relative;
 }
 
@@ -10,24 +13,36 @@
   left: 0;
   animation: @animation-duration brand ease-in-out forwards;
   opacity: 0;
+  @media screen and (max-width: 860px) {
+    animation: @animation-duration brand-mobile ease-in-out forwards;
+  }
 }
 
 .text {
   position: absolute;
   left: 0;
   transform: translateX(50%);
+  @media screen and (max-width: 860px) {
+    transform: translateX(0) translateY(120%);
+  }
   color: #fff;
   margin-top: 60px;
 
   .welcome {
     opacity: 0;
     font-size: 80px;
+    @media screen and (max-width: 860px) {
+      font-size: 40px;
+    }
     animation: @animation-duration welcome ease-in-out forwards;
   }
 
   .name {
     opacity: 0;
     font-size: 50px;
+    @media screen and (max-width: 860px) {
+      font-size: 30px;
+    }
     animation: @animation-duration name ease-in-out forwards;
   }
 
@@ -39,27 +54,56 @@
   }
 }
 
+
 @keyframes brand {
   10% {
     opacity: 0;
-    transform: translateX(0);
+    transform: translateX(0) translateY(0%);
+    filter: blur(30px);
   }
   15% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) translateY(0%);
+    filter: blur(0px);
   }
   20% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) translateY(0%);
   }
   25% {
     opacity: 1;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(0%);
   }
 
   100% {
     opacity: 1;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(0%);
+  }
+}
+
+@keyframes brand-mobile {
+  10% {
+    opacity: 0;
+    transform: translateX(-25%) translateY(25%);
+    filter: blur(30px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateX(-25%) translateY(25%);
+    filter: blur(0px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(-25%) translateY(25%);
+  }
+  25% {
+    opacity: 1;
+    transform: translateX(-25%) translateY(0%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(-25%) translateY(0%);
   }
 }
 
@@ -67,7 +111,7 @@
   30% {
     opacity: 0;
     transform: scale(1.4);
-    filter: blur(50px);
+    filter: blur(30px);
   }
   40% {
     opacity: 1;
@@ -85,7 +129,7 @@
   50% {
     opacity: 0;
     transform: scale(1.4);
-    filter: blur(50px);
+    filter: blur(30px);
   }
   60% {
     opacity: 1;
@@ -103,7 +147,7 @@
   70% {
     opacity: 0;
     transform: scale(1.4);
-    filter: blur(50px);
+    filter: blur(30px);
   }
   80% {
     opacity: 1;
