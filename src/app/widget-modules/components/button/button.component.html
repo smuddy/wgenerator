@@ -1,0 +1,6 @@
+<button mat-button>
+  <span *ngIf="icon"><fa-icon [icon]="icon"></fa-icon><span class="content">&nbsp;</span></span>
+  <span class="content">
+    <ng-content></ng-content>
+  </span>
+</button>

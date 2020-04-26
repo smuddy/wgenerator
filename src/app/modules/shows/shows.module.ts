@@ -24,6 +24,7 @@ import {MenuButtonModule} from '../../widget-modules/components/menu-button/menu
 import {SongTextModule} from '../../widget-modules/components/song-text/song-text.module';
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {AddSongModule} from '../../widget-modules/components/add-song/add-song.module';
+import {ButtonModule} from '../../widget-modules/components/button/button.module';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import {AddSongModule} from '../../widget-modules/components/add-song/add-song.m
     SongTextModule,
     NgxMatSelectSearchModule,
     AddSongModule,
+    ButtonModule,
   ]
 })
 export class ShowsModule {

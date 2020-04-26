@@ -19,6 +19,7 @@ import {UsersComponent} from './info/users/users.component';
 import {RoleModule} from '../../services/user/role.module';
 import {UserComponent} from './info/users/user/user.component';
 import {NewComponent} from './new/new.component';
+import {ButtonModule} from '../../widget-modules/components/button/button.module';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {NewComponent} from './new/new.component';
     MatSelectModule,
     FormsModule,
     RoleModule,
+    ButtonModule,
 
 
   ]

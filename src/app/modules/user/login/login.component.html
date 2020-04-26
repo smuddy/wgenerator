@@ -10,9 +10,9 @@
       <input (keyup.enter)="onLogin()" formControlName="pass" matInput type="password">
     </mat-form-field>
     <app-button-row>
-      <button (click)="onLogin()" mat-button>Anmelden</button>
-      <button mat-button routerLink="/user/password">Passwort zurücksetzen</button>
-      <button mat-button routerLink="/user/new">neuen Benutzer anlegen</button>
+      <app-button (click)="onLogin()" [icon]="faSignIn">Anmelden</app-button>
+      <app-button [icon]="faNewPassword" routerLink="/user/password">Passwort zurücksetzen</app-button>
+      <app-button [icon]="faNewUser" routerLink="/user/new">neuen Benutzer anlegen</app-button>
       <p *ngIf="errorMessage" class="error">{{errorMessage|authMessage}}</p>
     </app-button-row>
 

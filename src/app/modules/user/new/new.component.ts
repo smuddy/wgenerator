@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../services/user/user.service';
+import {faUserPlus} from '@fortawesome/free-solid-svg-icons/faUserPlus';
 
 @Component({
   selector: 'app-new',
@@ -9,6 +10,7 @@ import {UserService} from '../../../services/user/user.service';
 })
 export class NewComponent implements OnInit {
   public form: FormGroup;
+  public faNewUser = faUserPlus;
 
   constructor(private fb: FormBuilder, private userService: UserService) {
   }

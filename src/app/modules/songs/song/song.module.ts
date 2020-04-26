@@ -11,6 +11,7 @@ import {SongTextModule} from '../../../widget-modules/components/song-text/song-
 import {MatChipsModule} from '@angular/material/chips';
 import {RoleModule} from '../../../services/user/role.module';
 import {StatusTranslaterModule} from '../../../widget-modules/pipes/status-translater/status-translater.module';
+import {ButtonModule} from '../../../widget-modules/components/button/button.module';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {StatusTranslaterModule} from '../../../widget-modules/pipes/status-trans
     MatChipsModule,
     RoleModule,
     StatusTranslaterModule,
+    ButtonModule,
   ]
 })
 export class SongModule {

@@ -9,6 +9,11 @@ import {Song} from '../../songs/services/song';
 import {ShowSongService} from '../services/show-song.service';
 import {ShowSong} from '../services/show-song';
 import {DocxService} from '../services/docx.service';
+import {faBox} from '@fortawesome/free-solid-svg-icons/faBox';
+import {faBoxOpen} from '@fortawesome/free-solid-svg-icons/faBoxOpen';
+import {faExternalLinkAlt} from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt';
+import {faLock} from '@fortawesome/free-solid-svg-icons/faLock';
+import {faFileDownload} from '@fortawesome/free-solid-svg-icons/faFileDownload';
 
 @Component({
   selector: 'app-show',
@@ -21,6 +26,12 @@ export class ShowComponent implements OnInit {
   public showSongs: ShowSong[];
   public showId: string;
   public showText: boolean;
+
+  public faBox = faBox;
+  public faBoxOpen = faBoxOpen;
+  public faPublish = faExternalLinkAlt;
+  public faUnpublish = faLock;
+  public faDownload = faFileDownload;
 
   constructor(
     private activatedRoute: ActivatedRoute,

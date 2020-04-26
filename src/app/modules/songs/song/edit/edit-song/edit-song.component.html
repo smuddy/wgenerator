@@ -82,11 +82,6 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Lizenznummer</mat-label>
-        <input formControlName="legalLicenseId" matInput>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
         <mat-label>Künstler</mat-label>
         <input formControlName="artist" matInput>
       </mat-form-field>
@@ -110,7 +105,7 @@
   </form>
 
   <app-button-row>
-    <button (click)="onSave()" mat-button>Speichern</button>
+    <app-button (click)="onSave()" [icon]="faSave">Speichern</app-button>
   </app-button-row>
 </app-card>
 

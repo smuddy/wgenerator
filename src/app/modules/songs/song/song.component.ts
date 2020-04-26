@@ -8,6 +8,7 @@ import {FileDataService} from '../services/file-data.service';
 import {File} from '../services/file';
 import {UserService} from '../../../services/user/user.service';
 import {User} from '../../../services/user/user';
+import {faEdit} from '@fortawesome/free-solid-svg-icons/faEdit';
 
 @Component({
   selector: 'app-song',
@@ -18,6 +19,7 @@ export class SongComponent implements OnInit {
   public song$: Observable<Song>;
   public files$: Observable<File[]>;
   public user$: Observable<User>;
+  public faEdit = faEdit;
 
   constructor(
     private activatedRoute: ActivatedRoute,
