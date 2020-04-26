@@ -21,6 +21,7 @@ import {UserComponent} from './info/users/user/user.component';
 import {NewComponent} from './new/new.component';
 import {ButtonModule} from '../../widget-modules/components/button/button.module';
 import {LogoModule} from '../../widget-modules/components/logo/logo.module';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import {LogoModule} from '../../widget-modules/components/logo/logo.module';
     RoleModule,
     ButtonModule,
     LogoModule,
+    FontAwesomeModule,
 
 
   ]

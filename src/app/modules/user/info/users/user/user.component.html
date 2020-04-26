@@ -1,4 +1,4 @@
-<div class="users">
+<div *ngIf="edit" class="users">
   <mat-form-field appearance="outline">
     <mat-label>Name</mat-label>
     <input (change)="onNameChanged(id, $event)" [ngModel]="name" matInput>
@@ -9,6 +9,14 @@
     <mat-select (ngModelChange)="onRoleChanged(id, $event)" [ngModel]="roles" multiple>
       <mat-option *ngFor="let role of ROLE_TYPES" [value]="role">{{role | role}}</mat-option>
     </mat-select>
-
   </mat-form-field>
+
+  <button (click)="edit=false" mat-icon-button>
+    <fa-icon [icon]="faClose"></fa-icon>
+  </button>
+</div>
+
+<div (click)="edit=true" *ngIf="!edit" class="users list-item">
+  <span>{{name}}</span>
+  <span><span *ngFor="let role of roles">{{role|role}}, </span></span>
 </div>

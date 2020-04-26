@@ -1,5 +1,15 @@
+@import "../../../../../../styles/styles";
+
 .users {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 40px;
   grid-gap: 20px;
+}
+
+.list-item {
+  cursor: pointer;
+
+  &:hover {
+    color: @primary-color;
+  }
 }
