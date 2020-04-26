@@ -1,4 +1,4 @@
-<app-card>
+<!--<app-card>
   <div [formGroup]="form" class="form">
     <mat-form-field appearance="outline">
       <mat-label>E-Mail Addresse</mat-label>
@@ -18,4 +18,27 @@
 
   </div>
 
-</app-card>
+</app-card>-->
+
+<div class="frame">
+  <app-logo></app-logo>
+  <div class="login">
+    <div [formGroup]="form" class="form">
+      <mat-form-field appearance="outline">
+        <mat-label>E-Mail Addresse</mat-label>
+        <input (keyup.enter)="onLogin()" formControlName="user" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Passwort</mat-label>
+        <input (keyup.enter)="onLogin()" formControlName="pass" matInput type="password">
+      </mat-form-field>
+      <p *ngIf="errorMessage" class="error">{{errorMessage|authMessage}}</p>
+      <button (click)="onLogin()" class="btn-login" color="primary" mat-stroked-button>Anmelden</button>
+      <button class="btn-password" mat-stroked-button routerLink="/user/password">Passwort zurücksetzen</button>
+      <button class="btn-user" mat-stroked-button routerLink="/user/new">neuen Benutzer anlegen</button>
+
+
+    </div>
+  </div>
+</div>

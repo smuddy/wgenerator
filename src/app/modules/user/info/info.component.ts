@@ -25,4 +25,7 @@ export class InfoComponent implements OnInit {
     await this.userService.update$(uid, {chordMode: value});
   }
 
+  public getUserRoles = (roles: string): string[] => roles?.split(';') ?? [];
+  public transdormUserRoles = (roles: string): string => this.getUserRoles(roles).join(', ');
+
 }

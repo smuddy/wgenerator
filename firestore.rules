@@ -11,6 +11,7 @@ service cloud.firestore {
         return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
       }
 
+      allow create: if request.resource.id == request.auth.uid;
       allow read: if isUser(resource) || isAdmin();
       allow write: if isUser(resource) || isAdmin();
     }

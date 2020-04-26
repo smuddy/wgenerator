@@ -1,0 +1,8 @@
+<div class="frame">
+  <app-brand class="brand"></app-brand>
+  <div *ngIf="user$|async as user" class="text">
+    <div class="welcome">WILLKOMMEN</div>
+    <div class="name">{{user.name}}</div>
+    <div class="roles">Es wurden noch keine Berechtigungen zugeteilt, bitte wende Dich an den Administrator!</div>
+  </div>
+</div>
