@@ -17,7 +17,6 @@ export class SongService {
   public static LEGAL_OWNER = ['CCLI', 'other'];
   public static LEGAL_TYPE = ['open', 'allowed'];
 
-
   private list: Song[];
 
   constructor(private songDataService: SongDataService) {
@@ -34,6 +33,10 @@ export class SongService {
 
   public async new(number: number, title: string): Promise<string> {
     return await this.songDataService.add({number, title, status: 'draft', legalType: 'open'})
+  }
+
+  public async delete(songId: string): Promise<void> {
+    await this.songDataService.delete(songId);
   }
 
 // https://www.csvjson.com/csv2json

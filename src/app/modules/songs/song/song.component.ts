@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SongService} from '../services/song.service';
 import {map, switchMap} from 'rxjs/operators';
 import {Song} from '../services/song';
@@ -9,6 +9,7 @@ import {File} from '../services/file';
 import {UserService} from '../../../services/user/user.service';
 import {User} from '../../../services/user/user';
 import {faEdit} from '@fortawesome/free-solid-svg-icons/faEdit';
+import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash';
 
 @Component({
   selector: 'app-song',
@@ -20,12 +21,14 @@ export class SongComponent implements OnInit {
   public files$: Observable<File[]>;
   public user$: Observable<User>;
   public faEdit = faEdit;
+  public faDelete = faTrash;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private songService: SongService,
     private fileService: FileDataService,
     private userService: UserService,
+    private router: Router,
   ) {
     this.user$ = userService.user$;
   }
@@ -40,7 +43,6 @@ export class SongComponent implements OnInit {
       map(param => param.songId),
       switchMap(songId => this.fileService.read$(songId))
     );
-
   }
 
   public getFlags = (flags: string): string[] => {
@@ -48,4 +50,8 @@ export class SongComponent implements OnInit {
     return flags.split(';').filter(_ => !!_);
   };
 
+  public async onDelete(songId: string): Promise<void> {
+    await this.songService.delete(songId);
+    await this.router.navigateByUrl('/songs');
+  }
 }
