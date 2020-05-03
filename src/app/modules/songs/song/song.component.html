@@ -29,6 +29,7 @@
     </div>
 
     <app-button-row>
+      <app-button (click)="onDelete(song.id)" *appRole="['admin']" [icon]="faDelete">Löschen</app-button>
       <app-button *appRole="['contributor']" [icon]="faEdit" routerLink="edit">Bearbeiten</app-button>
     </app-button-row>
 
