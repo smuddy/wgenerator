@@ -32,6 +32,10 @@ export class SongService {
     await this.songDataService.update$(songId, data);
   }
 
+  public async new(number: number, title: string): Promise<string> {
+    return await this.songDataService.add({number, title, status: 'draft', legalType: 'open'})
+  }
+
 // https://www.csvjson.com/csv2json
   private async updateFromCLI(songs: Song[]) {
     const mapped = songs.map(_ => ({
