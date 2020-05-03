@@ -12,7 +12,6 @@ export interface Song {
   status: string;
 
   legalType: string;
-  legalLink: string;
   legalOwner: string;
   legalOwnerId: string;
 
