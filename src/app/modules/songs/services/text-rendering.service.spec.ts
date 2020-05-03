@@ -62,9 +62,8 @@ Cool bridge without any chords
   });
 
   it('should parse chord lines', () => {
-    const service: TextRenderingService = TestBed.get(TextRenderingService);
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
     const sections = service.parse(testText);
-    console.log(sections);
     expect(sections[0].lines[0].type).toBe(LineType.chord);
     expect(sections[0].lines[0].text).toBe('C D E F G A H');
     expect(sections[0].lines[2].type).toBe(LineType.chord);
