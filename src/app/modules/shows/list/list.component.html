@@ -1,7 +1,16 @@
 <div>
   <app-list-header></app-list-header>
 
-  <app-card *ngIf="shows$ | async as shows" [@fade] [padding]="false">
-    <app-list-item *ngFor="let show of shows" [routerLink]="show.id" [show]="show"></app-list-item>
-  </app-card>
+  <ng-container *ngIf="shows$ | async as shows">
+    <app-card *ngIf="getPrivateSongs(shows).length>0" [@fade] [padding]="false" heading="meine Veranstaltungen">
+      <app-list-item *ngFor="let show of getPrivateSongs(shows)" [routerLink]="show.id" [show]="show"></app-list-item>
+    </app-card>
+  </ng-container>
+
+  <ng-container *ngIf="shows$ | async as shows">
+    <app-card *ngIf="getPublicShows(shows).length>0" [@fade] [padding]="false"
+              heading="veröffentlichte Veranstaltungen">
+      <app-list-item *ngFor="let show of getPublicShows(shows)" [routerLink]="show.id" [show]="show"></app-list-item>
+    </app-card>
+  </ng-container>
 </div>

@@ -17,4 +17,12 @@ export class ListComponent {
     this.shows$ = showService.list$();
   }
 
+  public getPublicShows(songs: Show[]): Show[] {
+    return songs.filter(_ => _.published)
+  }
+
+  public getPrivateSongs(songs: Show[]): Show[] {
+    return songs.filter(_ => !_.published)
+  }
+
 }

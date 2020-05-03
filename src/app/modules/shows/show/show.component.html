@@ -22,11 +22,14 @@
                   [songs]="songs"></app-add-song>
 
     <app-button-row>
-      <app-button (click)="onArchive(true)" *ngIf="!show.archived" [icon]="faBox">Archivieren</app-button>
-      <app-button (click)="onArchive(false)" *ngIf="show.archived" [icon]="faBoxOpen">Wiederherstellen</app-button>
-      <app-button (click)="onPublish(true)" *ngIf="!show.published" [icon]="faPublish">Veröffentlichen</app-button>
-      <app-button (click)="onPublish(false)" *ngIf="show.published" [icon]="faUnpublish">Veröffentlichung zurückziehen
-      </app-button>
+
+      <ng-container *appOwner="show.owner">
+        <app-button (click)="onArchive(true)" *ngIf="!show.archived" [icon]="faBox">Archivieren</app-button>
+        <app-button (click)="onArchive(false)" *ngIf="show.archived" [icon]="faBoxOpen">Wiederherstellen</app-button>
+        <app-button (click)="onPublish(true)" *ngIf="!show.published" [icon]="faPublish">Veröffentlichen</app-button>
+        <app-button (click)="onPublish(false)" *ngIf="show.published" [icon]="faUnpublish">Veröffentlichung zurückziehen
+        </app-button>
+      </ng-container>
 
       <app-button (click)="onDownload()" [icon]="faDownload">Herunterladen</app-button>
 
