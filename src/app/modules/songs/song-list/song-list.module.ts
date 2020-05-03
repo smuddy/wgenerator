@@ -13,6 +13,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {SongTypeTranslaterModule} from '../../../widget-modules/pipes/song-type-translater/song-type-translater.module';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {RoleModule} from '../../../services/user/role.module';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     MatSelectModule,
     SongTypeTranslaterModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatTooltipModule,
+    RoleModule
   ]
 })
 export class SongListModule {
