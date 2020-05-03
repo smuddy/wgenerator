@@ -7,11 +7,14 @@ import {DbService} from '../../../services/db.service';
   providedIn: 'root'
 })
 export class SongDataService {
+  private collection = 'songs';
+
   constructor(private dbService: DbService) {
   }
 
-  public list$ = (): Observable<Song[]> => this.dbService.col$('songs');
-  public read$ = (songId: string): Observable<Song | undefined> => this.dbService.doc$('songs/' + songId);
-  public update$ = async (songId: string, data: any): Promise<void> => await this.dbService.doc('songs/' + songId).update(data);
+  public list$ = (): Observable<Song[]> => this.dbService.col$(this.collection);
+  public read$ = (songId: string): Observable<Song | undefined> => this.dbService.doc$(this.collection + '/' + songId);
+  public update$ = async (songId: string, data: Partial<Song>): Promise<void> => await this.dbService.doc(this.collection + '/' + songId).update(data);
+  public add = async (data: Partial<Song>): Promise<string> => (await this.dbService.col(this.collection).add(data)).id
 }
 

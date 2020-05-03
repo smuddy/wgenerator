@@ -29,6 +29,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "docx": "^5.0.2",
     "firebase": ">= 5.5.7 <8",
+    "ngx-hocs-unsubscriber": "^1.1.7",
     "ngx-mat-select-search": "^2.1.2",
     "ngx-perfect-scrollbar": "^9.0.0",
     "rxjs": "~6.5.5",
