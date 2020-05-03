@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Show} from '../../services/show';
 
 @Component({
@@ -6,13 +6,6 @@ import {Show} from '../../services/show';
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.less']
 })
-export class ListItemComponent implements OnInit {
+export class ListItemComponent {
   @Input() public show: Show;
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
 }
