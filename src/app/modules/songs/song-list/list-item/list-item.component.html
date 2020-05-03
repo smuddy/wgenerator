@@ -1,8 +1,22 @@
 <div class="list-item">
   <div class="number">{{song.number}}</div>
+  <div>{{song.title}}</div>
   <div>
-    <span *ngIf="song.legalType==='open'" class="warning"><fa-icon [icon]="faLegal"></fa-icon> &nbsp;</span>
-    {{song.title}}</div>
+    <ng-container *appRole="['contributor']">
+      <span *ngIf="song.status==='draft' || !song.status" class="warning" matTooltip="Entwurf"
+            matTooltipPosition="before">
+        <fa-icon [icon]="faDraft"></fa-icon> &nbsp;
+      </span>
+      <span *ngIf="song.status==='set'" class="neutral" matTooltip="Entwurf" matTooltipPosition="before">
+        <fa-icon [icon]="faDraft"></fa-icon> &nbsp;
+      </span>
+      <span *ngIf="song.status==='final'" class="success" matTooltip="Final" matTooltipPosition="before">
+        <fa-icon [icon]="faFinal"></fa-icon> &nbsp;
+      </span>
+    </ng-container>
+    <span *ngIf="song.legalType==='open'" class="warning" matTooltip="rechtlicher Status ist ungeklärt"
+          matTooltipPosition="before"><fa-icon [icon]="faLegal"></fa-icon> &nbsp;</span>
+  </div>
   <div>{{song.key}}</div>
 
 </div>
