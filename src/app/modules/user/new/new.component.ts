@@ -25,7 +25,6 @@ export class NewComponent implements OnInit {
 
   public async onCreate(): Promise<void> {
     this.form.updateValueAndValidity();
-    console.log(this.form);
     if (this.form.valid) {
       try {
         await this.userService.createNewUser(this.form.value.email, this.form.value.name, this.form.value.password);

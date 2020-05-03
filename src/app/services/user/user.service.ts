@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {filter, first, switchMap} from 'rxjs/operators';
+import {filter, first, switchMap, tap} from 'rxjs/operators';
 import {User} from './user';
 import {DbService} from '../db.service';
 import {environment} from '../../../environments/environment';
@@ -14,24 +14,36 @@ export class UserService {
   constructor(private afAuth: AngularFireAuth, private db: DbService, private router: Router) {
     this.afAuth.authState.pipe(
       filter(_ => !!_),
+      tap(auth => this._userId$.next(auth.uid)),
       switchMap(auth => this.readUser$(auth.uid)),
     ).subscribe(_ => this._user$.next(_));
   }
 
-  public getUserbyId(userId: string): Promise<User> {
-    return this.db.doc$<User>('users/' + userId).pipe(first()).toPromise();
-  }
+  private _userId$ = new BehaviorSubject<string>(null);
 
-  public async login(user: string, password: string): Promise<any> {
-    const aUser = await this.afAuth.auth.signInWithEmailAndPassword(user, password);
-    const dUser = await this.readUser(aUser.user.uid);
-    this._user$.next(dUser);
+  public get userId$(): Observable<string> {
+    return this._userId$.asObservable();
   }
 
   private _user$ = new BehaviorSubject<User>(null);
 
   public get user$(): Observable<User> {
     return this._user$.pipe(filter(_ => !!_));
+  }
+
+  public getUserbyId(userId: string): Promise<User> {
+    return this.getUserbyId$('users/' + userId).pipe(first()).toPromise();
+  }
+
+  public getUserbyId$(userId: string): Observable<User> {
+    return this.db.doc$<User>('users/' + userId);
+  }
+
+  public async login(user: string, password: string): Promise<any> {
+    const aUser = await this.afAuth.auth.signInWithEmailAndPassword(user, password);
+    const dUser = await this.readUser(aUser.user.uid);
+    this._user$.next(dUser);
+    this._userId$.next(aUser.user.uid);
   }
 
   public loggedIn$ = () => this.afAuth.authState;
@@ -41,6 +53,7 @@ export class UserService {
   public async logout(): Promise<any> {
     await this.afAuth.auth.signOut();
     this._user$.next(null);
+    this._userId$.next(null);
   }
 
   public async update$(uid: string, data: Partial<User>): Promise<void> {

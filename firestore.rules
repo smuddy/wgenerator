@@ -12,8 +12,9 @@ service cloud.firestore {
       }
 
       allow create: if request.resource.id == request.auth.uid;
-      allow read: if isUser(resource) || isAdmin();
+      allow list: if isUser(resource) || isAdmin();
       allow write: if isUser(resource) || isAdmin();
+      allow read: if request.auth.uid != null;
     }
 
     match /songs/{song} {

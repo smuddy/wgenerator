@@ -37,7 +37,6 @@ export class DocxService {
       ...this.renderTitle(title),
       ...this.renderSongs(songs),
     ];
-    console.log(paragraphs);
 
     const document = this.prepareNewDocument(type, user.name);
     document.addSection({

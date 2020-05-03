@@ -26,6 +26,7 @@ import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {AddSongModule} from '../../widget-modules/components/add-song/add-song.module';
 import {ButtonModule} from '../../widget-modules/components/button/button.module';
 import {OwnerModule} from '../../services/user/owner.module';
+import {UserNameModule} from '../../services/user/user-name/user-name.module';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import {OwnerModule} from '../../services/user/owner.module';
     AddSongModule,
     ButtonModule,
     OwnerModule,
+    UserNameModule,
   ]
 })
 export class ShowsModule {

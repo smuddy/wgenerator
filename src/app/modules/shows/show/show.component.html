@@ -2,8 +2,12 @@
   <app-card
     closeLink="../"
     heading="{{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}} - {{getStatus(show)}}">
-    <i *ngIf="show.public">öffentliche Veranstaltung</i>
-    <i *ngIf="!show.public">geschlossene Veranstaltung</i>
+    <i *ngIf="show.public">öffentliche Veranstaltung von
+      <app-user-name [userId]="show.owner"></app-user-name>
+    </i>
+    <i *ngIf="!show.public">geschlossene Veranstaltung von
+      <app-user-name [userId]="show.owner"></app-user-name>
+    </i>
     <p *ngIf="!show.published">
       <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
     </p>
@@ -22,17 +26,21 @@
                   [songs]="songs"></app-add-song>
 
     <app-button-row>
-
       <ng-container *appOwner="show.owner">
-        <app-button (click)="onArchive(true)" *ngIf="!show.archived" [icon]="faBox">Archivieren</app-button>
-        <app-button (click)="onArchive(false)" *ngIf="show.archived" [icon]="faBoxOpen">Wiederherstellen</app-button>
-        <app-button (click)="onPublish(true)" *ngIf="!show.published" [icon]="faPublish">Veröffentlichen</app-button>
-        <app-button (click)="onPublish(false)" *ngIf="show.published" [icon]="faUnpublish">Veröffentlichung zurückziehen
+        <app-button (click)="onArchive(true)" *ngIf="!show.archived" [icon]="faBox">
+          Archivieren
+        </app-button>
+        <app-button (click)="onArchive(false)" *ngIf="show.archived" [icon]="faBoxOpen">
+          Wiederherstellen
+        </app-button>
+        <app-button (click)="onPublish(true)" *ngIf="!show.published" [icon]="faPublish">
+          Veröffentlichen
+        </app-button>
+        <app-button (click)="onPublish(false)" *ngIf="show.published" [icon]="faUnpublish">
+          Veröffentlichung zurückziehen
         </app-button>
       </ng-container>
-
       <app-button (click)="onDownload()" [icon]="faDownload">Herunterladen</app-button>
-
     </app-button-row>
   </app-card>
 </div>
