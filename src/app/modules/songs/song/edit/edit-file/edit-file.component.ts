@@ -2,7 +2,10 @@ import {Component} from '@angular/core';
 import {Upload} from '../../../services/upload';
 import {UploadService} from '../../../services/upload.service';
 import {ActivatedRoute} from '@angular/router';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
+import {FileDataService} from '../../../services/file-data.service';
+import {Observable} from 'rxjs';
+import {File} from '../../../services/file';
 
 @Component({
   selector: 'app-edit-file',
@@ -14,13 +17,24 @@ export class EditFileComponent {
   public selectedFiles: FileList;
   public currentUpload: Upload;
   public songId: string;
+  public files$: Observable<File[]>;
 
-  constructor(private activatedRoute: ActivatedRoute, private uploadService: UploadService) {
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private uploadService: UploadService,
+    private fileService: FileDataService,
+  ) {
     this.activatedRoute.params.pipe(
       map(param => param.songId),
     ).subscribe(songId => {
       this.songId = songId;
     });
+
+    this.files$ = this.activatedRoute.params.pipe(
+      map(param => param.songId),
+      switchMap(songId => this.fileService.read$(songId))
+    );
   }
 
   detectFiles(event) {

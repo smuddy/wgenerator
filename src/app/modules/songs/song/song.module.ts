@@ -12,10 +12,11 @@ import {MatChipsModule} from '@angular/material/chips';
 import {RoleModule} from '../../../services/user/role.module';
 import {StatusTranslaterModule} from '../../../widget-modules/pipes/status-translater/status-translater.module';
 import {ButtonModule} from '../../../widget-modules/components/button/button.module';
+import {FileComponent} from './file/file.component';
 
 
 @NgModule({
-  declarations: [SongComponent],
+  declarations: [SongComponent, FileComponent],
   exports: [SongComponent],
   imports: [
     CommonModule,

@@ -12,39 +12,54 @@
       </mat-select>
     </mat-form-field>
 
-    <div *ngFor="let song of presentationSongs" @fade class="song">
-      <div [class.active]="show.presentationSongId===song.id" class="title song-part">
-        <div (click)="onSectionClick(song.id, -1)" class="head">{{song.title}}</div>
-      </div>
-      <div *ngIf="show" class="song-parts">
-        <div (click)="onSectionClick(song.id, i)" *ngFor="let section of song.sections; index as i"
-             [class.active]="show.presentationSongId===song.id && show.presentationSection===i"
+    <ng-container *ngIf="!progress">
+      <div *ngIf="show" class="song-parts padding-bottom">
+        <div (click)="onSectionClick('title', -1)"
+             [class.active]="show.presentationSongId==='title'"
              class="song-part">
-          <div class="head">{{section.type|sectionType}} {{section.number + 1}}</div>
-          <div class="fragment">{{getFirstLine(section)}}</div>
+          <div class="head">Veranstaltung</div>
+        </div>
+        <div (click)="onSectionClick('empty', -1)"
+             [class.active]="show.presentationSongId==='empty'"
+             class="song-part">
+          <div class="head">Leer</div>
         </div>
       </div>
-    </div>
 
-    <div *ngIf="show" class="div-bottom">
-      <a routerLink="/presentation/monitor" target="_blank">
-        <fa-icon [icon]="faDesktop"></fa-icon>
-      </a>
+      <div *ngFor="let song of presentationSongs" @fade class="song">
+        <div [class.active]="show.presentationSongId===song.id" class="title song-part">
+          <div (click)="onSectionClick(song.id, -1)" class="head">{{song.title}}</div>
+        </div>
+        <div *ngIf="show" class="song-parts">
+          <div (click)="onSectionClick(song.id, i)" *ngFor="let section of song.sections; index as i"
+               [class.active]="show.presentationSongId===song.id && show.presentationSection===i"
+               class="song-part">
+            <div class="head">{{section.type|sectionType}} {{section.number + 1}}</div>
+            <div class="fragment">{{getFirstLine(section)}}</div>
+          </div>
+        </div>
+      </div>
 
-      <mat-slider
-        (ngModelChange)="onZoom($event)"
-        [max]="100"
-        [min]="10"
-        [ngModel]="show.presentationZoom"
-        [step]="2"
-        [thumbLabel]="true"
-      >
-      </mat-slider>
-    </div>
+      <div *ngIf="show" class="div-bottom">
+        <a routerLink="/presentation/monitor" target="_blank">
+          <fa-icon [icon]="faDesktop"></fa-icon>
+        </a>
+
+        <mat-slider
+          (ngModelChange)="onZoom($event)"
+          [max]="100"
+          [min]="10"
+          [ngModel]="show.presentationZoom"
+          [step]="2"
+          [thumbLabel]="true"
+        >
+        </mat-slider>
+      </div>
 
 
-    <app-add-song *ngIf="show" [addedLive]="true" [showId]="currentShowId" [showSongs]="showSongs"
-                  [songs]="songs"></app-add-song>
+      <app-add-song *ngIf="show" [addedLive]="true" [showId]="currentShowId" [showSongs]="showSongs"
+                    [songs]="songs"></app-add-song>
+    </ng-container>
   </app-card>
 
 

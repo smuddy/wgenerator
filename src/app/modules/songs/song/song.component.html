@@ -35,6 +35,8 @@
 
   </app-card>
   <app-card *ngIf="!!(files$|async)" heading="Anhänge">
-    <div *ngFor="let file of (files$|async)">{{file.name}}</div>
+    <p *ngFor="let file of (files$|async)">
+      <app-file [file]="file"></app-file>
+    </p>
   </app-card>
 </div>

@@ -16,10 +16,11 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatSliderModule} from '@angular/material/slider';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AddSongModule} from '../../widget-modules/components/add-song/add-song.module';
+import {LogoComponent} from './monitor/logo/logo.component';
 
 
 @NgModule({
-  declarations: [MonitorComponent, RemoteComponent, LegalComponent],
+  declarations: [MonitorComponent, RemoteComponent, LegalComponent, LogoComponent],
   imports: [
     CommonModule,
     PresentationRoutingModule,

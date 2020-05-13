@@ -12,6 +12,7 @@ import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {FormControl} from '@angular/forms';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {fade} from '../../../animations';
+import {delay} from '../../../services/delay';
 
 export interface PresentationSong {
   id: string;
@@ -32,6 +33,7 @@ export class RemoteComponent {
   public songs: Song[];
   public presentationSongs: PresentationSong[];
   public currentShowId: string;
+  public progress = false;
 
   public faDesktop = faDesktop;
   public showControl = new FormControl();
@@ -49,12 +51,21 @@ export class RemoteComponent {
     globalSettingsService.get$.pipe(
       map(_ => _.currentShow),
       distinctUntilChanged()
-    ).subscribe(_ => this.showControl.setValue(_));
+    ).subscribe(_ => {
+      this.showControl.setValue(_, {emitEvent: false});
+      this.onShowChanged(_, false);
+    });
     this.showControl.valueChanges.subscribe(value => this.onShowChanged(value));
   }
 
-  public onShowChanged(change: string): void {
-    this.globalSettingsService.set({currentShow: change});
+  public async onShowChanged(change: string, updateShow = true): Promise<void> {
+    this.progress = true;
+    if (updateShow) {
+      await this.showService.update$(change, {presentationSongId: 'empty'});
+      await delay(1200);
+      await this.globalSettingsService.set({currentShow: change});
+      await this.showService.update$(change, {presentationSongId: 'title'});
+    }
     this.currentShowId = change;
     this.showService.read$(change).subscribe(_ => this.show = _);
     this.showSongService.list$(change).subscribe(_ => {
@@ -67,6 +78,8 @@ export class RemoteComponent {
           sections: this.textRenderingService.parse(song.text)
         }))
     });
+    await delay(500);
+    this.progress = false;
   }
 
   public getFirstLine(section: Section): string {

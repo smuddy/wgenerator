@@ -8,15 +8,52 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: black;
   z-index: 1;
+  display: flex;
+  cursor: none;
+}
 
+.background {
+  background: black;
   padding: 50px;
 
   color: white;
 
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: 300ms all ease-in-out;
+}
+
+.start {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 3em;
+  box-sizing: border-box;
+  text-shadow: 0 0 10px black, 0 0 20px black, 0 0 40px black;
+
+  .date {
+    font-size: 0.6em;
+  }
+}
+
+.logo {
+  transform: scale(0.9);
+  opacity: 1;
+  filter: blur(0px);
+  transition: all 5s ease-in-out;
+}
+
+.blur {
+  filter: blur(10px);
+  opacity: 0.5;
+}
+
+.hide {
+  filter: blur(30px);
+  opacity: 0.1;
+  transform: scale(0.8) translateY(-10%);
 }
