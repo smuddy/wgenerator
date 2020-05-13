@@ -9,10 +9,12 @@ export const songSwitch =     // the fade-in/fade-out animation.
     // fade in when created. this could also be written as transition('void => *')
     transition(':enter', [
       style({opacity: 0}),
-      animate(600)
+      animate(1200, style({opacity: 0})),
+      animate(1200, style({opacity: 1})),
     ]),
 
     // fade out when destroyed. this could also be written as transition('void => *')
     transition(':leave',
-      animate(600, style({opacity: 0})))
+      animate(1200, style({opacity: 0}))
+    )
   ])

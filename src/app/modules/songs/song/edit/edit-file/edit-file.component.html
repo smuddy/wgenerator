@@ -18,5 +18,9 @@
       <mat-icon>cloud_upload</mat-icon>
     </button>
   </div>
+
+  <p *ngFor="let file of (files$|async)">
+    <app-file [file]="file"></app-file>
+  </p>
 </app-card>
 

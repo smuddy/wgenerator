@@ -8,16 +8,22 @@ import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {Config} from '../../../services/config';
 import {Observable} from 'rxjs';
 import {ConfigService} from '../../../services/config.service';
+import {songSwitch} from '../../../widget-modules/components/song-text/animation';
 
 @Component({
   selector: 'app-monitor',
   templateUrl: './monitor.component.html',
-  styleUrls: ['./monitor.component.less']
+  styleUrls: ['./monitor.component.less'],
+  animations: [songSwitch]
 })
 export class MonitorComponent implements OnInit {
   public song: Song;
   public zoom: number;
+  public currentShowId: string;
+  public songId: string;
   public index: number;
+  public showType: string;
+  public date: Date;
   private sections: Section[];
   public config$: Observable<Config>;
 
@@ -35,11 +41,15 @@ export class MonitorComponent implements OnInit {
     this.globalSettingsService.get$.pipe(
       map(_ => _.currentShow),
       distinctUntilChanged(),
+      tap(_ => this.currentShowId = _),
       switchMap(_ => this.showService.read$(_)),
+      tap(_ => this.showType = _.showType),
+      tap(_ => this.date = _.date.toDate()),
+      tap(_ => this.songId = _.presentationSongId),
       tap(_ => this.index = _.presentationSection),
       tap(_ => this.zoom = _.presentationZoom ?? 30),
       switchMap(_ => this.songService.read$(_.presentationSongId))
-    ).subscribe(_ => {
+    ).subscribe((_: Song) => {
       this.song = _;
       this.sections = this.textRenderingService.parse(_.text);
     });

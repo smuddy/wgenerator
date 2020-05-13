@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {File} from '../../../../services/file';
+import {File} from '../../services/file';
 import {AngularFireStorage} from '@angular/fire/storage';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-file',
@@ -25,4 +25,5 @@ export class FileComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
 }

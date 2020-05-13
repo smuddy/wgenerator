@@ -46,9 +46,9 @@ export class SongTextComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     setInterval(() => {
-        if (!this.fullscreen || this.index === -1) {
+        if (!this.fullscreen || this.index === -1 || !this.viewSections.toArray()[this.index]) {
           this.offset = 0;
           return;
         }
@@ -79,13 +79,12 @@ export class SongTextComponent implements OnInit {
     this.chordModeChanged.emit(next);
   }
 
-  public onClick() {
+  public onClick(): void {
     scrollTo(0, this.elRef.nativeElement.offsetTop - 20);
   }
 
-  public checkDisabled(i: number) {
+  public checkDisabled(i: number): boolean {
     return this.index !== -1 && this.index !== i;
-
   }
 
   private getNextChordMode(): ChordMode {
