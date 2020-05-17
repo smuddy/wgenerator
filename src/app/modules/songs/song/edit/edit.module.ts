@@ -21,6 +21,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {StatusTranslaterModule} from '../../../../widget-modules/pipes/status-translater/status-translater.module';
 import {ButtonModule} from '../../../../widget-modules/components/button/button.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import {ButtonModule} from '../../../../widget-modules/components/button/button.
     FontAwesomeModule,
     StatusTranslaterModule,
     ButtonModule,
+    MatTooltipModule,
 
   ]
 })

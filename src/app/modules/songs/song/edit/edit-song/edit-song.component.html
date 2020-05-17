@@ -74,6 +74,13 @@
       <mat-form-field appearance="outline">
         <mat-label>Rechteinhaber ID (z.B. CCLI Liednummer)</mat-label>
         <input formControlName="legalOwnerId" matInput>
+        <a *ngIf="form.value.legalOwner==='CCLI'" class="link-ccli"
+           href="https://songselect.ccli.com/Songs/{{form.value.legalOwnerId}}"
+           matSuffix
+           matTooltip="CCLI Link: https://songselect.ccli.com/Songs/{{form.value.legalOwnerId}}"
+           matTooltipPosition="before" target="_blank">
+          <fa-icon [icon]="faLink"></fa-icon>
+        </a>
       </mat-form-field>
 
       <mat-form-field appearance="outline">

@@ -8,7 +8,12 @@
           <div>Tempo: {{song.tempo}}</div>
           <div>Status: {{(song.status|status) || 'entwurf'}}</div>
           <div *ngIf="song.legalOwner">Rechteinhaber: {{song.legalOwner|legalOwner}}</div>
-          <div *ngIf="song.legalOwnerId">Rechteinhaber ID: {{song.legalOwnerId}}</div>
+          <div *ngIf="song.legalOwnerId && song.legalOwner==='CCLI'">
+            <a href="https://songselect.ccli.com/Songs/{{song.legalOwnerId}}" target="_blank">
+              CCLI Nummer: {{song.legalOwnerId}}
+            </a>
+          </div>
+          <div *ngIf="song.legalOwnerId && song.legalOwner!=='CCLI'">Rechteinhaber ID: {{song.legalOwnerId}}</div>
           <div *ngIf="song.artist">Künstler: {{song.artist}}</div>
           <div *ngIf="song.label">Verlag: {{song.label}}</div>
           <div *ngIf="song.origin">Quelle: {{song.origin}}</div>
