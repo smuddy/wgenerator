@@ -14,6 +14,14 @@
       </mat-select>
     </mat-form-field>
 
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tonart</mat-label>
+      <mat-select formControlName="key">
+        <mat-option *ngFor="let key of keys" [value]="key">{{key|key}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>Rechtlicher Status</mat-label>
       <mat-select formControlName="legalType">

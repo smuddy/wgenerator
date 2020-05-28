@@ -46,6 +46,7 @@ export class SongListComponent implements OnInit {
   private filter(song: Song, filter: FilterValues): boolean {
     let baseFilter = filterSong(song, filter.q);
     baseFilter = baseFilter && (!filter.type || filter.type === song.type);
+    baseFilter = baseFilter && (!filter.key || filter.key === song.key);
     baseFilter = baseFilter && (!filter.legalType || filter.legalType === song.legalType);
     baseFilter = baseFilter && (!filter.flag || this.checkFlag(filter.flag, song.flags));
 
@@ -53,7 +54,7 @@ export class SongListComponent implements OnInit {
   }
 
   private checkIfFilterActive(filter: FilterValues): boolean {
-    return !!filter.q || !!filter.type || !!filter.legalType || !!filter.flag;
+    return !!filter.q || !!filter.type || !!filter.key || !!filter.legalType || !!filter.flag;
   }
 
   private checkFlag(flag: string, flags: string) {

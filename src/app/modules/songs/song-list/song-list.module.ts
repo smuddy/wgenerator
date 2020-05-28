@@ -15,6 +15,7 @@ import {SongTypeTranslaterModule} from '../../../widget-modules/pipes/song-type-
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {RoleModule} from '../../../services/user/role.module';
+import {KeyTranslatorModule} from '../../../widget-modules/pipes/key-translator/key-translator.module';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {RoleModule} from '../../../services/user/role.module';
     SongTypeTranslaterModule,
     FontAwesomeModule,
     MatTooltipModule,
-    RoleModule
+    RoleModule,
+    KeyTranslatorModule,
   ]
 })
 export class SongListModule {
