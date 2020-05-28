@@ -39,7 +39,7 @@
     </app-button-row>
 
   </app-card>
-  <app-card *ngIf="!!(files$|async)" heading="Anhänge">
+  <app-card *ngIf="(files$|async).length>0" heading="Anhänge">
     <p *ngFor="let file of (files$|async)">
       <app-file [file]="file"></app-file>
     </p>

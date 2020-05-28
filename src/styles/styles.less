@@ -20,6 +20,8 @@ body {
   background: -webkit-linear-gradient(to bottom, #373b44, @primary-color); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to bottom, #373b44, @primary-color); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background-attachment: fixed;
+  background: url("/assets/background.png");
+  background-size: cover;
 }
 
 p {
@@ -99,4 +101,24 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #0000 inset;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+mat-dialog-container.mat-dialog-container {
+  background: #fffb;
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+}
+
+.mat-form-field-outline {
+  background: #fff4;
+  border-radius: 4px;
+}
+
+.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-outline-gap {
+  border-top-color: inherit !important;
+}
+
+.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
+.mat-form-field-appearance-outline.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label {
+  transform: translateY(-1.0em) scale(0.75);
 }
