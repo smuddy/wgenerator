@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Song} from '../../../services/song';
 import {FormGroup} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterStateSnapshot} from '@angular/router';
 import {SongService} from '../../../services/song.service';
 import {EditService} from '../edit.service';
 import {first, map, switchMap} from 'rxjs/operators';
@@ -11,6 +11,8 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {faTimesCircle} from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 import {faSave} from '@fortawesome/free-solid-svg-icons/faSave';
 import {faExternalLinkAlt} from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt';
+import {MatDialog} from '@angular/material/dialog';
+import {SaveDialogComponent} from './save-dialog/save-dialog.component';
 
 @Component({
   selector: 'app-edit-song',
@@ -35,7 +37,8 @@ export class EditSongComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private songService: SongService,
     private editService: EditService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {
   }
 
@@ -84,4 +87,29 @@ export class EditSongComponent implements OnInit {
 
     this.flags = flagArray.split(';').filter(_ => !!_);
   }
+
+  public askForSave(nextState?: RouterStateSnapshot): boolean {
+    if (!this.form.dirty) return true;
+
+    const dialogRef = this.dialog.open(SaveDialogComponent, {
+      width: '350px'
+    });
+
+    dialogRef.afterClosed().subscribe((save: boolean) => {
+      this.onSaveDialogAfterClosed(save, nextState.url).then();
+    });
+
+    return false;
+  }
+
+  private async onSaveDialogAfterClosed(save: boolean, url: string) {
+    if (save) {
+      const data = this.form.value;
+      await this.songService.update$(this.song.id, data);
+    }
+
+    this.form.markAsPristine();
+    await this.router.navigateByUrl(url);
+  }
+
 }

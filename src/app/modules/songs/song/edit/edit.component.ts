@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
+import {EditSongComponent} from './edit-song/edit-song.component';
 
 @Component({
   selector: 'app-edit',
@@ -6,5 +7,5 @@ import {Component} from '@angular/core';
   styleUrls: ['./edit.component.less']
 })
 export class EditComponent {
-
+  @ViewChild(EditSongComponent) public editSongComponent: EditSongComponent;
 }

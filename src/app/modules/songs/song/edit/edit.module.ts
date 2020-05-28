@@ -22,11 +22,14 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {StatusTranslaterModule} from '../../../../widget-modules/pipes/status-translater/status-translater.module';
 import {ButtonModule} from '../../../../widget-modules/components/button/button.module';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {SaveDialogComponent} from './edit-song/save-dialog/save-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
-  declarations: [EditComponent, EditSongComponent, EditFileComponent, FileComponent],
+  declarations: [EditComponent, EditSongComponent, EditFileComponent, FileComponent, SaveDialogComponent],
   exports: [EditComponent],
+  bootstrap: [SaveDialogComponent],
   imports: [
     CommonModule,
     CardModule,
@@ -49,6 +52,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     StatusTranslaterModule,
     ButtonModule,
     MatTooltipModule,
+    MatDialogModule,
 
   ]
 })
