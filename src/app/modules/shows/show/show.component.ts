@@ -14,6 +14,8 @@ import {faBoxOpen} from '@fortawesome/free-solid-svg-icons/faBoxOpen';
 import {faExternalLinkAlt} from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt';
 import {faLock} from '@fortawesome/free-solid-svg-icons/faLock';
 import {faFileDownload} from '@fortawesome/free-solid-svg-icons/faFileDownload';
+import {faUser} from '@fortawesome/free-solid-svg-icons/faUser';
+import {faUsers} from '@fortawesome/free-solid-svg-icons/faUsers';
 
 @Component({
   selector: 'app-show',
@@ -32,6 +34,8 @@ export class ShowComponent implements OnInit {
   public faPublish = faExternalLinkAlt;
   public faUnpublish = faLock;
   public faDownload = faFileDownload;
+  public faUser = faUser;
+  public faUsers = faUsers;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -79,5 +83,9 @@ export class ShowComponent implements OnInit {
 
   public async onDownload(): Promise<void> {
     await this.docxService.create(this.showId);
+  }
+
+  public async onDownloadHandout(): Promise<void> {
+    await this.docxService.create(this.showId, {chordMode: 'hide', copyright: true});
   }
 }

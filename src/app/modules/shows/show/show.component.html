@@ -40,7 +40,11 @@
           Veröffentlichung zurückziehen
         </app-button>
       </ng-container>
-      <app-button (click)="onDownload()" [icon]="faDownload">Herunterladen</app-button>
+      <app-button [icon]="faDownload" [matMenuTriggerFor]="menu">Herunterladen</app-button>
+      <mat-menu #menu="matMenu">
+        <app-button (click)="onDownload()" [icon]="faUser">Ablauf für Lobpreisleiter</app-button>
+        <app-button (click)="onDownloadHandout()" [icon]="faUsers">Handout mit Copyright Infos</app-button>
+      </mat-menu>
     </app-button-row>
   </app-card>
 </div>

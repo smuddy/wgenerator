@@ -27,6 +27,7 @@ import {AddSongModule} from '../../widget-modules/components/add-song/add-song.m
 import {ButtonModule} from '../../widget-modules/components/button/button.module';
 import {OwnerModule} from '../../services/user/owner.module';
 import {UserNameModule} from '../../services/user/user-name/user-name.module';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import {UserNameModule} from '../../services/user/user-name/user-name.module';
     ButtonModule,
     OwnerModule,
     UserNameModule,
+    MatMenuModule,
   ]
 })
 export class ShowsModule {

@@ -32,7 +32,7 @@ export class UserService {
   }
 
   public getUserbyId(userId: string): Promise<User> {
-    return this.getUserbyId$('users/' + userId).pipe(first()).toPromise();
+    return this.getUserbyId$(userId).pipe(first()).toPromise();
   }
 
   public getUserbyId$(userId: string): Observable<User> {
