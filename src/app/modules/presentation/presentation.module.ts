@@ -21,6 +21,9 @@ import {LogoComponent} from './monitor/logo/logo.component';
 
 @NgModule({
   declarations: [MonitorComponent, RemoteComponent, LegalComponent, LogoComponent],
+  exports: [
+    RemoteComponent
+  ],
   imports: [
     CommonModule,
     PresentationRoutingModule,

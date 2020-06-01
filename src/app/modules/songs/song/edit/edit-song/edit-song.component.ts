@@ -32,6 +32,7 @@ export class EditSongComponent implements OnInit {
   public faRemove = faTimesCircle;
   public faSave = faSave;
   public faLink = faExternalLinkAlt;
+  public songtextFocus = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
