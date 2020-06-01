@@ -32,6 +32,7 @@ export class EditSongComponent implements OnInit {
   public faRemove = faTimesCircle;
   public faSave = faSave;
   public faLink = faExternalLinkAlt;
+  public songtextFocus = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -58,6 +59,7 @@ export class EditSongComponent implements OnInit {
   public async onSave(): Promise<void> {
     const data = this.form.value;
     await this.songService.update$(this.song.id, data);
+    this.form.markAsPristine();
     await this.router.navigateByUrl('songs/' + this.song.id);
   }
 

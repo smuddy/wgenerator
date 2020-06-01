@@ -33,8 +33,44 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Songtext</mat-label>
-      <textarea [mat-autosize]="true" formControlName="text" matInput></textarea>
+      <textarea (focus)="songtextFocus=true" (focusout)="songtextFocus=false" [mat-autosize]="true"
+                formControlName="text" matInput></textarea>
     </mat-form-field>
+    <div *ngIf="songtextFocus" class="song-text-help">
+      <h3>Hinweise zur Bearbeitung</h3>
+      <h4>Aufbau</h4>
+      Der Liedtext wird hintereinander weg geschrieben. Dabei werden Strophen, Refrain und Bridge jeweils durch
+      eine zusätzliche Zeile Markiert. z.B.
+      <pre>
+        Strophe
+        Text der ersten Strophe
+
+        Strophe
+        Text der zweiten Strophe
+
+        Refrain
+        Und hier der Refrain
+      </pre>
+      <h3>Akkorde</h3>
+      Die Akktorde werden jeweils in der Zeile über dem jeweiligen Liedtext geschrieben.
+      Sie werden jeweils durch Leerzeichen an die entsprechende Position gebracht.
+      Bitte keine Tabulatoren verwenden! Folgende Schreibweisen sind erlaubt:
+      <pre>
+        Dur: C  D  E
+        Moll: c  d  e
+        Kreuz/B-Tonarten: C#  f#  Eb  (Erlaubt ist auch B statt Hb)
+        Basstöne: C/E  D/C
+        Obertöne: c7  E9  f#maj7
+      </pre>
+      Beispiel:
+      <pre>
+        Strophe
+        e            C/E        H7    a     D    C/E   H7/E
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+        F#        B      Eb      Cmaj7    C9                   e
+        sed diam nonumy eirmod tempor invidunt ut labore et dolore
+      </pre>
+    </div>
 
     <mat-form-field appearance="outline">
       <mat-label>Kommentar</mat-label>
