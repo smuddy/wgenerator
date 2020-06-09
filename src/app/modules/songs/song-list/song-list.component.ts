@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SongService} from '../services/song.service';
 import {Song} from '../services/song';
 import {debounceTime, map} from 'rxjs/operators';
@@ -7,6 +7,7 @@ import {fade} from '../../../animations';
 import {ActivatedRoute} from '@angular/router';
 import {filterSong} from '../../../services/filter.helper';
 import {FilterValues} from './filter/filter-values';
+import {ScrollService} from '../../../services/scroll.service';
 
 @Component({
   selector: 'app-songs',
@@ -14,12 +15,15 @@ import {FilterValues} from './filter/filter-values';
   styleUrls: ['./song-list.component.less'],
   animations: [fade]
 })
-export class SongListComponent implements OnInit {
+export class SongListComponent implements OnInit, OnDestroy {
 
   public songs$: Observable<Song[]>;
   public anyFilterActive = false;
 
-  constructor(private songService: SongService, private activatedRoute: ActivatedRoute) {
+  constructor(
+    private songService: SongService,
+    private activatedRoute: ActivatedRoute,
+    private scrollService: ScrollService) {
   }
 
   ngOnInit() {
@@ -41,6 +45,11 @@ export class SongListComponent implements OnInit {
       })
     );
 
+    setTimeout(() => this.scrollService.restoreScrollPositionFor('songlist'), 100);
+  }
+
+  public ngOnDestroy(): void {
+    this.scrollService.storeScrollPositionFor('songlist');
   }
 
   private filter(song: Song, filter: FilterValues): boolean {
