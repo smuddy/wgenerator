@@ -48,7 +48,7 @@ export class TextRenderingService {
       [SectionType.Chorus]: 0,
       [SectionType.Verse]: 0,
     };
-    const sections = arrayOfLines.reduce((array, line) => {
+    return arrayOfLines.reduce((array, line) => {
       const type = this.getSectionTypeOfLine(line);
       if (line.match(this.regexSection)) return [...array, {
         type: type,
@@ -58,8 +58,6 @@ export class TextRenderingService {
       array[array.length - 1].lines.push(this.getLineOfLineText(line));
       return array;
     }, [] as Section[]);
-
-    return sections;
   }
 
   private getLineOfLineText(text: string): Line {
@@ -104,7 +102,12 @@ export class TextRenderingService {
 
       chords.push(chord);
     }
-    return chords;
+
+    const chordCount = chords.reduce((acc: number, cur: Chord) => acc + cur.length, 0);
+    const lineCount = chordLine.replace(/\s/g, "").length;
+
+    const isChrod = chordCount * 2 > lineCount;
+    return isChrod ? chords : [];
   }
 
 }

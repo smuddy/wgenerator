@@ -46,6 +46,7 @@ export class SongListComponent implements OnInit, OnDestroy {
     );
 
     setTimeout(() => this.scrollService.restoreScrollPositionFor('songlist'), 100);
+    setTimeout(() => this.scrollService.restoreScrollPositionFor('songlist'), 300);
   }
 
   public ngOnDestroy(): void {
