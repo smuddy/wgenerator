@@ -89,7 +89,7 @@ export class TextRenderingService {
     const chords: Chord[] = [];
 
     // https://regex101.com/r/68jMB8/5
-    const regex = /\b(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?\b\s/mg;
+    const regex = /(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?/mg;
 
     while ((match = regex.exec(chordLine)) !== null) {
       const chord: Chord = {
@@ -105,7 +105,8 @@ export class TextRenderingService {
 
     const chordCount = chords.reduce((acc: number, cur: Chord) => acc + cur.length, 0);
     const lineCount = chordLine.replace(/\s/g, "").length;
-
+    console.log(chordCount + ' - ' + lineCount + ' - ' + chordLine);
+    console.log(chords);
     const isChrod = chordCount * 2 > lineCount;
     return isChrod ? chords : [];
   }

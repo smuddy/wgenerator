@@ -1,3 +1,5 @@
-<a [href]="url$|async" target="_blank">
-  {{name}}
-</a>
+<button (click)="onDelete()" mat-icon-button>
+  <fa-icon [icon]="faTrash"></fa-icon>
+</button>
+
+<a [href]="url$|async" target="_blank">{{name}}</a>

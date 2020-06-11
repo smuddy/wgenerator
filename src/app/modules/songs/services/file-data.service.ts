@@ -20,6 +20,11 @@ export class FileDataService {
     return id.id;
   }
 
+  public async delete(songId: string, fileId: string): Promise<void> {
+    const fileRef = this.db.doc('songs/' + songId + '/files/' + fileId);
+    await fileRef.delete();
+  }
+
   public read$(songId: string): Observable<File[]> {
     const songRef = this.db.doc('songs/' + songId);
     return songRef.collection<File>('files').snapshotChanges().pipe(map(actions => {

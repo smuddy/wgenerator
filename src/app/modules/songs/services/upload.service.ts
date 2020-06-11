@@ -31,22 +31,6 @@ export class UploadService extends FileBase {
       })
     ).subscribe();
 
-    // const storageRef = storage().ref();
-    // const uploadTask = storageRef.child(`${this.basePath}/${songId}/${file.file.name}`).put(file.file as any);
-    //
-    // uploadTask.on(storage.TaskEvent.STATE_CHANGED,
-    //   (snapshot) => {
-    //     file.progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   },
-    //   () => {
-    //     file.url = uploadTask.snapshot.downloadURL;
-    //     file.name = file.file.name;
-    //     this.saveFileData(songId, file);
-    //   }
-    // );
   }
 
   private async saveFileData(songId: string, upload: Upload) {

@@ -1,28 +1,33 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Observable} from 'rxjs';
 import {File} from '../../../../services/file';
-import {AngularFireStorage} from '@angular/fire/storage';
+import {faTrashAlt} from '@fortawesome/free-solid-svg-icons/faTrashAlt';
+import {FileService} from '../../../../services/file.service';
 
 @Component({
   selector: 'app-file',
   templateUrl: './file.component.html',
   styleUrls: ['./file.component.less']
 })
-export class FileComponent implements OnInit {
+export class FileComponent {
   public url$: Observable<string>;
   public name: string;
+  public faTrash = faTrashAlt;
+  @Input() songId: string;
+  private fileId: string;
+  private path: string;
 
-  constructor(private storage: AngularFireStorage) {
+  constructor(private fileService: FileService) {
   }
 
   @Input() set file(file: File) {
-
-    const ref = this.storage.ref(file.path + '/' + file.name);
-    this.url$ = ref.getDownloadURL();
+    this.url$ = this.fileService.getDownloadUrl(file.path + '/' + file.name);
     this.name = file.name;
-
+    this.fileId = file.id;
+    this.path = file.path + '/' + file.name;
   };
 
-  ngOnInit(): void {
+  public async onDelete(): Promise<void> {
+    await this.fileService.delete(this.path, this.songId, this.fileId);
   }
 }

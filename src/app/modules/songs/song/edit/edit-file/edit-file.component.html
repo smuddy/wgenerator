@@ -20,7 +20,7 @@
   </div>
 
   <p *ngFor="let file of (files$|async)">
-    <app-file [file]="file"></app-file>
+    <app-file [file]="file" [songId]="songId"></app-file>
   </p>
 </app-card>
 

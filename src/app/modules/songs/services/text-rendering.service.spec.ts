@@ -77,12 +77,25 @@ Cool bridge without any chords
 
     // c c# db c7   cmaj7    c/e
     expect(sections[2].lines[0].chords).toEqual([
-      {chord: 'c', length: 2, position: 0},
-      {chord: 'c#', length: 3, position: 2},
-      {chord: 'db', length: 3, position: 5},
+      {chord: 'c', length: 1, position: 0},
+      {chord: 'c#', length: 2, position: 2},
+      {chord: 'db', length: 2, position: 5},
       {chord: 'c', length: 2, position: 8, add: '7'},
       {chord: 'c', length: 5, position: 13, add: 'maj7'},
       {chord: 'c', length: 3, position: 22, slashChord: 'e'},
     ]);
+  });
+
+  it('should parse chords with a lot of symbols', () => {
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
+    const text = `Strophe
+g#       F#         E          g#       F#          E
+text`
+    const sections = service.parse(text);
+    expect(sections[0].lines[0].type).toBe(LineType.chord);
+    expect(sections[0].lines[0].text).toBe('g#       F#         E          g#       F#          E');
+    expect(sections[0].lines[1].type).toBe(LineType.text);
+    expect(sections[0].lines[1].text).toBe('text');
+
   });
 });
