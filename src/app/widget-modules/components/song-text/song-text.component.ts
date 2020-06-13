@@ -43,8 +43,10 @@ export class SongTextComponent implements OnInit {
   public set text(value: string) {
     this.sections = null;
     this.offset = 0;
-    setTimeout(() =>
-      this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type), 100);
+    if (this.fullscreen)
+      setTimeout(() =>
+        this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type), 100);
+    else this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type)
   }
 
 

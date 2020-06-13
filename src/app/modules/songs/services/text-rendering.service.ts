@@ -107,8 +107,6 @@ export class TextRenderingService {
 
     const chordCount = chords.reduce((acc: number, cur: Chord) => acc + cur.length, 0);
     const lineCount = chordLine.replace(/\s/g, "").length;
-    console.log(chordCount + ' - ' + lineCount + ' - ' + chordLine);
-    console.log(chords);
     const isChrod = chordCount * 2 > lineCount;
     return isChrod ? chords : [];
   }
