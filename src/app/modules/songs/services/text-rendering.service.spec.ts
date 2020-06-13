@@ -33,7 +33,7 @@ Cool bridge without any chords
 
   it('should parse section types', () => {
     const service: TextRenderingService = TestBed.get(TextRenderingService);
-    const sections = service.parse(testText);
+    const sections = service.parse(testText, null);
     expect(sections[0].type).toBe(SectionType.Verse);
     expect(sections[0].number).toBe(0);
     expect(sections[1].type).toBe(SectionType.Verse);
@@ -46,7 +46,7 @@ Cool bridge without any chords
 
   it('should parse text lines', () => {
     const service: TextRenderingService = TestBed.get(TextRenderingService);
-    const sections = service.parse(testText);
+    const sections = service.parse(testText, null);
     expect(sections[0].lines[1].type).toBe(LineType.text);
     expect(sections[0].lines[1].text).toBe('Text Line 1-1');
     expect(sections[0].lines[3].type).toBe(LineType.text);
@@ -63,7 +63,7 @@ Cool bridge without any chords
 
   it('should parse chord lines', () => {
     const service: TextRenderingService = TestBed.inject(TextRenderingService);
-    const sections = service.parse(testText);
+    const sections = service.parse(testText, null);
     expect(sections[0].lines[0].type).toBe(LineType.chord);
     expect(sections[0].lines[0].text).toBe('C D E F G A H');
     expect(sections[0].lines[2].type).toBe(LineType.chord);
@@ -91,7 +91,7 @@ Cool bridge without any chords
     const text = `Strophe
 g#       F#         E          g#       F#          E
 text`
-    const sections = service.parse(text);
+    const sections = service.parse(text, null);
     expect(sections[0].lines[0].type).toBe(LineType.chord);
     expect(sections[0].lines[0].text).toBe('g#       F#         E          g#       F#          E');
     expect(sections[0].lines[1].type).toBe(LineType.text);

@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {TransposeMode, TransposeService} from './transpose.service';
 
 export enum SectionType {
   Verse,
@@ -22,7 +23,7 @@ export interface Chord {
 export interface Line {
   type: LineType;
   text: string;
-  chords?: Chord[]
+  chords?: Chord[];
 }
 
 export interface Section {
@@ -37,10 +38,10 @@ export interface Section {
 export class TextRenderingService {
   private regexSection = /(Strophe|Refrain|Bridge)/;
 
-  constructor() {
+  constructor(private transposeService: TransposeService) {
   }
 
-  public parse(text: string): Section[] {
+  public parse(text: string, transpose: TransposeMode): Section[] {
     if (!text) return [];
     const arrayOfLines = text.split(/\r?\n/).filter(_ => _);
     const indices = {
@@ -55,18 +56,19 @@ export class TextRenderingService {
         number: indices[type]++,
         lines: []
       }];
-      array[array.length - 1].lines.push(this.getLineOfLineText(line));
+      array[array.length - 1].lines.push(this.getLineOfLineText(line, transpose));
       return array;
     }, [] as Section[]);
   }
 
-  private getLineOfLineText(text: string): Line {
+  private getLineOfLineText(text: string, transpose: TransposeMode): Line {
     if (!text) return null;
     const cords = this.readChords(text);
     const hasMatches = cords.length > 0;
     const type = hasMatches ? LineType.chord : LineType.text;
 
-    return {type, text, chords: hasMatches ? cords : undefined}
+    const line = {type, text, chords: hasMatches ? cords : undefined};
+    return transpose ? this.transposeService.transpose(line, transpose.baseKey, transpose.targetKey) : line;
   }
 
   private getSectionTypeOfLine(line: string): SectionType {

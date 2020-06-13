@@ -31,6 +31,10 @@ export class UserService {
     return this._user$.pipe(filter(_ => !!_));
   }
 
+  public async currentUser(): Promise<User> {
+    return this.user$.pipe(first()).toPromise();
+  }
+
   public getUserbyId(userId: string): Promise<User> {
     return this.getUserbyId$(userId).pipe(first()).toPromise();
   }

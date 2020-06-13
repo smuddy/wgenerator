@@ -3,6 +3,9 @@ import {Observable} from 'rxjs';
 import {Song} from './song';
 import {SongDataService} from './song-data.service';
 import {first, tap} from 'rxjs/operators';
+import {UserService} from '../../../services/user/user.service';
+import * as firebase from 'firebase';
+import Timestamp = firebase.firestore.Timestamp;
 
 declare var importCCLI: any;
 
@@ -19,7 +22,7 @@ export class SongService {
 
   private list: Song[];
 
-  constructor(private songDataService: SongDataService) {
+  constructor(private songDataService: SongDataService, private userService: UserService) {
     importCCLI = (songs: Song[]) => this.updateFromCLI(songs);
   }
 
@@ -28,7 +31,11 @@ export class SongService {
   public read = (songId: string): Promise<Song | undefined> => this.read$(songId).pipe(first()).toPromise();
 
   public async update$(songId: string, data: Partial<Song>): Promise<void> {
-    await this.songDataService.update$(songId, data);
+    const song = await this.read(songId);
+    const edits = song.edits ?? [];
+    const user = await this.userService.currentUser();
+    edits.push({username: user.name, timestamp: Timestamp.now()})
+    await this.songDataService.update$(songId, {...data, edits});
   }
 
   public async new(number: number, title: string): Promise<string> {

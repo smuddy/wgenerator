@@ -51,7 +51,7 @@ export class MonitorComponent implements OnInit {
       switchMap(_ => this.songService.read$(_.presentationSongId))
     ).subscribe((_: Song) => {
       this.song = _;
-      this.sections = this.textRenderingService.parse(_.text);
+      this.sections = this.textRenderingService.parse(_.text, null);
     });
   }
 

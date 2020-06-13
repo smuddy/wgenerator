@@ -16,6 +16,6 @@
     <app-menu-button (click)="onDelete()" [icon]="faDelete" class="btn-delete btn-icon"></app-menu-button>
   </div>
   <app-song-text (chordModeChanged)="onChordModeChanged($event)" *ngIf="showText || show.published"
-                 [chordMode]="showSong.chordMode"
+                 [chordMode]="showSong.chordMode" [transpose]="{baseKey: showSong.keyOriginal, targetKey: showSong.key}"
                  [showSwitch]="!show.published" [text]="_song.text"></app-song-text>
 </div>

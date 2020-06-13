@@ -180,7 +180,10 @@ export class DocxService {
     const showSongs = await this.showSongService.list(showId);
     const songsAsync = await showSongs.map(async showSong => {
       const song = await this.songService.read(showSong.songId);
-      const sections = this.textRenderingService.parse(song.text);
+      const sections = this.textRenderingService.parse(song.text, {
+        baseKey: showSong.keyOriginal,
+        targetKey: showSong.key
+      });
       return {
         showSong,
         song,

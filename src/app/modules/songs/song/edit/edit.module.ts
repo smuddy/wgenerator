@@ -24,10 +24,11 @@ import {ButtonModule} from '../../../../widget-modules/components/button/button.
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {SaveDialogComponent} from './edit-song/save-dialog/save-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {HistoryComponent} from './history/history.component';
 
 
 @NgModule({
-  declarations: [EditComponent, EditSongComponent, EditFileComponent, FileComponent, SaveDialogComponent],
+  declarations: [EditComponent, EditSongComponent, EditFileComponent, FileComponent, SaveDialogComponent, HistoryComponent],
   exports: [EditComponent],
   bootstrap: [SaveDialogComponent],
   imports: [

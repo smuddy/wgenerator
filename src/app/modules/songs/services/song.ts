@@ -1,3 +1,6 @@
+import Timestamp = firebase.firestore.Timestamp;
+import * as firebase from 'firebase';
+
 export interface Song {
   id: string;
   comment: string;
@@ -19,4 +22,11 @@ export interface Song {
   label: string;
   termsOfUse: string;
   origin: string;
+
+  edits: Edit[];
+}
+
+export interface Edit {
+  username: string;
+  timestamp: Timestamp;
 }

@@ -8,6 +8,7 @@ import {
 } from '../../../modules/songs/services/text-rendering.service';
 import {faGripLines} from '@fortawesome/free-solid-svg-icons/faGripLines';
 import {songSwitch} from './animation';
+import {TransposeMode} from '../../../modules/songs/services/transpose.service';
 
 export type ChordMode = 'show' | 'hide' | 'onlyFirst'
 
@@ -22,6 +23,7 @@ export class SongTextComponent implements OnInit {
   @Input() public index = -1;
   @Input() public fullscreen = false;
   @Input() public showSwitch = false;
+  @Input() public transpose: TransposeMode = null;
   @Output() public chordModeChanged = new EventEmitter<ChordMode>();
   @ViewChildren('section') viewSections: QueryList<ElementRef>;
   public faLines = faGripLines;
@@ -42,7 +44,7 @@ export class SongTextComponent implements OnInit {
     this.sections = null;
     this.offset = 0;
     setTimeout(() =>
-      this.sections = this.textRenderingService.parse(value).sort((a, b) => a.type - b.type), 100);
+      this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type), 100);
   }
 
 

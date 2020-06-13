@@ -75,7 +75,7 @@ export class RemoteComponent {
         .map(song => ({
           id: song.id,
           title: song.title,
-          sections: this.textRenderingService.parse(song.text)
+          sections: this.textRenderingService.parse(song.text, null)
         }))
     });
     await delay(500);
