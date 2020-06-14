@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {TransposeMode, TransposeService} from './transpose.service';
+import {TransposeService} from './transpose.service';
+import {TransposeMode} from './transpose-mode';
 
 export enum SectionType {
   Verse,

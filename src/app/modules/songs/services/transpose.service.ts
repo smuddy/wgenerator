@@ -2,11 +2,6 @@ import {Injectable} from '@angular/core';
 import {Chord, Line, LineType} from './text-rendering.service';
 import {getScaleType, scaleMapping} from './key.helper';
 
-export interface TransposeMode {
-  baseKey: string;
-  targetKey: string
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +12,7 @@ export class TransposeService {
     const difference = this.getDistance(baseKey, targetKey);
     const map = this.getMap(baseKey, difference);
 
-    const chords = line.chords.map(chord => this.transposeChord(chord, map));
+    const chords = difference > 0 ? line.chords.map(chord => this.transposeChord(chord, map)) : line.chords;
     const renderedLine = this.renderLine(chords);
 
     return {...line, text: renderedLine, chords};
@@ -32,14 +27,15 @@ export class TransposeService {
 
   public getDistance(baseKey: string, targetKey: string): number {
     const scale = getScaleType(baseKey);
-    return (
+    return scale ? (
       (scale[0].indexOf(targetKey) - scale[0].indexOf(baseKey)) ??
       (scale[1].indexOf(targetKey) - scale[1].indexOf(baseKey))
-    ) % 12;
+    ) % 12 : 0;
   }
 
   public getMap(baseKey: string, difference: number) {
     const scale = getScaleType(baseKey);
+    if (!scale) return null;
     const map = {};
     for (let i = 0; i < 12; i++) {
       const source = scale[0][i];

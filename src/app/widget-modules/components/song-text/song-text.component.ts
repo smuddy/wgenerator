@@ -8,7 +8,7 @@ import {
 } from '../../../modules/songs/services/text-rendering.service';
 import {faGripLines} from '@fortawesome/free-solid-svg-icons/faGripLines';
 import {songSwitch} from './animation';
-import {TransposeMode} from '../../../modules/songs/services/transpose.service';
+import {TransposeMode} from '../../../modules/songs/services/transpose-mode';
 
 export type ChordMode = 'show' | 'hide' | 'onlyFirst'
 
