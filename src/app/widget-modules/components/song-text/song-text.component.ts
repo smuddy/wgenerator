@@ -1,14 +1,12 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
-import {
-  Line,
-  LineType,
-  Section,
-  SectionType,
-  TextRenderingService
-} from '../../../modules/songs/services/text-rendering.service';
+import {TextRenderingService} from '../../../modules/songs/services/text-rendering.service';
 import {faGripLines} from '@fortawesome/free-solid-svg-icons/faGripLines';
 import {songSwitch} from './animation';
 import {TransposeMode} from '../../../modules/songs/services/transpose-mode';
+import {SectionType} from '../../../modules/songs/services/section-type';
+import {LineType} from '../../../modules/songs/services/line-type';
+import {Section} from '../../../modules/songs/services/section';
+import {Line} from '../../../modules/songs/services/line';
 
 export type ChordMode = 'show' | 'hide' | 'onlyFirst'
 

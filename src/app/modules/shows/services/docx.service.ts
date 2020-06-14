@@ -4,7 +4,6 @@ import {ShowService} from './show.service';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {first} from 'rxjs/operators';
 import {ShowSongService} from './show-song.service';
-import {Line, LineType, Section, TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Song} from '../../songs/services/song';
 import {SongService} from '../../songs/services/song.service';
 import {ShowSong} from './show-song';
@@ -14,6 +13,10 @@ import {UserService} from '../../../services/user/user.service';
 import {User} from '../../../services/user/user';
 import {ConfigService} from '../../../services/config.service';
 import {Config} from '../../../services/config';
+import {TextRenderingService} from '../../songs/services/text-rendering.service';
+import {Section} from '../../songs/services/section';
+import {LineType} from '../../songs/services/line-type';
+import {Line} from '../../songs/services/line';
 
 export interface DownloadOptions {
   copyright?: boolean;

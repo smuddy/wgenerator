@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {SectionType} from '../../../modules/songs/services/text-rendering.service';
+import {SectionType} from '../../../modules/songs/services/section-type';
 
 @Pipe({
   name: 'sectionType'

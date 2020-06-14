@@ -1,37 +1,11 @@
 import {Injectable} from '@angular/core';
 import {TransposeService} from './transpose.service';
 import {TransposeMode} from './transpose-mode';
-
-export enum SectionType {
-  Verse,
-  Chorus,
-  Bridge,
-}
-
-export enum LineType {
-  chord,
-  text,
-}
-
-export interface Chord {
-  chord: string;
-  length: number;
-  position: number;
-  slashChord?: string;
-  add?: string;
-}
-
-export interface Line {
-  type: LineType;
-  text: string;
-  chords?: Chord[];
-}
-
-export interface Section {
-  type: SectionType;
-  number: number;
-  lines: Line[];
-}
+import {SectionType} from './section-type';
+import {Section} from './section';
+import {LineType} from './line-type';
+import {Chord} from './chord';
+import {Line} from './line';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Chord, Line, LineType} from './text-rendering.service';
 import {getScaleType, scaleMapping} from './key.helper';
+import {LineType} from './line-type';
+import {Chord} from './chord';
+import {Line} from './line';
 
 @Injectable({
   providedIn: 'root'

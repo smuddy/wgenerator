@@ -4,7 +4,6 @@ import {Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
-import {Section, TextRenderingService} from '../../songs/services/text-rendering.service';
 import {faDesktop} from '@fortawesome/free-solid-svg-icons/faDesktop';
 import {ShowService} from '../../shows/services/show.service';
 import {ShowSong} from '../../shows/services/show-song';
@@ -13,6 +12,8 @@ import {FormControl} from '@angular/forms';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {fade} from '../../../animations';
 import {delay} from '../../../services/delay';
+import {TextRenderingService} from '../../songs/services/text-rendering.service';
+import {Section} from '../../songs/services/section';
 
 export interface PresentationSong {
   id: string;

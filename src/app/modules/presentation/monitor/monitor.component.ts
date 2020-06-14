@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import {ShowService} from '../../shows/services/show.service';
 import {SongService} from '../../songs/services/song.service';
-import {Section, TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Song} from '../../songs/services/song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {Config} from '../../../services/config';
 import {Observable} from 'rxjs';
 import {ConfigService} from '../../../services/config.service';
 import {songSwitch} from '../../../widget-modules/components/song-text/animation';
+import {Section} from '../../songs/services/section';
+import {TextRenderingService} from '../../songs/services/text-rendering.service';
 
 @Component({
   selector: 'app-monitor',
