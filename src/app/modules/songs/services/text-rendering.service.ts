@@ -68,7 +68,9 @@ export class TextRenderingService {
     const type = hasMatches ? LineType.chord : LineType.text;
 
     const line = {type, text, chords: hasMatches ? cords : undefined};
-    return transpose ? this.transposeService.transpose(line, transpose.baseKey, transpose.targetKey) : line;
+    return transpose
+      ? this.transposeService.transpose(line, transpose.baseKey, transpose.targetKey)
+      : this.transposeService.renderChords(line);
   }
 
   private getSectionTypeOfLine(line: string): SectionType {
@@ -107,7 +109,7 @@ export class TextRenderingService {
 
     const chordCount = chords.reduce((acc: number, cur: Chord) => acc + cur.length, 0);
     const lineCount = chordLine.replace(/\s/g, "").length;
-    const isChrod = chordCount * 2 > lineCount;
+    const isChrod = chordCount * 1.2 > lineCount;
     return isChrod ? chords : [];
   }
 

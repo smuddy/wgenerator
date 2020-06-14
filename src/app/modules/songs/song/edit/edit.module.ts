@@ -25,6 +25,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {SaveDialogComponent} from './edit-song/save-dialog/save-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {HistoryComponent} from './history/history.component';
+import {SongTextModule} from '../../../../widget-modules/components/song-text/song-text.module';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import {HistoryComponent} from './history/history.component';
     ButtonModule,
     MatTooltipModule,
     MatDialogModule,
+    SongTextModule,
 
   ]
 })

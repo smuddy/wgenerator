@@ -23,6 +23,13 @@ export class TransposeService {
     return {...line, text: renderedLine, chords};
   }
 
+  public renderChords(line: Line): Line {
+    if (line.type !== LineType.chord) return line;
+
+    const renderedLine = this.renderLine(line.chords);
+    return {...line, text: renderedLine};
+  }
+
   public getDistance(baseKey: string, targetKey: string): number {
     const scale = getScaleType(baseKey);
     return (

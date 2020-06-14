@@ -37,6 +37,8 @@
                 formControlName="text" matInput></textarea>
     </mat-form-field>
     <div *ngIf="songtextFocus" class="song-text-help">
+      <h3>Vorschau</h3>
+      <app-song-text [text]="form.value.text" chordMode="show"></app-song-text>
       <h3>Hinweise zur Bearbeitung</h3>
       <h4>Aufbau</h4>
       Der Liedtext wird hintereinander weg geschrieben. Dabei werden Strophen, Refrain und Bridge jeweils durch
@@ -58,7 +60,7 @@
       <pre>
         Dur: C  D  E
         Moll: c  d  e
-        Kreuz/B-Tonarten: C#  f#  Eb  (Erlaubt ist auch B statt Hb)
+        Kreuz/B-Tonarten: C#  f#  Eb  (Hb muss als B angegeben werden)
         Basstöne: C/E  D/C
         Obertöne: c7  E9  f#maj7
       </pre>
