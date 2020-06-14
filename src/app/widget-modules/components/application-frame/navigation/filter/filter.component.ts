@@ -11,8 +11,10 @@ export class FilterComponent {
 
   constructor(private router: Router, activatedRoute: ActivatedRoute) {
     activatedRoute.queryParams.subscribe(_ => {
-      if (_.q) this.value = _.q;
-    })
+      if (_.q) {
+        this.value = _.q;
+      }
+    });
   }
 
   public async valueChange(text: string): Promise<void> {

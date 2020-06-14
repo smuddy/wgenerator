@@ -11,7 +11,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 })
 export class UserComponent {
   public id: string;
-  public name: string
+  public name: string;
   public roles: string[];
   public ROLE_TYPES = ROLE_TYPES;
   public edit = false;
@@ -24,7 +24,7 @@ export class UserComponent {
     this.id = value.id;
     this.name = value.name;
     this.roles = this.getRoleArray(value.role);
-  };
+  }
 
   public async onRoleChanged(id: string, roles: string[]): Promise<void> {
     const role = roles.join(';');

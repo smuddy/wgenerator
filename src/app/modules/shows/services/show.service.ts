@@ -30,7 +30,7 @@ export class ShowService {
         .filter(_ => !_.archived)
         .filter(show => show.published || (show.owner === _.user.id && !publishedOnly))
       )
-    )
+    );
 
   }
 

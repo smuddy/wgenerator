@@ -25,7 +25,7 @@ export class FileComponent {
     this.name = file.name;
     this.fileId = file.id;
     this.path = file.path + '/' + file.name;
-  };
+  }
 
   public async onDelete(): Promise<void> {
     await this.fileService.delete(this.path, this.songId, this.fileId);

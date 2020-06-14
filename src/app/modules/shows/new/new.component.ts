@@ -27,12 +27,14 @@ export class NewComponent implements OnInit {
     this.form = new FormGroup({
       date: new FormControl(null, Validators.required),
       showType: new FormControl(null, Validators.required),
-    })
+    });
   }
 
   public async onSave() {
     this.form.markAllAsTouched();
-    if (!this.form.valid) return;
+    if (!this.form.valid) {
+      return;
+    }
 
     const id = await this.showService.new$(this.form.value);
     await this.router.navigateByUrl('/shows/' + id);

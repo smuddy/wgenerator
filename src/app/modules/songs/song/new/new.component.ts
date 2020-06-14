@@ -23,12 +23,12 @@ export class NewComponent implements OnInit {
     this.form = new FormGroup({
       number: new FormControl(null, Validators.required),
       title: new FormControl(null, Validators.required),
-    })
+    });
 
     this.songService.list$().pipe(autoComplete(this)).subscribe(songs => {
       const freeSongnumber = this.getFreeSongNumber(songs);
       this.form.controls.number.setValue(freeSongnumber);
-    })
+    });
   }
 
   public async onSave(): Promise<void> {
@@ -41,7 +41,9 @@ export class NewComponent implements OnInit {
   private getFreeSongNumber(songs: Song[]): Number {
     const numbers = songs.map(_ => _.number);
     for (let i = 1; i < Number.MAX_SAFE_INTEGER; i++) {
-      if (!numbers.some(_ => _ === i)) return i;
+      if (!numbers.some(_ => _ === i)) {
+        return i;
+      }
     }
   }
 }

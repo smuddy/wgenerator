@@ -1,3 +1,3 @@
 export interface GlobalSettings {
-  currentShow: string
+  currentShow: string;
 }

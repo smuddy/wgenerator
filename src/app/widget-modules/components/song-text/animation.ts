@@ -17,4 +17,4 @@ export const songSwitch =     // the fade-in/fade-out animation.
     transition(':leave',
       animate(1200, style({opacity: 0}))
     )
-  ])
+  ]);

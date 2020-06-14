@@ -8,7 +8,7 @@ import {LineType} from '../../../modules/songs/services/line-type';
 import {Section} from '../../../modules/songs/services/section';
 import {Line} from '../../../modules/songs/services/line';
 
-export type ChordMode = 'show' | 'hide' | 'onlyFirst'
+export type ChordMode = 'show' | 'hide' | 'onlyFirst';
 
 @Component({
   selector: 'app-song-text',
@@ -41,10 +41,12 @@ export class SongTextComponent implements OnInit {
   public set text(value: string) {
     this.sections = null;
     this.offset = 0;
-    if (this.fullscreen)
+    if (this.fullscreen) {
       setTimeout(() =>
         this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type), 100);
-    else this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type)
+    } else {
+      this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type);
+    }
   }
 
 
@@ -61,7 +63,9 @@ export class SongTextComponent implements OnInit {
 
   public getLines(section: Section): Line[] {
     return section.lines.filter(_ => {
-      if (_.type !== LineType.chord) return true;
+      if (_.type !== LineType.chord) {
+        return true;
+      }
 
       switch (this._chordMode) {
         case 'show':

@@ -46,9 +46,11 @@ export class SongComponent implements OnInit {
   }
 
   public getFlags = (flags: string): string[] => {
-    if (!flags) return [];
+    if (!flags) {
+      return [];
+    }
     return flags.split(';').filter(_ => !!_);
-  };
+  }
 
   public async onDelete(songId: string): Promise<void> {
     await this.songService.delete(songId);

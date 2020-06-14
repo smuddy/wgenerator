@@ -34,12 +34,12 @@ export class SongService {
     const song = await this.read(songId);
     const edits = song.edits ?? [];
     const user = await this.userService.currentUser();
-    edits.push({username: user.name, timestamp: Timestamp.now()})
+    edits.push({username: user.name, timestamp: Timestamp.now()});
     await this.songDataService.update$(songId, {...data, edits});
   }
 
   public async new(number: number, title: string): Promise<string> {
-    return await this.songDataService.add({number, title, status: 'draft', legalType: 'open'})
+    return await this.songDataService.add({number, title, status: 'draft', legalType: 'open'});
   }
 
   public async delete(songId: string): Promise<void> {

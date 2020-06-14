@@ -77,7 +77,7 @@ export class RemoteComponent {
           id: song.id,
           title: song.title,
           sections: this.textRenderingService.parse(song.text, null)
-        }))
+        }));
     });
     await delay(500);
     this.progress = false;
@@ -91,7 +91,7 @@ export class RemoteComponent {
     await this.showService.update$(this.currentShowId, {
       presentationSongId: id,
       presentationSection: index
-    })
+    });
   }
 
   public async onZoom(zoom: number) {

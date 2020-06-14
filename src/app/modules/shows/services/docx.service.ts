@@ -86,11 +86,11 @@ export class DocxService {
           },
         ]
       }
-    })
+    });
   }
 
   private renderSongs(songs: { showSong: ShowSong; song: Song; sections: Section[] }[], options: DownloadOptions, config: Config): Paragraph[] {
-    return songs.reduce((p, song) => [...p, ...this.renderSong(song.showSong, song.song, song.sections, options, config)], [])
+    return songs.reduce((p, song) => [...p, ...this.renderSong(song.showSong, song.song, song.sections, options, config)], []);
   }
 
   private renderSong(showSong: ShowSong, song: Song, sections: Section[], options: DownloadOptions, config: Config): Paragraph[] {
@@ -121,7 +121,9 @@ export class DocxService {
   }
 
   private renderCopyright(song: Song, options: DownloadOptions, config: Config): Paragraph {
-    if (!options?.copyright) return null;
+    if (!options?.copyright) {
+      return null;
+    }
 
     const label = song.label ? song.label + ', ' : '';
     const artist = song.artist ? song.artist + ', ' : '';
@@ -141,7 +143,9 @@ export class DocxService {
   private renderSection(section: Section, chordMode: ChordMode): Paragraph[] {
     return section.lines
       .filter(line => {
-        if (line.type === LineType.text) return true;
+        if (line.type === LineType.text) {
+          return true;
+        }
         switch (chordMode) {
           case 'show':
             return true;
@@ -172,7 +176,7 @@ export class DocxService {
       thematicBreak: true,
     });
 
-    return [songTitle]
+    return [songTitle];
   }
 
   private async prepareData(showId: string): Promise<{ songs: ({ showSong: ShowSong, song: Song, sections: Section[] })[]; show: Show, user: User, config: Config }> {
@@ -191,8 +195,8 @@ export class DocxService {
         showSong,
         song,
         sections
-      }
-    })
+      };
+    });
     const songs = await Promise.all(songsAsync);
     return {songs, show, user, config};
   }
@@ -213,5 +217,5 @@ export class DocxService {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     }, 1000);
-  };
+  }
 }

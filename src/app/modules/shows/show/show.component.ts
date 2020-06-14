@@ -76,8 +76,12 @@ export class ShowComponent implements OnInit {
   }
 
   public getStatus(show: Show): string {
-    if (show.published) return 'veröffentlicht';
-    if (show.reported) return 'gemeldet';
+    if (show.published) {
+      return 'veröffentlicht';
+    }
+    if (show.reported) {
+      return 'gemeldet';
+    }
     return 'entwurf';
   }
 

@@ -51,7 +51,7 @@ export class EditSongComponent implements OnInit {
     ).subscribe(song => {
       this.song = song;
       this.form = this.editService.createSongForm(song);
-      this.form.controls.flags.valueChanges.subscribe(_ => this.onFlagsChanged(_))
+      this.form.controls.flags.valueChanges.subscribe(_ => this.onFlagsChanged(_));
       this.onFlagsChanged(this.form.controls.flags.value);
     });
   }
@@ -78,7 +78,9 @@ export class EditSongComponent implements OnInit {
       this.form.controls.flags.setValue(flags.join(';'));
     }
 
-    if (input) input.value = '';
+    if (input) {
+      input.value = '';
+    }
   }
 
   private onFlagsChanged(flagArray: string): void {
@@ -91,7 +93,9 @@ export class EditSongComponent implements OnInit {
   }
 
   public askForSave(nextState?: RouterStateSnapshot): boolean {
-    if (!this.form.dirty) return true;
+    if (!this.form.dirty) {
+      return true;
+    }
 
     const dialogRef = this.dialog.open(SaveDialogComponent, {
       width: '350px'

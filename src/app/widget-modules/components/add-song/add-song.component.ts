@@ -35,14 +35,14 @@ export class AddSongComponent {
           return 1;
         }
         return 0;
-      })
+      });
 
     const filterValue = this.filteredSongsControl.value;
     return filterValue ? songs.filter(_ => filterSong(_, filterValue)) : songs;
   }
 
   public async onAddSongSelectionChanged(event: MatSelectChange) {
-    let order = this.showSongs.reduce((oa, u) => Math.max(oa, u.order), 0) + 1;
+    const order = this.showSongs.reduce((oa, u) => Math.max(oa, u.order), 0) + 1;
     await this.showSongService.new$(this.showId, event.value, order, this.addedLive);
     event.source.value = null;
   }

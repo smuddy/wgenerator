@@ -90,7 +90,7 @@ Cool bridge without any chords
     const service: TextRenderingService = TestBed.inject(TextRenderingService);
     const text = `Strophe
 g#       F#         E          g#       F#          E
-text`
+text`;
     const sections = service.parse(text, null);
     expect(sections[0].lines[0].type).toBe(LineType.chord);
     expect(sections[0].lines[0].text).toBe('g#       F#         E          g#       F#          E');

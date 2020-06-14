@@ -40,13 +40,13 @@ export class SongComponent implements OnInit {
   public set song(song: Song) {
     this._song = song;
     this.keys = !!song ? getScale(song.key) : [];
-  };
+  }
 
   public ngOnInit(): void {
     this.keyFormControl = new FormControl(this.showSong.key);
     this.keyFormControl.valueChanges.subscribe(async value => {
       await this.showSongService.update$(this.showId, this.showSong.id, {key: value});
-    })
+    });
   }
 
   public async onDelete(): Promise<void> {
@@ -55,12 +55,18 @@ export class SongComponent implements OnInit {
 
 
   public async reorder(up: boolean): Promise<void> {
-    if (up) await this.reorderUp(); else await this.reorderDown();
+    if (up) {
+      await this.reorderUp();
+    } else {
+      await this.reorderDown();
+    }
   }
 
   public async reorderUp(): Promise<void> {
     const index = this.showSongs.findIndex(_ => _.songId === this._song.id);
-    if (index === 0) return;
+    if (index === 0) {
+      return;
+    }
 
     const song = this.showSongs[index];
     const toggleSong = this.showSongs[index - 1];
@@ -71,7 +77,9 @@ export class SongComponent implements OnInit {
 
   public async reorderDown(): Promise<void> {
     const index = this.showSongs.findIndex(_ => _.songId === this._song.id);
-    if (index === this.showSongs.length - 1) return;
+    if (index === this.showSongs.length - 1) {
+      return;
+    }
 
     const song = this.showSongs[index];
     const toggleSong = this.showSongs[index + 1];

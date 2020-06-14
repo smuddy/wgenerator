@@ -21,7 +21,7 @@ export class FileService {
 
   public async delete(path: string, songId: string, fileId: string) {
     const ref = this.storage.ref(path);
-    await ref.delete().toPromise()
+    await ref.delete().toPromise();
     await this.fileDataService.delete(songId, fileId);
   }
 }

@@ -30,12 +30,22 @@ export class FilterComponent implements OnInit {
     });
 
     activatedRoute.queryParams.subscribe((filterValues: FilterValues) => {
-      if (filterValues.q) this.filterFormGroup.controls.q.setValue(filterValues.q);
-      if (filterValues.type) this.filterFormGroup.controls.type.setValue(filterValues.type);
-      if (filterValues.key) this.filterFormGroup.controls.key.setValue(filterValues.key);
-      if (filterValues.legalType) this.filterFormGroup.controls.legalType.setValue(filterValues.legalType);
-      if (filterValues.flag) this.filterFormGroup.controls.flag.setValue(filterValues.flag);
-    })
+      if (filterValues.q) {
+        this.filterFormGroup.controls.q.setValue(filterValues.q);
+      }
+      if (filterValues.type) {
+        this.filterFormGroup.controls.type.setValue(filterValues.type);
+      }
+      if (filterValues.key) {
+        this.filterFormGroup.controls.key.setValue(filterValues.key);
+      }
+      if (filterValues.legalType) {
+        this.filterFormGroup.controls.legalType.setValue(filterValues.legalType);
+      }
+      if (filterValues.flag) {
+        this.filterFormGroup.controls.flag.setValue(filterValues.flag);
+      }
+    });
 
     this.filterFormGroup.controls.q.valueChanges.subscribe(_ => this.filerValueChanged('q', _));
     this.filterFormGroup.controls.key.valueChanges.subscribe(_ => this.filerValueChanged('key', _));

@@ -10,7 +10,9 @@ import {Line} from './line';
 export class TransposeService {
 
   public transpose(line: Line, baseKey: string, targetKey: string): Line {
-    if (line.type !== LineType.chord) return line;
+    if (line.type !== LineType.chord) {
+      return line;
+    }
     const difference = this.getDistance(baseKey, targetKey);
     const map = this.getMap(baseKey, difference);
 
@@ -21,7 +23,9 @@ export class TransposeService {
   }
 
   public renderChords(line: Line): Line {
-    if (line.type !== LineType.chord) return line;
+    if (line.type !== LineType.chord) {
+      return line;
+    }
 
     const renderedLine = this.renderLine(line.chords);
     return {...line, text: renderedLine};
@@ -37,7 +41,9 @@ export class TransposeService {
 
   public getMap(baseKey: string, difference: number) {
     const scale = getScaleType(baseKey);
-    if (!scale) return null;
+    if (!scale) {
+      return null;
+    }
     const map = {};
     for (let i = 0; i < 12; i++) {
       const source = scale[0][i];
@@ -71,7 +77,7 @@ export class TransposeService {
       const post = template.substr(pos + newLength);
 
       template = pre + renderedChord + post;
-    })
+    });
 
     return template.trimRight();
   }

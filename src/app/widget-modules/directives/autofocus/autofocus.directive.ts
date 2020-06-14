@@ -1,7 +1,7 @@
-import {Directive, ElementRef, Input} from "@angular/core";
+import {Directive, ElementRef, Input} from '@angular/core';
 
 @Directive({
-  selector: "[autofocus]"
+  selector: '[autofocus]'
 })
 export class AutofocusDirective {
   private focus = true;

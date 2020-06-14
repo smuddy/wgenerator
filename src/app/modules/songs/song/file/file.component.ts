@@ -21,7 +21,7 @@ export class FileComponent implements OnInit {
     this.url$ = ref.getDownloadURL();
     this.name = file.name;
 
-  };
+  }
 
   ngOnInit(): void {
   }

@@ -18,11 +18,11 @@ export class ListComponent {
   }
 
   public getPublicShows(songs: Show[]): Show[] {
-    return songs.filter(_ => _.published)
+    return songs.filter(_ => _.published);
   }
 
   public getPrivateSongs(songs: Show[]): Show[] {
-    return songs.filter(_ => !_.published)
+    return songs.filter(_ => !_.published);
   }
 
 }

@@ -17,7 +17,9 @@ export class TextRenderingService {
   }
 
   public parse(text: string, transpose: TransposeMode): Section[] {
-    if (!text) return [];
+    if (!text) {
+      return [];
+    }
     const arrayOfLines = text.split(/\r?\n/).filter(_ => _);
     const indices = {
       [SectionType.Bridge]: 0,
@@ -26,18 +28,22 @@ export class TextRenderingService {
     };
     return arrayOfLines.reduce((array, line) => {
       const type = this.getSectionTypeOfLine(line);
-      if (line.match(this.regexSection)) return [...array, {
-        type: type,
-        number: indices[type]++,
-        lines: []
-      }];
+      if (line.match(this.regexSection)) {
+        return [...array, {
+          type,
+          number: indices[type]++,
+          lines: []
+        }];
+      }
       array[array.length - 1].lines.push(this.getLineOfLineText(line, transpose));
       return array;
     }, [] as Section[]);
   }
 
   private getLineOfLineText(text: string, transpose: TransposeMode): Line {
-    if (!text) return null;
+    if (!text) {
+      return null;
+    }
     const cords = this.readChords(text);
     const hasMatches = cords.length > 0;
     const type = hasMatches ? LineType.chord : LineType.text;
@@ -49,16 +55,20 @@ export class TextRenderingService {
   }
 
   private getSectionTypeOfLine(line: string): SectionType {
-    if (!line) return null;
+    if (!line) {
+      return null;
+    }
     const match = line.match(this.regexSection);
-    if (!match || match.length < 2) return null;
+    if (!match || match.length < 2) {
+      return null;
+    }
     const typeString = match[1];
     switch (typeString) {
-      case  "Strophe":
+      case  'Strophe':
         return SectionType.Verse;
-      case  "Refrain":
+      case  'Refrain':
         return SectionType.Chorus;
-      case  "Bridge":
+      case  'Bridge':
         return SectionType.Bridge;
     }
   }
@@ -76,14 +86,18 @@ export class TextRenderingService {
         length: match[0].length,
         position: regex.lastIndex - match[0].length,
       };
-      if (match[3]) chord.slashChord = match[3];
-      if (match[4]) chord.add = match[4];
+      if (match[3]) {
+        chord.slashChord = match[3];
+      }
+      if (match[4]) {
+        chord.add = match[4];
+      }
 
       chords.push(chord);
     }
 
     const chordCount = chords.reduce((acc: number, cur: Chord) => acc + cur.length, 0);
-    const lineCount = chordLine.replace(/\s/g, "").length;
+    const lineCount = chordLine.replace(/\s/g, '').length;
     const isChrod = chordCount * 1.2 > lineCount;
     return isChrod ? chords : [];
   }

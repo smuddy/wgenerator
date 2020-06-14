@@ -38,8 +38,8 @@ export class SongListComponent implements OnInit, OnDestroy {
 
     this.songs$ = combineLatest([filter$, songs$]).pipe(
       map(_ => {
-        let songs = _[1];
-        let filter = _[0];
+        const songs = _[1];
+        const filter = _[0];
         this.anyFilterActive = this.checkIfFilterActive(filter);
         return songs.filter(song => this.filter(song, filter));
       })
@@ -68,10 +68,14 @@ export class SongListComponent implements OnInit, OnDestroy {
   }
 
   private checkFlag(flag: string, flags: string) {
-    if (!flags) return false;
+    if (!flags) {
+      return false;
+    }
 
     const flagStrings = flags.split(';');
-    if (flagStrings.length === 0) return false;
+    if (flagStrings.length === 0) {
+      return false;
+    }
 
     return flagStrings.indexOf(flag) !== -1;
   }
