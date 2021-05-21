@@ -6,7 +6,8 @@
     "build": "ng build",
     "deploy": "ng build --prod && firebase deploy",
     "test": "ng test",
-    "lint": "ng lint --fix"
+    "lint": "ng lint --fix",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
@@ -30,6 +31,7 @@
     "ngx-hocs-unsubscriber": "^1.1.7",
     "ngx-mat-select-search": "^2.1.2",
     "ngx-perfect-scrollbar": "^9.0.0",
+    "ngx-swiper-wrapper": "^9.0.1",
     "rxjs": "~6.5.5",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

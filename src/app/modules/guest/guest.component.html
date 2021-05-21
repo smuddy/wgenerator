@@ -1,0 +1,8 @@
+<div *ngIf="songs$|async as songs" class="view">
+  <swiper>
+    <div *ngFor="let song of songs" class="song">
+      <app-song-text [showSwitch]="false" [text]="song|async"
+                     chordMode="hide"></app-song-text>
+    </div>
+  </swiper>
+</div>
