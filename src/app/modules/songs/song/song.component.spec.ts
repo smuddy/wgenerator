@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SongComponent} from './song.component';
 import {of} from 'rxjs';
@@ -12,7 +12,7 @@ describe('SongComponent', () => {
     params: of({songId: '4711'})
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SongComponent],
       providers: [

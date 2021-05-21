@@ -1,4 +1,4 @@
-import {async, TestBed} from '@angular/core/testing';
+import {TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SongService} from './song.service';
 import {SongDataService} from './song-data.service';
@@ -25,7 +25,7 @@ describe('SongService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should list songs', async(() => {
+  it('should list songs', waitForAsync(() => {
     const service: SongService = TestBed.get(SongService);
     service.list$().subscribe(s => {
       expect(s).toEqual([

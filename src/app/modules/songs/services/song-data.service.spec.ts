@@ -1,4 +1,4 @@
-import {async, TestBed} from '@angular/core/testing';
+import {TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SongDataService} from './song-data.service';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -29,7 +29,7 @@ describe('SongDataService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should list songs', async(() => {
+  it('should list songs', waitForAsync(() => {
     const service: SongDataService = TestBed.get(SongDataService);
     service.list$().subscribe(s => {
         expect(s).toEqual([

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
 
 import {SongListComponent} from './song-list.component';
 import {of} from 'rxjs';
@@ -17,7 +17,7 @@ describe('SongListComponent', () => {
     list: () => of(songs)
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SongListComponent],
       providers: [
