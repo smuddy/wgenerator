@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'songs',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'songs',
@@ -15,8 +15,8 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard, RoleGuard],
     data: {
       authGuardPipe: () => redirectUnauthorizedTo(['user', 'login']),
-      requiredRoles: ['user']
-    }
+      requiredRoles: ['user'],
+    },
   },
   {
     path: 'shows',
@@ -24,8 +24,8 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard, RoleGuard],
     data: {
       authGuardPipe: () => redirectUnauthorizedTo(['user', 'login']),
-      requiredRoles: ['leader']
-    }
+      requiredRoles: ['leader'],
+    },
   },
   {
     path: 'presentation',
@@ -33,12 +33,12 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard, RoleGuard],
     data: {
       authGuardPipe: () => redirectUnauthorizedTo(['user', 'login']),
-      requiredRoles: ['presenter']
-    }
+      requiredRoles: ['presenter'],
+    },
   },
   {
     path: 'user',
-    loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+    loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
   },
   {
     path: 'brand',
@@ -47,12 +47,16 @@ const routes: Routes = [
   {
     path: 'guest',
     loadChildren: () => import('./modules/guest/guest.module').then(m => m.GuestModule),
-  }
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: PreloadAllModules,
+      relativeLinkResolution: 'legacy',
+    }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

@@ -9,19 +9,8 @@ import {ButtonRowModule} from '../../../../widget-modules/components/button-row/
 import {ButtonModule} from '../../../../widget-modules/components/button/button.module';
 import {AutofocusModule} from '../../../../widget-modules/directives/autofocus/autofocus.module';
 
-
 @NgModule({
   declarations: [NewComponent],
-  imports: [
-    CommonModule,
-    CardModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ButtonRowModule,
-    ButtonModule,
-    AutofocusModule
-  ]
+  imports: [CommonModule, CardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, ButtonRowModule, ButtonModule, AutofocusModule],
 })
-export class NewModule {
-}
+export class NewModule {}

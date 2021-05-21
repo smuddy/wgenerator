@@ -7,7 +7,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.less']
+  styleUrls: ['./user.component.less'],
 })
 export class UserComponent {
   public id: string;
@@ -17,10 +17,10 @@ export class UserComponent {
   public edit = false;
   public faClose = faTimes;
 
-  constructor(private userService: UserService) {
-  }
+  public constructor(private userService: UserService) {}
 
-  @Input() set user(value: User) {
+  @Input()
+  public set user(value: User) {
     this.id = value.id;
     this.name = value.name;
     this.roles = this.getRoleArray(value.role);
@@ -31,12 +31,12 @@ export class UserComponent {
     await this.userService.update$(id, {role});
   }
 
-  public async onNameChanged(id: string, name: any): Promise<void> {
-    await this.userService.update$(id, {name: name.target.value});
+  public async onNameChanged(id: string, name: Event): Promise<void> {
+    const target = name.target as HTMLInputElement;
+    await this.userService.update$(id, {name: target.value});
   }
 
-  public getRoleArray(role): string[] {
+  public getRoleArray(role: string): string[] {
     return role ? role.split(';') : [];
   }
-
 }

@@ -8,27 +8,28 @@ import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  constructor(private afAuth: AngularFireAuth, private db: DbService, private router: Router) {
-    this.afAuth.authState.pipe(
-      filter(_ => !!_),
-      tap(auth => this._userId$.next(auth.uid)),
-      switchMap(auth => this.readUser$(auth.uid)),
-    ).subscribe(_ => this._user$.next(_));
-  }
+  private iUserId$ = new BehaviorSubject<string>(null);
+  private iUser$ = new BehaviorSubject<User>(null);
 
-  private _userId$ = new BehaviorSubject<string>(null);
+  public constructor(private afAuth: AngularFireAuth, private db: DbService, private router: Router) {
+    this.afAuth.authState
+      .pipe(
+        filter(_ => !!_),
+        tap(auth => this.iUserId$.next(auth.uid)),
+        switchMap(auth => this.readUser$(auth.uid))
+      )
+      .subscribe(_ => this.iUser$.next(_));
+  }
 
   public get userId$(): Observable<string> {
-    return this._userId$.asObservable();
+    return this.iUserId$.asObservable();
   }
 
-  private _user$ = new BehaviorSubject<User>(null);
-
   public get user$(): Observable<User> {
-    return this._user$.pipe(filter(_ => !!_));
+    return this.iUser$.pipe(filter(_ => !!_));
   }
 
   public async currentUser(): Promise<User> {
@@ -43,44 +44,42 @@ export class UserService {
     return this.db.doc$<User>('users/' + userId);
   }
 
-  public async login(user: string, password: string): Promise<any> {
+  public async login(user: string, password: string): Promise<string> {
     const aUser = await this.afAuth.signInWithEmailAndPassword(user, password);
     const dUser = await this.readUser(aUser.user.uid);
-    this._user$.next(dUser);
-    this._userId$.next(aUser.user.uid);
+    this.iUser$.next(dUser);
+    this.iUserId$.next(aUser.user.uid);
+    return aUser.user.uid;
   }
 
-  public loggedIn$ = () => this.afAuth.authState;
+  public loggedIn$: () => Observable<firebase.User | null> = () => this.afAuth.authState;
 
-  public list$ = (): Observable<User[]> => this.db.col$('users');
+  public list$: () => Observable<User[]> = (): Observable<User[]> => this.db.col$('users');
 
-  public async logout(): Promise<any> {
+  public async logout(): Promise<void> {
     await this.afAuth.signOut();
-    this._user$.next(null);
-    this._userId$.next(null);
+    this.iUser$.next(null);
+    this.iUserId$.next(null);
   }
 
   public async update$(uid: string, data: Partial<User>): Promise<void> {
     await this.db.doc<User>('users/' + uid).update(data);
   }
 
-  public async changePassword(user: string): Promise<any> {
+  public async changePassword(user: string): Promise<void> {
     const url = environment.url;
     await this.afAuth.sendPasswordResetEmail(user, {url});
   }
 
-  public async createNewUser(user: string, name: string, password: string): Promise<any> {
+  public async createNewUser(user: string, name: string, password: string): Promise<void> {
     const aUser = await this.afAuth.createUserWithEmailAndPassword(user, password);
     const userId = aUser.user.uid;
     await this.db.doc('users/' + userId).set({name, chordMode: 'onlyFirst'});
     const dUser = await this.readUser(aUser.user.uid);
-    this._user$.next(dUser);
+    this.iUser$.next(dUser);
     await this.router.navigateByUrl('/brand/new-user');
   }
 
-  private readUser$ = (uid) => this.db.doc$<User>('users/' + uid);
-
-  private async readUser(uid): Promise<User> {
-    return await this.readUser$(uid).pipe(first()).toPromise();
-  }
+  private readUser$ = (uid: string) => this.db.doc$<User>('users/' + uid);
+  private readUser = async (uid: string): Promise<User> => await this.readUser$(uid).pipe(first()).toPromise();
 }

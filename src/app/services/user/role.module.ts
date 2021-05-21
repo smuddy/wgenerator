@@ -5,9 +5,6 @@ import {RoleDirective} from './role.directive';
 @NgModule({
   declarations: [RoleDirective],
   exports: [RoleDirective],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-export class RoleModule {
-}
+export class RoleModule {}

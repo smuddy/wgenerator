@@ -2,11 +2,10 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {SectionType} from '../../../modules/songs/services/section-type';
 
 @Pipe({
-  name: 'sectionType'
+  name: 'sectionType',
 })
 export class SectionTypePipe implements PipeTransform {
-
-  transform(value: SectionType): string {
+  public transform(value: SectionType): string {
     switch (value) {
       case SectionType.Verse:
         return 'Strophe';
@@ -16,5 +15,4 @@ export class SectionTypePipe implements PipeTransform {
         return 'Bridge';
     }
   }
-
 }

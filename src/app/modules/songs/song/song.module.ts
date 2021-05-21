@@ -14,7 +14,6 @@ import {StatusTranslaterModule} from '../../../widget-modules/pipes/status-trans
 import {ButtonModule} from '../../../widget-modules/components/button/button.module';
 import {FileComponent} from './file/file.component';
 
-
 @NgModule({
   declarations: [SongComponent, FileComponent],
   exports: [SongComponent],
@@ -32,7 +31,6 @@ import {FileComponent} from './file/file.component';
     RoleModule,
     StatusTranslaterModule,
     ButtonModule,
-  ]
+  ],
 })
-export class SongModule {
-}
+export class SongModule {}

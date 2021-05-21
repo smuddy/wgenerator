@@ -4,26 +4,24 @@ import {NewComponent} from './new/new.component';
 import {ListComponent} from './list/list.component';
 import {ShowComponent} from './show/show.component';
 
-
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: ListComponent
+    component: ListComponent,
   },
   {
     path: 'new',
-    component: NewComponent
+    component: NewComponent,
   },
   {
     path: ':showId',
-    component: ShowComponent
-  }
+    component: ShowComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ShowsRoutingModule {
-}
+export class ShowsRoutingModule {}

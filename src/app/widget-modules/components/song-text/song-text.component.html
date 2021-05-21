@@ -1,33 +1,70 @@
-<div (click)="onClick()" *ngIf="sections && !fullscreen" [class.chords]="_chordMode!=='hide'"
-     class="song-text">
-
-  <button (click)="onChordClick()" *ngIf="showSwitch" class="menu" mat-icon-button>
+<div
+  (click)="onClick()"
+  *ngIf="sections && !fullscreen"
+  [class.chords]="iChordMode !== 'hide'"
+  class="song-text"
+>
+  <button
+    (click)="onChordClick()"
+    *ngIf="showSwitch"
+    class="menu"
+    mat-icon-button
+  >
     <fa-icon [icon]="faLines"></fa-icon>
   </button>
 
-
   <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
-    <div #section *ngFor="let section of sections; let i = index" [class.chorus]="section.type===1" class="section">
-      <div *ngFor="let line of getLines(section)" [class.chord]="line.type===0" [class.disabled]="checkDisabled(i)"
-           class="line">{{line.text}}</div>
+    <div
+      #section
+      *ngFor="let section of sections; let i = index"
+      [class.chorus]="section.type === 1"
+      class="section"
+    >
+      <div
+        *ngFor="let line of getLines(section)"
+        [class.chord]="line.type === 0"
+        [class.disabled]="checkDisabled(i)"
+        class="line"
+      >
+        {{ line.text }}
+      </div>
     </div>
   </div>
 
   <ng-content></ng-content>
 </div>
 
-<div (click)="onClick()" *ngIf="sections && fullscreen" [@songSwitch]="sections" [class.chords]="_chordMode!=='hide'"
-     class="song-text">
-
-  <button (click)="onChordClick()" *ngIf="showSwitch" class="menu" mat-icon-button>
+<div
+  (click)="onClick()"
+  *ngIf="sections && fullscreen"
+  [@songSwitch]="sections"
+  [class.chords]="iChordMode !== 'hide'"
+  class="song-text"
+>
+  <button
+    (click)="onChordClick()"
+    *ngIf="showSwitch"
+    class="menu"
+    mat-icon-button
+  >
     <fa-icon [icon]="faLines"></fa-icon>
   </button>
 
-
   <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
-    <div #section *ngFor="let section of sections; let i = index" [class.chorus]="section.type===1" class="section">
-      <div *ngFor="let line of getLines(section)" [class.chord]="line.type===0" [class.disabled]="checkDisabled(i)"
-           class="line">{{line.text}}</div>
+    <div
+      #section
+      *ngFor="let section of sections; let i = index"
+      [class.chorus]="section.type === 1"
+      class="section"
+    >
+      <div
+        *ngFor="let line of getLines(section)"
+        [class.chord]="line.type === 0"
+        [class.disabled]="checkDisabled(i)"
+        class="line"
+      >
+        {{ line.text }}
+      </div>
     </div>
   </div>
 

@@ -4,7 +4,7 @@ import {IconProp} from '@fortawesome/fontawesome-svg-core';
 @Component({
   selector: 'app-link',
   templateUrl: './link.component.html',
-  styleUrls: ['./link.component.less']
+  styleUrls: ['./link.component.less'],
 })
 export class LinkComponent {
   @Input() public text: string;

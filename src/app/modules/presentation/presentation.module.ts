@@ -18,12 +18,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AddSongModule} from '../../widget-modules/components/add-song/add-song.module';
 import {LogoComponent} from './monitor/logo/logo.component';
 
-
 @NgModule({
   declarations: [MonitorComponent, RemoteComponent, LegalComponent, LogoComponent],
-  exports: [
-    RemoteComponent
-  ],
+  exports: [RemoteComponent],
   imports: [
     CommonModule,
     PresentationRoutingModule,
@@ -38,8 +35,7 @@ import {LogoComponent} from './monitor/logo/logo.component';
     MatSliderModule,
     FormsModule,
     AddSongModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class PresentationModule {
-}
+export class PresentationModule {}

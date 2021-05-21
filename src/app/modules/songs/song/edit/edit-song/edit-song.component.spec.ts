@@ -6,12 +6,13 @@ describe('EditSongComponent', () => {
   let component: EditSongComponent;
   let fixture: ComponentFixture<EditSongComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [EditSongComponent]
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [EditSongComponent],
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditSongComponent);
@@ -20,6 +21,6 @@ describe('EditSongComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

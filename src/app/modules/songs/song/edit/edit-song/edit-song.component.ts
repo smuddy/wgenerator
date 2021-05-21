@@ -17,7 +17,7 @@ import {SaveDialogComponent} from './save-dialog/save-dialog.component';
 @Component({
   selector: 'app-edit-song',
   templateUrl: './edit-song.component.html',
-  styleUrls: ['./edit-song.component.less']
+  styleUrls: ['./edit-song.component.less'],
 })
 export class EditSongComponent implements OnInit {
   public song: Song;
@@ -28,36 +28,31 @@ export class EditSongComponent implements OnInit {
   public legalOwner = SongService.LEGAL_OWNER;
   public legalType = SongService.LEGAL_TYPE;
   public flags: string[] = [];
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  public readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   public faRemove = faTimesCircle;
   public faSave = faSave;
   public faLink = faExternalLinkAlt;
   public songtextFocus = false;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private songService: SongService,
-    private editService: EditService,
-    private router: Router,
-    public dialog: MatDialog
-  ) {
-  }
+  public constructor(private activatedRoute: ActivatedRoute, private songService: SongService, private editService: EditService, private router: Router, public dialog: MatDialog) {}
 
   public ngOnInit(): void {
-    this.activatedRoute.params.pipe(
-      map(param => param.songId),
-      switchMap(songId => this.songService.read$(songId)),
-      first()
-    ).subscribe(song => {
-      this.song = song;
-      this.form = this.editService.createSongForm(song);
-      this.form.controls.flags.valueChanges.subscribe(_ => this.onFlagsChanged(_));
-      this.onFlagsChanged(this.form.controls.flags.value);
-    });
+    this.activatedRoute.params
+      .pipe(
+        map((param: {songId: string}) => param.songId),
+        switchMap(songId => this.songService.read$(songId)),
+        first()
+      )
+      .subscribe(song => {
+        this.song = song;
+        this.form = this.editService.createSongForm(song);
+        this.form.controls.flags.valueChanges.subscribe(_ => this.onFlagsChanged(_));
+        this.onFlagsChanged(this.form.controls.flags.value);
+      });
   }
 
   public async onSave(): Promise<void> {
-    const data = this.form.value;
+    const data = this.form.value as Partial<Song>;
     await this.songService.update$(this.song.id, data);
     this.form.markAsPristine();
     await this.router.navigateByUrl('songs/' + this.song.id);
@@ -83,6 +78,22 @@ export class EditSongComponent implements OnInit {
     }
   }
 
+  public askForSave(nextState?: RouterStateSnapshot): boolean {
+    if (!this.form.dirty) {
+      return true;
+    }
+
+    const dialogRef = this.dialog.open(SaveDialogComponent, {
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe((save: boolean) => {
+      void this.onSaveDialogAfterClosed(save, nextState.url).then();
+    });
+
+    return false;
+  }
+
   private onFlagsChanged(flagArray: string): void {
     if (!flagArray) {
       this.flags = [];
@@ -92,30 +103,13 @@ export class EditSongComponent implements OnInit {
     this.flags = flagArray.split(';').filter(_ => !!_);
   }
 
-  public askForSave(nextState?: RouterStateSnapshot): boolean {
-    if (!this.form.dirty) {
-      return true;
-    }
-
-    const dialogRef = this.dialog.open(SaveDialogComponent, {
-      width: '350px'
-    });
-
-    dialogRef.afterClosed().subscribe((save: boolean) => {
-      this.onSaveDialogAfterClosed(save, nextState.url).then();
-    });
-
-    return false;
-  }
-
   private async onSaveDialogAfterClosed(save: boolean, url: string) {
     if (save) {
-      const data = this.form.value;
+      const data = this.form.value as Partial<Song>;
       await this.songService.update$(this.song.id, data);
     }
 
     this.form.markAsPristine();
     await this.router.navigateByUrl(url);
   }
-
 }

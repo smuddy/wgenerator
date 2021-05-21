@@ -1,7 +1,12 @@
 <div [class.padding]="padding" class="card">
-  <button *ngIf="closeLink" [routerLink]="closeLink" class="btn-close" mat-icon-button>
+  <button
+    *ngIf="closeLink"
+    [routerLink]="closeLink"
+    class="btn-close"
+    mat-icon-button
+  >
     <fa-icon [icon]="faClose"></fa-icon>
   </button>
-  <div *ngIf="heading" class="heading">{{heading}}</div>
+  <div *ngIf="heading" class="heading">{{ heading }}</div>
   <ng-content></ng-content>
 </div>

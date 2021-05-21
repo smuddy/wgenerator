@@ -3,10 +3,10 @@ import {TestBed} from '@angular/core/testing';
 import {DbService} from './db.service';
 
 describe('DbService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => void TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: DbService = TestBed.get(DbService);
-    expect(service).toBeTruthy();
+    const service: DbService = TestBed.inject(DbService);
+    void expect(service).toBeTruthy();
   });
 });

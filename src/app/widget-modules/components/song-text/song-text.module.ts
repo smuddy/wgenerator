@@ -4,15 +4,9 @@ import {SongTextComponent} from './song-text.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatButtonModule} from '@angular/material/button';
 
-
 @NgModule({
   declarations: [SongTextComponent],
   exports: [SongTextComponent],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    MatButtonModule
-  ]
+  imports: [CommonModule, FontAwesomeModule, MatButtonModule],
 })
-export class SongTextModule {
-}
+export class SongTextModule {}

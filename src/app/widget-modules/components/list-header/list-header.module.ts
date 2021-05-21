@@ -8,16 +8,7 @@ import {CardModule} from '../card/card.module';
 
 @NgModule({
   declarations: [ListHeaderComponent],
-  exports: [
-    ListHeaderComponent
-  ],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    MatButtonModule,
-    RouterModule,
-    CardModule,
-  ]
+  exports: [ListHeaderComponent],
+  imports: [CommonModule, FontAwesomeModule, MatButtonModule, RouterModule, CardModule],
 })
-export class ListHeaderModule {
-}
+export class ListHeaderModule {}

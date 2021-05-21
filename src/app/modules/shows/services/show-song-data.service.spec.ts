@@ -6,11 +6,11 @@ describe('ShowSongDataService', () => {
   let service: ShowSongDataService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    void TestBed.configureTestingModule({});
     service = TestBed.inject(ShowSongDataService);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    void expect(service).toBeTruthy();
   });
 });

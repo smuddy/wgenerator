@@ -6,12 +6,13 @@ describe('MenuButtonComponent', () => {
   let component: MenuButtonComponent;
   let fixture: ComponentFixture<MenuButtonComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MenuButtonComponent]
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [MenuButtonComponent],
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MenuButtonComponent);
@@ -20,6 +21,6 @@ describe('MenuButtonComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

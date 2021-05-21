@@ -13,28 +13,21 @@ import {ScrollService} from '../../../services/scroll.service';
   selector: 'app-songs',
   templateUrl: './song-list.component.html',
   styleUrls: ['./song-list.component.less'],
-  animations: [fade]
+  animations: [fade],
 })
 export class SongListComponent implements OnInit, OnDestroy {
-
   public songs$: Observable<Song[]>;
   public anyFilterActive = false;
 
-  constructor(
-    private songService: SongService,
-    private activatedRoute: ActivatedRoute,
-    private scrollService: ScrollService) {
-  }
+  public constructor(private songService: SongService, private activatedRoute: ActivatedRoute, private scrollService: ScrollService) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
     const filter$ = this.activatedRoute.queryParams.pipe(
       debounceTime(300),
       map(_ => _ as FilterValues)
     );
 
-    const songs$ = this.songService.list$().pipe(
-      map(songs => songs.sort((a, b) => a.number - b.number)),
-    );
+    const songs$ = this.songService.list$().pipe(map(songs => songs.sort((a, b) => a.number - b.number)));
 
     this.songs$ = combineLatest([filter$, songs$]).pipe(
       map(_ => {

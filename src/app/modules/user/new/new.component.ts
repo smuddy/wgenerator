@@ -6,16 +6,15 @@ import {faUserPlus} from '@fortawesome/free-solid-svg-icons/faUserPlus';
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
-  styleUrls: ['./new.component.less']
+  styleUrls: ['./new.component.less'],
 })
 export class NewComponent implements OnInit {
   public form: FormGroup;
   public faNewUser = faUserPlus;
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
-  }
+  public constructor(private fb: FormBuilder, private userService: UserService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.form = this.fb.group({
       email: new FormControl(null, [Validators.required, Validators.email]),
       name: new FormControl(null, [Validators.required]),
@@ -27,7 +26,12 @@ export class NewComponent implements OnInit {
     this.form.updateValueAndValidity();
     if (this.form.valid) {
       try {
-        await this.userService.createNewUser(this.form.value.email, this.form.value.name, this.form.value.password);
+        const value = this.form.value as {
+          email: string;
+          name: string;
+          password: string;
+        };
+        await this.userService.createNewUser(value.email, value.name, value.password);
       } catch (ex) {
         console.error(ex);
       }

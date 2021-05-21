@@ -1,16 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-password-send',
   templateUrl: './password-send.component.html',
-  styleUrls: ['./password-send.component.less']
+  styleUrls: ['./password-send.component.less'],
 })
-export class PasswordSendComponent implements OnInit {
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
-
-}
+export class PasswordSendComponent {}

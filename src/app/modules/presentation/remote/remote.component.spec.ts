@@ -6,12 +6,13 @@ describe('RemoteComponent', () => {
   let component: RemoteComponent;
   let fixture: ComponentFixture<RemoteComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [RemoteComponent]
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [RemoteComponent],
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RemoteComponent);
@@ -20,6 +21,6 @@ describe('RemoteComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

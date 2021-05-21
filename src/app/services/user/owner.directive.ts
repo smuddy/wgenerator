@@ -2,25 +2,19 @@ import {Directive, ElementRef, Input, OnInit, TemplateRef, ViewContainerRef} fro
 import {UserService} from './user.service';
 
 @Directive({
-  selector: '[appOwner]'
+  selector: '[appOwner]',
 })
 export class OwnerDirective implements OnInit {
   private currentUserId: string;
 
-  private _appOwner: string;
+  private iAppOwner: string;
 
-  @Input() set appOwner(value: string) {
-    this._appOwner = value;
+  public constructor(private element: ElementRef, private templateRef: TemplateRef<unknown>, private viewContainer: ViewContainerRef, private userService: UserService) {}
+
+  @Input()
+  public set appOwner(value: string) {
+    this.iAppOwner = value;
     this.updateView();
-  }
-
-  constructor(
-    private element: ElementRef,
-    private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef,
-    private userService: UserService
-  ) {
-
   }
 
   public ngOnInit(): void {
@@ -33,9 +27,8 @@ export class OwnerDirective implements OnInit {
 
   private updateView() {
     this.viewContainer.clear();
-    if (this.currentUserId === this._appOwner) {
+    if (this.currentUserId === this.iAppOwner) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     }
   }
-
 }

@@ -3,13 +3,9 @@ import {Song} from '../../services/song';
 import {FormControl, FormGroup} from '@angular/forms';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EditService {
-
-  constructor() {
-  }
-
   public createSongForm(song: Song): FormGroup {
     return new FormGroup({
       text: new FormControl(song.text),

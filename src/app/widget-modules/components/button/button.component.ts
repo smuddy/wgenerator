@@ -4,9 +4,8 @@ import {IconProp} from '@fortawesome/fontawesome-svg-core';
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.less']
+  styleUrls: ['./button.component.less'],
 })
 export class ButtonComponent {
-  @Input() icon: IconProp;
-
+  @Input() public icon: IconProp;
 }

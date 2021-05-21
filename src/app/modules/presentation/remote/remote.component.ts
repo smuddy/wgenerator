@@ -25,7 +25,7 @@ export interface PresentationSong {
   selector: 'app-remote',
   templateUrl: './remote.component.html',
   styleUrls: ['./remote.component.less'],
-  animations: [fade]
+  animations: [fade],
 })
 export class RemoteComponent {
   public shows$: Observable<Show[]>;
@@ -39,24 +39,26 @@ export class RemoteComponent {
   public faDesktop = faDesktop;
   public showControl = new FormControl();
 
-  constructor(
+  public constructor(
     private showService: ShowService,
     private showSongService: ShowSongService,
     private songService: SongService,
     private textRenderingService: TextRenderingService,
-    private globalSettingsService: GlobalSettingsService,
+    private globalSettingsService: GlobalSettingsService
   ) {
     this.shows$ = showService.list$(true);
-    songService.list$().subscribe(_ => this.songs = _);
+    songService.list$().subscribe(_ => (this.songs = _));
 
-    globalSettingsService.get$.pipe(
-      map(_ => _.currentShow),
-      distinctUntilChanged()
-    ).subscribe(_ => {
-      this.showControl.setValue(_, {emitEvent: false});
-      this.onShowChanged(_, false);
-    });
-    this.showControl.valueChanges.subscribe(value => this.onShowChanged(value));
+    globalSettingsService.get$
+      .pipe(
+        map(_ => _.currentShow),
+        distinctUntilChanged()
+      )
+      .subscribe(_ => {
+        this.showControl.setValue(_, {emitEvent: false});
+        void this.onShowChanged(_, false);
+      });
+    this.showControl.valueChanges.subscribe((value: string) => void this.onShowChanged(value));
   }
 
   public async onShowChanged(change: string, updateShow = true): Promise<void> {
@@ -68,16 +70,14 @@ export class RemoteComponent {
       await this.showService.update$(change, {presentationSongId: 'title'});
     }
     this.currentShowId = change;
-    this.showService.read$(change).subscribe(_ => this.show = _);
+    this.showService.read$(change).subscribe(_ => (this.show = _));
     this.showSongService.list$(change).subscribe(_ => {
       this.showSongs = _;
-      this.presentationSongs = _
-        .map(song => this.songs.filter(f => f.id == song.songId)[0])
-        .map(song => ({
-          id: song.id,
-          title: song.title,
-          sections: this.textRenderingService.parse(song.text, null)
-        }));
+      this.presentationSongs = _.map(song => this.songs.filter(f => f.id === song.songId)[0]).map(song => ({
+        id: song.id,
+        title: song.title,
+        sections: this.textRenderingService.parse(song.text, null),
+      }));
     });
     await delay(500);
     this.progress = false;
@@ -90,13 +90,11 @@ export class RemoteComponent {
   public async onSectionClick(id: string, index: number): Promise<void> {
     await this.showService.update$(this.currentShowId, {
       presentationSongId: id,
-      presentationSection: index
+      presentationSection: index,
     });
   }
 
-  public async onZoom(zoom: number) {
-    await this.showService.update$(this.currentShowId, {
-      presentationZoom: zoom,
-    });
+  public async onZoom(zoom: number): Promise<void> {
+    await this.showService.update$(this.currentShowId, {presentationZoom: zoom});
   }
 }

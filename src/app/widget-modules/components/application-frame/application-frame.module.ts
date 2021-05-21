@@ -10,22 +10,8 @@ import {RoleModule} from '../../../services/user/role.module';
 import {BrandComponent} from './navigation/brand/brand.component';
 
 @NgModule({
-  declarations: [
-    NavigationComponent,
-    FilterComponent,
-    LinkComponent,
-    BrandComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FontAwesomeModule,
-    FormsModule,
-    RoleModule
-  ],
-  exports: [
-    NavigationComponent
-  ]
+  declarations: [NavigationComponent, FilterComponent, LinkComponent, BrandComponent],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, FormsModule, RoleModule],
+  exports: [NavigationComponent],
 })
-export class ApplicationFrameModule {
-}
+export class ApplicationFrameModule {}

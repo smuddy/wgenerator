@@ -5,7 +5,6 @@ import {UserNameComponent} from './user-name.component';
 @NgModule({
   declarations: [UserNameComponent],
   exports: [UserNameComponent],
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
-export class UserNameModule {
-}
+export class UserNameModule {}

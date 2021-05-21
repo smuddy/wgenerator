@@ -8,16 +8,15 @@ import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons/faSignOutAlt';
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
-  styleUrls: ['./info.component.less']
+  styleUrls: ['./info.component.less'],
 })
 export class InfoComponent implements OnInit {
   public user$: Observable<User>;
   public faSignOut = faSignOutAlt;
 
-  constructor(private userService: UserService) {
-  }
+  public constructor(private userService: UserService) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.user$ = this.userService.user$;
   }
 
@@ -27,5 +26,4 @@ export class InfoComponent implements OnInit {
 
   public getUserRoles = (roles: string): string[] => roles?.split(';') ?? [];
   public transdormUserRoles = (roles: string): string => this.getUserRoles(roles).join(', ');
-
 }

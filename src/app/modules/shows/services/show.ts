@@ -14,6 +14,4 @@ export interface Show {
   presentationSongId: string;
   presentationSection: number;
   presentationZoom: number;
-
 }
-

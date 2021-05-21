@@ -1,11 +1,10 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-  name: 'legalOwner'
+  name: 'legalOwner',
 })
 export class LegalOwnerPipe implements PipeTransform {
-
-  transform(legalOwnerKey: string): string {
+  public transform(legalOwnerKey: string): string {
     switch (legalOwnerKey) {
       case 'CCLI':
         return 'CCLI';
@@ -15,5 +14,4 @@ export class LegalOwnerPipe implements PipeTransform {
         return '';
     }
   }
-
 }

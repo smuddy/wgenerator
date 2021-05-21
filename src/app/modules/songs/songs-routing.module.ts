@@ -6,31 +6,29 @@ import {EditComponent} from './song/edit/edit.component';
 import {NewComponent} from './song/new/new.component';
 import {EditSongGuard} from './song/edit/edit-song.guard';
 
-
 const routes: Routes = [
   {
     path: '',
     component: SongListComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'new',
-    component: NewComponent
+    component: NewComponent,
   },
   {
     path: ':songId/edit',
     component: EditComponent,
-    canDeactivate: [EditSongGuard]
+    canDeactivate: [EditSongGuard],
   },
   {
     path: ':songId',
-    component: SongComponent
-  }
+    component: SongComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SongsRoutingModule {
-}
+export class SongsRoutingModule {}

@@ -1,41 +1,60 @@
-<div *ngIf="shows$|async as shows">
+<div *ngIf="shows$ | async as shows">
   <app-card>
+    <p *ngIf="!shows.length" @fade>
+      Es ist derzeit keine Veranstaltung vorhanden
+    </p>
 
-    <p *ngIf="!shows.length" @fade>Es ist derzeit keine Veranstaltung vorhanden</p>
-
-    <mat-form-field *ngIf="shows.length>0" @fade appearance="outline">
+    <mat-form-field *ngIf="shows.length > 0" @fade appearance="outline">
       <mat-label>Veranstaltung</mat-label>
       <mat-select [formControl]="showControl">
         <mat-option *ngFor="let show of shows" [value]="show.id">
-          {{show.showType|showType}}, {{show.date.toDate()|date:'dd.MM.yyyy'}}
+          {{ show.showType | showType }},
+          {{ show.date.toDate() | date: "dd.MM.yyyy" }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <ng-container *ngIf="!progress">
       <div *ngIf="show" class="song-parts padding-bottom">
-        <div (click)="onSectionClick('title', -1)"
-             [class.active]="show.presentationSongId==='title'"
-             class="song-part">
+        <div
+          (click)="onSectionClick('title', -1)"
+          [class.active]="show.presentationSongId === 'title'"
+          class="song-part"
+        >
           <div class="head">Veranstaltung</div>
         </div>
-        <div (click)="onSectionClick('empty', -1)"
-             [class.active]="show.presentationSongId==='empty'"
-             class="song-part">
+        <div
+          (click)="onSectionClick('empty', -1)"
+          [class.active]="show.presentationSongId === 'empty'"
+          class="song-part"
+        >
           <div class="head">Leer</div>
         </div>
       </div>
 
       <div *ngFor="let song of presentationSongs" @fade class="song">
-        <div [class.active]="show.presentationSongId===song.id" class="title song-part">
-          <div (click)="onSectionClick(song.id, -1)" class="head">{{song.title}}</div>
+        <div
+          [class.active]="show.presentationSongId === song.id"
+          class="title song-part"
+        >
+          <div (click)="onSectionClick(song.id, -1)" class="head">
+            {{ song.title }}
+          </div>
         </div>
         <div *ngIf="show" class="song-parts">
-          <div (click)="onSectionClick(song.id, i)" *ngFor="let section of song.sections; index as i"
-               [class.active]="show.presentationSongId===song.id && show.presentationSection===i"
-               class="song-part">
-            <div class="head">{{section.type|sectionType}} {{section.number + 1}}</div>
-            <div class="fragment">{{getFirstLine(section)}}</div>
+          <div
+            (click)="onSectionClick(song.id, i)"
+            *ngFor="let section of song.sections; index as i"
+            [class.active]="
+              show.presentationSongId === song.id &&
+              show.presentationSection === i
+            "
+            class="song-part"
+          >
+            <div class="head">
+              {{ section.type | sectionType }} {{ section.number + 1 }}
+            </div>
+            <div class="fragment">{{ getFirstLine(section) }}</div>
           </div>
         </div>
       </div>
@@ -56,11 +75,13 @@
         </mat-slider>
       </div>
 
-
-      <app-add-song *ngIf="show" [addedLive]="true" [showId]="currentShowId" [showSongs]="showSongs"
-                    [songs]="songs"></app-add-song>
+      <app-add-song
+        *ngIf="show"
+        [addedLive]="true"
+        [showId]="currentShowId"
+        [showSongs]="showSongs"
+        [songs]="songs"
+      ></app-add-song>
     </ng-container>
   </app-card>
-
-
 </div>

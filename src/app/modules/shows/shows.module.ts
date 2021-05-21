@@ -29,7 +29,6 @@ import {OwnerModule} from '../../services/user/owner.module';
 import {UserNameModule} from '../../services/user/user-name/user-name.module';
 import {MatMenuModule} from '@angular/material/menu';
 
-
 @NgModule({
   declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent],
   imports: [
@@ -57,7 +56,6 @@ import {MatMenuModule} from '@angular/material/menu';
     OwnerModule,
     UserNameModule,
     MatMenuModule,
-  ]
+  ],
 })
-export class ShowsModule {
-}
+export class ShowsModule {}

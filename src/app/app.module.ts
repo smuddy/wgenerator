@@ -18,14 +18,14 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
     BrowserAnimationsModule,
 
     ApplicationFrameModule,
@@ -38,13 +38,8 @@ import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
     AngularFireAuthGuardModule,
     FontAwesomeModule,
     PerfectScrollbarModule,
-
   ],
-  providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
-  ],
+  providers: [{provide: MAT_DATE_LOCALE, useValue: 'de-DE'}],
   bootstrap: [AppComponent],
-
 })
-export class AppModule {
-}
+export class AppModule {}

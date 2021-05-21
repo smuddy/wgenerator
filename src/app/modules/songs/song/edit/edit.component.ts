@@ -4,7 +4,7 @@ import {EditSongComponent} from './edit-song/edit-song.component';
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.less']
+  styleUrls: ['./edit.component.less'],
 })
 export class EditComponent {
   @ViewChild(EditSongComponent) public editSongComponent: EditSongComponent;

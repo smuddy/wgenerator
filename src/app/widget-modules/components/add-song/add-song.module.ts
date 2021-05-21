@@ -6,19 +6,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {ReactiveFormsModule} from '@angular/forms';
 
-
 @NgModule({
   declarations: [AddSongComponent],
-  exports: [
-    AddSongComponent
-  ],
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    NgxMatSelectSearchModule,
-    ReactiveFormsModule
-  ]
+  exports: [AddSongComponent],
+  imports: [CommonModule, MatFormFieldModule, MatSelectModule, NgxMatSelectSearchModule, ReactiveFormsModule],
 })
-export class AddSongModule {
-}
+export class AddSongModule {}

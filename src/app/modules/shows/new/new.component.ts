@@ -10,7 +10,7 @@ import {faSave} from '@fortawesome/free-solid-svg-icons/faSave';
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
-  styleUrls: ['./new.component.less']
+  styleUrls: ['./new.component.less'],
 })
 export class NewComponent implements OnInit {
   public shows$: Observable<Show[]>;
@@ -19,7 +19,7 @@ export class NewComponent implements OnInit {
   public form: FormGroup;
   public faSave = faSave;
 
-  constructor(private showService: ShowService, showDataService: ShowDataService, private router: Router) {
+  public constructor(private showService: ShowService, showDataService: ShowDataService, private router: Router) {
     this.shows$ = showDataService.list$();
   }
 
@@ -30,7 +30,7 @@ export class NewComponent implements OnInit {
     });
   }
 
-  public async onSave() {
+  public async onSave(): Promise<void> {
     this.form.markAllAsTouched();
     if (!this.form.valid) {
       return;

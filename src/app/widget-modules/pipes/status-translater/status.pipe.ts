@@ -1,11 +1,10 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-  name: 'status'
+  name: 'status',
 })
 export class StatusPipe implements PipeTransform {
-
-  transform(songTypeKey: string): string {
+  public transform(songTypeKey: string): string {
     switch (songTypeKey) {
       case 'draft':
         return 'Entwurf';
@@ -17,5 +16,4 @@ export class StatusPipe implements PipeTransform {
         return '';
     }
   }
-
 }

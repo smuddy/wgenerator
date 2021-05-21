@@ -6,18 +6,15 @@ import {Observable} from 'rxjs';
 @Component({
   selector: 'app-user-name',
   templateUrl: './user-name.component.html',
-  styleUrls: ['./user-name.component.less']
+  styleUrls: ['./user-name.component.less'],
 })
 export class UserNameComponent {
   public name$: Observable<string>;
 
-  constructor(
-    private userService: UserService
-  ) {
-  }
+  public constructor(private userService: UserService) {}
 
-  @Input() set userId(id: string) {
+  @Input()
+  public set userId(id: string) {
     this.name$ = this.userService.getUserbyId$(id).pipe(map(_ => _.name));
   }
-
 }

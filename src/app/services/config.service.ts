@@ -5,11 +5,10 @@ import {Config} from './config';
 import {first} from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConfigService {
-  constructor(private db: DbService) {
-  }
+  public constructor(private db: DbService) {}
 
   public get get$(): Observable<Config> {
     return this.db.doc$<Config>('global/config');

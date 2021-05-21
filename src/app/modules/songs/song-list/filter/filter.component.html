@@ -1,8 +1,7 @@
 <div [formGroup]="filterFormGroup">
-
   <mat-form-field appearance="outline">
     <mat-label>Titel oder Text</mat-label>
-    <input formControlName="q" matInput>
+    <input formControlName="q" matInput/>
   </mat-form-field>
 
   <div class="third">
@@ -10,16 +9,19 @@
       <mat-label>Typ</mat-label>
       <mat-select formControlName="type">
         <mat-option [value]="null">- kein Filter -</mat-option>
-        <mat-option *ngFor="let type of types" [value]="type">{{type | songType}}</mat-option>
+        <mat-option *ngFor="let type of types" [value]="type">{{
+          type | songType
+          }}</mat-option>
       </mat-select>
     </mat-form-field>
-
 
     <mat-form-field appearance="outline">
       <mat-label>Tonart</mat-label>
       <mat-select formControlName="key">
         <mat-option [value]="null">- kein Filter -</mat-option>
-        <mat-option *ngFor="let key of keys" [value]="key">{{key|key}}</mat-option>
+        <mat-option *ngFor="let key of keys" [value]="key">{{
+          key | key
+          }}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -27,7 +29,9 @@
       <mat-label>Rechtlicher Status</mat-label>
       <mat-select formControlName="legalType">
         <mat-option [value]="null">- kein Filter -</mat-option>
-        <mat-option *ngFor="let key of legalType" [value]="key">{{key|legalType}}</mat-option>
+        <mat-option *ngFor="let key of legalType" [value]="key">{{
+          key | legalType
+          }}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -35,10 +39,12 @@
       <mat-label>Attribute</mat-label>
       <mat-select formControlName="flag">
         <mat-option [value]="null">- kein Filter -</mat-option>
-        <mat-option *ngFor="let flag of getFlags()" [value]="flag">{{flag}}</mat-option>
+        <mat-option *ngFor="let flag of getFlags()" [value]="flag">{{
+          flag
+          }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 
-  <i>Anzahl der Suchergebnisse: {{songs.length}}</i>
+  <i>Anzahl der Suchergebnisse: {{ songs.length }}</i>
 </div>

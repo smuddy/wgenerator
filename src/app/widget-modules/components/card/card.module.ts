@@ -5,16 +5,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {RouterModule} from '@angular/router';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
-
 @NgModule({
   declarations: [CardComponent],
   exports: [CardComponent],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    RouterModule,
-    FontAwesomeModule
-  ]
+  imports: [CommonModule, MatButtonModule, RouterModule, FontAwesomeModule],
 })
-export class CardModule {
-}
+export class CardModule {}

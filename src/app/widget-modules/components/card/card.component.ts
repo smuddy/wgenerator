@@ -4,12 +4,12 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.less']
+  styleUrls: ['./card.component.less'],
 })
 export class CardComponent {
-  @Input() padding = true;
-  @Input() heading: string;
-  @Input() closeLink: string;
+  @Input() public padding = true;
+  @Input() public heading: string;
+  @Input() public closeLink: string;
 
   public faClose = faTimes;
 }

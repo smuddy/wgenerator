@@ -5,26 +5,20 @@ import {RouterModule, Routes} from '@angular/router';
 import {LogoModule} from '../../widget-modules/components/logo/logo.module';
 import {NewUserComponent} from './new-user/new-user.component';
 
-
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: BrandComponent
+    component: BrandComponent,
   },
   {
     path: 'new-user',
-    component: NewUserComponent
+    component: NewUserComponent,
   },
 ];
 
 @NgModule({
   declarations: [BrandComponent, NewUserComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    LogoModule
-  ]
+  imports: [CommonModule, RouterModule.forChild(routes), LogoModule],
 })
-export class BrandModule {
-}
+export class BrandModule {}

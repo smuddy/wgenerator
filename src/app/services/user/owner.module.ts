@@ -5,9 +5,6 @@ import {CommonModule} from '@angular/common';
 @NgModule({
   declarations: [OwnerDirective],
   exports: [OwnerDirective],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-export class OwnerModule {
-}
+export class OwnerModule {}

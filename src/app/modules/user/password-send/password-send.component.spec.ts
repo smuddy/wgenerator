@@ -6,12 +6,13 @@ describe('PasswordSendComponent', () => {
   let component: PasswordSendComponent;
   let fixture: ComponentFixture<PasswordSendComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [PasswordSendComponent]
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [PasswordSendComponent],
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PasswordSendComponent);
@@ -20,6 +21,6 @@ describe('PasswordSendComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

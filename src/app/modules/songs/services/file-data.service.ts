@@ -5,12 +5,10 @@ import {FileServer} from './fileServer';
 import {DbService} from '../../../services/db.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FileDataService {
-
-  constructor(private db: DbService) {
-  }
+  public constructor(private db: DbService) {}
 
   public async set(songId: string, file: FileServer): Promise<string> {
     const songRef = this.db.doc('songs/' + songId);
@@ -27,8 +25,5 @@ export class FileDataService {
   public read$(songId: string): Observable<File[]> {
     const songRef = this.db.doc('songs/' + songId);
     return songRef.collection<File>('files').valueChanges({idField: 'id'});
-
   }
-
-
 }

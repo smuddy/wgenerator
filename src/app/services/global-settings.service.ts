@@ -4,18 +4,16 @@ import {GlobalSettings} from './global-settings';
 import {Observable} from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GlobalSettingsService {
-  constructor(private db: DbService) {
-  }
+  public constructor(private db: DbService) {}
 
   public get get$(): Observable<GlobalSettings> {
     return this.db.doc$<GlobalSettings>('global/static');
   }
 
-  public async set(data: Partial<GlobalSettings>) {
+  public async set(data: Partial<GlobalSettings>): Promise<void> {
     await this.db.doc<GlobalSettings>('global/static').update(data);
   }
-
 }

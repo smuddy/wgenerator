@@ -5,32 +5,31 @@ import {SongDataService} from './song-data.service';
 import {of} from 'rxjs';
 
 describe('SongService', () => {
-
-  const songs = [
-    {title: 'title1'}
-  ];
+  const songs = [{title: 'title1'}];
 
   const mockSongDataService = {
-    list: () => of(songs)
+    list: () => of(songs),
   };
 
-  beforeEach(() => TestBed.configureTestingModule({
-    providers: [
-      {provide: SongDataService, useValue: mockSongDataService}
-    ]
-  }));
+  beforeEach(
+    () =>
+      void TestBed.configureTestingModule({
+        providers: [{provide: SongDataService, useValue: mockSongDataService}],
+      })
+  );
 
   it('should be created', () => {
-    const service: SongService = TestBed.get(SongService);
-    expect(service).toBeTruthy();
+    const service: SongService = TestBed.inject(SongService);
+    void expect(service).toBeTruthy();
   });
 
-  it('should list songs', waitForAsync(() => {
-    const service: SongService = TestBed.get(SongService);
-    service.list$().subscribe(s => {
-      expect(s).toEqual([
-        {title: 'title1'}
-      ] as any);
-    });
-  }));
+  it(
+    'should list songs',
+    waitForAsync(() => {
+      const service: SongService = TestBed.inject(SongService);
+      service.list$().subscribe(s => {
+        void expect(s[0].title).toEqual('title1');
+      });
+    })
+  );
 });

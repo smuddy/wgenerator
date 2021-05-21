@@ -1,13 +1,12 @@
 <app-card closeLink="../" heading="Neues Lied">
-
   <div [formGroup]="form" class="split">
     <mat-form-field appearance="outline">
       <mat-label>Nummer</mat-label>
-      <input formControlName="number" matInput>
+      <input formControlName="number" matInput/>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Titel</mat-label>
-      <input autofocus formControlName="title" matInput>
+      <input autofocus formControlName="title" matInput/>
     </mat-form-field>
   </div>
 
@@ -15,4 +14,3 @@
     <app-button (click)="onSave()" [icon]="faSave">Anlegen</app-button>
   </app-button-row>
 </app-card>
-

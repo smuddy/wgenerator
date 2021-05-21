@@ -9,7 +9,7 @@ import {ShowSongService} from '../../../modules/shows/services/show-song.service
 @Component({
   selector: 'app-add-song',
   templateUrl: './add-song.component.html',
-  styleUrls: ['./add-song.component.less']
+  styleUrls: ['./add-song.component.less'],
 })
 export class AddSongComponent {
   @Input() public songs: Song[];
@@ -18,10 +18,9 @@ export class AddSongComponent {
   @Input() public addedLive = false;
   public filteredSongsControl = new FormControl();
 
-  constructor(private showSongService: ShowSongService) {
-  }
+  public constructor(private showSongService: ShowSongService) {}
 
-  filteredSongs() {
+  public filteredSongs(): Song[] {
     const songs = this.songs
       .filter(_ => !!_)
       .filter(_ => !!_.title)
@@ -37,14 +36,13 @@ export class AddSongComponent {
         return 0;
       });
 
-    const filterValue = this.filteredSongsControl.value;
+    const filterValue = this.filteredSongsControl.value as string;
     return filterValue ? songs.filter(_ => filterSong(_, filterValue)) : songs;
   }
 
-  public async onAddSongSelectionChanged(event: MatSelectChange) {
+  public async onAddSongSelectionChanged(event: MatSelectChange): Promise<void> {
     const order = this.showSongs.reduce((oa, u) => Math.max(oa, u.order), 0) + 1;
     await this.showSongService.new$(this.showId, event.value, order, this.addedLive);
     event.source.value = null;
   }
-
 }

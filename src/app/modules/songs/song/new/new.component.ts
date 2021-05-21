@@ -10,14 +10,13 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
-  styleUrls: ['./new.component.less']
+  styleUrls: ['./new.component.less'],
 })
 export class NewComponent implements OnInit {
   public faSave = faSave;
   public form: FormGroup;
 
-  constructor(private songService: SongService, private router: Router) {
-  }
+  public constructor(private songService: SongService, private router: Router) {}
 
   public ngOnInit(): void {
     this.form = new FormGroup({
@@ -25,23 +24,27 @@ export class NewComponent implements OnInit {
       title: new FormControl(null, Validators.required),
     });
 
-    this.songService.list$().pipe(autoComplete(this)).subscribe(songs => {
-      const freeSongnumber = this.getFreeSongNumber(songs);
-      this.form.controls.number.setValue(freeSongnumber);
-    });
+    this.songService
+      .list$()
+      .pipe(autoComplete(this))
+      .subscribe(songs => {
+        const freeSongnumber = this.getFreeSongNumber(songs);
+        this.form.controls.number.setValue(freeSongnumber);
+      });
   }
 
   public async onSave(): Promise<void> {
-    const number = this.form.value.number;
-    const title = this.form.value.title;
-    const newSongId = await this.songService.new(number, title);
+    const value = this.form.value as {number: number; title: string};
+    const songNumber = value.number;
+    const title = value.title;
+    const newSongId = await this.songService.new(songNumber, title);
     await this.router.navigateByUrl('/songs/' + newSongId + '/edit');
   }
 
-  private getFreeSongNumber(songs: Song[]): Number {
-    const numbers = songs.map(_ => _.number);
+  private getFreeSongNumber(songs: Song[]): number {
+    const songNumber = songs.map(_ => _.number);
     for (let i = 1; i < Number.MAX_SAFE_INTEGER; i++) {
-      if (!numbers.some(_ => _ === i)) {
+      if (!songNumber.some(_ => _ === i)) {
         return i;
       }
     }

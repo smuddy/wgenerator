@@ -23,7 +23,6 @@ import {ButtonModule} from '../../widget-modules/components/button/button.module
 import {LogoModule} from '../../widget-modules/components/logo/logo.module';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
-
 @NgModule({
   declarations: [LoginComponent, AuthMessagePipe, InfoComponent, LogoutComponent, RolePipe, PasswordComponent, PasswordSendComponent, UsersComponent, UserComponent, NewComponent],
   imports: [
@@ -41,9 +40,6 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
     ButtonModule,
     LogoModule,
     FontAwesomeModule,
-
-
-  ]
+  ],
 })
-export class UserModule {
-}
+export class UserModule {}

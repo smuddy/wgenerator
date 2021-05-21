@@ -1,20 +1,17 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserService} from '../../services/user/user.service';
 import {map} from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoleGuard implements CanActivate {
-  constructor(private userService: UserService, private router: Router) {
-  }
+  public constructor(private userService: UserService, private router: Router) {}
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> {
-    const requiredRoles = next.data.requiredRoles;
+  public canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
+    const requiredRoles = next.data.requiredRoles as string[];
     if (!requiredRoles) {
       throw new Error('requiredRoles is not defined!');
     }
@@ -47,5 +44,4 @@ export class RoleGuard implements CanActivate {
 
     return ['brand', 'new-user'];
   }
-
 }

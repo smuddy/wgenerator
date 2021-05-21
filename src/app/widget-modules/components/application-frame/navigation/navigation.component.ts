@@ -9,15 +9,18 @@ import {faChalkboard} from '@fortawesome/free-solid-svg-icons/faChalkboard';
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.less']
+  styleUrls: ['./navigation.component.less'],
 })
 export class NavigationComponent {
-
   public faSongs = faMusic;
   public faShows = faPersonBooth;
   public faUser = faUserCog;
   public faPresentation = faChalkboard;
 
-  public readonly windowScroll$ = fromEvent(window, 'scroll').pipe(map(x => window.scrollY), startWith(0), distinctUntilChanged(), shareReplay(1));
-
+  public readonly windowScroll$ = fromEvent(window, 'scroll').pipe(
+    map(() => window.scrollY),
+    startWith(0),
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
 }

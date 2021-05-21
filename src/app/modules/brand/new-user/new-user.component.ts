@@ -6,12 +6,12 @@ import {User} from '../../../services/user/user';
 @Component({
   selector: 'app-new-user',
   templateUrl: './new-user.component.html',
-  styleUrls: ['./new-user.component.less']
+  styleUrls: ['./new-user.component.less'],
 })
 export class NewUserComponent {
   public user$: Observable<User>;
 
-  constructor(private userService: UserService) {
+  public constructor(private userService: UserService) {
     this.user$ = userService.user$;
   }
 }

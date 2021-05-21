@@ -8,12 +8,12 @@ import {ShowService} from '../services/show.service';
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.less'],
-  animations: [fade]
+  animations: [fade],
 })
 export class ListComponent {
   public shows$: Observable<Show[]>;
 
-  constructor(showService: ShowService) {
+  public constructor(showService: ShowService) {
     this.shows$ = showService.list$();
   }
 
@@ -24,5 +24,4 @@ export class ListComponent {
   public getPrivateSongs(songs: Show[]): Show[] {
     return songs.filter(_ => !_.published);
   }
-
 }

@@ -7,30 +7,24 @@ import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
-  animations: [fader]
+  animations: [fader],
 })
 export class AppComponent implements OnInit {
+  @ViewChild('scrollbar', {static: false}) public scrollbar: PerfectScrollbarComponent;
 
-  @ViewChild('scrollbar', {static: false}) scrollbar: PerfectScrollbarComponent;
-
-  constructor(private scrollService: ScrollService) {
+  public constructor(private scrollService: ScrollService) {
     scrollService.restoreScrollPosition$.subscribe(pos => {
-      if (this.scrollbar && pos) {
-        // this.scrollbar.scrollTo(pos, 0);
-        this.scrollbar.directiveRef.scrollTo(0, pos, 300);
-        // debugger;
-      }
+      if (this.scrollbar && pos) this.scrollbar.directiveRef.scrollTo(0, pos, 300);
     });
   }
 
-  public static hideLoader = () => document.querySelector('#load-bg').classList.add('hidden');
+  public static hideLoader: () => void = () => document.querySelector('#load-bg').classList.add('hidden');
 
   public ngOnInit(): void {
     setTimeout(() => AppComponent.hideLoader(), 800);
-
   }
 
-  onScoll($event: { srcElement: { scrollTop: number } }) {
+  public onScoll($event: {srcElement: {scrollTop: number}}): void {
     this.scrollService.saveScrollPosition($event.srcElement.scrollTop);
   }
 }

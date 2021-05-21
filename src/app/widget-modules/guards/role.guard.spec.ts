@@ -6,11 +6,11 @@ describe('RoleGuard', () => {
   let guard: RoleGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    void TestBed.configureTestingModule({});
     guard = TestBed.inject(RoleGuard);
   });
 
   it('should be created', () => {
-    expect(guard).toBeTruthy();
+    void expect(guard).toBeTruthy();
   });
 });

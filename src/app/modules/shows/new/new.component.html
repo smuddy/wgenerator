@@ -1,21 +1,24 @@
 <div>
   <app-card closeLink="/shows" heading="Neue Veranstaltung">
-
     <div [formGroup]="form" class="split">
       <mat-form-field appearance="outline">
         <mat-label>Art der Veranstaltung</mat-label>
         <mat-select formControlName="showType">
           <mat-optgroup label="öffentlich">
-            <mat-option *ngFor="let key of showTypePublic" [value]="key">{{key|showType}}</mat-option>
+            <mat-option *ngFor="let key of showTypePublic" [value]="key">{{
+              key | showType
+              }}</mat-option>
           </mat-optgroup>
           <mat-optgroup label="privat">
-            <mat-option *ngFor="let key of showTypePrivate" [value]="key">{{key|showType}}</mat-option>
+            <mat-option *ngFor="let key of showTypePrivate" [value]="key">{{
+              key | showType
+              }}</mat-option>
           </mat-optgroup>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Datum</mat-label>
-        <input [matDatepicker]="picker" formControlName="date" matInput>
+        <input [matDatepicker]="picker" formControlName="date" matInput/>
         <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #picker touchUi></mat-datepicker>
       </mat-form-field>

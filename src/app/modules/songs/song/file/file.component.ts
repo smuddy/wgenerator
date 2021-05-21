@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {File} from '../../services/file';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
@@ -6,24 +6,18 @@ import {Observable} from 'rxjs';
 @Component({
   selector: 'app-file',
   templateUrl: './file.component.html',
-  styleUrls: ['./file.component.less']
+  styleUrls: ['./file.component.less'],
 })
-export class FileComponent implements OnInit {
+export class FileComponent {
   public url$: Observable<string>;
   public name: string;
 
-  constructor(private storage: AngularFireStorage) {
-  }
+  public constructor(private storage: AngularFireStorage) {}
 
-  @Input() set file(file: File) {
-
+  @Input()
+  public set file(file: File) {
     const ref = this.storage.ref(file.path + '/' + file.name);
-    this.url$ = ref.getDownloadURL();
+    this.url$ = ref.getDownloadURL() as Observable<string>;
     this.name = file.name;
-
   }
-
-  ngOnInit(): void {
-  }
-
 }

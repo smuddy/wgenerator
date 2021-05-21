@@ -2,24 +2,24 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScrollService {
   private scrollPosition: number;
-  private scrollSlots = {};
-  private _restoreScrollPosition$ = new BehaviorSubject<number>(0);
-  public restoreScrollPosition$ = this._restoreScrollPosition$.asObservable();
+  private scrollSlots: {[key: string]: number} = {};
+  private iRestoreScrollPosition$ = new BehaviorSubject<number>(0);
+  public restoreScrollPosition$ = this.iRestoreScrollPosition$.asObservable();
 
-  public saveScrollPosition(pos: number) {
+  public saveScrollPosition(pos: number): void {
     this.scrollPosition = pos;
   }
 
-  public storeScrollPositionFor(slot: string) {
+  public storeScrollPositionFor(slot: string): void {
     this.scrollSlots[slot] = this.scrollPosition;
   }
 
-  public restoreScrollPositionFor(slot: string) {
+  public restoreScrollPositionFor(slot: string): void {
     const pos = this.scrollSlots[slot];
-    this._restoreScrollPosition$.next(pos);
+    this.iRestoreScrollPosition$.next(pos);
   }
 }

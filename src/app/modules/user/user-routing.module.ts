@@ -8,44 +8,42 @@ import {PasswordComponent} from './password/password.component';
 import {PasswordSendComponent} from './password-send/password-send.component';
 import {NewComponent} from './new/new.component';
 
-
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'info',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'logout',
-    component: LogoutComponent
+    component: LogoutComponent,
   },
   {
     path: 'password',
-    component: PasswordComponent
+    component: PasswordComponent,
   },
   {
     path: 'new',
-    component: NewComponent
+    component: NewComponent,
   },
   {
     path: 'password-send',
-    component: PasswordSendComponent
+    component: PasswordSendComponent,
   },
   {
     path: 'info',
     component: InfoComponent,
     canActivate: [AngularFireAuthGuard],
-    data: {authGuardPipe: () => redirectUnauthorizedTo(['user', 'login'])}
+    data: {authGuardPipe: () => redirectUnauthorizedTo(['user', 'login'])},
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UserRoutingModule {
-}
+export class UserRoutingModule {}

@@ -8,13 +8,12 @@ import {Chord} from './chord';
 import {Line} from './line';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TextRenderingService {
   private regexSection = /(Strophe|Refrain|Bridge)/;
 
-  constructor(private transposeService: TransposeService) {
-  }
+  public constructor(private transposeService: TransposeService) {}
 
   public parse(text: string, transpose: TransposeMode): Section[] {
     if (!text) {
@@ -28,12 +27,15 @@ export class TextRenderingService {
     };
     return arrayOfLines.reduce((array, line) => {
       const type = this.getSectionTypeOfLine(line);
-      if (line.match(this.regexSection)) {
-        return [...array, {
-          type,
-          number: indices[type]++,
-          lines: []
-        }];
+      if (this.regexSection.exec(line)) {
+        return [
+          ...array,
+          {
+            type,
+            number: indices[type]++,
+            lines: [],
+          },
+        ];
       }
       array[array.length - 1].lines.push(this.getLineOfLineText(line, transpose));
       return array;
@@ -49,36 +51,35 @@ export class TextRenderingService {
     const type = hasMatches ? LineType.chord : LineType.text;
 
     const line = {type, text, chords: hasMatches ? cords : undefined};
-    return transpose
-      ? this.transposeService.transpose(line, transpose.baseKey, transpose.targetKey)
-      : this.transposeService.renderChords(line);
+    return transpose ? this.transposeService.transpose(line, transpose.baseKey, transpose.targetKey) : this.transposeService.renderChords(line);
   }
 
   private getSectionTypeOfLine(line: string): SectionType {
     if (!line) {
       return null;
     }
-    const match = line.match(this.regexSection);
+    const match = this.regexSection.exec(line);
     if (!match || match.length < 2) {
       return null;
     }
     const typeString = match[1];
     switch (typeString) {
-      case  'Strophe':
+      case 'Strophe':
         return SectionType.Verse;
-      case  'Refrain':
+      case 'Refrain':
         return SectionType.Chorus;
-      case  'Bridge':
+      case 'Bridge':
         return SectionType.Bridge;
     }
   }
 
   private readChords(chordLine: string): Chord[] {
-    let match;
+    let match: string[];
     const chords: Chord[] = [];
 
     // https://regex101.com/r/68jMB8/5
-    const regex = /(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?/mg;
+    const regex =
+      /(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h)(\/(C#|C|Db|D#|D|Eb|E|F#|F|Gb|G#|G|Ab|A#|A|B|H|c#|c|db|d#|d|eb|e|f#|f|gb|g#|g|ab|a#|a|b|h))?(\d+|maj7)?/gm;
 
     while ((match = regex.exec(chordLine)) !== null) {
       const chord: Chord = {
@@ -101,5 +102,4 @@ export class TextRenderingService {
     const isChrod = chordCount * 1.2 > lineCount;
     return isChrod ? chords : [];
   }
-
 }

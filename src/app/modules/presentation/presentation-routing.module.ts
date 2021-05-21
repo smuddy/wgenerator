@@ -3,26 +3,24 @@ import {RouterModule, Routes} from '@angular/router';
 import {RemoteComponent} from './remote/remote.component';
 import {MonitorComponent} from './monitor/monitor.component';
 
-
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'remote'
+    redirectTo: 'remote',
   },
   {
     path: 'remote',
-    component: RemoteComponent
+    component: RemoteComponent,
   },
   {
     path: 'monitor',
-    component: MonitorComponent
-  }
+    component: MonitorComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PresentationRoutingModule {
-}
+export class PresentationRoutingModule {}

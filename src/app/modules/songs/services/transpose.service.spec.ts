@@ -6,7 +6,7 @@ describe('TransposeService', () => {
   let service: TransposeService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    void TestBed.configureTestingModule({});
     service = TestBed.inject(TransposeService);
   });
 
@@ -15,6 +15,6 @@ describe('TransposeService', () => {
     const map = service.getMap('D', distance);
 
     console.log(map);
-    expect(service).toBeTruthy();
+    void expect(service).toBeTruthy();
   });
 });

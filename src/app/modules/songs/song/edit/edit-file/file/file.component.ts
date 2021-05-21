@@ -7,20 +7,20 @@ import {FileService} from '../../../../services/file.service';
 @Component({
   selector: 'app-file',
   templateUrl: './file.component.html',
-  styleUrls: ['./file.component.less']
+  styleUrls: ['./file.component.less'],
 })
 export class FileComponent {
   public url$: Observable<string>;
   public name: string;
   public faTrash = faTrashAlt;
-  @Input() songId: string;
+  @Input() public songId: string;
   private fileId: string;
   private path: string;
 
-  constructor(private fileService: FileService) {
-  }
+  public constructor(private fileService: FileService) {}
 
-  @Input() set file(file: File) {
+  @Input()
+  public set file(file: File) {
     this.url$ = this.fileService.getDownloadUrl(file.path + '/' + file.name);
     this.name = file.name;
     this.fileId = file.id;

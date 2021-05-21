@@ -1,48 +1,58 @@
 <app-card *ngIf="song" [heading]="song.number + ' bearbeiten'" closeLink="../">
-
   <form [formGroup]="form" class="form">
     <mat-form-field appearance="outline">
       <mat-label>Titel</mat-label>
-      <input formControlName="title" matInput>
+      <input formControlName="title" matInput/>
     </mat-form-field>
 
     <div class="fourth">
       <mat-form-field appearance="outline">
         <mat-label>Typ</mat-label>
         <mat-select formControlName="type">
-          <mat-option *ngFor="let type of types" [value]="type">{{type | songType}}</mat-option>
+          <mat-option *ngFor="let type of types" [value]="type">{{
+            type | songType
+            }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Tonart</mat-label>
         <mat-select formControlName="key">
-          <mat-option *ngFor="let key of keys" [value]="key">{{key|key}}</mat-option>
+          <mat-option *ngFor="let key of keys" [value]="key">{{
+            key | key
+            }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Tempo</mat-label>
-        <input formControlName="tempo" matInput>
+        <input formControlName="tempo" matInput/>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Status</mat-label>
         <mat-select formControlName="status">
-          <mat-option *ngFor="let status of status" [value]="status">{{status | status}}</mat-option>
+          <mat-option *ngFor="let status of status" [value]="status">{{
+            status | status
+            }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
 
     <mat-form-field appearance="outline">
       <mat-label>Songtext</mat-label>
-      <textarea (focus)="songtextFocus=true" (focusout)="songtextFocus=false" [mat-autosize]="true"
-                formControlName="text" matInput></textarea>
+      <textarea
+        (focus)="songtextFocus = true"
+        (focusout)="songtextFocus = false"
+        [mat-autosize]="true"
+        formControlName="text"
+        matInput
+      ></textarea>
     </mat-form-field>
     <div *ngIf="songtextFocus" class="song-text-help">
       <h3>Vorschau</h3>
       <app-song-text [text]="form.value.text" chordMode="show"></app-song-text>
       <h3>Hinweise zur Bearbeitung</h3>
       <h4>Aufbau</h4>
-      Der Liedtext wird hintereinander weg geschrieben. Dabei werden Strophen, Refrain und Bridge jeweils durch
-      eine zusätzliche Zeile Markiert. z.B.
+      Der Liedtext wird hintereinander weg geschrieben. Dabei werden Strophen,
+      Refrain und Bridge jeweils durch eine zusätzliche Zeile Markiert. z.B.
       <pre>
         Strophe
         Text der ersten Strophe
@@ -54,9 +64,10 @@
         Und hier der Refrain
       </pre>
       <h3>Akkorde</h3>
-      Die Akktorde werden jeweils in der Zeile über dem jeweiligen Liedtext geschrieben.
-      Sie werden jeweils durch Leerzeichen an die entsprechende Position gebracht.
-      Bitte keine Tabulatoren verwenden! Folgende Schreibweisen sind erlaubt:
+      Die Akktorde werden jeweils in der Zeile über dem jeweiligen Liedtext
+      geschrieben. Sie werden jeweils durch Leerzeichen an die entsprechende
+      Position gebracht. Bitte keine Tabulatoren verwenden! Folgende
+      Schreibweisen sind erlaubt:
       <pre>
         Dur: C  D  E
         Moll: c  d  e
@@ -76,21 +87,31 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Kommentar</mat-label>
-      <textarea [mat-autosize]="true" formControlName="comment" matInput></textarea>
+      <textarea
+        [mat-autosize]="true"
+        formControlName="comment"
+        matInput
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-chip-list #chipList>
-        <mat-chip (removed)="removeFlag(flag)" *ngFor="let flag of flags"
-                  [removable]="true" [selectable]="false">
-          {{flag}}&nbsp;
+        <mat-chip
+          (removed)="removeFlag(flag)"
+          *ngFor="let flag of flags"
+          [removable]="true"
+          [selectable]="false"
+        >
+          {{ flag }}&nbsp;
           <fa-icon (click)="removeFlag(flag)" [icon]="faRemove"></fa-icon>
         </mat-chip>
-        <input (matChipInputTokenEnd)="addFlag($event)"
-               [matChipInputAddOnBlur]="true"
-               [matChipInputFor]="chipList"
-               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-               placeholder="Attribute">
+        <input
+          (matChipInputTokenEnd)="addFlag($event)"
+          [matChipInputAddOnBlur]="true"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          placeholder="Attribute"
+        />
       </mat-chip-list>
     </mat-form-field>
 
@@ -98,54 +119,62 @@
       <mat-form-field appearance="outline">
         <mat-label>Rechtlicher Status</mat-label>
         <mat-select formControlName="legalType">
-          <mat-option *ngFor="let key of legalType" [value]="key">{{key|legalType}}</mat-option>
+          <mat-option *ngFor="let key of legalType" [value]="key">{{
+            key | legalType
+            }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Rechteinhaber</mat-label>
         <mat-select formControlName="legalOwner">
-          <mat-option *ngFor="let key of legalOwner" [value]="key">{{key|legalOwner}}</mat-option>
+          <mat-option *ngFor="let key of legalOwner" [value]="key">{{
+            key | legalOwner
+            }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Rechteinhaber ID (z.B. CCLI Liednummer)</mat-label>
-        <input formControlName="legalOwnerId" matInput>
-        <a *ngIf="form.value.legalOwner==='CCLI'" class="link-ccli"
-           href="https://songselect.ccli.com/Songs/{{form.value.legalOwnerId}}"
-           matSuffix
-           matTooltip="CCLI Link: https://songselect.ccli.com/Songs/{{form.value.legalOwnerId}}"
-           matTooltipPosition="before" target="_blank">
+        <input formControlName="legalOwnerId" matInput/>
+        <a
+          *ngIf="form.value.legalOwner === 'CCLI'"
+          class="link-ccli"
+          href="https://songselect.ccli.com/Songs/{{ form.value.legalOwnerId }}"
+          matSuffix
+          matTooltip="CCLI Link: https://songselect.ccli.com/Songs/{{
+            form.value.legalOwnerId
+          }}"
+          matTooltipPosition="before"
+          target="_blank"
+        >
           <fa-icon [icon]="faLink"></fa-icon>
         </a>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Künstler</mat-label>
-        <input formControlName="artist" matInput>
+        <input formControlName="artist" matInput/>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Verlag</mat-label>
-        <input formControlName="label" matInput>
+        <input formControlName="label" matInput/>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Nutzungsbedingungen</mat-label>
-        <input formControlName="termsOfUse" matInput>
+        <input formControlName="termsOfUse" matInput/>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>abweichende Quelle</mat-label>
-        <input formControlName="origin" matInput>
+        <input formControlName="origin" matInput/>
       </mat-form-field>
     </div>
-
   </form>
 
   <app-button-row>
     <app-button (click)="onSave()" [icon]="faSave">Speichern</app-button>
   </app-button-row>
 </app-card>
-

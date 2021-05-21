@@ -1,20 +1,31 @@
 <div *ngIf="song" [style.font-size.px]="zoom" class="fullscreen background">
-
-
-  <div @songSwitch [class.blur]="songId==='title'" [class.hide]="songId!=='title' && songId!=='empty'"
-       class="start fullscreen logo">
+  <div
+    @songSwitch
+    [class.blur]="songId === 'title'"
+    [class.hide]="songId !== 'title' && songId !== 'empty'"
+    class="start fullscreen logo"
+  >
     <app-logo></app-logo>
   </div>
 
-  <div *ngIf="songId==='title'" @songSwitch class="start fullscreen">
-    <div>{{showType|showType}}</div>
-    <div class="date">{{date|date:'dd.MM.yyyy'}}</div>
+  <div *ngIf="songId === 'title'" @songSwitch class="start fullscreen">
+    <div>{{ showType | showType }}</div>
+    <div class="date">{{ date | date: "dd.MM.yyyy" }}</div>
   </div>
 
-  <app-song-text *ngIf="songId!=='title' && songId!=='empty'" @songSwitch [fullscreen]="true" [index]="index"
-                 [showSwitch]="false" [text]="song.text"
-                 chordMode="hide"></app-song-text>
-  <app-legal *ngIf="songId!=='title' && songId!=='empty'" @songSwitch [config]="config$|async"
-             [song]="song"></app-legal>
-
+  <app-song-text
+    *ngIf="songId !== 'title' && songId !== 'empty'"
+    @songSwitch
+    [fullscreen]="true"
+    [index]="index"
+    [showSwitch]="false"
+    [text]="song.text"
+    chordMode="hide"
+  ></app-song-text>
+  <app-legal
+    *ngIf="songId !== 'title' && songId !== 'empty'"
+    @songSwitch
+    [config]="config$ | async"
+    [song]="song"
+  ></app-legal>
 </div>

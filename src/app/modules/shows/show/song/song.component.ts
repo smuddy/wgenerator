@@ -13,7 +13,7 @@ import {Show} from '../../services/show';
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
-  styleUrls: ['./song.component.less']
+  styleUrls: ['./song.component.less'],
 })
 export class SongComponent implements OnInit {
   @Input() public show: Show;
@@ -22,37 +22,31 @@ export class SongComponent implements OnInit {
   @Input() public showId: string;
   @Input() public showText: boolean;
 
-
   public keys: string[];
   public faDelete = faTrash;
   public faUp = faCaretUp;
   public faDown = faCaretDown;
   public keyFormControl: FormControl;
+  public iSong: Song;
 
-  constructor(
-    private showSongService: ShowSongService,
-  ) {
-  }
-
-  public _song: Song;
+  public constructor(private showSongService: ShowSongService) {}
 
   @Input()
-  public set song(song: Song) {
-    this._song = song;
-    this.keys = !!song ? getScale(song.key) : [];
+  public set Song(song: Song) {
+    this.iSong = song;
+    this.keys = song ? getScale(song.key) : [];
   }
 
   public ngOnInit(): void {
     this.keyFormControl = new FormControl(this.showSong.key);
-    this.keyFormControl.valueChanges.subscribe(async value => {
-      await this.showSongService.update$(this.showId, this.showSong.id, {key: value});
+    this.keyFormControl.valueChanges.subscribe((value: string) => {
+      void this.showSongService.update$(this.showId, this.showSong.id, {key: value});
     });
   }
 
   public async onDelete(): Promise<void> {
     await this.showSongService.delete$(this.showId, this.showSong.id);
   }
-
 
   public async reorder(up: boolean): Promise<void> {
     if (up) {
@@ -63,7 +57,7 @@ export class SongComponent implements OnInit {
   }
 
   public async reorderUp(): Promise<void> {
-    const index = this.showSongs.findIndex(_ => _.songId === this._song.id);
+    const index = this.showSongs.findIndex(_ => _.songId === this.iSong.id);
     if (index === 0) {
       return;
     }
@@ -71,12 +65,16 @@ export class SongComponent implements OnInit {
     const song = this.showSongs[index];
     const toggleSong = this.showSongs[index - 1];
 
-    await this.showSongService.update$(this.showId, song.id, {order: toggleSong.order});
-    await this.showSongService.update$(this.showId, toggleSong.id, {order: song.order});
+    await this.showSongService.update$(this.showId, song.id, {
+      order: toggleSong.order,
+    });
+    await this.showSongService.update$(this.showId, toggleSong.id, {
+      order: song.order,
+    });
   }
 
   public async reorderDown(): Promise<void> {
-    const index = this.showSongs.findIndex(_ => _.songId === this._song.id);
+    const index = this.showSongs.findIndex(_ => _.songId === this.iSong.id);
     if (index === this.showSongs.length - 1) {
       return;
     }
@@ -84,11 +82,17 @@ export class SongComponent implements OnInit {
     const song = this.showSongs[index];
     const toggleSong = this.showSongs[index + 1];
 
-    await this.showSongService.update$(this.showId, song.id, {order: toggleSong.order});
-    await this.showSongService.update$(this.showId, toggleSong.id, {order: song.order});
+    await this.showSongService.update$(this.showId, song.id, {
+      order: toggleSong.order,
+    });
+    await this.showSongService.update$(this.showId, toggleSong.id, {
+      order: song.order,
+    });
   }
 
   public async onChordModeChanged(value: ChordMode): Promise<void> {
-    await this.showSongService.update$(this.showId, this.showSong.id, {chordMode: value});
+    await this.showSongService.update$(this.showId, this.showSong.id, {
+      chordMode: value,
+    });
   }
 }

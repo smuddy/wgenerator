@@ -4,21 +4,14 @@ import {UserService} from './user.service';
 import {User} from './user';
 
 @Directive({
-  selector: '[appRole]'
+  selector: '[appRole]',
 })
 export class RoleDirective implements OnInit {
-  @Input() appRole: roles[] = [];
+  @Input() public appRole: roles[] = [];
   private currentUser: User;
   private loggedIn: boolean;
 
-  constructor(
-    private element: ElementRef,
-    private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef,
-    private userService: UserService
-  ) {
-
-  }
+  public constructor(private element: ElementRef, private templateRef: TemplateRef<unknown>, private viewContainer: ViewContainerRef, private userService: UserService) {}
 
   public ngOnInit(): void {
     this.userService.user$.subscribe(user => {
@@ -53,6 +46,4 @@ export class RoleDirective implements OnInit {
 
     return false;
   }
-
-
 }

@@ -4,11 +4,12 @@ import {LineType} from './line-type';
 import {Chord} from './chord';
 import {Line} from './line';
 
+type TransposeMap = {[key: string]: string};
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TransposeService {
-
   public transpose(line: Line, baseKey: string, targetKey: string): Line {
     if (line.type !== LineType.chord) {
       return line;
@@ -33,13 +34,10 @@ export class TransposeService {
 
   public getDistance(baseKey: string, targetKey: string): number {
     const scale = getScaleType(baseKey);
-    return scale ? (
-      (scale[0].indexOf(targetKey) - scale[0].indexOf(baseKey)) ??
-      (scale[1].indexOf(targetKey) - scale[1].indexOf(baseKey))
-    ) % 12 : 0;
+    return scale ? (scale[0].indexOf(targetKey) - scale[0].indexOf(baseKey) ?? scale[1].indexOf(targetKey) - scale[1].indexOf(baseKey)) % 12 : 0;
   }
 
-  public getMap(baseKey: string, difference: number) {
+  public getMap(baseKey: string, difference: number): TransposeMap | null {
     const scale = getScaleType(baseKey);
     if (!scale) {
       return null;
@@ -59,10 +57,14 @@ export class TransposeService {
     return map;
   }
 
-  private transposeChord(chord: Chord, map: {}): Chord {
+  private transposeChord(chord: Chord, map: TransposeMap): Chord {
     const translatedChord = map[chord.chord];
     const translatedSlashChord = chord.slashChord ? map[chord.slashChord] : null;
-    return {...chord, chord: translatedChord, slashChord: translatedSlashChord};
+    return {
+      ...chord,
+      chord: translatedChord,
+      slashChord: translatedSlashChord,
+    };
   }
 
   private renderLine(chords: Chord[]): string {
@@ -83,9 +85,6 @@ export class TransposeService {
   }
 
   private renderChord(chord: Chord) {
-    return (
-      scaleMapping[chord.chord] +
-      (chord.add ? chord.add : '') +
-      (chord.slashChord ? '/' + scaleMapping[chord.slashChord] : ''));
+    return scaleMapping[chord.chord] + (chord.add ? chord.add : '') + (chord.slashChord ? '/' + scaleMapping[chord.slashChord] : '');
   }
 }

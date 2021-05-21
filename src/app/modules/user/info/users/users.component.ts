@@ -6,12 +6,12 @@ import {User} from '../../../../services/user/user';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.less']
+  styleUrls: ['./users.component.less'],
 })
 export class UsersComponent {
   public users$: Observable<User[]>;
 
-  constructor(private userService: UserService) {
+  public constructor(private userService: UserService) {
     this.users$ = userService.list$();
   }
 }

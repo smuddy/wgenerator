@@ -3,10 +3,10 @@ import {TestBed} from '@angular/core/testing';
 import {FileDataService} from './file-data.service';
 
 describe('FileDataService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => void TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: FileDataService = TestBed.get(FileDataService);
-    expect(service).toBeTruthy();
+    const service: FileDataService = TestBed.inject(FileDataService);
+    void expect(service).toBeTruthy();
   });
 });

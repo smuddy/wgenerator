@@ -1,16 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-button-row',
   templateUrl: './button-row.component.html',
-  styleUrls: ['./button-row.component.less']
+  styleUrls: ['./button-row.component.less'],
 })
-export class ButtonRowComponent implements OnInit {
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
-}
+export class ButtonRowComponent {}

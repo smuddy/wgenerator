@@ -5,7 +5,7 @@ import {Config} from '../../../../services/config';
 @Component({
   selector: 'app-legal',
   templateUrl: './legal.component.html',
-  styleUrls: ['./legal.component.less']
+  styleUrls: ['./legal.component.less'],
 })
 export class LegalComponent {
   @Input() public song: Song;

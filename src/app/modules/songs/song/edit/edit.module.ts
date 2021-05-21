@@ -27,7 +27,6 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {HistoryComponent} from './history/history.component';
 import {SongTextModule} from '../../../../widget-modules/components/song-text/song-text.module';
 
-
 @NgModule({
   declarations: [EditComponent, EditSongComponent, EditFileComponent, FileComponent, SaveDialogComponent, HistoryComponent],
   exports: [EditComponent],
@@ -56,8 +55,6 @@ import {SongTextModule} from '../../../../widget-modules/components/song-text/so
     MatTooltipModule,
     MatDialogModule,
     SongTextModule,
-
-  ]
+  ],
 })
-export class EditModule {
-}
+export class EditModule {}

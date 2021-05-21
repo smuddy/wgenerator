@@ -6,12 +6,13 @@ describe('SaveDialogComponent', () => {
   let component: SaveDialogComponent;
   let fixture: ComponentFixture<SaveDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [SaveDialogComponent]
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [SaveDialogComponent],
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SaveDialogComponent);
@@ -20,6 +21,6 @@ describe('SaveDialogComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

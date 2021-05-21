@@ -20,7 +20,7 @@ import {faUsers} from '@fortawesome/free-solid-svg-icons/faUsers';
 @Component({
   selector: 'app-show',
   templateUrl: './show.component.html',
-  styleUrls: ['./show.component.less']
+  styleUrls: ['./show.component.less'],
 })
 export class ShowComponent implements OnInit {
   public show$: Observable<Show>;
@@ -37,29 +37,31 @@ export class ShowComponent implements OnInit {
   public faUser = faUser;
   public faUsers = faUsers;
 
-  constructor(
+  public constructor(
     private activatedRoute: ActivatedRoute,
     private showService: ShowService,
     private songService: SongService,
     private showSongService: ShowSongService,
-    private docxService: DocxService,
-  ) {
-  }
+    private docxService: DocxService
+  ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.show$ = this.activatedRoute.params.pipe(
-      map(param => param.showId),
-      tap(_ => this.showId = _),
-      switchMap(showId => this.showService.read$(showId))
+      map((param: {showId: string}) => param.showId),
+      tap((_: string) => (this.showId = _)),
+      switchMap((showId: string) => this.showService.read$(showId))
     );
-    this.activatedRoute.params.pipe(
-      map(param => param.showId),
-      switchMap(showId => this.showSongService.list$(showId)),
-      filter(_ => !!_)
-    ).subscribe(_ => this.showSongs = _);
-    this.songService.list$().pipe(
-      filter(_ => !!_)
-    ).subscribe(_ => this.songs = _);
+    this.activatedRoute.params
+      .pipe(
+        map((param: {showId: string}) => param.showId),
+        switchMap(showId => this.showSongService.list$(showId)),
+        filter(_ => !!_)
+      )
+      .subscribe(_ => (this.showSongs = _));
+    this.songService
+      .list$()
+      .pipe(filter(_ => !!_))
+      .subscribe(_ => (this.songs = _));
   }
 
   public getSong(songId: string): Song {
@@ -90,6 +92,9 @@ export class ShowComponent implements OnInit {
   }
 
   public async onDownloadHandout(): Promise<void> {
-    await this.docxService.create(this.showId, {chordMode: 'hide', copyright: true});
+    await this.docxService.create(this.showId, {
+      chordMode: 'hide',
+      copyright: true,
+    });
   }
 }

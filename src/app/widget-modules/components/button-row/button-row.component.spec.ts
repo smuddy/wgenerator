@@ -6,12 +6,13 @@ describe('ButtonRowComponent', () => {
   let component: ButtonRowComponent;
   let fixture: ComponentFixture<ButtonRowComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ButtonRowComponent]
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [ButtonRowComponent],
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ButtonRowComponent);
@@ -20,6 +21,6 @@ describe('ButtonRowComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

@@ -7,7 +7,7 @@ import {firebase} from './firebase';
 export const environment = {
   production: false,
   url: 'https://worshipgenerator.web.app',
-  firebase
+  firebase,
 };
 
 /*

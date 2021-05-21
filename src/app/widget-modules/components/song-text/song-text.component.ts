@@ -23,18 +23,16 @@ export class SongTextComponent implements OnInit {
   @Input() public showSwitch = false;
   @Input() public transpose: TransposeMode = null;
   @Output() public chordModeChanged = new EventEmitter<ChordMode>();
-  @ViewChildren('section') viewSections: QueryList<ElementRef>;
+  @ViewChildren('section') public viewSections: QueryList<ElementRef<HTMLElement>>;
   public faLines = faGripLines;
   public offset = 0;
+  public iChordMode: ChordMode = 'hide';
 
-  constructor(private textRenderingService: TextRenderingService, private elRef: ElementRef) {
-  }
-
-  public _chordMode: ChordMode = 'hide';
+  public constructor(private textRenderingService: TextRenderingService, private elRef: ElementRef<HTMLElement>) {}
 
   @Input()
   public set chordMode(value: ChordMode) {
-    this._chordMode = value ?? 'hide';
+    this.iChordMode = value ?? 'hide';
   }
 
   @Input()
@@ -42,23 +40,20 @@ export class SongTextComponent implements OnInit {
     this.sections = null;
     this.offset = 0;
     if (this.fullscreen) {
-      setTimeout(() =>
-        this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type), 100);
+      setTimeout(() => (this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type)), 100);
     } else {
       this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type);
     }
   }
 
-
   public ngOnInit(): void {
     setInterval(() => {
-        if (!this.fullscreen || this.index === -1 || !this.viewSections.toArray()[this.index]) {
-          this.offset = 0;
-          return;
-        }
-        this.offset = -this.viewSections.toArray()[this.index].nativeElement.offsetTop;
+      if (!this.fullscreen || this.index === -1 || !this.viewSections.toArray()[this.index]) {
+        this.offset = 0;
+        return;
       }
-      , 100);
+      this.offset = -this.viewSections.toArray()[this.index].nativeElement.offsetTop;
+    }, 100);
   }
 
   public getLines(section: Section): Line[] {
@@ -67,7 +62,7 @@ export class SongTextComponent implements OnInit {
         return true;
       }
 
-      switch (this._chordMode) {
+      switch (this.iChordMode) {
         case 'show':
           return true;
         case 'hide':
@@ -86,7 +81,8 @@ export class SongTextComponent implements OnInit {
   }
 
   public onClick(): void {
-    scrollTo(0, this.elRef.nativeElement.offsetTop - 20);
+    const nativeElement = this.elRef.nativeElement;
+    scrollTo(0, nativeElement.offsetTop - 20);
   }
 
   public checkDisabled(i: number): boolean {
@@ -94,7 +90,7 @@ export class SongTextComponent implements OnInit {
   }
 
   private getNextChordMode(): ChordMode {
-    switch (this._chordMode) {
+    switch (this.iChordMode) {
       case 'show':
         return 'hide';
       case 'hide':

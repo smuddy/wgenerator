@@ -3,10 +3,10 @@ import {TestBed} from '@angular/core/testing';
 import {UploadService} from './upload.service';
 
 describe('UploadServiceService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => void TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: UploadService = TestBed.get(UploadService);
-    expect(service).toBeTruthy();
+    const service: UploadService = TestBed.inject(UploadService);
+    void expect(service).toBeTruthy();
   });
 });

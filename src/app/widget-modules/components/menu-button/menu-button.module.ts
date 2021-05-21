@@ -4,17 +4,9 @@ import {MenuButtonComponent} from './menu-button.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatButtonModule} from '@angular/material/button';
 
-
 @NgModule({
   declarations: [MenuButtonComponent],
-  exports: [
-    MenuButtonComponent
-  ],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-    MatButtonModule
-  ]
+  exports: [MenuButtonComponent],
+  imports: [CommonModule, FontAwesomeModule, MatButtonModule],
 })
-export class MenuButtonModule {
-}
+export class MenuButtonModule {}

@@ -9,18 +9,17 @@ describe('SongComponent', () => {
   let fixture: ComponentFixture<SongComponent>;
 
   const mockActivatedRoute = {
-    params: of({songId: '4711'})
+    params: of({songId: '4711'}),
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [SongComponent],
-      providers: [
-        {provide: ActivatedRoute, useValue: mockActivatedRoute}
-      ]
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [SongComponent],
+        providers: [{provide: ActivatedRoute, useValue: mockActivatedRoute}],
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SongComponent);
@@ -29,7 +28,6 @@ describe('SongComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component).toBeTruthy();
   });
-
 });

@@ -1,13 +1,12 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-  name: 'showType'
+  name: 'showType',
 })
 export class ShowTypePipe implements PipeTransform {
-
-  transform(type: string): string {
+  public transform(type: string): string {
     switch (type) {
-      case  'service-worship':
+      case 'service-worship':
         return 'Gottesdienst Anbetung';
       case 'service-praise':
         return 'Gottesdienst Lobpreis';
@@ -15,18 +14,16 @@ export class ShowTypePipe implements PipeTransform {
         return 'großer Hauskreis';
       case 'home-group':
         return 'Hauskreis';
-      case  'prayer-group':
+      case 'prayer-group':
         return 'Gebetskreis';
-      case  'teens-group':
+      case 'teens-group':
         return 'Teeniekreis';
-      case  'kids-group':
+      case 'kids-group':
         return 'Kinderkreis';
-      case  'misc-public':
+      case 'misc-public':
         return 'sonstige öffentliche Veranstaltung';
-      case  'misc-private':
+      case 'misc-private':
         return 'sonstige private Veranstaltung';
     }
-
   }
-
 }

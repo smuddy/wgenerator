@@ -8,14 +8,14 @@ import {Config} from '../../../services/config';
 import {Observable} from 'rxjs';
 import {ConfigService} from '../../../services/config.service';
 import {songSwitch} from '../../../widget-modules/components/song-text/animation';
-import {Section} from '../../songs/services/section';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
+import {Show} from '../../shows/services/show';
 
 @Component({
   selector: 'app-monitor',
   templateUrl: './monitor.component.html',
   styleUrls: ['./monitor.component.less'],
-  animations: [songSwitch]
+  animations: [songSwitch],
 })
 export class MonitorComponent implements OnInit {
   public song: Song;
@@ -25,35 +25,37 @@ export class MonitorComponent implements OnInit {
   public index: number;
   public showType: string;
   public date: Date;
-  private sections: Section[];
   public config$: Observable<Config>;
 
-  constructor(
+  // private sections: Section[];
+
+  public constructor(
     private showService: ShowService,
     private songService: SongService,
     private textRenderingService: TextRenderingService,
     private globalSettingsService: GlobalSettingsService,
-    private configService: ConfigService,
+    private configService: ConfigService
   ) {
     this.config$ = configService.get$;
   }
 
-  ngOnInit(): void {
-    this.globalSettingsService.get$.pipe(
-      map(_ => _.currentShow),
-      distinctUntilChanged(),
-      tap(_ => this.currentShowId = _),
-      switchMap(_ => this.showService.read$(_)),
-      tap(_ => this.showType = _.showType),
-      tap(_ => this.date = _.date.toDate()),
-      tap(_ => this.songId = _.presentationSongId),
-      tap(_ => this.index = _.presentationSection),
-      tap(_ => this.zoom = _.presentationZoom ?? 30),
-      switchMap(_ => this.songService.read$(_.presentationSongId))
-    ).subscribe((_: Song) => {
-      this.song = _;
-      this.sections = this.textRenderingService.parse(_.text, null);
-    });
+  public ngOnInit(): void {
+    this.globalSettingsService.get$
+      .pipe(
+        map(_ => _.currentShow),
+        distinctUntilChanged(),
+        tap(_ => (this.currentShowId = _)),
+        switchMap(_ => this.showService.read$(_)),
+        tap(_ => (this.showType = _.showType)),
+        tap(_ => (this.date = _.date.toDate())),
+        tap(_ => (this.songId = _.presentationSongId)),
+        tap(_ => (this.index = _.presentationSection)),
+        tap(_ => (this.zoom = _.presentationZoom ?? 30)),
+        switchMap((_: Show) => this.songService.read$(_.presentationSongId))
+      )
+      .subscribe((_: Song) => {
+        this.song = _;
+        // this.sections = this.textRenderingService.parse(_.text, null);
+      });
   }
-
 }

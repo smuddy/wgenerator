@@ -13,23 +13,16 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   scrollbar: false,
   navigation: true,
   pagination: false,
-
 };
 
 @NgModule({
   declarations: [GuestComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild([{path: '', component: GuestComponent}]),
-    SwiperModule,
-    SongTextModule
-  ],
+  imports: [CommonModule, RouterModule.forChild([{path: '', component: GuestComponent}]), SwiperModule, SongTextModule],
   providers: [
     {
       provide: SWIPER_CONFIG,
-      useValue: DEFAULT_SWIPER_CONFIG
-    }
-  ]
+      useValue: DEFAULT_SWIPER_CONFIG,
+    },
+  ],
 })
-export class GuestModule {
-}
+export class GuestModule {}

@@ -6,11 +6,11 @@ describe('EditSongGuard', () => {
   let guard: EditSongGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    void TestBed.configureTestingModule({});
     guard = TestBed.inject(EditSongGuard);
   });
 
   it('should be created', () => {
-    expect(guard).toBeTruthy();
+    void expect(guard).toBeTruthy();
   });
 });

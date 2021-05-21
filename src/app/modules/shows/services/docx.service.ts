@@ -24,29 +24,24 @@ export interface DownloadOptions {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DocxService {
-
-  constructor(
+  public constructor(
     private showService: ShowService,
     private showSongService: ShowSongService,
     private songService: SongService,
     private textRenderingService: TextRenderingService,
     private userService: UserService,
-    private configService: ConfigService,
-  ) {
-  }
+    private configService: ConfigService
+  ) {}
 
-  public async create(showId: string, options: DownloadOptions = {}): Promise<any> {
+  public async create(showId: string, options: DownloadOptions = {}): Promise<void> {
     const {show, songs, user, config} = await this.prepareData(showId);
     const type = new ShowTypePipe().transform(show.showType);
     const title = `${type} ${show.date.toDate().toLocaleDateString()}`;
 
-    const paragraphs = [
-      ...this.renderTitle(title),
-      ...this.renderSongs(songs, options, config),
-    ];
+    const paragraphs = [...this.renderTitle(title), ...this.renderSongs(songs, options, config)];
 
     const sections: ISectionOptions[] = [
       {
@@ -56,10 +51,9 @@ export class DocxService {
           },
         },
         children: paragraphs,
-      }
-    ]
+      },
+    ];
     const document = this.prepareNewDocument(type, user.name, options, sections);
-
 
     const blob = await Packer.toBlob(document);
 
@@ -72,7 +66,7 @@ export class DocxService {
       creator: name,
       title: type,
       description: '... mit Beschreibung',
-      sections: sections,
+      sections,
       styles: {
         paragraphStyles: [
           {
@@ -83,7 +77,8 @@ export class DocxService {
             quickFormat: true,
             run: options?.chordMode === 'hide' ? {} : {font: 'courier new'},
             paragraph: {indent: {left: 0}},
-          }, {
+          },
+          {
             id: 'licence',
             name: 'Lizenz',
             basedOn: 'Normal',
@@ -92,13 +87,13 @@ export class DocxService {
             run: {size: 15, color: 'grey'},
             paragraph: {indent: {left: 0}},
           },
-        ]
-      }
+        ],
+      },
     });
   }
 
-  private renderSongs(songs: { showSong: ShowSong; song: Song; sections: Section[] }[], options: DownloadOptions, config: Config): Paragraph[] {
-    return songs.reduce((p, song) => [...p, ...this.renderSong(song.showSong, song.song, song.sections, options, config)], []);
+  private renderSongs(songs: {showSong: ShowSong; song: Song; sections: Section[]}[], options: DownloadOptions, config: Config): Paragraph[] {
+    return songs.reduce((p: Paragraph[], song) => [...p, ...this.renderSong(song.showSong, song.song, song.sections, options, config)], []);
   }
 
   private renderSong(showSong: ShowSong, song: Song, sections: Section[], options: DownloadOptions, config: Config): Paragraph[] {
@@ -106,15 +101,11 @@ export class DocxService {
     const copyright = this.renderCopyright(song, options, config);
     const songText = this.renderSongText(sections, options?.chordMode ?? showSong.chordMode);
 
-    return [
-      songTitle,
-      copyright,
-      ...songText
-    ].filter(_ => _);
+    return [songTitle, copyright, ...songText].filter(_ => _);
   }
 
-  private renderSongText(sections: Section[], chordMode: ChordMode) {
-    return sections.reduce((p, section) => [...p, ...this.renderSection(section, chordMode)], []);
+  private renderSongText(sections: Section[], chordMode: ChordMode): Paragraph[] {
+    return sections.reduce((p: Paragraph[], section) => [...p, ...this.renderSection(section, chordMode)], []);
   }
 
   private renderSongTitle(song: Song): Paragraph {
@@ -137,16 +128,13 @@ export class DocxService {
     const artist = song.artist ? song.artist + ', ' : '';
     const termsOfUse = song.termsOfUse ? song.termsOfUse + ', ' : '';
     const origin = song.origin ? song.origin + ', ' : '';
-    const licence = song.legalOwner === 'CCLI'
-      ? 'CCLI-Liednummer: ' + song.legalOwnerId + ', CCLI-Lizenz: ' + config.ccliLicenseId
-      : 'CCLI-Liednummer: ' + song.legalOwnerId;
+    const licence = song.legalOwner === 'CCLI' ? 'CCLI-Liednummer: ' + song.legalOwnerId + ', CCLI-Lizenz: ' + config.ccliLicenseId : 'CCLI-Liednummer: ' + song.legalOwnerId;
 
     return new Paragraph({
       text: artist + label + termsOfUse + origin + licence,
       style: 'licence',
     });
   }
-
 
   private renderSection(section: Section, chordMode: ChordMode): Paragraph[] {
     return section.lines
@@ -171,13 +159,11 @@ export class DocxService {
     return new Paragraph({
       text: line.text,
       style: 'songtext',
-      spacing
+      spacing,
     });
-
   }
 
   private renderTitle(type: string): Paragraph[] {
-
     const songTitle = new Paragraph({
       text: type,
       heading: HeadingLevel.HEADING_1,
@@ -187,34 +173,39 @@ export class DocxService {
     return [songTitle];
   }
 
-  private async prepareData(showId: string): Promise<{ songs: ({ showSong: ShowSong, song: Song, sections: Section[] })[]; show: Show, user: User, config: Config }> {
+  private async prepareData(showId: string): Promise<{
+    songs: {showSong: ShowSong; song: Song; sections: Section[]}[];
+    show: Show;
+    user: User;
+    config: Config;
+  }> {
     const show = await this.showService.read$(showId).pipe(first()).toPromise();
     const user = await this.userService.getUserbyId(show.owner);
     const config = await this.configService.get();
 
     const showSongs = await this.showSongService.list(showId);
-    const songsAsync = await showSongs.map(async showSong => {
+    const songsAsync = showSongs.map(async showSong => {
       const song = await this.songService.read(showSong.songId);
       const sections = this.textRenderingService.parse(song.text, {
         baseKey: showSong.keyOriginal,
-        targetKey: showSong.key
+        targetKey: showSong.key,
       });
       return {
         showSong,
         song,
-        sections
+        sections,
       };
     });
     const songs = await Promise.all(songsAsync);
     return {songs, show, user, config};
   }
 
-  private saveAs(blob, fileName) {
-    const a = document.createElement('a') as any;
+  private saveAs(blob: Blob, fileName: string) {
+    const a = document.createElement('a');
 
     document.body.appendChild(a);
     a.setAttribute('target', '_self');
-    a.style = 'display: none';
+    a.style.display = 'none';
 
     const url = window.URL.createObjectURL(blob);
     a.href = url;

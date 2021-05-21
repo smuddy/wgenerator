@@ -6,12 +6,13 @@ describe('SongTextComponent', () => {
   let component: SongTextComponent;
   let fixture: ComponentFixture<SongTextComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [SongTextComponent]
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [SongTextComponent],
+      }).compileComponents();
     })
-      .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SongTextComponent);
@@ -20,6 +21,6 @@ describe('SongTextComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    void expect(component).toBeTruthy();
   });
 });

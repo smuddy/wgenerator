@@ -17,7 +17,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {RoleModule} from '../../../services/user/role.module';
 import {KeyTranslatorModule} from '../../../widget-modules/pipes/key-translator/key-translator.module';
 
-
 @NgModule({
   declarations: [SongListComponent, ListItemComponent, FilterComponent],
   exports: [SongListComponent],
@@ -37,7 +36,6 @@ import {KeyTranslatorModule} from '../../../widget-modules/pipes/key-translator/
     MatTooltipModule,
     RoleModule,
     KeyTranslatorModule,
-  ]
+  ],
 })
-export class SongListModule {
-}
+export class SongListModule {}
