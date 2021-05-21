@@ -6,7 +6,6 @@ import {SWIPER_CONFIG, SwiperConfigInterface, SwiperModule} from 'ngx-swiper-wra
 import {SongTextModule} from '../../widget-modules/components/song-text/song-text.module';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
-  a11y: true,
   direction: 'horizontal',
   slidesPerView: 1,
   keyboard: true,
