@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {File} from './file';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {FileServer} from './fileServer';
 import {DbService} from '../../../services/db.service';
 
@@ -27,12 +26,8 @@ export class FileDataService {
 
   public read$(songId: string): Observable<File[]> {
     const songRef = this.db.doc('songs/' + songId);
-    return songRef.collection<File>('files').snapshotChanges().pipe(map(actions => {
-      return actions.map(a => ({
-        ...a.payload.doc.data(),
-        id: a.payload.doc.id
-      }));
-    }));
+    return songRef.collection<File>('files').valueChanges({idField: 'id'});
+
   }
 
 

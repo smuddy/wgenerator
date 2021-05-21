@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Document, HeadingLevel, Packer, Paragraph} from 'docx';
+import {Document, HeadingLevel, ISectionOptions, Packer, Paragraph} from 'docx';
 import {ShowService} from './show.service';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {first} from 'rxjs/operators';
@@ -48,11 +48,18 @@ export class DocxService {
       ...this.renderSongs(songs, options, config),
     ];
 
-    const document = this.prepareNewDocument(type, user.name, options);
-    document.addSection({
-      properties: {top: 400, bottom: 400, left: 400, right: 400},
-      children: paragraphs,
-    });
+    const sections: ISectionOptions[] = [
+      {
+        properties: {
+          page: {
+            margin: {top: 400, bottom: 400, left: 400, right: 400},
+          },
+        },
+        children: paragraphs,
+      }
+    ]
+    const document = this.prepareNewDocument(type, user.name, options, sections);
+
 
     const blob = await Packer.toBlob(document);
 
@@ -60,11 +67,12 @@ export class DocxService {
     this.saveAs(blob, `${title}.docx`);
   }
 
-  private prepareNewDocument(type: string, name: string, options: DownloadOptions): Document {
+  private prepareNewDocument(type: string, name: string, options: DownloadOptions, sections: ISectionOptions[]): Document {
     return new Document({
       creator: name,
       title: type,
       description: '... mit Beschreibung',
+      sections: sections,
       styles: {
         paragraphStyles: [
           {

@@ -44,7 +44,7 @@ export class UserService {
   }
 
   public async login(user: string, password: string): Promise<any> {
-    const aUser = await this.afAuth.auth.signInWithEmailAndPassword(user, password);
+    const aUser = await this.afAuth.signInWithEmailAndPassword(user, password);
     const dUser = await this.readUser(aUser.user.uid);
     this._user$.next(dUser);
     this._userId$.next(aUser.user.uid);
@@ -55,7 +55,7 @@ export class UserService {
   public list$ = (): Observable<User[]> => this.db.col$('users');
 
   public async logout(): Promise<any> {
-    await this.afAuth.auth.signOut();
+    await this.afAuth.signOut();
     this._user$.next(null);
     this._userId$.next(null);
   }
@@ -66,11 +66,11 @@ export class UserService {
 
   public async changePassword(user: string): Promise<any> {
     const url = environment.url;
-    await this.afAuth.auth.sendPasswordResetEmail(user, {url});
+    await this.afAuth.sendPasswordResetEmail(user, {url});
   }
 
   public async createNewUser(user: string, name: string, password: string): Promise<any> {
-    const aUser = await this.afAuth.auth.createUserWithEmailAndPassword(user, password);
+    const aUser = await this.afAuth.createUserWithEmailAndPassword(user, password);
     const userId = aUser.user.uid;
     await this.db.doc('users/' + userId).set({name, chordMode: 'onlyFirst'});
     const dUser = await this.readUser(aUser.user.uid);
