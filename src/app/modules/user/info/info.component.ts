@@ -11,7 +11,7 @@ import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons/faSignOutAlt';
   styleUrls: ['./info.component.less'],
 })
 export class InfoComponent implements OnInit {
-  public user$: Observable<User>;
+  public user$: Observable<User | null> | null = null;
   public faSignOut = faSignOutAlt;
 
   public constructor(private userService: UserService) {}

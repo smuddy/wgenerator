@@ -10,9 +10,9 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
   styleUrls: ['./user.component.less'],
 })
 export class UserComponent {
-  public id: string;
-  public name: string;
-  public roles: string[];
+  public id = '';
+  public name = '';
+  public roles: string[] = [];
   public ROLE_TYPES = ROLE_TYPES;
   public edit = false;
   public faClose = faTimes;

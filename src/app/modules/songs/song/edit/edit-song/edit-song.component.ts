@@ -20,8 +20,8 @@ import {SaveDialogComponent} from './save-dialog/save-dialog.component';
   styleUrls: ['./edit-song.component.less'],
 })
 export class EditSongComponent implements OnInit {
-  public song: Song;
-  public form: FormGroup;
+  public song: Song | null = null;
+  public form: FormGroup = new FormGroup({});
   public keys = KEYS;
   public types = SongService.TYPES;
   public status = SongService.STATUS;
@@ -34,17 +34,25 @@ export class EditSongComponent implements OnInit {
   public faLink = faExternalLinkAlt;
   public songtextFocus = false;
 
-  public constructor(private activatedRoute: ActivatedRoute, private songService: SongService, private editService: EditService, private router: Router, public dialog: MatDialog) {}
+  public constructor(
+    private activatedRoute: ActivatedRoute,
+    private songService: SongService,
+    private editService: EditService,
+    private router: Router,
+    public dialog: MatDialog
+  ) {}
 
   public ngOnInit(): void {
     this.activatedRoute.params
       .pipe(
-        map((param: {songId: string}) => param.songId),
+        map(param => param as {songId: string}),
+        map(param => param.songId),
         switchMap(songId => this.songService.read$(songId)),
         first()
       )
       .subscribe(song => {
         this.song = song;
+        if (!song) return;
         this.form = this.editService.createSongForm(song);
         this.form.controls.flags.valueChanges.subscribe(_ => this.onFlagsChanged(_));
         this.onFlagsChanged(this.form.controls.flags.value);
@@ -52,6 +60,7 @@ export class EditSongComponent implements OnInit {
   }
 
   public async onSave(): Promise<void> {
+    if (!this.song) return;
     const data = this.form.value as Partial<Song>;
     await this.songService.update$(this.song.id, data);
     this.form.markAsPristine();
@@ -78,7 +87,7 @@ export class EditSongComponent implements OnInit {
     }
   }
 
-  public askForSave(nextState?: RouterStateSnapshot): boolean {
+  public askForSave(nextState: RouterStateSnapshot): boolean {
     if (!this.form.dirty) {
       return true;
     }
@@ -104,7 +113,7 @@ export class EditSongComponent implements OnInit {
   }
 
   private async onSaveDialogAfterClosed(save: boolean, url: string) {
-    if (save) {
+    if (save && this.song) {
       const data = this.form.value as Partial<Song>;
       await this.songService.update$(this.song.id, data);
     }

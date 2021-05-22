@@ -6,13 +6,13 @@ import {EditComponent} from './edit.component';
 @Injectable({
   providedIn: 'root',
 })
-export class EditSongGuard implements CanDeactivate<unknown> {
+export class EditSongGuard implements CanDeactivate<EditComponent> {
   public canDeactivate(
     component: EditComponent,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot
+    nextState: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return component.editSongComponent.askForSave(nextState);
+    return component.editSongComponent ? component.editSongComponent.askForSave(nextState) : true;
   }
 }

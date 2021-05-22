@@ -22,7 +22,7 @@ export class UploadService extends FileBase {
     const ref = this.angularFireStorage.ref(filePath);
     const task = ref.put(upload.file);
 
-    task.percentageChanges().subscribe(percent => (upload.progress = percent));
+    task.percentageChanges().subscribe(percent => (upload.progress = percent ?? 0));
     task
       .snapshotChanges()
       .pipe(finalize(() => void this.saveFileData(songId, upload)))

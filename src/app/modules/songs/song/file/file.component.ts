@@ -9,8 +9,8 @@ import {Observable} from 'rxjs';
   styleUrls: ['./file.component.less'],
 })
 export class FileComponent {
-  public url$: Observable<string>;
-  public name: string;
+  public url$: Observable<string> | null = null;
+  public name = '';
 
   public constructor(private storage: AngularFireStorage) {}
 

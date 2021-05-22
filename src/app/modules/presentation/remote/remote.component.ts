@@ -9,11 +9,12 @@ import {ShowService} from '../../shows/services/show.service';
 import {ShowSong} from '../../shows/services/show-song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {FormControl} from '@angular/forms';
-import {distinctUntilChanged, map} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {fade} from '../../../animations';
 import {delay} from '../../../services/delay';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Section} from '../../songs/services/section';
+import {GlobalSettings} from '../../../services/global-settings';
 
 export interface PresentationSong {
   id: string;
@@ -29,11 +30,11 @@ export interface PresentationSong {
 })
 export class RemoteComponent {
   public shows$: Observable<Show[]>;
-  public show: Show;
-  public showSongs: ShowSong[];
-  public songs: Song[];
-  public presentationSongs: PresentationSong[];
-  public currentShowId: string;
+  public show: Show | null = null;
+  public showSongs: ShowSong[] = [];
+  public songs: Song[] = [];
+  public presentationSongs: PresentationSong[] = [];
+  public currentShowId: string | null = null;
   public progress = false;
 
   public faDesktop = faDesktop;
@@ -51,6 +52,8 @@ export class RemoteComponent {
 
     globalSettingsService.get$
       .pipe(
+        filter(_ => !!_),
+        map(_ => _ as GlobalSettings),
         map(_ => _.currentShow),
         distinctUntilChanged()
       )
@@ -88,13 +91,14 @@ export class RemoteComponent {
   }
 
   public async onSectionClick(id: string, index: number): Promise<void> {
-    await this.showService.update$(this.currentShowId, {
-      presentationSongId: id,
-      presentationSection: index,
-    });
+    if (this.currentShowId != null)
+      await this.showService.update$(this.currentShowId, {
+        presentationSongId: id,
+        presentationSection: index,
+      });
   }
 
   public async onZoom(zoom: number): Promise<void> {
-    await this.showService.update$(this.currentShowId, {presentationZoom: zoom});
+    if (this.currentShowId != null) await this.showService.update$(this.currentShowId, {presentationZoom: zoom});
   }
 }

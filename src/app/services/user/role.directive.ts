@@ -8,10 +8,15 @@ import {User} from './user';
 })
 export class RoleDirective implements OnInit {
   @Input() public appRole: roles[] = [];
-  private currentUser: User;
-  private loggedIn: boolean;
+  private currentUser: User | null = null;
+  private loggedIn = false;
 
-  public constructor(private element: ElementRef, private templateRef: TemplateRef<unknown>, private viewContainer: ViewContainerRef, private userService: UserService) {}
+  public constructor(
+    private element: ElementRef,
+    private templateRef: TemplateRef<unknown>,
+    private viewContainer: ViewContainerRef,
+    private userService: UserService
+  ) {}
 
   public ngOnInit(): void {
     this.userService.user$.subscribe(user => {

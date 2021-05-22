@@ -19,5 +19,7 @@ export class RolePipe implements PipeTransform {
       case 'presenter':
         return 'Präsentator';
     }
+
+    return 'keine Rolle';
   }
 }

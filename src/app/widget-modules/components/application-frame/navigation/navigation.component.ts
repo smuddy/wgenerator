@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {faMusic} from '@fortawesome/free-solid-svg-icons/faMusic';
 import {faPersonBooth} from '@fortawesome/free-solid-svg-icons/faPersonBooth';
 import {faUserCog} from '@fortawesome/free-solid-svg-icons/faUserCog';
-import {fromEvent} from 'rxjs';
+import {fromEvent, Observable} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, startWith} from 'rxjs/operators';
 import {faChalkboard} from '@fortawesome/free-solid-svg-icons/faChalkboard';
 
@@ -17,10 +17,12 @@ export class NavigationComponent {
   public faUser = faUserCog;
   public faPresentation = faChalkboard;
 
-  public readonly windowScroll$ = fromEvent(window, 'scroll').pipe(
+  public readonly windowScroll$: Observable<number> = fromEvent(window, 'scroll').pipe(
     map(() => window.scrollY),
     startWith(0),
     distinctUntilChanged(),
     shareReplay(1)
   );
+
+  public isNavigationHidden = (scroll: number | null): boolean => (scroll ?? 0) > 60;
 }

@@ -7,5 +7,5 @@ import {Show} from '../../services/show';
   styleUrls: ['./list-item.component.less'],
 })
 export class ListItemComponent {
-  @Input() public show: Show;
+  @Input() public show: Show | null = null;
 }

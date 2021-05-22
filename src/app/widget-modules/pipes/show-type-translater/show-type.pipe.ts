@@ -25,5 +25,7 @@ export class ShowTypePipe implements PipeTransform {
       case 'misc-private':
         return 'sonstige private Veranstaltung';
     }
+
+    return 'unbekannter Veranstaltungstyp';
   }
 }

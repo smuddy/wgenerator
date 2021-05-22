@@ -33,7 +33,7 @@
       </div>
 
       <div *ngFor="let song of presentationSongs" @fade class="song">
-        <div
+        <div *ngIf="show"
           [class.active]="show.presentationSongId === song.id"
           class="title song-part"
         >

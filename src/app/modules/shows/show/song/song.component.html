@@ -1,4 +1,4 @@
-<div *ngIf="iSong">
+<div *ngIf="iSong && showSong && show">
   <div *ngIf="show.published" class="title published">{{ iSong.title }}</div>
 
   <div *ngIf="!show.published" class="song">

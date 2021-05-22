@@ -17,8 +17,9 @@ export class TransposeService {
     const difference = this.getDistance(baseKey, targetKey);
     const map = this.getMap(baseKey, difference);
 
-    const chords = difference > 0 ? line.chords.map(chord => this.transposeChord(chord, map)) : line.chords;
-    const renderedLine = this.renderLine(chords);
+    const chords =
+      difference > 0 && line.chords && map ? line.chords.map(chord => this.transposeChord(chord, map)) : line.chords;
+    const renderedLine = this.renderLine(chords ?? []);
 
     return {...line, text: renderedLine, chords};
   }
@@ -28,13 +29,16 @@ export class TransposeService {
       return line;
     }
 
-    const renderedLine = this.renderLine(line.chords);
+    const renderedLine = this.renderLine(line.chords ?? []);
     return {...line, text: renderedLine};
   }
 
   public getDistance(baseKey: string, targetKey: string): number {
     const scale = getScaleType(baseKey);
-    return scale ? (scale[0].indexOf(targetKey) - scale[0].indexOf(baseKey) ?? scale[1].indexOf(targetKey) - scale[1].indexOf(baseKey)) % 12 : 0;
+    return scale
+      ? (scale[0].indexOf(targetKey) - scale[0].indexOf(baseKey) ??
+          scale[1].indexOf(targetKey) - scale[1].indexOf(baseKey)) % 12
+      : 0;
   }
 
   public getMap(baseKey: string, difference: number): TransposeMap | null {
@@ -42,7 +46,7 @@ export class TransposeService {
     if (!scale) {
       return null;
     }
-    const map = {};
+    const map: {[key: string]: string} = {};
     for (let i = 0; i < 12; i++) {
       const source = scale[0][i];
       const mappedIndex = (i + difference) % 12;
@@ -68,7 +72,8 @@ export class TransposeService {
   }
 
   private renderLine(chords: Chord[]): string {
-    let template = '                                                                                                    ';
+    let template =
+      '                                                                                                    ';
 
     chords.forEach(chord => {
       const pos = chord.position;
@@ -85,6 +90,10 @@ export class TransposeService {
   }
 
   private renderChord(chord: Chord) {
-    return scaleMapping[chord.chord] + (chord.add ? chord.add : '') + (chord.slashChord ? '/' + scaleMapping[chord.slashChord] : '');
+    return (
+      scaleMapping[chord.chord] +
+      (chord.add ? chord.add : '') +
+      (chord.slashChord ? '/' + scaleMapping[chord.slashChord] : '')
+    );
   }
 }

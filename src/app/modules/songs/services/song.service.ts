@@ -26,13 +26,15 @@ export class SongService {
   }
 
   public list$ = (): Observable<Song[]> => this.songDataService.list$(); //.pipe(tap(_ => (this.list = _)));
-  public read$ = (songId: string): Observable<Song | undefined> => this.songDataService.read$(songId);
-  public read = (songId: string): Promise<Song | undefined> => this.read$(songId).pipe(first()).toPromise();
+  public read$ = (songId: string): Observable<Song | null> => this.songDataService.read$(songId);
+  public read = (songId: string): Promise<Song | null> => this.read$(songId).pipe(first()).toPromise();
 
   public async update$(songId: string, data: Partial<Song>): Promise<void> {
     const song = await this.read(songId);
+    if (!song) return;
     const edits = song.edits ?? [];
     const user = await this.userService.currentUser();
+    if (!user) return;
     edits.push({username: user.name, timestamp: Timestamp.now()});
     await this.songDataService.update$(songId, {...data, edits});
   }

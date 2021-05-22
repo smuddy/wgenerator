@@ -15,7 +15,7 @@ export class TextRenderingService {
 
   public constructor(private transposeService: TransposeService) {}
 
-  public parse(text: string, transpose: TransposeMode): Section[] {
+  public parse(text: string, transpose: TransposeMode | null): Section[] {
     if (!text) {
       return [];
     }
@@ -27,22 +27,21 @@ export class TextRenderingService {
     };
     return arrayOfLines.reduce((array, line) => {
       const type = this.getSectionTypeOfLine(line);
-      if (this.regexSection.exec(line)) {
-        return [
-          ...array,
-          {
-            type,
-            number: indices[type]++,
-            lines: [],
-          },
-        ];
+      if (this.regexSection.exec(line) && type !== null) {
+        const section: Section = {
+          type,
+          number: indices[type]++,
+          lines: [],
+        };
+        return [...array, section];
       }
-      array[array.length - 1].lines.push(this.getLineOfLineText(line, transpose));
+      const lineOfLineText = this.getLineOfLineText(line, transpose);
+      if (lineOfLineText) array[array.length - 1].lines.push(lineOfLineText);
       return array;
     }, [] as Section[]);
   }
 
-  private getLineOfLineText(text: string, transpose: TransposeMode): Line {
+  private getLineOfLineText(text: string, transpose: TransposeMode | null): Line | null {
     if (!text) {
       return null;
     }
@@ -50,11 +49,13 @@ export class TextRenderingService {
     const hasMatches = cords.length > 0;
     const type = hasMatches ? LineType.chord : LineType.text;
 
-    const line = {type, text, chords: hasMatches ? cords : undefined};
-    return transpose ? this.transposeService.transpose(line, transpose.baseKey, transpose.targetKey) : this.transposeService.renderChords(line);
+    const line: Line = {type, text, chords: hasMatches ? cords : null};
+    return transpose
+      ? this.transposeService.transpose(line, transpose.baseKey, transpose.targetKey)
+      : this.transposeService.renderChords(line);
   }
 
-  private getSectionTypeOfLine(line: string): SectionType {
+  private getSectionTypeOfLine(line: string): SectionType | null {
     if (!line) {
       return null;
     }
@@ -71,10 +72,12 @@ export class TextRenderingService {
       case 'Bridge':
         return SectionType.Bridge;
     }
+
+    return null;
   }
 
   private readChords(chordLine: string): Chord[] {
-    let match: string[];
+    let match: string[] | null;
     const chords: Chord[] = [];
 
     // https://regex101.com/r/68jMB8/5
@@ -86,6 +89,8 @@ export class TextRenderingService {
         chord: match[1],
         length: match[0].length,
         position: regex.lastIndex - match[0].length,
+        slashChord: null,
+        add: null,
       };
       if (match[3]) {
         chord.slashChord = match[3];

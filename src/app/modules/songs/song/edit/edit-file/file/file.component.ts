@@ -10,12 +10,12 @@ import {FileService} from '../../../../services/file.service';
   styleUrls: ['./file.component.less'],
 })
 export class FileComponent {
-  public url$: Observable<string>;
-  public name: string;
+  public url$: Observable<string> | null = null;
+  public name = '';
   public faTrash = faTrashAlt;
-  @Input() public songId: string;
-  private fileId: string;
-  private path: string;
+  @Input() public songId: string | null = null;
+  private fileId: string | null = null;
+  private path: string | null = null;
 
   public constructor(private fileService: FileService) {}
 
@@ -28,6 +28,6 @@ export class FileComponent {
   }
 
   public async onDelete(): Promise<void> {
-    await this.fileService.delete(this.path, this.songId, this.fileId);
+    if (this.path && this.songId && this.fileId) await this.fileService.delete(this.path, this.songId, this.fileId);
   }
 }

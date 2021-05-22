@@ -1,36 +1,39 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {faSave} from '@fortawesome/free-solid-svg-icons/faSave';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {autoComplete, Unsubscriber} from 'ngx-hocs-unsubscriber';
 import {SongService} from '../../services/song.service';
 import {Song} from '../../services/song';
 import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
-@Unsubscriber()
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.less'],
 })
-export class NewComponent implements OnInit {
+export class NewComponent implements OnInit, OnDestroy {
   public faSave = faSave;
-  public form: FormGroup;
+  public form: FormGroup = new FormGroup({
+    number: new FormControl(null, Validators.required),
+    title: new FormControl(null, Validators.required),
+  });
 
   public constructor(private songService: SongService, private router: Router) {}
 
   public ngOnInit(): void {
-    this.form = new FormGroup({
-      number: new FormControl(null, Validators.required),
-      title: new FormControl(null, Validators.required),
-    });
+    this.form.reset();
 
-    this.songService
-      .list$()
-      .pipe(autoComplete(this))
-      .subscribe(songs => {
+    this.subs.push(
+      this.songService.list$().subscribe(songs => {
         const freeSongnumber = this.getFreeSongNumber(songs);
         this.form.controls.number.setValue(freeSongnumber);
-      });
+      })
+    );
+  }
+
+  private subs: Subscription[] = [];
+  public ngOnDestroy(): void {
+    this.subs.forEach(_ => _.unsubscribe());
   }
 
   public async onSave(): Promise<void> {
@@ -48,5 +51,6 @@ export class NewComponent implements OnInit {
         return i;
       }
     }
+    return Number.MAX_SAFE_INTEGER;
   }
 }

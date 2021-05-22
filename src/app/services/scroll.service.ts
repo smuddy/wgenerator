@@ -5,7 +5,7 @@ import {BehaviorSubject} from 'rxjs';
   providedIn: 'root',
 })
 export class ScrollService {
-  private scrollPosition: number;
+  private scrollPosition = 0;
   private scrollSlots: {[key: string]: number} = {};
   private iRestoreScrollPosition$ = new BehaviorSubject<number>(0);
   public restoreScrollPosition$ = this.iRestoreScrollPosition$.asObservable();

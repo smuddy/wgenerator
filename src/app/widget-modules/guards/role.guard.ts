@@ -18,6 +18,7 @@ export class RoleGuard implements CanActivate {
 
     return this.userService.user$.pipe(
       map(user => {
+        if (!user) return false;
         const roles = user.role?.split(';') ?? [];
         if (roles.indexOf('admin') !== -1) {
           return true;

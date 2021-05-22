@@ -4,5 +4,5 @@ import {Chord} from './chord';
 export interface Line {
   type: LineType;
   text: string;
-  chords?: Chord[];
+  chords: Chord[] | null;
 }

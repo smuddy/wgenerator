@@ -10,14 +10,15 @@ import {Song} from '../../../services/song';
   styleUrls: ['./history.component.less'],
 })
 export class HistoryComponent implements OnInit {
-  public song: Song;
+  public song: Song | null = null;
 
   public constructor(private activatedRoute: ActivatedRoute, private songService: SongService) {}
 
   public ngOnInit(): void {
     this.activatedRoute.params
       .pipe(
-        map((param: {songId: string}) => param.songId),
+        map(param => param as {songId: string}),
+        map(param => param.songId),
         switchMap(songId => this.songService.read$(songId)),
         first()
       )

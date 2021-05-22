@@ -7,5 +7,5 @@ import {EditSongComponent} from './edit-song/edit-song.component';
   styleUrls: ['./edit.component.less'],
 })
 export class EditComponent {
-  @ViewChild(EditSongComponent) public editSongComponent: EditSongComponent;
+  @ViewChild(EditSongComponent) public editSongComponent: EditSongComponent | null = null;
 }

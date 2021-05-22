@@ -23,11 +23,11 @@ import {faUsers} from '@fortawesome/free-solid-svg-icons/faUsers';
   styleUrls: ['./show.component.less'],
 })
 export class ShowComponent implements OnInit {
-  public show$: Observable<Show>;
-  public songs: Song[];
-  public showSongs: ShowSong[];
-  public showId: string;
-  public showText: boolean;
+  public show$: Observable<Show | null> | null = null;
+  public songs: Song[] | null = null;
+  public showSongs: ShowSong[] | null = null;
+  public showId: string | null = null;
+  public showText = false;
 
   public faBox = faBox;
   public faBoxOpen = faBoxOpen;
@@ -47,13 +47,15 @@ export class ShowComponent implements OnInit {
 
   public ngOnInit(): void {
     this.show$ = this.activatedRoute.params.pipe(
-      map((param: {showId: string}) => param.showId),
+      map(param => param as {showId: string}),
+      map(param => param.showId),
       tap((_: string) => (this.showId = _)),
       switchMap((showId: string) => this.showService.read$(showId))
     );
     this.activatedRoute.params
       .pipe(
-        map((param: {showId: string}) => param.showId),
+        map(param => param as {showId: string}),
+        map(param => param.showId),
         switchMap(showId => this.showSongService.list$(showId)),
         filter(_ => !!_)
       )
@@ -64,17 +66,18 @@ export class ShowComponent implements OnInit {
       .subscribe(_ => (this.songs = _));
   }
 
-  public getSong(songId: string): Song {
+  public getSong(songId: string): Song | null {
+    if (!this.songs) return null;
     const filtered = this.songs.filter(_ => _.id === songId);
     return filtered.length > 0 ? filtered[0] : null;
   }
 
   public async onArchive(archived: boolean): Promise<void> {
-    await this.showService.update$(this.showId, {archived});
+    if (this.showId != null) await this.showService.update$(this.showId, {archived});
   }
 
   public async onPublish(published: boolean): Promise<void> {
-    await this.showService.update$(this.showId, {published});
+    if (this.showId != null) await this.showService.update$(this.showId, {published});
   }
 
   public getStatus(show: Show): string {
@@ -88,13 +91,14 @@ export class ShowComponent implements OnInit {
   }
 
   public async onDownload(): Promise<void> {
-    await this.docxService.create(this.showId);
+    if (this.showId != null) await this.docxService.create(this.showId);
   }
 
   public async onDownloadHandout(): Promise<void> {
-    await this.docxService.create(this.showId, {
-      chordMode: 'hide',
-      copyright: true,
-    });
+    if (this.showId != null)
+      await this.docxService.create(this.showId, {
+        chordMode: 'hide',
+        copyright: true,
+      });
   }
 }

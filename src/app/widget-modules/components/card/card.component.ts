@@ -8,8 +8,8 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 })
 export class CardComponent {
   @Input() public padding = true;
-  @Input() public heading: string;
-  @Input() public closeLink: string;
+  @Input() public heading: string | null = null;
+  @Input() public closeLink: string | null = null;
 
   public faClose = faTimes;
 }

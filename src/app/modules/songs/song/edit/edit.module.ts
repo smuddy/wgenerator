@@ -28,7 +28,14 @@ import {HistoryComponent} from './history/history.component';
 import {SongTextModule} from '../../../../widget-modules/components/song-text/song-text.module';
 
 @NgModule({
-  declarations: [EditComponent, EditSongComponent, EditFileComponent, FileComponent, SaveDialogComponent, HistoryComponent],
+  declarations: [
+    EditComponent,
+    EditSongComponent,
+    EditFileComponent,
+    FileComponent,
+    SaveDialogComponent,
+    HistoryComponent,
+  ],
   exports: [EditComponent],
   bootstrap: [SaveDialogComponent],
   imports: [

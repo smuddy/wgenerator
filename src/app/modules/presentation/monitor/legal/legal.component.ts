@@ -8,6 +8,6 @@ import {Config} from '../../../../services/config';
   styleUrls: ['./legal.component.less'],
 })
 export class LegalComponent {
-  @Input() public song: Song;
-  @Input() public config: Config;
+  @Input() public song: Song | null = null;
+  @Input() public config: Config | null = null;
 }

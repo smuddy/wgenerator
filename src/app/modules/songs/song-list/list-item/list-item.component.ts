@@ -10,7 +10,7 @@ import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
   styleUrls: ['./list-item.component.less'],
 })
 export class ListItemComponent {
-  @Input() public song: Song;
+  @Input() public song: Song | null = null;
   public faLegal = faBalanceScaleRight;
   public faDraft = faPencilRuler;
   public faFinal = faCheck;

@@ -1,4 +1,4 @@
-<div *ngIf="song" [style.font-size.px]="zoom" class="fullscreen background">
+<div *ngIf="song && showType" [style.font-size.px]="zoom" class="fullscreen background">
   <div
     @songSwitch
     [class.blur]="songId === 'title'"

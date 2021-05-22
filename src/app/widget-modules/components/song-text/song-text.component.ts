@@ -17,13 +17,13 @@ export type ChordMode = 'show' | 'hide' | 'onlyFirst';
   animations: [songSwitch],
 })
 export class SongTextComponent implements OnInit {
-  public sections: Section[];
+  public sections: Section[] = [];
   @Input() public index = -1;
   @Input() public fullscreen = false;
   @Input() public showSwitch = false;
-  @Input() public transpose: TransposeMode = null;
+  @Input() public transpose: TransposeMode | null = null;
   @Output() public chordModeChanged = new EventEmitter<ChordMode>();
-  @ViewChildren('section') public viewSections: QueryList<ElementRef<HTMLElement>>;
+  @ViewChildren('section') public viewSections: QueryList<ElementRef<HTMLElement>> | null = null;
   public faLines = faGripLines;
   public offset = 0;
   public iChordMode: ChordMode = 'hide';
@@ -37,10 +37,13 @@ export class SongTextComponent implements OnInit {
 
   @Input()
   public set text(value: string) {
-    this.sections = null;
+    this.sections = [];
     this.offset = 0;
     if (this.fullscreen) {
-      setTimeout(() => (this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type)), 100);
+      setTimeout(
+        () => (this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type)),
+        100
+      );
     } else {
       this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type);
     }
@@ -48,11 +51,11 @@ export class SongTextComponent implements OnInit {
 
   public ngOnInit(): void {
     setInterval(() => {
-      if (!this.fullscreen || this.index === -1 || !this.viewSections.toArray()[this.index]) {
+      if (!this.fullscreen || this.index === -1 || !this.viewSections?.toArray()[this.index]) {
         this.offset = 0;
         return;
       }
-      this.offset = -this.viewSections.toArray()[this.index].nativeElement.offsetTop;
+      this.offset = -this.viewSections?.toArray()[this.index].nativeElement.offsetTop;
     }, 100);
   }
 

@@ -16,7 +16,10 @@ export class NewComponent implements OnInit {
   public shows$: Observable<Show[]>;
   public showTypePublic = ShowService.SHOW_TYPE_PUBLIC;
   public showTypePrivate = ShowService.SHOW_TYPE_PRIVATE;
-  public form: FormGroup;
+  public form: FormGroup = new FormGroup({
+    date: new FormControl(null, Validators.required),
+    showType: new FormControl(null, Validators.required),
+  });
   public faSave = faSave;
 
   public constructor(private showService: ShowService, showDataService: ShowDataService, private router: Router) {
@@ -24,10 +27,7 @@ export class NewComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.form = new FormGroup({
-      date: new FormControl(null, Validators.required),
-      showType: new FormControl(null, Validators.required),
-    });
+    this.form.reset();
   }
 
   public async onSave(): Promise<void> {
@@ -37,6 +37,6 @@ export class NewComponent implements OnInit {
     }
 
     const id = await this.showService.new$(this.form.value);
-    await this.router.navigateByUrl('/shows/' + id);
+    await this.router.navigateByUrl(`/shows/${id ?? ''}`);
   }
 }

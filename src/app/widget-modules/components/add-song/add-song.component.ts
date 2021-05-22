@@ -12,15 +12,16 @@ import {ShowSongService} from '../../../modules/shows/services/show-song.service
   styleUrls: ['./add-song.component.less'],
 })
 export class AddSongComponent {
-  @Input() public songs: Song[];
-  @Input() public showSongs: ShowSong[];
-  @Input() public showId: string;
+  @Input() public songs: Song[] | null = null;
+  @Input() public showSongs: ShowSong[] | null = null;
+  @Input() public showId: string | null = null;
   @Input() public addedLive = false;
   public filteredSongsControl = new FormControl();
 
   public constructor(private showSongService: ShowSongService) {}
 
   public filteredSongs(): Song[] {
+    if (!this.songs) return [];
     const songs = this.songs
       .filter(_ => !!_)
       .filter(_ => !!_.title)
@@ -41,6 +42,7 @@ export class AddSongComponent {
   }
 
   public async onAddSongSelectionChanged(event: MatSelectChange): Promise<void> {
+    if (!this.showSongs || !this.showId) return;
     const order = this.showSongs.reduce((oa, u) => Math.max(oa, u.order), 0) + 1;
     await this.showSongService.new$(this.showId, event.value, order, this.addedLive);
     event.source.value = null;

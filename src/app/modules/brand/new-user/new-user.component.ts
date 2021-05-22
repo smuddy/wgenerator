@@ -9,7 +9,7 @@ import {User} from '../../../services/user/user';
   styleUrls: ['./new-user.component.less'],
 })
 export class NewUserComponent {
-  public user$: Observable<User>;
+  public user$: Observable<User | null> | null = null;
 
   public constructor(private userService: UserService) {
     this.user$ = userService.user$;

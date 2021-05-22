@@ -37,7 +37,9 @@ export class DocxService {
   ) {}
 
   public async create(showId: string, options: DownloadOptions = {}): Promise<void> {
-    const {show, songs, user, config} = await this.prepareData(showId);
+    const data = await this.prepareData(showId);
+    if (!data) return;
+    const {show, songs, user, config} = data;
     const type = new ShowTypePipe().transform(show.showType);
     const title = `${type} ${show.date.toDate().toLocaleDateString()}`;
 
@@ -61,7 +63,12 @@ export class DocxService {
     this.saveAs(blob, `${title}.docx`);
   }
 
-  private prepareNewDocument(type: string, name: string, options: DownloadOptions, sections: ISectionOptions[]): Document {
+  private prepareNewDocument(
+    type: string,
+    name: string,
+    options: DownloadOptions,
+    sections: ISectionOptions[]
+  ): Document {
     return new Document({
       creator: name,
       title: type,
@@ -92,16 +99,29 @@ export class DocxService {
     });
   }
 
-  private renderSongs(songs: {showSong: ShowSong; song: Song; sections: Section[]}[], options: DownloadOptions, config: Config): Paragraph[] {
-    return songs.reduce((p: Paragraph[], song) => [...p, ...this.renderSong(song.showSong, song.song, song.sections, options, config)], []);
+  private renderSongs(
+    songs: {showSong: ShowSong; song: Song; sections: Section[]}[],
+    options: DownloadOptions,
+    config: Config
+  ): Paragraph[] {
+    return songs.reduce(
+      (p: Paragraph[], song) => [...p, ...this.renderSong(song.showSong, song.song, song.sections, options, config)],
+      []
+    );
   }
 
-  private renderSong(showSong: ShowSong, song: Song, sections: Section[], options: DownloadOptions, config: Config): Paragraph[] {
+  private renderSong(
+    showSong: ShowSong,
+    song: Song,
+    sections: Section[],
+    options: DownloadOptions,
+    config: Config
+  ): Paragraph[] {
     const songTitle = this.renderSongTitle(song);
     const copyright = this.renderCopyright(song, options, config);
     const songText = this.renderSongText(sections, options?.chordMode ?? showSong.chordMode);
 
-    return [songTitle, copyright, ...songText].filter(_ => _);
+    return copyright ? [songTitle, copyright, ...songText] : [songTitle, ...songText];
   }
 
   private renderSongText(sections: Section[], chordMode: ChordMode): Paragraph[] {
@@ -119,7 +139,7 @@ export class DocxService {
     });
   }
 
-  private renderCopyright(song: Song, options: DownloadOptions, config: Config): Paragraph {
+  private renderCopyright(song: Song, options: DownloadOptions, config: Config): Paragraph | null {
     if (!options?.copyright) {
       return null;
     }
@@ -128,7 +148,10 @@ export class DocxService {
     const artist = song.artist ? song.artist + ', ' : '';
     const termsOfUse = song.termsOfUse ? song.termsOfUse + ', ' : '';
     const origin = song.origin ? song.origin + ', ' : '';
-    const licence = song.legalOwner === 'CCLI' ? 'CCLI-Liednummer: ' + song.legalOwnerId + ', CCLI-Lizenz: ' + config.ccliLicenseId : 'CCLI-Liednummer: ' + song.legalOwnerId;
+    const licence =
+      song.legalOwner === 'CCLI'
+        ? 'CCLI-Liednummer: ' + song.legalOwnerId + ', CCLI-Lizenz: ' + config.ccliLicenseId
+        : 'CCLI-Liednummer: ' + song.legalOwnerId;
 
     return new Paragraph({
       text: artist + label + termsOfUse + origin + licence,
@@ -178,14 +201,18 @@ export class DocxService {
     show: Show;
     user: User;
     config: Config;
-  }> {
+  } | null> {
     const show = await this.showService.read$(showId).pipe(first()).toPromise();
+    if (!show) return null;
     const user = await this.userService.getUserbyId(show.owner);
+    if (!user) return null;
     const config = await this.configService.get();
+    if (!config) return null;
 
     const showSongs = await this.showSongService.list(showId);
     const songsAsync = showSongs.map(async showSong => {
       const song = await this.songService.read(showSong.songId);
+      if (!song) return null;
       const sections = this.textRenderingService.parse(song.text, {
         baseKey: showSong.keyOriginal,
         targetKey: showSong.key,
@@ -196,7 +223,9 @@ export class DocxService {
         sections,
       };
     });
-    const songs = await Promise.all(songsAsync);
+    const songs = (await Promise.all(songsAsync))
+      .filter(_ => !!_)
+      .map(_ => _ as {showSong: ShowSong; song: Song; sections: Section[]});
     return {songs, show, user, config};
   }
 

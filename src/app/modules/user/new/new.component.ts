@@ -9,17 +9,17 @@ import {faUserPlus} from '@fortawesome/free-solid-svg-icons/faUserPlus';
   styleUrls: ['./new.component.less'],
 })
 export class NewComponent implements OnInit {
-  public form: FormGroup;
+  public form: FormGroup = this.fb.group({
+    email: new FormControl(null, [Validators.required, Validators.email]),
+    name: new FormControl(null, [Validators.required]),
+    password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+  });
   public faNewUser = faUserPlus;
 
   public constructor(private fb: FormBuilder, private userService: UserService) {}
 
   public ngOnInit(): void {
-    this.form = this.fb.group({
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      name: new FormControl(null, [Validators.required]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    });
+    this.form.reset();
   }
 
   public async onCreate(): Promise<void> {

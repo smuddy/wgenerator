@@ -11,18 +11,18 @@ import {faUserPlus} from '@fortawesome/free-solid-svg-icons/faUserPlus';
   styleUrls: ['./login.component.less'],
 })
 export class LoginComponent implements OnInit {
-  public form: FormGroup;
-  public errorMessage: string;
+  public form: FormGroup = new FormGroup({
+    user: new FormControl(null, [Validators.required, Validators.email]),
+    pass: new FormControl(null, [Validators.required]),
+  });
+  public errorMessage = '';
   public faSignIn = faSignInAlt;
   public faNewUser = faUserPlus;
 
   public constructor(private userService: UserService, private router: Router) {}
 
   public ngOnInit(): void {
-    this.form = new FormGroup({
-      user: new FormControl(null, [Validators.required, Validators.email]),
-      pass: new FormControl(null, [Validators.required]),
-    });
+    this.form.reset;
   }
 
   public async onLogin(): Promise<void> {

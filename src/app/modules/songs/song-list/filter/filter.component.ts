@@ -13,8 +13,8 @@ import {KEYS} from '../../services/key.helper';
 })
 export class FilterComponent {
   public filterFormGroup: FormGroup;
-  @Input() public route: string;
-  @Input() public songs: Song[];
+  @Input() public route = '/';
+  @Input() public songs: Song[] = [];
   public types = SongService.TYPES;
   public legalType = SongService.LEGAL_TYPE;
   public keys = KEYS;
@@ -28,7 +28,8 @@ export class FilterComponent {
       flag: '',
     });
 
-    activatedRoute.queryParams.subscribe((filterValues: FilterValues) => {
+    activatedRoute.queryParams.subscribe(params => {
+      const filterValues = params as FilterValues;
       if (filterValues.q) this.filterFormGroup.controls.q.setValue(filterValues.q);
       if (filterValues.type) this.filterFormGroup.controls.type.setValue(filterValues.type);
       if (filterValues.key) this.filterFormGroup.controls.key.setValue(filterValues.key);

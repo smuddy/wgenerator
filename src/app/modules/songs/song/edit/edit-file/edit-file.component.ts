@@ -13,18 +13,28 @@ import {File} from '../../../services/file';
   styleUrls: ['./edit-file.component.less'],
 })
 export class EditFileComponent {
-  public selectedFiles: FileList;
-  public currentUpload: Upload;
-  public songId: string;
+  public selectedFiles: FileList | null = null;
+  public currentUpload: Upload | null = null;
+  public songId: string | null = null;
   public files$: Observable<File[]>;
 
-  public constructor(private activatedRoute: ActivatedRoute, private uploadService: UploadService, private fileService: FileDataService) {
-    this.activatedRoute.params.pipe(map((param: {songId: string}) => param.songId)).subscribe(songId => {
-      this.songId = songId;
-    });
+  public constructor(
+    private activatedRoute: ActivatedRoute,
+    private uploadService: UploadService,
+    private fileService: FileDataService
+  ) {
+    this.activatedRoute.params
+      .pipe(
+        map(param => param as {songId: string}),
+        map(param => param.songId)
+      )
+      .subscribe(songId => {
+        this.songId = songId;
+      });
 
     this.files$ = this.activatedRoute.params.pipe(
-      map((param: {songId: string}) => param.songId),
+      map(param => param as {songId: string}),
+      map(param => param.songId),
       switchMap(songId => this.fileService.read$(songId))
     );
   }
@@ -35,7 +45,9 @@ export class EditFileComponent {
   }
 
   public uploadSingle(): void {
+    if (!this.selectedFiles || !this.songId) return;
     const file = this.selectedFiles.item(0);
+    if (!file) return;
     this.currentUpload = new Upload(file);
     this.uploadService.pushUpload(this.songId, this.currentUpload);
   }

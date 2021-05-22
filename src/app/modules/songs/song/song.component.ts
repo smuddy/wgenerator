@@ -17,24 +17,32 @@ import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash';
   styleUrls: ['./song.component.less'],
 })
 export class SongComponent implements OnInit {
-  public song$: Observable<Song>;
-  public files$: Observable<File[]>;
-  public user$: Observable<User>;
+  public song$: Observable<Song | null> | null = null;
+  public files$: Observable<File[] | null> | null = null;
+  public user$: Observable<User | null> | null = null;
   public faEdit = faEdit;
   public faDelete = faTrash;
 
-  public constructor(private activatedRoute: ActivatedRoute, private songService: SongService, private fileService: FileDataService, private userService: UserService, private router: Router) {
+  public constructor(
+    private activatedRoute: ActivatedRoute,
+    private songService: SongService,
+    private fileService: FileDataService,
+    private userService: UserService,
+    private router: Router
+  ) {
     this.user$ = userService.user$;
   }
 
   public ngOnInit(): void {
     this.song$ = this.activatedRoute.params.pipe(
-      map((param: {songId: string}) => param.songId),
+      map(param => param as {songId: string}),
+      map(param => param.songId),
       switchMap(songId => this.songService.read$(songId))
     );
 
     this.files$ = this.activatedRoute.params.pipe(
-      map((param: {songId: string}) => param.songId),
+      map(param => param as {songId: string}),
+      map(param => param.songId),
       switchMap(songId => this.fileService.read$(songId))
     );
   }

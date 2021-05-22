@@ -10,11 +10,11 @@ import {first} from 'rxjs/operators';
 export class ConfigService {
   public constructor(private db: DbService) {}
 
-  public get get$(): Observable<Config> {
+  public get get$(): Observable<Config | null> {
     return this.db.doc$<Config>('global/config');
   }
 
-  public async get(): Promise<Config> {
+  public async get(): Promise<Config | null> {
     return await this.db.doc$<Config>('global/config').pipe(first()).toPromise();
   }
 }
