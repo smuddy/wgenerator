@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {User} from '../../../services/user/user';
 import {ChordMode} from '../../../widget-modules/components/song-text/song-text.component';
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons/faSignOutAlt';
+import {RolePipe} from './role.pipe';
 
 @Component({
   selector: 'app-info',
@@ -25,5 +26,8 @@ export class InfoComponent implements OnInit {
   }
 
   public getUserRoles = (roles: string): string[] => roles?.split(';') ?? [];
-  public transdormUserRoles = (roles: string): string => this.getUserRoles(roles).join(', ');
+  public transdormUserRoles = (roles: string): string =>
+    this.getUserRoles(roles)
+      .map(_ => new RolePipe().transform(_))
+      .join(', ');
 }
