@@ -21,12 +21,13 @@ export class SongTextComponent implements OnInit {
   @Input() public index = -1;
   @Input() public fullscreen = false;
   @Input() public showSwitch = false;
-  @Input() public transpose: TransposeMode | null = null;
   @Output() public chordModeChanged = new EventEmitter<ChordMode>();
   @ViewChildren('section') public viewSections: QueryList<ElementRef<HTMLElement>> | null = null;
   public faLines = faGripLines;
   public offset = 0;
   public iChordMode: ChordMode = 'hide';
+  private iText = '';
+  private iTranspose: TransposeMode | null = null;
 
   public constructor(private textRenderingService: TextRenderingService, private elRef: ElementRef<HTMLElement>) {}
 
@@ -37,15 +38,29 @@ export class SongTextComponent implements OnInit {
 
   @Input()
   public set text(value: string) {
-    this.sections = [];
+    this.iText = value;
+    this.render();
+  }
+
+  @Input()
+  public set transpose(value: TransposeMode | null) {
+    this.iTranspose = value;
+    this.render();
+  }
+
+  private render() {
     this.offset = 0;
+    this.sections = [];
     if (this.fullscreen) {
       setTimeout(
-        () => (this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type)),
+        () =>
+          (this.sections = this.textRenderingService
+            .parse(this.iText, this.iTranspose)
+            .sort((a, b) => a.type - b.type)),
         100
       );
     } else {
-      this.sections = this.textRenderingService.parse(value, this.transpose).sort((a, b) => a.type - b.type);
+      this.sections = this.textRenderingService.parse(this.iText, this.iTranspose).sort((a, b) => a.type - b.type);
     }
   }
 

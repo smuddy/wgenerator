@@ -11,15 +11,13 @@ type TransposeMap = {[key: string]: string};
 })
 export class TransposeService {
   public transpose(line: Line, baseKey: string, targetKey: string): Line {
-    if (line.type !== LineType.chord) {
-      return line;
-    }
+    if (line.type !== LineType.chord || !line.chords) return line;
+
     const difference = this.getDistance(baseKey, targetKey);
     const map = this.getMap(baseKey, difference);
 
-    const chords =
-      difference > 0 && line.chords && map ? line.chords.map(chord => this.transposeChord(chord, map)) : line.chords;
-    const renderedLine = this.renderLine(chords ?? []);
+    const chords = difference !== 0 && map ? line.chords.map(chord => this.transposeChord(chord, map)) : line.chords;
+    const renderedLine = this.renderLine(chords);
 
     return {...line, text: renderedLine, chords};
   }
@@ -49,15 +47,19 @@ export class TransposeService {
     const map: {[key: string]: string} = {};
     for (let i = 0; i < 12; i++) {
       const source = scale[0][i];
-      const mappedIndex = (i + difference) % 12;
-      map[source] = scale[0][mappedIndex];
+      const mappedIndex = (i + difference + 12) % 12;
+      const mapped = scale[0][mappedIndex];
+      console.log(mapped);
+      map[source] = mapped;
     }
     for (let i = 0; i < 12; i++) {
       const source = scale[1][i];
-      const mappedIndex = (i + difference) % 12;
-      map[source] = scale[1][mappedIndex];
+      const mappedIndex = (i + difference + 12) % 12;
+      const mapped = scale[1][mappedIndex];
+      console.log(mapped);
+      map[source] = mapped;
     }
-
+    console.log(map);
     return map;
   }
 

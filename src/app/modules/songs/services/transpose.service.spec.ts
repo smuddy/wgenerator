@@ -10,11 +10,21 @@ describe('TransposeService', () => {
     service = TestBed.inject(TransposeService);
   });
 
-  it('should create map', () => {
+  it('should create map upwards', () => {
     const distance = service.getDistance('D', 'G');
     const map = service.getMap('D', distance);
 
-    console.log(map);
-    void expect(service).toBeTruthy();
+    if (map) {
+      void expect(map['D']).toBe('G');
+    }
+  });
+
+  it('should create map downwards', () => {
+    const distance = service.getDistance('G', 'D');
+    const map = service.getMap('G', distance);
+
+    if (map) {
+      void expect(map['G']).toBe('D');
+    }
   });
 });

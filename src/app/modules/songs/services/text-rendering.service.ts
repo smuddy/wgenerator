@@ -42,15 +42,14 @@ export class TextRenderingService {
   }
 
   private getLineOfLineText(text: string, transpose: TransposeMode | null): Line | null {
-    if (!text) {
-      return null;
-    }
+    if (!text) return null;
+
     const cords = this.readChords(text);
     const hasMatches = cords.length > 0;
     const type = hasMatches ? LineType.chord : LineType.text;
 
     const line: Line = {type, text, chords: hasMatches ? cords : null};
-    return transpose
+    return transpose !== null && transpose !== undefined
       ? this.transposeService.transpose(line, transpose.baseKey, transpose.targetKey)
       : this.transposeService.renderChords(line);
   }

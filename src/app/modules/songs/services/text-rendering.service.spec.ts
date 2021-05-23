@@ -77,12 +77,12 @@ Cool bridge without any chords
 
     // c c# db c7   cmaj7    c/e
     void expect(sections[2].lines[0].chords).toEqual([
-      {chord: 'c', length: 1, position: 0},
-      {chord: 'c#', length: 2, position: 2},
-      {chord: 'db', length: 2, position: 5},
-      {chord: 'c', length: 2, position: 8, add: '7'},
-      {chord: 'c', length: 5, position: 13, add: 'maj7'},
-      {chord: 'c', length: 3, position: 22, slashChord: 'e'},
+      {chord: 'c', length: 1, position: 0, add: null, slashChord: null},
+      {chord: 'c#', length: 2, position: 2, add: null, slashChord: null},
+      {chord: 'db', length: 2, position: 5, add: null, slashChord: null},
+      {chord: 'c', length: 2, position: 8, add: '7', slashChord: null},
+      {chord: 'c', length: 5, position: 13, add: 'maj7', slashChord: null},
+      {chord: 'c', length: 3, position: 22, add: null, slashChord: 'e'},
     ]);
   });
 

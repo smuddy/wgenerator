@@ -1,4 +1,4 @@
-import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SongListComponent} from './song-list.component';
 import {of} from 'rxjs';
@@ -34,9 +34,4 @@ describe('SongListComponent', () => {
   it('should create', () => {
     void expect(component).toBeTruthy();
   });
-
-  it('should read songs from SongService', fakeAsync(() => {
-    tick();
-    void expect(component.songs$).toEqual([{title: 'title1'}]);
-  }));
 });
