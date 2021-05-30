@@ -54,7 +54,7 @@ export class UserService {
     return aUser.user.uid;
   }
 
-  public loggedIn$: () => Observable<firebase.User | null> = () => this.afAuth.authState;
+  public loggedIn$: () => Observable<boolean> = () => this.afAuth.authState.pipe(map(_ => !!_));
 
   public list$: () => Observable<User[]> = (): Observable<User[]> => this.db.col$('users');
 

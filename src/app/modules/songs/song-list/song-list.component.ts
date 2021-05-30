@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {SongService} from '../services/song.service';
 import {Song} from '../services/song';
 import {debounceTime, map} from 'rxjs/operators';
@@ -13,6 +13,7 @@ import {ScrollService} from '../../../services/scroll.service';
   selector: 'app-songs',
   templateUrl: './song-list.component.html',
   styleUrls: ['./song-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fade],
 })
 export class SongListComponent implements OnInit, OnDestroy {

@@ -1,7 +1,8 @@
-import {Directive, ElementRef, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, Directive, ElementRef, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
 import {roles} from './roles';
 import {UserService} from './user.service';
 import {User} from './user';
+import {combineLatest} from 'rxjs';
 
 @Directive({
   selector: '[appRole]',
@@ -15,25 +16,26 @@ export class RoleDirective implements OnInit {
     private element: ElementRef,
     private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef,
-    private userService: UserService
+    private userService: UserService,
+    private changeDetection: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
-    this.userService.user$.subscribe(user => {
-      this.currentUser = user;
+    combineLatest([this.userService.user$, this.userService.loggedIn$()]).subscribe(_ => {
+      this.currentUser = _[0];
+      this.loggedIn = _[1];
       this.updateView();
     });
-    this.userService.loggedIn$().subscribe(_ => {
-      this.loggedIn = !!_;
-      this.updateView();
-    });
-    this.updateView();
   }
 
+  private currentViewState = false;
   private updateView() {
-    this.viewContainer.clear();
-    if (this.loggedIn && this.checkPermission()) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
+    const viewState = this.loggedIn && this.checkPermission();
+    if (this.currentViewState !== viewState) {
+      if (!viewState) this.viewContainer.clear();
+      if (viewState) this.viewContainer.createEmbeddedView(this.templateRef);
+      this.changeDetection.markForCheck();
+      this.currentViewState = viewState;
     }
   }
 
