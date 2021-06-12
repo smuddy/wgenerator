@@ -63,12 +63,7 @@ export class DocxService {
     this.saveAs(blob, `${title}.docx`);
   }
 
-  private prepareNewDocument(
-    type: string,
-    name: string,
-    options: DownloadOptions,
-    sections: ISectionOptions[]
-  ): Document {
+  private prepareNewDocument(type: string, name: string, options: DownloadOptions, sections: ISectionOptions[]): Document {
     return new Document({
       creator: name,
       title: type,
@@ -99,24 +94,11 @@ export class DocxService {
     });
   }
 
-  private renderSongs(
-    songs: {showSong: ShowSong; song: Song; sections: Section[]}[],
-    options: DownloadOptions,
-    config: Config
-  ): Paragraph[] {
-    return songs.reduce(
-      (p: Paragraph[], song) => [...p, ...this.renderSong(song.showSong, song.song, song.sections, options, config)],
-      []
-    );
+  private renderSongs(songs: {showSong: ShowSong; sections: Section[]}[], options: DownloadOptions, config: Config): Paragraph[] {
+    return songs.reduce((p: Paragraph[], song) => [...p, ...this.renderSong(song.showSong, song.showSong, song.sections, options, config)], []);
   }
 
-  private renderSong(
-    showSong: ShowSong,
-    song: Song,
-    sections: Section[],
-    options: DownloadOptions,
-    config: Config
-  ): Paragraph[] {
+  private renderSong(showSong: ShowSong, song: Song, sections: Section[], options: DownloadOptions, config: Config): Paragraph[] {
     const songTitle = this.renderSongTitle(song);
     const copyright = this.renderCopyright(song, options, config);
     const songText = this.renderSongText(sections, options?.chordMode ?? showSong.chordMode);
@@ -148,10 +130,7 @@ export class DocxService {
     const artist = song.artist ? song.artist + ', ' : '';
     const termsOfUse = song.termsOfUse ? song.termsOfUse + ', ' : '';
     const origin = song.origin ? song.origin + ', ' : '';
-    const licence =
-      song.legalOwner === 'CCLI'
-        ? 'CCLI-Liednummer: ' + song.legalOwnerId + ', CCLI-Lizenz: ' + config.ccliLicenseId
-        : 'CCLI-Liednummer: ' + song.legalOwnerId;
+    const licence = song.legalOwner === 'CCLI' ? 'CCLI-Liednummer: ' + song.legalOwnerId + ', CCLI-Lizenz: ' + config.ccliLicenseId : 'CCLI-Liednummer: ' + song.legalOwnerId;
 
     return new Paragraph({
       text: artist + label + termsOfUse + origin + licence,
@@ -197,7 +176,7 @@ export class DocxService {
   }
 
   private async prepareData(showId: string): Promise<{
-    songs: {showSong: ShowSong; song: Song; sections: Section[]}[];
+    songs: {showSong: ShowSong; sections: Section[]}[];
     show: Show;
     user: User;
     config: Config;
@@ -210,22 +189,17 @@ export class DocxService {
     if (!config) return null;
 
     const showSongs = await this.showSongService.list(showId);
-    const songsAsync = showSongs.map(async showSong => {
-      const song = await this.songService.read(showSong.songId);
-      if (!song) return null;
-      const sections = this.textRenderingService.parse(song.text, {
+    const songsAsync = showSongs.map(showSong => {
+      const sections = this.textRenderingService.parse(showSong.text, {
         baseKey: showSong.keyOriginal,
         targetKey: showSong.key,
       });
       return {
         showSong,
-        song,
         sections,
       };
     });
-    const songs = (await Promise.all(songsAsync))
-      .filter(_ => !!_)
-      .map(_ => _ as {showSong: ShowSong; song: Song; sections: Section[]});
+    const songs = (await Promise.all(songsAsync)).filter(_ => !!_).map(_ => _ as {showSong: ShowSong; song: Song; sections: Section[]});
     return {songs, show, user, config};
   }
 

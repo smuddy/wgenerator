@@ -24,18 +24,7 @@ import {LogoModule} from '../../widget-modules/components/logo/logo.module';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    AuthMessagePipe,
-    InfoComponent,
-    LogoutComponent,
-    RolePipe,
-    PasswordComponent,
-    PasswordSendComponent,
-    UsersComponent,
-    UserComponent,
-    NewComponent,
-  ],
+  declarations: [LoginComponent, AuthMessagePipe, InfoComponent, LogoutComponent, RolePipe, PasswordComponent, PasswordSendComponent, UsersComponent, UserComponent, NewComponent],
   imports: [
     CommonModule,
     UserRoutingModule,

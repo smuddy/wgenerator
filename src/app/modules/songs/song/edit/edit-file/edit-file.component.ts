@@ -18,11 +18,7 @@ export class EditFileComponent {
   public songId: string | null = null;
   public files$: Observable<File[]>;
 
-  public constructor(
-    private activatedRoute: ActivatedRoute,
-    private uploadService: UploadService,
-    private fileService: FileDataService
-  ) {
+  public constructor(private activatedRoute: ActivatedRoute, private uploadService: UploadService, private fileService: FileDataService) {
     this.activatedRoute.params
       .pipe(
         map(param => param as {songId: string}),

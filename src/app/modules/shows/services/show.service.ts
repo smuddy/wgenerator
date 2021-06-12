@@ -10,25 +10,8 @@ import {User} from '../../../services/user/user';
   providedIn: 'root',
 })
 export class ShowService {
-  public static SHOW_TYPE = [
-    'service-worship',
-    'service-praise',
-    'home-group-big',
-    'home-group',
-    'prayer-group',
-    'teens-group',
-    'kids-group',
-    'misc-public',
-    'misc-private',
-  ];
-  public static SHOW_TYPE_PUBLIC = [
-    'service-worship',
-    'service-praise',
-    'home-group-big',
-    'teens-group',
-    'kids-group',
-    'misc-public',
-  ];
+  public static SHOW_TYPE = ['service-worship', 'service-praise', 'home-group-big', 'home-group', 'prayer-group', 'teens-group', 'kids-group', 'misc-public', 'misc-private'];
+  public static SHOW_TYPE_PUBLIC = ['service-worship', 'service-praise', 'home-group-big', 'teens-group', 'kids-group', 'misc-public'];
   public static SHOW_TYPE_PRIVATE = ['home-group', 'prayer-group', 'misc-private'];
   private user: User | null = null;
 
@@ -44,14 +27,11 @@ export class ShowService {
         () => this.showDataService.list$(),
         (user: User | null, shows: Show[]) => ({user, shows})
       ),
-      map(s =>
-        s.shows.filter(_ => !_.archived).filter(show => show.published || (show.owner === s.user?.id && !publishedOnly))
-      )
+      map(s => s.shows.filter(_ => !_.archived).filter(show => show.published || (show.owner === s.user?.id && !publishedOnly)))
     );
   }
 
-  public update$ = async (showId: string, data: Partial<Show>): Promise<void> =>
-    this.showDataService.update(showId, data);
+  public update$ = async (showId: string, data: Partial<Show>): Promise<void> => this.showDataService.update(showId, data);
 
   public async new$(data: Partial<Show>): Promise<string | null> {
     if (!data.showType || !this.user) return null;

@@ -11,6 +11,7 @@ import {songSwitch} from '../../../widget-modules/components/song-text/animation
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Show} from '../../shows/services/show';
 import {GlobalSettings} from '../../../services/global-settings';
+import {ShowSongService} from '../../shows/services/show-song.service';
 
 @Component({
   selector: 'app-monitor',
@@ -28,10 +29,9 @@ export class MonitorComponent implements OnInit {
   public date: Date | null = null;
   public config$: Observable<Config | null>;
 
-  // private sections: Section[];
-
   public constructor(
     private showService: ShowService,
+    private showSongService: ShowSongService,
     private songService: SongService,
     private textRenderingService: TextRenderingService,
     private globalSettingsService: GlobalSettingsService,
@@ -60,13 +60,12 @@ export class MonitorComponent implements OnInit {
         tap<Show>(_ => (this.zoom = _.presentationZoom ?? 30))
       )
       .pipe(
-        switchMap((_: Show) => this.songService.read$(_.presentationSongId)),
+        switchMap((_: Show) => this.showSongService.read$(_.id, _.presentationSongId)),
         filter(_ => !!_),
         map(_ => _ as Song)
       )
       .subscribe(_ => {
         this.song = _;
-        // this.sections = this.textRenderingService.parse(_.text, null);
       });
   }
 }

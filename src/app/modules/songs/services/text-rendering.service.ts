@@ -49,9 +49,7 @@ export class TextRenderingService {
     const type = hasMatches ? LineType.chord : LineType.text;
 
     const line: Line = {type, text, chords: hasMatches ? cords : null};
-    return transpose !== null && transpose !== undefined
-      ? this.transposeService.transpose(line, transpose.baseKey, transpose.targetKey)
-      : this.transposeService.renderChords(line);
+    return transpose !== null && transpose !== undefined ? this.transposeService.transpose(line, transpose.baseKey, transpose.targetKey) : this.transposeService.renderChords(line);
   }
 
   private getSectionTypeOfLine(line: string): SectionType | null {

@@ -76,7 +76,7 @@ export class RemoteComponent {
     this.showService.read$(change).subscribe(_ => (this.show = _));
     this.showSongService.list$(change).subscribe(_ => {
       this.showSongs = _;
-      this.presentationSongs = _.map(song => this.songs.filter(f => f.id === song.songId)[0]).map(song => ({
+      this.presentationSongs = _.map(song => ({
         id: song.id,
         title: song.title,
         sections: this.textRenderingService.parse(song.text, null),

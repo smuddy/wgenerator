@@ -5,12 +5,7 @@
       show.date.toDate() | date: 'dd.MM.yyyy'
     }} - {{ getStatus(show) }}"
   >
-    <i *ngIf="show.public"
-    >öffentliche Veranstaltung von
-      <app-user-name [userId]="show.owner"></app-user-name>
-    </i>
-    <i *ngIf="!show.public"
-    >geschlossene Veranstaltung von
+    <i>{{show.public ? 'öffentliche' : 'geschlossene'}} Veranstaltung von
       <app-user-name [userId]="show.owner"></app-user-name>
     </i>
     <p *ngIf="!show.published">
@@ -19,7 +14,7 @@
     <div *ngIf="showSongs && songs" class="song-list">
       <app-song
         *ngFor="let song of showSongs"
-        [Song]="getSong(song.songId)"
+        [Song]="song"
         [showId]="showId"
         [showSong]="song"
         [showSongs]="showSongs"

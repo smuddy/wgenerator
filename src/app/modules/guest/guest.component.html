@@ -3,7 +3,7 @@
     <div *ngFor="let song of songs" class="song">
       <app-song-text
         [showSwitch]="false"
-        [text]="song | async"
+        [text]="song"
         chordMode="hide"
       ></app-song-text>
     </div>

@@ -20,11 +20,7 @@ export class SongListComponent implements OnInit, OnDestroy {
   public songs$: Observable<Song[]> | null = null;
   public anyFilterActive = false;
 
-  public constructor(
-    private songService: SongService,
-    private activatedRoute: ActivatedRoute,
-    private scrollService: ScrollService
-  ) {}
+  public constructor(private songService: SongService, private activatedRoute: ActivatedRoute, private scrollService: ScrollService) {}
 
   public ngOnInit(): void {
     const filter$ = this.activatedRoute.queryParams.pipe(

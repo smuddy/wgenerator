@@ -52,13 +52,7 @@ export class SongTextComponent implements OnInit {
     this.offset = 0;
     this.sections = [];
     if (this.fullscreen) {
-      setTimeout(
-        () =>
-          (this.sections = this.textRenderingService
-            .parse(this.iText, this.iTranspose)
-            .sort((a, b) => a.type - b.type)),
-        100
-      );
+      setTimeout(() => (this.sections = this.textRenderingService.parse(this.iText, this.iTranspose).sort((a, b) => a.type - b.type)), 100);
     } else {
       this.sections = this.textRenderingService.parse(this.iText, this.iTranspose).sort((a, b) => a.type - b.type);
     }
