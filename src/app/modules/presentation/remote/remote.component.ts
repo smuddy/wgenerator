@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Observable} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {SongService} from '../../songs/services/song.service';
@@ -40,6 +40,10 @@ export class RemoteComponent {
   public faDesktop = faDesktop;
   public showControl = new FormControl();
 
+  public trackBy(index: number, item: PresentationSong): string {
+    return item.id;
+  }
+
   public constructor(
     private showService: ShowService,
     private showSongService: ShowSongService,
@@ -73,14 +77,18 @@ export class RemoteComponent {
       await this.showService.update$(change, {presentationSongId: 'title'});
     }
     this.currentShowId = change;
-    this.showService.read$(change).subscribe(_ => (this.show = _));
-    this.showSongService.list$(change).subscribe(_ => {
-      this.showSongs = _;
-      this.presentationSongs = _.map(song => ({
+    this.showService.read$(change).subscribe(show => {
+      this.show = show;
+    });
+
+    combineLatest([this.showService.read$(change), this.showSongService.list$(change)]).subscribe(([show, list]) => {
+      this.showSongs = list;
+      const presentationSongs = list.map(song => ({
         id: song.id,
         title: song.title,
         sections: this.textRenderingService.parse(song.text, null),
       }));
+      this.presentationSongs = show?.order.map(_ => presentationSongs.filter(f => f.id === _)[0]) ?? [];
     });
     await delay(500);
     this.progress = false;

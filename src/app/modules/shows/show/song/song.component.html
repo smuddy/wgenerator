@@ -1,21 +1,11 @@
-<div *ngIf="iSong && showSong && show">
+<div *ngIf="iSong && iSong && show">
   <div *ngIf="show.published" class="title published">{{ iSong.title }}</div>
 
   <div *ngIf="!show.published" class="song">
-    <app-menu-button
-      (click)="reorder(true)"
-      [icon]="faUp"
-      class="btn-up btn-icon"
-    ></app-menu-button>
-    <app-menu-button
-      (click)="reorder(false)"
-      [icon]="faDown"
-      class="btn-down btn-icon"
-    ></app-menu-button>
     <span class="title">{{ iSong.title }}</span>
     <span class="keys">
-      <span *ngIf="showSong.keyOriginal !== showSong.key"
-      >{{ showSong.keyOriginal }}&nbsp;→&nbsp;</span
+      <span *ngIf="iSong.keyOriginal !== iSong.key"
+      >{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span
       >
       <mat-form-field *ngIf="keys" appearance="standard">
         <mat-select [formControl]="keyFormControl">
@@ -34,9 +24,9 @@
   <app-song-text
     (chordModeChanged)="onChordModeChanged($event)"
     *ngIf="showText || show.published"
-    [chordMode]="showSong.chordMode"
+    [chordMode]="iSong.chordMode"
     [showSwitch]="!show.published"
     [text]="iSong.text"
-    [transpose]="{ baseKey: showSong.keyOriginal, targetKey: showSong.key }"
+    [transpose]="{ baseKey: iSong.keyOriginal, targetKey: iSong.key }"
   ></app-song-text>
 </div>

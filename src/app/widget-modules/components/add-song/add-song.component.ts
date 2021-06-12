@@ -5,6 +5,8 @@ import {MatSelectChange} from '@angular/material/select';
 import {Song} from '../../../modules/songs/services/song';
 import {ShowSong} from '../../../modules/shows/services/show-song';
 import {ShowSongService} from '../../../modules/shows/services/show-song.service';
+import {Show} from '../../../modules/shows/services/show';
+import {ShowService} from '../../../modules/shows/services/show.service';
 
 @Component({
   selector: 'app-add-song',
@@ -14,11 +16,11 @@ import {ShowSongService} from '../../../modules/shows/services/show-song.service
 export class AddSongComponent {
   @Input() public songs: Song[] | null = null;
   @Input() public showSongs: ShowSong[] | null = null;
-  @Input() public showId: string | null = null;
+  @Input() public show: Show | null = null;
   @Input() public addedLive = false;
   public filteredSongsControl = new FormControl();
 
-  public constructor(private showSongService: ShowSongService) {}
+  public constructor(private showSongService: ShowSongService, private showService: ShowService) {}
 
   public filteredSongs(): Song[] {
     if (!this.songs) return [];
@@ -42,9 +44,10 @@ export class AddSongComponent {
   }
 
   public async onAddSongSelectionChanged(event: MatSelectChange): Promise<void> {
-    if (!this.showSongs || !this.showId) return;
-    const order = this.showSongs.reduce((oa, u) => Math.max(oa, u.order), 0) + 1;
-    await this.showSongService.new$(this.showId, event.value, order, this.addedLive);
+    if (!this.showSongs) return;
+    if (!this.show) return;
+    const newId = await this.showSongService.new$(this.show?.id, event.value, this.addedLive);
+    await this.showService.update$(this.show?.id, {order: [...this.show.order, newId ?? '']});
     event.source.value = null;
   }
 }

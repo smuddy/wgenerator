@@ -11,22 +11,20 @@
     <p *ngIf="!show.published">
       <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
     </p>
-    <div *ngIf="showSongs && songs" class="song-list">
-      <app-song
-        *ngFor="let song of showSongs"
-        [Song]="song"
-        [showId]="showId"
-        [showSong]="song"
-        [showSongs]="showSongs"
-        [showText]="showText"
-        [show]="show"
-        class="song-row"
-      ></app-song>
+    <div *ngIf="showSongs" class="song-list" cdkDropList (cdkDropListDropped)="drop($event, show)">
+      <div *ngFor="let song of orderedShowSongs(show)" class="song-row" cdkDrag>
+        <app-song
+          [showSong]="song"
+          [showId]="showId"
+          [showText]="showText"
+          [show]="show"
+        ></app-song>
+      </div>
     </div>
 
     <app-add-song
       *ngIf="songs && !show.published"
-      [showId]="showId"
+      [show]="show"
       [showSongs]="showSongs"
       [songs]="songs"
     ></app-add-song>

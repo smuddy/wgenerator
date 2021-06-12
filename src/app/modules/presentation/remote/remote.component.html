@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div *ngFor="let song of presentationSongs" @fade class="song">
+      <div *ngFor="let song of presentationSongs; trackBy: trackBy" @fade class="song">
         <div *ngIf="show"
           [class.active]="show.presentationSongId === song.id"
           class="title song-part"
@@ -71,6 +71,7 @@
           [ngModel]="show.presentationZoom"
           [step]="2"
           [thumbLabel]="true"
+          color="primary"
         >
         </mat-slider>
       </div>
@@ -78,9 +79,9 @@
       <app-add-song
         *ngIf="show"
         [addedLive]="true"
-        [showId]="currentShowId"
         [showSongs]="showSongs"
         [songs]="songs"
+        [show]="show"
       ></app-add-song>
     </ng-container>
   </app-card>

@@ -28,6 +28,7 @@ import {ButtonModule} from '../../widget-modules/components/button/button.module
 import {OwnerModule} from '../../services/user/owner.module';
 import {UserNameModule} from '../../services/user/user-name/user-name.module';
 import {MatMenuModule} from '@angular/material/menu';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent],
@@ -56,6 +57,7 @@ import {MatMenuModule} from '@angular/material/menu';
     OwnerModule,
     UserNameModule,
     MatMenuModule,
+    DragDropModule,
   ],
 })
 export class ShowsModule {}

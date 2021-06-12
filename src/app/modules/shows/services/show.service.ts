@@ -38,6 +38,7 @@ export class ShowService {
     const calculatedData: Partial<Show> = {
       ...data,
       owner: this.user.id,
+      order: [],
       public: ShowService.SHOW_TYPE_PUBLIC.indexOf(data.showType) !== -1,
     };
     return await this.showDataService.add(calculatedData);

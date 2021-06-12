@@ -10,6 +10,7 @@ export interface Show {
   reported: boolean;
   published: boolean;
   archived: boolean;
+  order: string[];
 
   presentationSongId: string;
   presentationSection: number;

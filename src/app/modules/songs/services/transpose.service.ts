@@ -45,18 +45,13 @@ export class TransposeService {
     for (let i = 0; i < 12; i++) {
       const source = scale[0][i];
       const mappedIndex = (i + difference + 12) % 12;
-      const mapped = scale[0][mappedIndex];
-      console.log(mapped);
-      map[source] = mapped;
+      map[source] = scale[0][mappedIndex];
     }
     for (let i = 0; i < 12; i++) {
       const source = scale[1][i];
       const mappedIndex = (i + difference + 12) % 12;
-      const mapped = scale[1][mappedIndex];
-      console.log(mapped);
-      map[source] = mapped;
+      map[source] = scale[1][mappedIndex];
     }
-    console.log(map);
     return map;
   }
 

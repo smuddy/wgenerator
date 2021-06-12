@@ -16,6 +16,7 @@ import {faLock} from '@fortawesome/free-solid-svg-icons/faLock';
 import {faFileDownload} from '@fortawesome/free-solid-svg-icons/faFileDownload';
 import {faUser} from '@fortawesome/free-solid-svg-icons/faUser';
 import {faUsers} from '@fortawesome/free-solid-svg-icons/faUsers';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-show',
@@ -57,7 +58,8 @@ export class ShowComponent implements OnInit {
         map(param => param as {showId: string}),
         map(param => param.showId),
         switchMap(showId => this.showSongService.list$(showId)),
-        filter(_ => !!_)
+        tap(_ => console.log(_)),
+        filter(_ => !!_ && _.length > 0)
       )
       .subscribe(_ => (this.showSongs = _));
     this.songService
@@ -100,5 +102,17 @@ export class ShowComponent implements OnInit {
         chordMode: 'hide',
         copyright: true,
       });
+  }
+
+  public async drop(event: CdkDragDrop<never>, show: Show): Promise<void> {
+    const order = [...show.order];
+    moveItemInArray(order, event.previousIndex, event.currentIndex);
+    await this.showService.update$(show.id, {order});
+  }
+
+  public orderedShowSongs(show: Show): ShowSong[] {
+    const list = this.showSongs;
+    if (!list) return [];
+    return show.order.map(_ => list.filter(f => f.id === _)[0]);
   }
 }
