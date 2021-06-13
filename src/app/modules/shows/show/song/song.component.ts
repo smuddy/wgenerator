@@ -1,7 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash';
-import {faCaretUp} from '@fortawesome/free-solid-svg-icons/faCaretUp';
-import {faCaretDown} from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import {ShowSongService} from '../../services/show-song.service';
 import {ShowSong} from '../../services/show-song';
 import {getScale} from '../../../songs/services/key.helper';
@@ -18,11 +16,10 @@ export class SongComponent implements OnInit {
   @Input() public show: Show | null = null;
   @Input() public showId: string | null = null;
   @Input() public showText: boolean | null = null;
+  @Input() public index = -1;
 
   public keys: string[] = [];
   public faDelete = faTrash;
-  public faUp = faCaretUp;
-  public faDown = faCaretDown;
   public keyFormControl: FormControl = new FormControl();
   public iSong: ShowSong | null = null;
 
@@ -44,53 +41,9 @@ export class SongComponent implements OnInit {
   }
 
   public async onDelete(): Promise<void> {
-    if (!this.showId || !this.iSong) return;
-    await this.showSongService.delete$(this.showId, this.iSong.id);
+    if (!this.showId || !this.iSong || this.index === -1) return;
+    await this.showSongService.delete$(this.showId, this.iSong.id, this.index);
   }
-
-  // public async reorder(up: boolean): Promise<void> {
-  //   if (up) {
-  //     await this.reorderUp();
-  //   } else {
-  //     await this.reorderDown();
-  //   }
-  // }
-  //
-  // public async reorderUp(): Promise<void> {
-  //   if (!this.showSongs || !this.showId) return;
-  //   const index = this.showSongs.findIndex(_ => _.songId === this.iSong?.id);
-  //   if (index === 0) {
-  //     return;
-  //   }
-  //
-  //   const song = this.showSongs[index];
-  //   const toggleSong = this.showSongs[index - 1];
-  //
-  //   await this.showSongService.update$(this.showId, song.id, {
-  //     order: toggleSong.order,
-  //   });
-  //   await this.showSongService.update$(this.showId, toggleSong.id, {
-  //     order: song.order,
-  //   });
-  // }
-  //
-  // public async reorderDown(): Promise<void> {
-  //   if (!this.showSongs || !this.showId) return;
-  //   const index = this.showSongs.findIndex(_ => _.songId === this.iSong?.id);
-  //   if (index === this.showSongs.length - 1) {
-  //     return;
-  //   }
-  //
-  //   const song = this.showSongs[index];
-  //   const toggleSong = this.showSongs[index + 1];
-  //
-  //   await this.showSongService.update$(this.showId, song.id, {
-  //     order: toggleSong.order,
-  //   });
-  //   await this.showSongService.update$(this.showId, toggleSong.id, {
-  //     order: song.order,
-  //   });
-  // }
 
   public async onChordModeChanged(value: ChordMode): Promise<void> {
     if (!this.showId || !this.iSong) return;

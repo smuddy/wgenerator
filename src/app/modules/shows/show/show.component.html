@@ -12,12 +12,13 @@
       <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
     </p>
     <div *ngIf="showSongs" class="song-list" cdkDropList (cdkDropListDropped)="drop($event, show)">
-      <div *ngFor="let song of orderedShowSongs(show)" class="song-row" cdkDrag>
+      <div *ngFor="let song of orderedShowSongs(show); let i = index" class="song-row" cdkDrag>
         <app-song
           [showSong]="song"
           [showId]="showId"
           [showText]="showText"
           [show]="show"
+          [index]="i"
         ></app-song>
       </div>
     </div>

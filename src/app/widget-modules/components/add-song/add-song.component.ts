@@ -44,7 +44,6 @@ export class AddSongComponent {
   }
 
   public async onAddSongSelectionChanged(event: MatSelectChange): Promise<void> {
-    if (!this.showSongs) return;
     if (!this.show) return;
     const newId = await this.showSongService.new$(this.show?.id, event.value, this.addedLive);
     await this.showService.update$(this.show?.id, {order: [...this.show.order, newId ?? '']});
