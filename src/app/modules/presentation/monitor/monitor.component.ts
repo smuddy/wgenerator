@@ -55,7 +55,10 @@ export class MonitorComponent implements OnInit {
         map(_ => _ as Show),
         tap<Show>(_ => (this.showType = _.showType)),
         tap<Show>(_ => (this.date = _.date.toDate())),
-        tap<Show>(_ => (this.songId = _.presentationSongId)),
+        tap<Show>(_ => {
+          if (this.songId !== _.presentationSongId) this.songId = 'empty';
+          setTimeout(() => (this.songId = _.presentationSongId), 300);
+        }),
         tap<Show>(_ => (this.index = _.presentationSection)),
         tap<Show>(_ => (this.zoom = _.presentationZoom ?? 30))
       )

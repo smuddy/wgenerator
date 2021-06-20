@@ -49,6 +49,7 @@
   </button>
 
   <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
+    <h1 *ngIf="header">{{header}}</h1>
     <div
       #section
       *ngFor="let section of sections; let i = index"

@@ -1,6 +1,6 @@
 <div *ngIf="song && showType" [style.font-size.px]="zoom" class="fullscreen background">
   <div
-    @songSwitch
+    [@songSwitch]="songId"
     [class.blur]="songId === 'title'"
     [class.hide]="songId !== 'title' && songId !== 'empty'"
     class="start fullscreen logo"
@@ -14,8 +14,9 @@
   </div>
 
   <app-song-text
+    [header]="song.title"
     *ngIf="songId !== 'title' && songId !== 'empty'"
-    @songSwitch
+    [@songSwitch]="songId"
     [fullscreen]="true"
     [index]="index"
     [showSwitch]="false"
@@ -24,7 +25,7 @@
   ></app-song-text>
   <app-legal
     *ngIf="songId !== 'title' && songId !== 'empty'"
-    @songSwitch
+    [@songSwitch]="songId"
     [config]="config$ | async"
     [song]="song"
   ></app-legal>

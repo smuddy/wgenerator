@@ -18,6 +18,7 @@ export type ChordMode = 'show' | 'hide' | 'onlyFirst';
 })
 export class SongTextComponent implements OnInit {
   public sections: Section[] = [];
+  @Input() public header: string | null = null;
   @Input() public index = -1;
   @Input() public fullscreen = false;
   @Input() public showSwitch = false;
