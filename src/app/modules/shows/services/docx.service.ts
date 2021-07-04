@@ -199,7 +199,8 @@ export class DocxService {
         sections,
       };
     });
-    const songs = (await Promise.all(songsAsync)).filter(_ => !!_).map(_ => _ as {showSong: ShowSong; song: Song; sections: Section[]});
+    const songsLoaded = (await Promise.all(songsAsync)).filter(_ => !!_).map(_ => _ as {showSong: ShowSong; sections: Section[]});
+    const songs = show.order.map(_ => songsLoaded.filter(f => f.showSong.id === _)[0]);
     return {songs, show, user, config};
   }
 

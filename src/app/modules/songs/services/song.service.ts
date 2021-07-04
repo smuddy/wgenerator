@@ -4,7 +4,7 @@ import {Song} from './song';
 import {SongDataService} from './song-data.service';
 import {first} from 'rxjs/operators';
 import {UserService} from '../../../services/user/user.service';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
 import Timestamp = firebase.firestore.Timestamp;
 
 // declare let importCCLI: any;

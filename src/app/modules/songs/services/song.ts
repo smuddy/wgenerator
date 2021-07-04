@@ -1,5 +1,5 @@
+import firebase from 'firebase/app';
 import Timestamp = firebase.firestore.Timestamp;
-import * as firebase from 'firebase';
 
 export interface Song {
   id: string;
