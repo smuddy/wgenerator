@@ -1,4 +1,5 @@
 <div class="list-item" *ngIf="show">
   <div>{{ show.date.toDate() | date: "dd.MM.yyyy" }}</div>
+  <div><app-user-name [userId]="show.owner"></app-user-name></div>
   <div>{{ show.showType | showType }}</div>
 </div>
