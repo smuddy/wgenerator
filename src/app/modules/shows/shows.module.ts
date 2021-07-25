@@ -29,6 +29,8 @@ import {OwnerModule} from '../../services/user/owner.module';
 import {UserNameModule} from '../../services/user/user-name/user-name.module';
 import {MatMenuModule} from '@angular/material/menu';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {RoleModule} from '../../services/user/role.module';
+import {SortByModule} from '../../widget-modules/pipes/sort-by/sort-by.module';
 
 @NgModule({
   declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent],
@@ -58,6 +60,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     UserNameModule,
     MatMenuModule,
     DragDropModule,
+    RoleModule,
+    SortByModule,
   ],
 })
 export class ShowsModule {}

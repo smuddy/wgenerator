@@ -5,6 +5,7 @@ import {User} from '../../../services/user/user';
 import {ChordMode} from '../../../widget-modules/components/song-text/song-text.component';
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons/faSignOutAlt';
 import {RolePipe} from './role.pipe';
+import {roles} from '../../../services/user/roles';
 
 @Component({
   selector: 'app-info',
@@ -25,8 +26,8 @@ export class InfoComponent implements OnInit {
     await this.userService.update$(uid, {chordMode: value});
   }
 
-  public getUserRoles = (roles: string): string[] => roles?.split(';') ?? [];
-  public transdormUserRoles = (roles: string): string =>
+  public getUserRoles = (roles: string): roles[] => (roles?.split(';') ?? []) as roles[];
+  public transdormUserRoles = (roles: roles): string =>
     this.getUserRoles(roles)
       .map(_ => new RolePipe().transform(_))
       .join(', ');

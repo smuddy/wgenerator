@@ -1,10 +1,11 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {roles} from '../../../services/user/roles';
 
 @Pipe({
   name: 'role',
 })
 export class RolePipe implements PipeTransform {
-  public transform(role: string): string {
+  public transform(role: roles): string {
     switch (role) {
       case 'contributor':
         return 'Mitarbeiter';
@@ -16,6 +17,8 @@ export class RolePipe implements PipeTransform {
         return 'Benutzer';
       case 'leader':
         return 'Lobpreisleiter';
+      case 'member':
+        return 'Lobpreisgruppe';
       case 'presenter':
         return 'Präsentator';
     }

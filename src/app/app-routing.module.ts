@@ -24,7 +24,7 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard, RoleGuard],
     data: {
       authGuardPipe: () => redirectUnauthorizedTo(['user', 'login']),
-      requiredRoles: ['leader'],
+      requiredRoles: ['leader', 'member'],
     },
   },
   {

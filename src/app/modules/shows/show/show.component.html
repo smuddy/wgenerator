@@ -32,42 +32,45 @@
     ></app-add-song>
 
     <app-button-row>
-      <ng-container *appOwner="show.owner">
-        <app-button
-          (click)="onArchive(true)"
-          *ngIf="!show.archived"
-          [icon]="faBox"
-        >
-          Archivieren
-        </app-button>
-        <app-button
-          (click)="onArchive(false)"
-          *ngIf="show.archived"
-          [icon]="faBoxOpen"
-        >
-          Wiederherstellen
-        </app-button>
-        <app-button
-          (click)="onPublish(true)"
-          *ngIf="!show.published"
-          [icon]="faPublish"
-        >
-          Veröffentlichen
-        </app-button>
-        <app-button
-          (click)="onPublish(false)"
-          *ngIf="show.published"
-          [icon]="faUnpublish"
-        >
-          Veröffentlichung zurückziehen
-        </app-button>
+      <ng-container *appRole="['leader']">
+        <ng-container *appOwner="show.owner">
+          <app-button
+            (click)="onArchive(true)"
+            *ngIf="!show.archived"
+            [icon]="faBox"
+          >
+            Archivieren
+          </app-button>
+          <app-button
+            (click)="onArchive(false)"
+            *ngIf="show.archived"
+            [icon]="faBoxOpen"
+          >
+            Wiederherstellen
+          </app-button>
+          <app-button
+            (click)="onPublish(true)"
+            *ngIf="!show.published"
+            [icon]="faPublish"
+          >
+            Veröffentlichen
+          </app-button>
+          <app-button
+            (click)="onPublish(false)"
+            *ngIf="show.published"
+            [icon]="faUnpublish"
+          >
+            Veröffentlichung zurückziehen
+          </app-button>
+        </ng-container>
       </ng-container>
+
       <app-button [icon]="faDownload" [matMenuTriggerFor]="menu"
       >Herunterladen
       </app-button>
       <mat-menu #menu="matMenu">
         <app-button (click)="onDownload()" [icon]="faUser"
-        >Ablauf für Lobpreisleiter
+        >Ablauf für Lobpreisgruppe
         </app-button>
         <app-button (click)="onDownloadHandout()" [icon]="faUsers"
         >Handout mit Copyright Infos

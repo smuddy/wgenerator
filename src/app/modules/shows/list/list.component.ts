@@ -18,7 +18,7 @@ export class ListComponent {
   }
 
   public getPublicShows(songs: Show[]): Show[] {
-    return songs.filter(_ => _.published).sort((a, b) => (b.date < a.date ? -1 : b.date > a.date ? 1 : 0));
+    return songs.filter(_ => _.published);
   }
 
   public getPrivateSongs(songs: Show[]): Show[] {
