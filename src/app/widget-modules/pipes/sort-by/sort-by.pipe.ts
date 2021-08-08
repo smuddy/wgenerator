@@ -18,6 +18,6 @@ export class SortByPipe implements PipeTransform {
       return value;
     } // array with only one item
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    return orderBy(value, [column], [order]) as unknown[];
+    return orderBy(value, [column], [order]);
   }
 }
