@@ -27,6 +27,9 @@
         class="line"
       >{{ line.text }}</div>
     </div>
+    <div class="error" *ngIf="sections.length===0">
+      Es wurden keine Liedabschnitte gefunden! Bitte mindestens einen Abschnitt festlegen!
+    </div>
   </div>
 
   <ng-content></ng-content>
