@@ -36,6 +36,7 @@ export class TextRenderingService {
         return [...array, section];
       }
       const lineOfLineText = this.getLineOfLineText(line, transpose);
+      if (array.length === 0) return array;
       if (lineOfLineText) array[array.length - 1].lines.push(lineOfLineText);
       return array;
     }, [] as Section[]);
