@@ -73,4 +73,5 @@ export class SongListComponent implements OnInit, OnDestroy {
 
     return flagStrings.indexOf(flag) !== -1;
   }
+  public trackBy = (index: number, show: Song) => show.id;
 }

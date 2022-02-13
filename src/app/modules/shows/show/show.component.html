@@ -13,7 +13,7 @@
     </p>
     <div *ngIf="showSongs" class="song-list" cdkDropList [cdkDropListDisabled]="show.published"
          (cdkDropListDropped)="drop($event, show)">
-      <div *ngFor="let song of orderedShowSongs(show); let i = index" class="song-row" cdkDrag>
+      <div *ngFor="let song of orderedShowSongs(show); let i = index; trackBy: trackBy" class="song-row" cdkDrag>
         <app-song
           [showSong]="song"
           [showId]="showId"

@@ -5,7 +5,7 @@
     <ng-container *ngIf="shows$ | async as shows">
       <app-card
         *ngIf="getPrivateSongs(shows).length > 0"
-        [@fade]
+        @fade
         [padding]="false"
         heading="meine Veranstaltungen"
       >
@@ -21,12 +21,12 @@
   <ng-container *ngIf="shows$ | async as shows">
     <app-card
       *ngIf="getPublicShows(shows).length > 0"
-      [@fade]
+      @fade
       [padding]="false"
       heading="veröffentlichte Veranstaltungen"
     >
       <app-list-item
-        *ngFor="let show of getPublicShows(shows) | sortBy: 'desc':'date'"
+        *ngFor="let show of getPublicShows(shows) | sortBy: 'desc':'date'; trackBy: trackBy"
         [routerLink]="show.id"
         [show]="show"
       ></app-list-item>

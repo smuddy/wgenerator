@@ -1,11 +1,11 @@
-<div *ngIf="songs$ | async as songs" [@fade]>
+<div *ngIf="songs$ | async as songs" @fade>
   <app-list-header [anyFilterActive]="anyFilterActive">
     <app-filter [songs]="songs" route="songs"></app-filter>
   </app-list-header>
 
   <app-card [padding]="false">
     <app-list-item
-      *ngFor="let song of songs"
+      *ngFor="let song of songs; trackBy: trackBy"
       [routerLink]="song.id"
       [song]="song"
     ></app-list-item>

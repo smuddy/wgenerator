@@ -24,4 +24,6 @@ export class ListComponent {
   public getPrivateSongs(songs: Show[]): Show[] {
     return songs.filter(_ => !_.published);
   }
+
+  public trackBy = (index: number, show: unknown) => (show as Show).id;
 }

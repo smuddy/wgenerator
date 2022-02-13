@@ -115,4 +115,6 @@ export class ShowComponent implements OnInit {
     if (!list) return [];
     return show.order.map(_ => list.filter(f => f.id === _)[0]);
   }
+
+  public trackBy = (index: number, show: ShowSong) => show.id;
 }
