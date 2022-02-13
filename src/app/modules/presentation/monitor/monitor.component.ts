@@ -37,7 +37,7 @@ export class MonitorComponent implements OnInit {
     private globalSettingsService: GlobalSettingsService,
     private configService: ConfigService
   ) {
-    this.config$ = configService.get$;
+    this.config$ = configService.get$();
   }
 
   public ngOnInit(): void {

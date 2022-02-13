@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from '@angular/fire/firestore';
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from '@angular/fire/compat/firestore';
 import {Observable} from 'rxjs';
-import {QueryFn} from '@angular/fire/firestore/interfaces';
+import {QueryFn} from '@angular/fire/compat/firestore/interfaces';
 import {map} from 'rxjs/operators';
 
 type CollectionPredicate<T> = string | AngularFirestoreCollection<T>;

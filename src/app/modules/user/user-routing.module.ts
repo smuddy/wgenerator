@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {InfoComponent} from './info/info.component';
 import {LogoutComponent} from './logout/logout.component';
-import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
+import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/compat/auth-guard';
 import {PasswordComponent} from './password/password.component';
 import {PasswordSendComponent} from './password-send/password-send.component';
 import {NewComponent} from './new/new.component';

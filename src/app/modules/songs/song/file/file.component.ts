@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {File} from '../../services/file';
-import {AngularFireStorage} from '@angular/fire/storage';
+import {AngularFireStorage} from '@angular/fire/compat/storage';
 import {Observable} from 'rxjs';
 
 @Component({

@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {firstValueFrom, Observable} from 'rxjs';
 import {Song} from './song';
 import {SongDataService} from './song-data.service';
-import {first} from 'rxjs/operators';
 import {UserService} from '../../../services/user/user.service';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
 
 // declare let importCCLI: any;
@@ -27,7 +26,7 @@ export class SongService {
 
   public list$ = (): Observable<Song[]> => this.songDataService.list$(); //.pipe(tap(_ => (this.list = _)));
   public read$ = (songId: string): Observable<Song | null> => this.songDataService.read$(songId);
-  public read = (songId: string): Promise<Song | null> => this.read$(songId).pipe(first()).toPromise();
+  public read = (songId: string): Promise<Song | null> => firstValueFrom(this.read$(songId));
 
   public async update$(songId: string, data: Partial<Song>): Promise<void> {
     const song = await this.read(songId);

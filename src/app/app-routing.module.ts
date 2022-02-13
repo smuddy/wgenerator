@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
-import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
+import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/compat/auth-guard';
 import {RoleGuard} from './widget-modules/guards/role.guard';
 
 const routes: Routes = [

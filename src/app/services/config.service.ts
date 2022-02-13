@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {DbService} from './db.service';
-import {Observable} from 'rxjs';
+import {firstValueFrom, Observable} from 'rxjs';
 import {Config} from './config';
-import {first} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +9,7 @@ import {first} from 'rxjs/operators';
 export class ConfigService {
   public constructor(private db: DbService) {}
 
-  public get get$(): Observable<Config | null> {
-    return this.db.doc$<Config>('global/config');
-  }
+  public get$ = (): Observable<Config | null> => this.db.doc$<Config>('global/config');
+  public get = (): Promise<Config | null> => firstValueFrom(this.get$());
 
-  public async get(): Promise<Config | null> {
-    return await this.db.doc$<Config>('global/config').pipe(first()).toPromise();
-  }
 }

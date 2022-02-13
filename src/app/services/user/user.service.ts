@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {filter, first, map, switchMap, tap} from 'rxjs/operators';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {BehaviorSubject, firstValueFrom, Observable} from 'rxjs';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {User} from './user';
 import {DbService} from '../db.service';
 import {environment} from '../../../environments/environment';
@@ -33,17 +33,10 @@ export class UserService {
     return this.iUser$.pipe(filter(_ => !!_));
   }
 
-  public async currentUser(): Promise<User | null> {
-    return this.user$.pipe(first()).toPromise();
-  }
+  public currentUser = async (): Promise<User | null> => firstValueFrom(this.user$);
 
-  public getUserbyId(userId: string): Promise<User | null> {
-    return this.getUserbyId$(userId).pipe(first()).toPromise();
-  }
-
-  public getUserbyId$(userId: string): Observable<User | null> {
-    return this.db.doc$<User>('users/' + userId);
-  }
+  public getUserbyId = (userId: string): Promise<User | null> => firstValueFrom(this.getUserbyId$(userId));
+  public getUserbyId$ = (userId: string): Observable<User | null> => this.db.doc$<User>('users/' + userId);
 
   public async login(user: string, password: string): Promise<string | null> {
     const aUser = await this.afAuth.signInWithEmailAndPassword(user, password);
@@ -83,6 +76,6 @@ export class UserService {
     await this.router.navigateByUrl('/brand/new-user');
   }
 
-  private readUser$ = (uid: string) => this.db.doc$<User | null>('users/' + uid);
-  private readUser = async (uid: string): Promise<User | null> => await this.readUser$(uid).pipe(first()).toPromise();
+  private readUser$ = (uid: string) => this.db.doc$<User>('users/' + uid);
+  private readUser: (uid: string) => Promise<User | null> = (uid: string) => firstValueFrom(this.readUser$(uid));
 }

@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Document, HeadingLevel, ISectionOptions, Packer, Paragraph} from 'docx';
 import {ShowService} from './show.service';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
-import {first} from 'rxjs/operators';
 import {ShowSongService} from './show-song.service';
 import {Song} from '../../songs/services/song';
 import {SongService} from '../../songs/services/song.service';
@@ -17,6 +16,7 @@ import {TextRenderingService} from '../../songs/services/text-rendering.service'
 import {Section} from '../../songs/services/section';
 import {LineType} from '../../songs/services/line-type';
 import {Line} from '../../songs/services/line';
+import {firstValueFrom} from 'rxjs';
 
 export interface DownloadOptions {
   copyright?: boolean;
@@ -181,7 +181,7 @@ export class DocxService {
     user: User;
     config: Config;
   } | null> {
-    const show = await this.showService.read$(showId).pipe(first()).toPromise();
+    const show = await firstValueFrom(this.showService.read$(showId));
     if (!show) return null;
     const user = await this.userService.getUserbyId(show.owner);
     if (!user) return null;

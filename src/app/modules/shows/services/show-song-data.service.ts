@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {DbService} from '../../../services/db.service';
 import {Observable} from 'rxjs';
 import {ShowSong} from './show-song';
-import {QueryFn} from '@angular/fire/firestore/interfaces';
+import {QueryFn} from '@angular/fire/compat/firestore/interfaces';
 
 @Injectable({
   providedIn: 'root',

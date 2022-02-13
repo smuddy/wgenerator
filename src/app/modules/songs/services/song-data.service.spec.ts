@@ -1,7 +1,7 @@
 import {TestBed, waitForAsync} from '@angular/core/testing';
 
 import {SongDataService} from './song-data.service';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {of} from 'rxjs';
 
 describe('SongDataService', () => {
