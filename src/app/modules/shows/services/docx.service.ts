@@ -86,7 +86,7 @@ export class DocxService {
             basedOn: 'Normal',
             next: 'Normal',
             quickFormat: true,
-            run: {size: 15, color: 'grey'},
+            run: {size: 15, color: '#666666'},
             paragraph: {indent: {left: 0}},
           },
         ],
