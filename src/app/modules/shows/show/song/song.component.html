@@ -11,13 +11,13 @@
         </mat-select>
       </mat-form-field>
     </span>
-    <app-menu-button @fade *ngIf="!edit" (click)="onEdit()" [icon]="faEdit" class="btn-edit btn-icon"></app-menu-button>
-    <app-menu-button @fade *ngIf="!edit" (click)="onDelete()" [icon]="faDelete" class="btn-delete btn-icon"></app-menu-button>
+    <app-menu-button @fade *ngIf="!edit" (click)="onEdit()" [icon]="faEdit" class="btn-edit btn-icon" matTooltip="Lied für diese Veranstaltung bearbeiten"> </app-menu-button>
+    <app-menu-button @fade *ngIf="!edit" (click)="onDelete()" [icon]="faDelete" class="btn-delete btn-icon" matTooltip="Lied aus Veranstaltung entfernen"></app-menu-button>
   </div>
 
-  <mat-form-field @fade appearance="outline" *ngIf="edit">
+  <mat-form-field @fade appearance="outline" *ngIf="edit" >
     <mat-label>Songtext</mat-label>
-    <textarea
+    <textarea matTooltip="Tonart ändern"
       [cdkTextareaAutosize]="true"
       [formControl]="editSongControl"
       matInput

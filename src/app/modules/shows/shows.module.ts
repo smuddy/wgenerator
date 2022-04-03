@@ -31,6 +31,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {RoleModule} from '../../services/user/role.module';
 import {SortByModule} from '../../widget-modules/pipes/sort-by/sort-by.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent],
@@ -62,6 +63,7 @@ import {SortByModule} from '../../widget-modules/pipes/sort-by/sort-by.module';
     DragDropModule,
     RoleModule,
     SortByModule,
+    MatTooltipModule,
   ],
 })
 export class ShowsModule {}
