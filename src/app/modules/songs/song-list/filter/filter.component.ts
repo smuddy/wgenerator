@@ -37,11 +37,11 @@ export class FilterComponent {
       if (filterValues.flag) this.filterFormGroup.controls.flag.setValue(filterValues.flag);
     });
 
-    this.filterFormGroup.controls.q.valueChanges.subscribe(_ => void this.filerValueChanged('q', _));
-    this.filterFormGroup.controls.key.valueChanges.subscribe(_ => void this.filerValueChanged('key', _));
-    this.filterFormGroup.controls.type.valueChanges.subscribe(_ => void this.filerValueChanged('type', _));
-    this.filterFormGroup.controls.legalType.valueChanges.subscribe(_ => void this.filerValueChanged('legalType', _));
-    this.filterFormGroup.controls.flag.valueChanges.subscribe(_ => void this.filerValueChanged('flag', _));
+    this.filterFormGroup.controls.q.valueChanges.subscribe(_ => void this.filerValueChanged('q', _ as string));
+    this.filterFormGroup.controls.key.valueChanges.subscribe(_ => void this.filerValueChanged('key', _ as string));
+    this.filterFormGroup.controls.type.valueChanges.subscribe(_ => void this.filerValueChanged('type', _ as string));
+    this.filterFormGroup.controls.legalType.valueChanges.subscribe(_ => void this.filerValueChanged('legalType', _ as string));
+    this.filterFormGroup.controls.flag.valueChanges.subscribe(_ => void this.filerValueChanged('flag', _ as string));
   }
 
   public getFlags(): string[] {
