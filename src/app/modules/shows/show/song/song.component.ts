@@ -6,11 +6,16 @@ import {getScale} from '../../../songs/services/key.helper';
 import {FormControl} from '@angular/forms';
 import {ChordMode} from '../../../../widget-modules/components/song-text/song-text.component';
 import {Show} from '../../services/show';
+import {faPenToSquare} from '@fortawesome/free-solid-svg-icons/faPenToSquare';
+import {faSave} from '@fortawesome/free-solid-svg-icons/faSave';
+import {faEraser} from '@fortawesome/free-solid-svg-icons/faEraser';
+import {fade} from '../../../../animations';
 
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.less'],
+  animations: [fade],
 })
 export class SongComponent implements OnInit {
   @Input() public show: Show | null = null;
@@ -20,8 +25,13 @@ export class SongComponent implements OnInit {
 
   public keys: string[] = [];
   public faDelete = faTrash;
+  public faEdit = faPenToSquare;
+  public faSave = faSave;
+  public faEraser = faEraser;
   public keyFormControl: FormControl = new FormControl();
   public iSong: ShowSong | null = null;
+  public edit = false;
+  public editSongControl = new FormControl();
 
   public constructor(private showSongService: ShowSongService) {}
 
@@ -38,6 +48,22 @@ export class SongComponent implements OnInit {
       if (!this.showId || !this.iSong) return;
       void this.showSongService.update$(this.showId, this.iSong.id, {key: value});
     });
+  }
+
+  public onEdit(): void {
+    if (this.iSong) this.editSongControl.setValue(this.iSong.text);
+    this.edit = true;
+  }
+
+  public onDiscard(): void {
+    this.editSongControl.setValue(null);
+    this.edit = false;
+  }
+
+  public onSave(): void {
+    if (this.showId && this.iSong) void this.showSongService.update$(this.showId, this.iSong.id, {text: this.editSongControl.value as string});
+    this.editSongControl.setValue(null);
+    this.edit = false;
   }
 
   public async onDelete(): Promise<void> {

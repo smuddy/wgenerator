@@ -1,29 +1,37 @@
 <div *ngIf="iSong && iSong && show">
-  <div *ngIf="show.published" class="title published">{{ iSong.title }}</div>
+  <div @fade *ngIf="show.published" class="title published">{{ iSong.title }}</div>
 
-  <div *ngIf="!show.published" class="song">
+  <div @fade *ngIf="!show.published" class="song">
     <span class="title">{{ iSong.title }}</span>
-    <span class="keys">
-      <span *ngIf="iSong.keyOriginal !== iSong.key"
-      >{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span
-      >
-      <mat-form-field *ngIf="keys" appearance="standard">
+    <span @fade class="keys" *ngIf="!edit">
+      <span *ngIf="iSong.keyOriginal !== iSong.key">{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span>
+      <mat-form-field *ngIf="keys" appearance="standard" class="keys">
         <mat-select [formControl]="keyFormControl">
-          <mat-option *ngFor="let key of keys" [value]="key">{{
-            key
-            }}</mat-option>
+          <mat-option *ngFor="let key of keys" [value]="key">{{ key }}</mat-option>
         </mat-select>
       </mat-form-field>
     </span>
-    <app-menu-button
-      (click)="onDelete()"
-      [icon]="faDelete"
-      class="btn-delete btn-icon"
-    ></app-menu-button>
+    <app-menu-button @fade *ngIf="!edit" (click)="onEdit()" [icon]="faEdit" class="btn-edit btn-icon"></app-menu-button>
+    <app-menu-button @fade *ngIf="!edit" (click)="onDelete()" [icon]="faDelete" class="btn-delete btn-icon"></app-menu-button>
   </div>
+
+  <mat-form-field @fade appearance="outline" *ngIf="edit">
+    <mat-label>Songtext</mat-label>
+    <textarea
+      [cdkTextareaAutosize]="true"
+      [formControl]="editSongControl"
+      matInput
+    ></textarea>
+  </mat-form-field>
+  <div @fade *ngIf="edit">Es wird nur der Liedtext für dieser Veranstaltung geändert.</div>
+  <app-button-row @fade *ngIf="edit">
+    <app-button (click)="onSave()" [icon]="faSave">Speichern</app-button>
+    <app-button (click)="onDiscard()" [icon]="faSave">Verwerfen</app-button>
+  </app-button-row>
+
   <app-song-text
     (chordModeChanged)="onChordModeChanged($event)"
-    *ngIf="showText || show.published"
+    *ngIf="!edit && (showText || show.published)"
     [chordMode]="iSong.chordMode"
     [showSwitch]="!show.published"
     [text]="iSong.text"

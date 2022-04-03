@@ -2,11 +2,11 @@
 .song {
   min-height: 28px;
   display: grid;
-  grid-template-columns: auto 70px 25px;
+  grid-template-columns: auto 70px 25px 25px;
   @media screen and (max-width: 860px) {
-    grid-template-columns: auto 70px 45px;
+    grid-template-columns: auto 70px 45px 45px;
   }
-  grid-template-areas: "title keys delete";
+  grid-template-areas: "title keys edit delete";
 
   & > * {
     display: flex;
@@ -16,7 +16,7 @@
   overflow: hidden;
 }
 
-mat-form-field {
+.keys {
   width: 40px;
   margin: -24px 0 -20px 0;
 }
@@ -47,6 +47,10 @@ mat-form-field {
   grid-area: delete;
   justify-content: flex-end;
 }
+.btn-edit {
+  grid-area: edit;
+  justify-content: flex-end;
+}
 
 .menu {
   display: flex;
@@ -54,4 +58,8 @@ mat-form-field {
 
 button {
 
+}
+
+textarea {
+  font-family: 'Ubuntu Mono', monospace;
 }
