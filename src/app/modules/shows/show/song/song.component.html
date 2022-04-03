@@ -26,7 +26,7 @@
   <div @fade *ngIf="edit">Es wird nur der Liedtext für dieser Veranstaltung geändert.</div>
   <app-button-row @fade *ngIf="edit">
     <app-button (click)="onSave()" [icon]="faSave">Speichern</app-button>
-    <app-button (click)="onDiscard()" [icon]="faSave">Verwerfen</app-button>
+    <app-button (click)="onDiscard()" [icon]="faEraser">Verwerfen</app-button>
   </app-button-row>
 
   <app-song-text
