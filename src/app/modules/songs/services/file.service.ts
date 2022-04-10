@@ -14,9 +14,9 @@ export class FileService {
     return ref.getDownloadURL() as Observable<string>;
   }
 
-  public async delete(path: string, songId: string, fileId: string): Promise<void> {
+  public delete(path: string, songId: string, fileId: string): void {
     const ref = this.storage.ref(path);
-    await firstValueFrom(ref.delete());
-    await this.fileDataService.delete(songId, fileId);
+    void firstValueFrom(ref.delete());
+    void this.fileDataService.delete(songId, fileId);
   }
 }

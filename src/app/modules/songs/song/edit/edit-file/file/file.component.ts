@@ -27,7 +27,7 @@ export class FileComponent {
     this.path = file.path + '/' + file.name;
   }
 
-  public async onDelete(): Promise<void> {
-    if (this.path && this.songId && this.fileId) await this.fileService.delete(this.path, this.songId, this.fileId);
+  public onDelete(): void {
+    if (this.path && this.songId && this.fileId) this.fileService.delete(this.path, this.songId, this.fileId);
   }
 }
