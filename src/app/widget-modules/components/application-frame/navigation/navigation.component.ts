@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {faMusic} from '@fortawesome/free-solid-svg-icons/faMusic';
-import {faPersonBooth} from '@fortawesome/free-solid-svg-icons/faPersonBooth';
-import {faUserCog} from '@fortawesome/free-solid-svg-icons/faUserCog';
+import {faMusic, faPersonBooth, faUserCog} from '@fortawesome/free-solid-svg-icons';
 import {fromEvent, Observable} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, startWith} from 'rxjs/operators';
 import {faChalkboard} from '@fortawesome/free-solid-svg-icons/faChalkboard';
