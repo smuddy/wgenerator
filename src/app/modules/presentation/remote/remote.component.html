@@ -15,27 +15,29 @@
     </mat-form-field>
 
     <ng-container *ngIf="!progress">
-      <div *ngIf="show" class="song-parts padding-bottom">
-        <div
-          (click)="onSectionClick('title', -1)"
-          [class.active]="show.presentationSongId === 'title'"
-          class="song-part"
-        >
-          <div class="head">Veranstaltung</div>
-        </div>
-        <div
-          (click)="onSectionClick('empty', -1)"
-          [class.active]="show.presentationSongId === 'empty'"
-          class="song-part"
-        >
-          <div class="head">Leer</div>
+      <div class="song">
+        <div *ngIf="show" class="song-parts">
+          <div
+            (click)="onSectionClick('title', -1)"
+            [class.active]="show.presentationSongId === 'title'"
+            class="song-part"
+          >
+            <div class="head">Veranstaltung</div>
+          </div>
+          <div
+            (click)="onSectionClick('empty', -1)"
+            [class.active]="show.presentationSongId === 'empty'"
+            class="song-part"
+          >
+            <div class="head">Leer</div>
+          </div>
         </div>
       </div>
 
       <div *ngFor="let song of presentationSongs; trackBy: trackBy" @fade class="song">
         <div *ngIf="show"
-          [class.active]="show.presentationSongId === song.id"
-          class="title song-part"
+             [class.active]="show.presentationSongId === song.id"
+             class="title song-part"
         >
           <div (click)="onSectionClick(song.id, -1)" class="head">
             {{ song.title }}
@@ -60,9 +62,26 @@
       </div>
 
       <div *ngIf="show" class="div-bottom">
-        <a routerLink="/presentation/monitor" target="_blank">
+
+        <button routerLink="/presentation/monitor" mat-button>
           <fa-icon [icon]="faDesktop"></fa-icon>
-        </a>
+          Präsentation starten
+        </button>
+
+
+        <mat-form-field appearance="outline">
+          <mat-label>Hintergrund</mat-label>
+          <mat-select
+            [ngModel]="show.presentationBackground"
+            (ngModelChange)="onBackground($event)">
+            <mat-option value="none">kein Hintergrund</mat-option>
+            <mat-option value="blue">Sternenhimmel</mat-option>
+            <mat-option value="green">Blätter</mat-option>
+            <mat-option value="leder">Leder</mat-option>
+            <mat-option value="praise">Lobpreis</mat-option>
+            <mat-option value="bible">Bibel</mat-option>
+          </mat-select>
+        </mat-form-field>
 
         <mat-slider
           (ngModelChange)="onZoom($event)"
@@ -72,8 +91,10 @@
           [step]="2"
           [thumbLabel]="true"
           color="primary"
+          class="zoom-slider"
         >
         </mat-slider>
+
       </div>
 
       <app-add-song

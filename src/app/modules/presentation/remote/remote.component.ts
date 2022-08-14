@@ -1,15 +1,15 @@
 import {Component} from '@angular/core';
 import {combineLatest, Observable} from 'rxjs';
-import {Show} from '../../shows/services/show';
+import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
-import {faDesktop} from '@fortawesome/free-solid-svg-icons/faDesktop';
+import {faDesktop} from '@fortawesome/free-solid-svg-icons';
 import {ShowService} from '../../shows/services/show.service';
 import {ShowSong} from '../../shows/services/show-song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {FormControl} from '@angular/forms';
-import {distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {fade} from '../../../animations';
 import {delay} from '../../../services/delay';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
@@ -72,14 +72,17 @@ export class RemoteComponent {
     this.progress = true;
     if (updateShow) {
       await this.showService.update$(change, {presentationSongId: 'empty'});
-      await delay(1200);
+      await delay(200);
       await this.globalSettingsService.set({currentShow: change});
       await this.showService.update$(change, {presentationSongId: 'title'});
     }
     this.currentShowId = change;
-    this.showService.read$(change).subscribe(show => {
-      this.show = show;
-    });
+    this.showService
+      .read$(change)
+      .pipe(debounceTime(100))
+      .subscribe(show => {
+        this.show = show;
+      });
 
     combineLatest([this.showService.read$(change), this.showSongService.list$(change)]).subscribe(([show, list]) => {
       this.showSongs = list;
@@ -106,7 +109,11 @@ export class RemoteComponent {
       });
   }
 
-  public async onZoom(zoom: number): Promise<void> {
-    if (this.currentShowId != null) await this.showService.update$(this.currentShowId, {presentationZoom: zoom});
+  public async onZoom(presentationZoom: number): Promise<void> {
+    if (this.currentShowId != null) await this.showService.update$(this.currentShowId, {presentationZoom});
+  }
+
+  public async onBackground(presentationBackground: PresentationBackground): Promise<void> {
+    if (this.currentShowId != null) await this.showService.update$(this.currentShowId, {presentationBackground});
   }
 }

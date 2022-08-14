@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../services/user/user.service';
-import {faUserPlus} from '@fortawesome/free-solid-svg-icons/faUserPlus';
+import {faUserPlus} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-new',

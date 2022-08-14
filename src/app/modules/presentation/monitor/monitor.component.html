@@ -1,7 +1,17 @@
+<div class="fullscreen background"></div>
 <div *ngIf="song && showType" [style.font-size.px]="zoom" class="fullscreen background">
+
+  <div class="bg-blue fullscreen bg-image" [class.visible]="presentationBackground==='blue'"></div>
+  <div class="bg-green fullscreen bg-image" [class.visible]="presentationBackground==='green'"></div>
+  <div class="bg-leder fullscreen bg-image" [class.visible]="presentationBackground==='leder'"></div>
+  <div class="bg-praise fullscreen bg-image" [class.visible]="presentationBackground==='praise'"></div>
+  <div class="bg-bible fullscreen bg-image" [class.visible]="presentationBackground==='bible'"></div>
+
+
   <div
     [@songSwitch]="songId"
     [class.blur]="songId === 'title'"
+    [class.no-logo]="presentationBackground!=='none'"
     [class.hide]="songId !== 'title' && songId !== 'empty'"
     class="start fullscreen logo"
   >

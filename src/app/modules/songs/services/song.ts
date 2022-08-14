@@ -1,4 +1,5 @@
 import firebase from 'firebase/compat/app';
+import {SongLegalOwner, SongLegalType, SongStatus, SongType} from './song.service';
 import Timestamp = firebase.firestore.Timestamp;
 
 export interface Song {
@@ -10,12 +11,12 @@ export interface Song {
   tempo: number;
   text: string;
   title: string;
-  type: string;
+  type: SongType;
   flags: string;
-  status: string;
+  status: SongStatus;
 
-  legalType: string;
-  legalOwner: string;
+  legalType: SongLegalType;
+  legalOwner: SongLegalOwner;
   legalOwnerId: string;
 
   artist: string;

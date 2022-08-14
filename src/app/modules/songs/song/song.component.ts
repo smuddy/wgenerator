@@ -8,8 +8,7 @@ import {FileDataService} from '../services/file-data.service';
 import {File} from '../services/file';
 import {UserService} from '../../../services/user/user.service';
 import {User} from '../../../services/user/user';
-import {faEdit} from '@fortawesome/free-solid-svg-icons/faEdit';
-import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash';
+import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-song',

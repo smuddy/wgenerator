@@ -1,12 +1,20 @@
 @import "../../../../styles/shadow";
 
 .song {
-  background: #fff5;
+  background: #fff;
   width: 100%;
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 10px;
   box-sizing: border-box;
+
+  @media screen and (max-width: 860px) {
+    width: 100vw;
+    padding: 10px 20px;
+    border-radius: 0;
+    box-sizing: border-box;
+    margin: 0 -20px 10px;
+  }
 }
 
 .title {
@@ -35,19 +43,23 @@
   overflow: hidden;
   transition: 300ms all ease-in-out;
   cursor: pointer;
-  // .card-1;
+  outline: 0.5px solid #f4f4f4;
 
   &:hover {
     .card-1;
+    outline: 0px solid transparent;
   }
 
   &.active {
     .card-2;
+    outline: 0px solid transparent;
 
     .head {
       background: #4286f4;
       color: white;
-      border-bottom: 0.5px solid #4286f4;
+    }
+
+    .fragment {
     }
   }
 }
@@ -55,7 +67,6 @@
 .head {
   transition: 300ms all ease-in-out;
   background: #f4f4f4;
-  border-bottom: 0.5px solid #ddd;
   padding: 10px;
   font-weight: bold;
 }
@@ -66,8 +77,20 @@
 
 .div-bottom {
   display: grid;
-  grid-template-columns: 60px auto;
+  gap: 20px;
+  grid-template-columns: min-content min-content auto;
+
+  @media screen and (max-width: 860px) {
+    gap: 0;
+    grid-template-columns: auto;
+  }
+
+  ::ng-deep.mat-form-field-wrapper {
+    margin: 0;
+    padding: 0;
+  }
 }
+
 
 .padding-bottom {
   padding-bottom: 20px;
@@ -77,6 +100,7 @@ a {
   font-size: 30px;
   padding: 10px;
   transition: all 300ms ease-in-out;
+
   &:hover {
     color: #4286f4;
   }

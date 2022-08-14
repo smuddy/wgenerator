@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {distinctUntilChanged, filter, map, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from 'rxjs/operators';
 import {ShowService} from '../../shows/services/show.service';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
@@ -9,7 +9,7 @@ import {Observable} from 'rxjs';
 import {ConfigService} from '../../../services/config.service';
 import {songSwitch} from '../../../widget-modules/components/song-text/animation';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
-import {Show} from '../../shows/services/show';
+import {PresentationBackground, Show} from '../../shows/services/show';
 import {GlobalSettings} from '../../../services/global-settings';
 import {ShowSongService} from '../../shows/services/show-song.service';
 
@@ -28,6 +28,7 @@ export class MonitorComponent implements OnInit {
   public showType: string | null = null;
   public date: Date | null = null;
   public config$: Observable<Config | null>;
+  public presentationBackground: PresentationBackground = 'none';
 
   public constructor(
     private showService: ShowService,
@@ -43,6 +44,7 @@ export class MonitorComponent implements OnInit {
   public ngOnInit(): void {
     this.globalSettingsService.get$
       .pipe(
+        debounceTime(100),
         filter(_ => !!_),
         map(_ => _ as GlobalSettings),
         map(_ => _.currentShow),
@@ -53,16 +55,15 @@ export class MonitorComponent implements OnInit {
         switchMap(_ => this.showService.read$(_)),
         filter(_ => !!_),
         map(_ => _ as Show),
-        tap<Show>(_ => (this.showType = _.showType)),
-        tap<Show>(_ => (this.date = _.date.toDate())),
         tap<Show>(_ => {
+          this.showType = _.showType;
+          this.date = _.date.toDate();
+          this.index = _.presentationSection;
+          this.presentationBackground = _.presentationBackground;
+          this.zoom = _.presentationZoom ?? 30;
           if (this.songId !== _.presentationSongId) this.songId = 'empty';
           setTimeout(() => (this.songId = _.presentationSongId), 300);
         }),
-        tap<Show>(_ => (this.index = _.presentationSection)),
-        tap<Show>(_ => (this.zoom = _.presentationZoom ?? 30))
-      )
-      .pipe(
         switchMap((_: Show) => this.showSongService.read$(_.id, _.presentationSongId)),
         filter(_ => !!_),
         map(_ => _ as Song)

@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
-import {faSignInAlt} from '@fortawesome/free-solid-svg-icons/faSignInAlt';
-import {faUserPlus} from '@fortawesome/free-solid-svg-icons/faUserPlus';
+import {faSignInAlt, faUserPlus} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',

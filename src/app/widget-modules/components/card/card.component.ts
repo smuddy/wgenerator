@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-card',

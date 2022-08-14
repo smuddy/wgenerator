@@ -1,6 +1,8 @@
 import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
 
+export type PresentationBackground = 'none' | 'blue' | 'green' | 'leder' | 'praise';
+
 export interface Show {
   id: string;
   showType: string;
@@ -15,4 +17,5 @@ export interface Show {
   presentationSongId: string;
   presentationSection: number;
   presentationZoom: number;
+  presentationBackground: PresentationBackground;
 }

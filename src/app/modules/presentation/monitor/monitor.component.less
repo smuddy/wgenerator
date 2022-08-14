@@ -21,7 +21,54 @@
 
   flex-direction: column;
   justify-content: space-between;
-  transition: 300ms all ease-in-out;
+  transition: 30ms all ease-in-out;
+}
+
+.bg-image {
+  z-index: 0;
+  opacity: 0;
+  background-size: cover;
+  transition: 5000ms opacity ease-in-out;
+}
+
+.bg-blue {
+  background-image: url("/assets/bg-dark-blue.jpg");
+  filter: blur(10px);
+  &.visible {
+    opacity: 0.5;
+  }
+}
+
+.bg-green {
+  background-image: url("/assets/bg-dark-green.jpg");
+  filter: blur(5px);
+  &.visible {
+    opacity: 0.9;
+  }
+}
+
+.bg-leder {
+  background-image: url("/assets/bg-leder.jpg");
+  filter: blur(5px);
+  &.visible {
+    opacity: 0.4;
+  }
+}
+
+.bg-praise {
+  background-image: url("/assets/bg-praise.jpg");
+  filter: blur(8px);
+  &.visible {
+    opacity: 0.2;
+  }
+}
+
+.bg-bible {
+  background-image: url("/assets/bg-bible.jpg");
+  filter: blur(8px);
+  &.visible {
+    opacity: 0.2;
+  }
 }
 
 .start {
@@ -56,4 +103,7 @@
   filter: blur(30px);
   opacity: 0.1;
   transform: scale(0.8) translateY(-10%);
+  &.no-logo {
+    opacity: 0;
+  }
 }

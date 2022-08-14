@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {faFilter} from '@fortawesome/free-solid-svg-icons/faFilter';
-import {faPlus} from '@fortawesome/free-solid-svg-icons/faPlus';
+import {faFilter, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {fade} from '../../../animations';
 
 @Component({

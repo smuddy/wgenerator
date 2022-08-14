@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {User} from '../../../../../services/user/user';
 import {UserService} from '../../../../../services/user/user.service';
 import {ROLE_TYPES} from '../../../../../services/user/roles';
-import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-user',

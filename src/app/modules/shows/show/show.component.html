@@ -8,7 +8,7 @@
     <i>{{show.public ? 'öffentliche' : 'geschlossene'}} Veranstaltung von
       <app-user-name [userId]="show.owner"></app-user-name>
     </i>
-    <p *ngIf="!show.published">
+    <p >
       <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
     </p>
     <div *ngIf="showSongs" class="song-list" cdkDropList [cdkDropListDisabled]="show.published"

@@ -1,14 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash';
 import {ShowSongService} from '../../services/show-song.service';
 import {ShowSong} from '../../services/show-song';
 import {getScale} from '../../../songs/services/key.helper';
 import {FormControl} from '@angular/forms';
 import {ChordMode} from '../../../../widget-modules/components/song-text/song-text.component';
 import {Show} from '../../services/show';
-import {faPenToSquare} from '@fortawesome/free-solid-svg-icons/faPenToSquare';
-import {faSave} from '@fortawesome/free-solid-svg-icons/faSave';
-import {faEraser} from '@fortawesome/free-solid-svg-icons/faEraser';
+import {faEraser, faPenToSquare, faSave, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {fade} from '../../../../animations';
 
 @Component({

@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Observable} from 'rxjs';
 import {File} from '../../../../services/file';
-import {faTrashAlt} from '@fortawesome/free-solid-svg-icons/faTrashAlt';
+import {faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import {FileService} from '../../../../services/file.service';
 
 @Component({

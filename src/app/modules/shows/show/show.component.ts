@@ -9,13 +9,7 @@ import {Song} from '../../songs/services/song';
 import {ShowSongService} from '../services/show-song.service';
 import {ShowSong} from '../services/show-song';
 import {DocxService} from '../services/docx.service';
-import {faBox} from '@fortawesome/free-solid-svg-icons/faBox';
-import {faBoxOpen} from '@fortawesome/free-solid-svg-icons/faBoxOpen';
-import {faExternalLinkAlt} from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt';
-import {faLock} from '@fortawesome/free-solid-svg-icons/faLock';
-import {faFileDownload} from '@fortawesome/free-solid-svg-icons/faFileDownload';
-import {faUser} from '@fortawesome/free-solid-svg-icons/faUser';
-import {faUsers} from '@fortawesome/free-solid-svg-icons/faUsers';
+import {faBox, faBoxOpen, faExternalLinkAlt, faFileDownload, faLock, faUser, faUsers} from '@fortawesome/free-solid-svg-icons';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({

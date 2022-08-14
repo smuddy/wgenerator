@@ -8,15 +8,20 @@ import Timestamp = firebase.firestore.Timestamp;
 
 // declare let importCCLI: any;
 
+export type SongType = 'Praise' | 'Worship' | 'Misc';
+export type SongStatus = 'draft' | 'set' | 'final';
+export type SongLegalOwner = 'CCLI' | 'other';
+export type SongLegalType = 'open' | 'allowed';
+
 @Injectable({
   providedIn: 'root',
 })
 export class SongService {
-  public static TYPES = ['Praise', 'Worship'];
-  public static STATUS = ['draft', 'set', 'final'];
+  public static TYPES: SongType[] = ['Praise', 'Worship', 'Misc'];
+  public static STATUS: SongStatus[] = ['draft', 'set', 'final'];
 
-  public static LEGAL_OWNER = ['CCLI', 'other'];
-  public static LEGAL_TYPE = ['open', 'allowed'];
+  public static LEGAL_OWNER: SongLegalOwner[] = ['CCLI', 'other'];
+  public static LEGAL_TYPE: SongLegalType[] = ['open', 'allowed'];
 
   // private list: Song[];
 

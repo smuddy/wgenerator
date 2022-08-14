@@ -8,9 +8,7 @@ import {first, map, switchMap} from 'rxjs/operators';
 import {KEYS} from '../../../services/key.helper';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {faTimesCircle} from '@fortawesome/free-solid-svg-icons/faTimesCircle';
-import {faSave} from '@fortawesome/free-solid-svg-icons/faSave';
-import {faExternalLinkAlt} from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt';
+import {faExternalLinkAlt, faSave, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import {MatDialog} from '@angular/material/dialog';
 import {SaveDialogComponent} from './save-dialog/save-dialog.component';
 
@@ -54,8 +52,8 @@ export class EditSongComponent implements OnInit {
         this.song = song;
         if (!song) return;
         this.form = this.editService.createSongForm(song);
-        this.form.controls.flags.valueChanges.subscribe(_ => this.onFlagsChanged(_));
-        this.onFlagsChanged(this.form.controls.flags.value);
+        this.form.controls.flags.valueChanges.subscribe(_ => this.onFlagsChanged(_ as string));
+        this.onFlagsChanged(this.form.controls.flags.value as string);
       });
   }
 

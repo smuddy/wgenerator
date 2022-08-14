@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {faSave} from '@fortawesome/free-solid-svg-icons/faSave';
+import {faSave} from '@fortawesome/free-solid-svg-icons';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SongService} from '../../services/song.service';
 import {Song} from '../../services/song';

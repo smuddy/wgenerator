@@ -1,5 +1,5 @@
 <div *ngIf="iSong && iSong && show">
-  <div @fade *ngIf="show.published" class="title published">{{ iSong.title }}</div>
+  <div @fade *ngIf="show.published" class="title published">{{ iSong.key }} - {{ iSong.title }}</div>
 
   <div @fade *ngIf="!show.published" class="song">
     <span class="title">{{ iSong.title }}</span>
@@ -31,7 +31,7 @@
 
   <app-song-text
     (chordModeChanged)="onChordModeChanged($event)"
-    *ngIf="!edit && (showText || show.published)"
+    *ngIf="!edit && (showText )"
     [chordMode]="iSong.chordMode"
     [showSwitch]="!show.published"
     [text]="iSong.text"

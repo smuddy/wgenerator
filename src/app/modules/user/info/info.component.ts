@@ -3,7 +3,7 @@ import {UserService} from '../../../services/user/user.service';
 import {Observable} from 'rxjs';
 import {User} from '../../../services/user/user';
 import {ChordMode} from '../../../widget-modules/components/song-text/song-text.component';
-import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons/faSignOutAlt';
+import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import {RolePipe} from './role.pipe';
 import {roles} from '../../../services/user/roles';
 
