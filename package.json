@@ -1,10 +1,10 @@
 {
   "name": "wgenerator",
-  "version": "1.0",
+  "version": "1.1",
   "scripts": {
     "start": "ng serve",
     "build": "ng build",
-    "deploy": "npm i && ng build --prod && firebase deploy",
+    "deploy": "npm i && ng build --configuration production && firebase deploy",
     "test": "ng test",
     "lint": "ng lint --fix",
     "postinstall": "ngcc"
