@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {filterSong} from '../../../services/filter.helper';
 import {MatSelectChange} from '@angular/material/select';
 import {Song} from '../../../modules/songs/services/song';
@@ -18,7 +18,7 @@ export class AddSongComponent {
   @Input() public showSongs: ShowSong[] | null = null;
   @Input() public show: Show | null = null;
   @Input() public addedLive = false;
-  public filteredSongsControl = new FormControl();
+  public filteredSongsControl = new UntypedFormControl();
 
   public constructor(private showSongService: ShowSongService, private showService: ShowService) {}
 
@@ -45,7 +45,7 @@ export class AddSongComponent {
 
   public async onAddSongSelectionChanged(event: MatSelectChange): Promise<void> {
     if (!this.show) return;
-    const newId = await this.showSongService.new$(this.show?.id, event.value, this.addedLive);
+    const newId = await this.showSongService.new$(this.show?.id, event.value as string, this.addedLive);
     await this.showService.update$(this.show?.id, {order: [...this.show.order, newId ?? '']});
     event.source.value = null;
   }

@@ -13,7 +13,8 @@
     padding: 10px 20px;
     border-radius: 0;
     box-sizing: border-box;
-    margin: 0 -20px 10px;
+    margin: -11px -20px 10px;
+    border: 1px solid #ddd;
   }
 }
 
@@ -43,16 +44,16 @@
   overflow: hidden;
   transition: 300ms all ease-in-out;
   cursor: pointer;
-  outline: 0.5px solid #f4f4f4;
+  outline: 0.5px solid #eee;
 
   &:hover {
     .card-1;
-    outline: 0px solid transparent;
+    outline: 0 solid transparent;
   }
 
   &.active {
     .card-2;
-    outline: 0px solid transparent;
+    outline: 0 solid transparent;
 
     .head {
       background: #4286f4;
@@ -66,7 +67,7 @@
 
 .head {
   transition: 300ms all ease-in-out;
-  background: #f4f4f4;
+  background: #eee;
   padding: 10px;
   font-weight: bold;
 }
@@ -81,7 +82,7 @@
   grid-template-columns: min-content min-content auto;
 
   @media screen and (max-width: 860px) {
-    gap: 0;
+    gap: 10px;
     grid-template-columns: auto;
   }
 

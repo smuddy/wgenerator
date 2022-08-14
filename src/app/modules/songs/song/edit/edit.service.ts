@@ -1,30 +1,30 @@
 import {Injectable} from '@angular/core';
 import {Song} from '../../services/song';
-import {FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EditService {
-  public createSongForm(song: Song): FormGroup {
-    return new FormGroup({
-      text: new FormControl(song.text),
-      title: new FormControl(song.title),
-      comment: new FormControl(song.comment),
-      flags: new FormControl(song.flags),
-      key: new FormControl(song.key),
-      tempo: new FormControl(song.tempo),
-      type: new FormControl(song.type),
-      status: new FormControl(song.status ?? 'draft'),
+  public createSongForm(song: Song): UntypedFormGroup {
+    return new UntypedFormGroup({
+      text: new UntypedFormControl(song.text),
+      title: new UntypedFormControl(song.title),
+      comment: new UntypedFormControl(song.comment),
+      flags: new UntypedFormControl(song.flags),
+      key: new UntypedFormControl(song.key),
+      tempo: new UntypedFormControl(song.tempo),
+      type: new UntypedFormControl(song.type),
+      status: new UntypedFormControl(song.status ?? 'draft'),
 
-      legalType: new FormControl(song.legalType),
-      legalOwner: new FormControl(song.legalOwner),
-      legalOwnerId: new FormControl(song.legalOwnerId),
+      legalType: new UntypedFormControl(song.legalType),
+      legalOwner: new UntypedFormControl(song.legalOwner),
+      legalOwnerId: new UntypedFormControl(song.legalOwnerId),
 
-      artist: new FormControl(song.artist),
-      label: new FormControl(song.label),
-      termsOfUse: new FormControl(song.termsOfUse),
-      origin: new FormControl(song.origin),
+      artist: new UntypedFormControl(song.artist),
+      label: new UntypedFormControl(song.label),
+      termsOfUse: new UntypedFormControl(song.termsOfUse),
+      origin: new UntypedFormControl(song.origin),
     });
   }
 }

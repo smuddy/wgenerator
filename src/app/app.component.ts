@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   public static hideLoader: () => void = () => document.querySelector('#load-bg')?.classList.add('hidden');
 
   public ngOnInit(): void {
-    setTimeout(() => AppComponent.hideLoader(), 800);
+    setTimeout(() => AppComponent.hideLoader(), 2000);
   }
 
   public onScoll($event: {srcElement: {scrollTop: number}}): void {

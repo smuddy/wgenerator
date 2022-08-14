@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {SongService} from '../../services/song.service';
 import {FilterValues} from './filter-values';
 import {Song} from '../../services/song';
@@ -12,14 +12,14 @@ import {KEYS} from '../../services/key.helper';
   styleUrls: ['./filter.component.less'],
 })
 export class FilterComponent {
-  public filterFormGroup: FormGroup;
+  public filterFormGroup: UntypedFormGroup;
   @Input() public route = '/';
   @Input() public songs: Song[] = [];
   public types = SongService.TYPES;
   public legalType = SongService.LEGAL_TYPE;
   public keys = KEYS;
 
-  public constructor(private router: Router, activatedRoute: ActivatedRoute, fb: FormBuilder) {
+  public constructor(private router: Router, activatedRoute: ActivatedRoute, fb: UntypedFormBuilder) {
     this.filterFormGroup = fb.group({
       q: '',
       type: '',

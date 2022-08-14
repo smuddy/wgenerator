@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
 import {faWindowRestore} from '@fortawesome/free-solid-svg-icons';
@@ -10,8 +10,8 @@ import {faWindowRestore} from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./password.component.less'],
 })
 export class PasswordComponent implements OnInit {
-  public form: FormGroup = new FormGroup({
-    user: new FormControl(null, [Validators.required, Validators.email]),
+  public form: UntypedFormGroup = new UntypedFormGroup({
+    user: new UntypedFormControl(null, [Validators.required, Validators.email]),
   });
 
   public errorMessage = '';

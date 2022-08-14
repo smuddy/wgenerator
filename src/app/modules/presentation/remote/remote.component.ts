@@ -8,7 +8,7 @@ import {faDesktop} from '@fortawesome/free-solid-svg-icons';
 import {ShowService} from '../../shows/services/show.service';
 import {ShowSong} from '../../shows/services/show-song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {fade} from '../../../animations';
 import {delay} from '../../../services/delay';
@@ -38,7 +38,7 @@ export class RemoteComponent {
   public progress = false;
 
   public faDesktop = faDesktop;
-  public showControl = new FormControl();
+  public showControl = new UntypedFormControl();
 
   public trackBy(index: number, item: PresentationSong): string {
     return item.id;

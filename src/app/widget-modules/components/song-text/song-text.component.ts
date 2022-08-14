@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {TextRenderingService} from '../../../modules/songs/services/text-rendering.service';
-import {faGripLines} from '@fortawesome/free-solid-svg-icons/faGripLines';
+import {faGripLines} from '@fortawesome/free-solid-svg-icons';
 import {songSwitch} from './animation';
 import {TransposeMode} from '../../../modules/songs/services/transpose-mode';
 import {SectionType} from '../../../modules/songs/services/section-type';

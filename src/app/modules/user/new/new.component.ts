@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../services/user/user.service';
 import {faUserPlus} from '@fortawesome/free-solid-svg-icons';
 
@@ -9,14 +9,14 @@ import {faUserPlus} from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./new.component.less'],
 })
 export class NewComponent implements OnInit {
-  public form: FormGroup = this.fb.group({
-    email: new FormControl(null, [Validators.required, Validators.email]),
-    name: new FormControl(null, [Validators.required]),
-    password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+  public form: UntypedFormGroup = this.fb.group({
+    email: new UntypedFormControl(null, [Validators.required, Validators.email]),
+    name: new UntypedFormControl(null, [Validators.required]),
+    password: new UntypedFormControl(null, [Validators.required, Validators.minLength(6)]),
   });
   public faNewUser = faUserPlus;
 
-  public constructor(private fb: FormBuilder, private userService: UserService) {}
+  public constructor(private fb: UntypedFormBuilder, private userService: UserService) {}
 
   public ngOnInit(): void {
     this.form.reset();

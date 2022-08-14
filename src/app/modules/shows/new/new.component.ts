@@ -3,7 +3,7 @@ import {ShowDataService} from '../services/show-data.service';
 import {Observable} from 'rxjs';
 import {Show} from '../services/show';
 import {ShowService} from '../services/show.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
 
@@ -16,9 +16,9 @@ export class NewComponent implements OnInit {
   public shows$: Observable<Show[]>;
   public showTypePublic = ShowService.SHOW_TYPE_PUBLIC;
   public showTypePrivate = ShowService.SHOW_TYPE_PRIVATE;
-  public form: FormGroup = new FormGroup({
-    date: new FormControl(null, Validators.required),
-    showType: new FormControl(null, Validators.required),
+  public form: UntypedFormGroup = new UntypedFormGroup({
+    date: new UntypedFormControl(null, Validators.required),
+    showType: new UntypedFormControl(null, Validators.required),
   });
   public faSave = faSave;
 

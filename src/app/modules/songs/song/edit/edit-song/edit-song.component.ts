@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Song} from '../../../services/song';
-import {FormGroup} from '@angular/forms';
+import {UntypedFormGroup} from '@angular/forms';
 import {ActivatedRoute, Router, RouterStateSnapshot} from '@angular/router';
 import {SongService} from '../../../services/song.service';
 import {EditService} from '../edit.service';
@@ -19,7 +19,7 @@ import {SaveDialogComponent} from './save-dialog/save-dialog.component';
 })
 export class EditSongComponent implements OnInit {
   public song: Song | null = null;
-  public form: FormGroup = new FormGroup({});
+  public form: UntypedFormGroup = new UntypedFormGroup({});
   public keys = KEYS;
   public types = SongService.TYPES;
   public status = SongService.STATUS;

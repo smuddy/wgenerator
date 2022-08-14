@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {SongService} from '../../services/song.service';
 import {Song} from '../../services/song';
 import {Router} from '@angular/router';
@@ -13,9 +13,9 @@ import {Subscription} from 'rxjs';
 })
 export class NewComponent implements OnInit, OnDestroy {
   public faSave = faSave;
-  public form: FormGroup = new FormGroup({
-    number: new FormControl(null, Validators.required),
-    title: new FormControl(null, Validators.required),
+  public form: UntypedFormGroup = new UntypedFormGroup({
+    number: new UntypedFormControl(null, Validators.required),
+    title: new UntypedFormControl(null, Validators.required),
   });
 
   public constructor(private songService: SongService, private router: Router) {}

@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
-import {faMusic, faPersonBooth, faUserCog} from '@fortawesome/free-solid-svg-icons';
+import {faChalkboard, faMusic, faPersonBooth, faUserCog} from '@fortawesome/free-solid-svg-icons';
 import {fromEvent, Observable} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, startWith} from 'rxjs/operators';
-import {faChalkboard} from '@fortawesome/free-solid-svg-icons/faChalkboard';
 
 @Component({
   selector: 'app-navigation',

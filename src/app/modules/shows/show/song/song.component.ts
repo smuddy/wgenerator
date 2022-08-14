@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ShowSongService} from '../../services/show-song.service';
 import {ShowSong} from '../../services/show-song';
 import {getScale} from '../../../songs/services/key.helper';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {ChordMode} from '../../../../widget-modules/components/song-text/song-text.component';
 import {Show} from '../../services/show';
 import {faEraser, faPenToSquare, faSave, faTrash} from '@fortawesome/free-solid-svg-icons';
@@ -25,10 +25,10 @@ export class SongComponent implements OnInit {
   public faEdit = faPenToSquare;
   public faSave = faSave;
   public faEraser = faEraser;
-  public keyFormControl: FormControl = new FormControl();
+  public keyFormControl: UntypedFormControl = new UntypedFormControl();
   public iSong: ShowSong | null = null;
   public edit = false;
-  public editSongControl = new FormControl();
+  public editSongControl = new UntypedFormControl();
 
   public constructor(private showSongService: ShowSongService) {}
 
@@ -40,7 +40,7 @@ export class SongComponent implements OnInit {
 
   public ngOnInit(): void {
     if (!this.iSong) return;
-    this.keyFormControl = new FormControl(this.iSong.key);
+    this.keyFormControl = new UntypedFormControl(this.iSong.key);
     this.keyFormControl.valueChanges.subscribe((value: string) => {
       if (!this.showId || !this.iSong) return;
       void this.showSongService.update$(this.showId, this.iSong.id, {key: value});
