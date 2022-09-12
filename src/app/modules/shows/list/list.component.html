@@ -1,5 +1,8 @@
 <div>
   <app-list-header *appRole="['leader']"></app-list-header>
+<!--  <app-list-header *appRole="['leader']">-->
+<!--    <app-filter *ngIf="shows$ | async as shows" [shows]="getPublicShows(shows)"></app-filter>-->
+<!--  </app-list-header>-->
 
   <ng-container *appRole="['leader']">
     <ng-container *ngIf="shows$ | async as shows">

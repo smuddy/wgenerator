@@ -32,9 +32,10 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {RoleModule} from '../../services/user/role.module';
 import {SortByModule} from '../../widget-modules/pipes/sort-by/sort-by.module';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {FilterComponent} from './list/filter/filter.component';
 
 @NgModule({
-  declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent],
+  declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent, FilterComponent],
   imports: [
     CommonModule,
     ShowsRoutingModule,

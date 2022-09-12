@@ -51,7 +51,9 @@ export class RemoteComponent {
     private textRenderingService: TextRenderingService,
     private globalSettingsService: GlobalSettingsService
   ) {
-    this.shows$ = showService.list$(true).pipe(map(_ => _.sort((a, b) => (b.date < a.date ? -1 : b.date > a.date ? 1 : 0))));
+    this.shows$ = showService
+      .list$(true)
+      .pipe(map(_ => _.filter(_ => _.date.toDate() > new Date(new Date().setMonth(new Date().getMonth() - 1))).sort((a, b) => (b.date < a.date ? -1 : b.date > a.date ? 1 : 0))));
     songService.list$().subscribe(_ => (this.songs = _));
 
     globalSettingsService.get$
