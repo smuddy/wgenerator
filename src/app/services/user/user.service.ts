@@ -23,6 +23,8 @@ export class UserService {
         switchMap(uid => this.readUser$(uid))
       )
       .subscribe(_ => this.iUser$.next(_));
+
+    this.db.col$<User>('users/').subscribe(_ => this.users$.next(_));
   }
 
   public get userId$(): Observable<string | null> {
@@ -35,8 +37,9 @@ export class UserService {
 
   public currentUser = async (): Promise<User | null> => firstValueFrom(this.user$);
 
+  private users$ = new BehaviorSubject<User[]>([]);
   public getUserbyId = (userId: string): Promise<User | null> => firstValueFrom(this.getUserbyId$(userId));
-  public getUserbyId$ = (userId: string): Observable<User | null> => this.db.doc$<User>('users/' + userId);
+  public getUserbyId$ = (userId: string): Observable<User | null> => this.users$.pipe(map(_ => _.find(f => f.id === userId) || null));
 
   public async login(user: string, password: string): Promise<string | null> {
     const aUser = await this.afAuth.signInWithEmailAndPassword(user, password);
@@ -44,6 +47,7 @@ export class UserService {
     const dUser = await this.readUser(aUser.user.uid);
     this.iUser$.next(dUser);
     this.iUserId$.next(aUser.user.uid);
+
     return aUser.user.uid;
   }
 
