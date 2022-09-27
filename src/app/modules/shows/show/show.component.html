@@ -8,10 +8,16 @@
     <i>{{show.public ? 'öffentliche' : 'geschlossene'}} Veranstaltung von
       <app-user-name [userId]="show.owner"></app-user-name>
     </i>
-    <p >
+    <div class="head">
       <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
-    </p>
-    <div *ngIf="showSongs" class="song-list" cdkDropList [cdkDropListDisabled]="show.published"
+      <div>
+        <app-menu-button @fade  (click)="onZoomOut()" [icon]="faZoomOut" class="btn-delete btn-icon" matTooltip="Vergrößern"></app-menu-button>
+        <app-menu-button @fade  (click)="onZoomIn()" [icon]="faZoomIn" class="btn-delete btn-icon" matTooltip="Verkleinern"></app-menu-button>
+      </div>
+    </div>
+    <div *ngIf="showSongs" class="song-list" cdkDropList [cdkDropListDisabled]="show.published || showText"
+         [style.cursor]="!(show.published || showText) ? 'drag' : 'inherit'"
+         [style.font-size]="textSize + 'em'"
          (cdkDropListDropped)="drop($event, show)">
       <div *ngFor="let song of orderedShowSongs(show); let i = index; trackBy: trackBy" class="song-row" cdkDrag>
         <app-song

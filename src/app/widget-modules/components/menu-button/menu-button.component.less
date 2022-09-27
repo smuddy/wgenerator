@@ -1,7 +1,9 @@
 button {
   min-width: 0;
-  padding: 0 5px;
+  padding: 0 var(--button-padding, 5px);
+  font-size: var(--button-font-size, 1em);
   @media screen and (max-width: 860px) {
-    padding: 0 15px;
+    padding: 0 var(--button-padding-mobile, 15px);
+    font-size: var(--button-font-size-mobile, 1em);
   }
 }

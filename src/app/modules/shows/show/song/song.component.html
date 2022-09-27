@@ -30,6 +30,7 @@
   </app-button-row>
 
   <app-song-text
+    @fade
     (chordModeChanged)="onChordModeChanged($event)"
     *ngIf="!edit && (showText )"
     [chordMode]="iSong.chordMode"

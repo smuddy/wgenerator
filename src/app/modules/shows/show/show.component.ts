@@ -9,13 +9,15 @@ import {Song} from '../../songs/services/song';
 import {ShowSongService} from '../services/show-song.service';
 import {ShowSong} from '../services/show-song';
 import {DocxService} from '../services/docx.service';
-import {faBox, faBoxOpen, faExternalLinkAlt, faFileDownload, faLock, faUser, faUsers} from '@fortawesome/free-solid-svg-icons';
+import {faBox, faBoxOpen, faExternalLinkAlt, faFileDownload, faLock, faMagnifyingGlassMinus, faMagnifyingGlassPlus, faUser, faUsers} from '@fortawesome/free-solid-svg-icons';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {fade} from '../../../animations';
 
 @Component({
   selector: 'app-show',
   templateUrl: './show.component.html',
   styleUrls: ['./show.component.less'],
+  animations: [fade],
 })
 export class ShowComponent implements OnInit {
   public show$: Observable<Show | null> | null = null;
@@ -31,6 +33,8 @@ export class ShowComponent implements OnInit {
   public faDownload = faFileDownload;
   public faUser = faUser;
   public faUsers = faUsers;
+  public faZoomIn = faMagnifyingGlassPlus;
+  public faZoomOut = faMagnifyingGlassMinus;
 
   public constructor(
     private activatedRoute: ActivatedRoute,
@@ -60,6 +64,14 @@ export class ShowComponent implements OnInit {
       .list$()
       .pipe(filter(_ => !!_))
       .subscribe(_ => (this.songs = _));
+  }
+
+  public textSize = 1;
+  public onZoomIn() {
+    this.textSize += 0.1;
+  }
+  public onZoomOut() {
+    this.textSize -= 0.1;
   }
 
   public getSong(songId: string): Song | null {
