@@ -1,8 +1,8 @@
 <div>
-  <app-list-header *appRole="['leader']"></app-list-header>
-<!--  <app-list-header *appRole="['leader']">-->
-<!--    <app-filter *ngIf="shows$ | async as shows" [shows]="getPublicShows(shows)"></app-filter>-->
-<!--  </app-list-header>-->
+<!--  <app-list-header *appRole="['leader']"></app-list-header>-->
+  <app-list-header *appRole="['leader']">
+    <app-filter *ngIf="shows$ | async as shows" [shows]="shows"></app-filter>
+  </app-list-header>
 
   <ng-container *appRole="['leader']">
     <ng-container *ngIf="shows$ | async as shows">
@@ -21,15 +21,15 @@
     </ng-container>
   </ng-container>
 
-  <ng-container *ngIf="shows$ | async as shows">
+  <ng-container *ngIf="publicShows$ | async as shows">
     <app-card
-      *ngIf="getPublicShows(shows).length > 0"
+      *ngIf="shows.length > 0"
       @fade
       [padding]="false"
       heading="veröffentlichte Veranstaltungen"
     >
       <app-list-item
-        *ngFor="let show of getPublicShows(shows) | sortBy: 'desc':'date'; trackBy: trackBy"
+        *ngFor="let show of shows | sortBy: 'desc':'date'; trackBy: trackBy"
         [routerLink]="show.id"
         [show]="show"
       ></app-list-item>

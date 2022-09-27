@@ -29,7 +29,7 @@ export class FilterComponent {
 
     activatedRoute.queryParams.subscribe(params => {
       const filterValues = params as FilterValues;
-      if (filterValues.time) this.filterFormGroup.controls.time.setValue(filterValues.time);
+      if (filterValues.time) this.filterFormGroup.controls.time.setValue(+filterValues.time);
     });
 
     this.filterFormGroup.controls.time.valueChanges.subscribe(_ => void this.filerValueChanged('time', _ as number));
