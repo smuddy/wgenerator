@@ -62,7 +62,7 @@ export class MonitorComponent implements OnInit {
           this.presentationBackground = _.presentationBackground;
           this.zoom = _.presentationZoom ?? 30;
           if (this.songId !== _.presentationSongId) this.songId = 'empty';
-          setTimeout(() => (this.songId = _.presentationSongId), 300);
+          setTimeout(() => (this.songId = _.presentationSongId), 600);
         }),
         switchMap((_: Show) => this.showSongService.read$(_.id, _.presentationSongId)),
         filter(_ => !!_),

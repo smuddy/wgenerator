@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {combineLatest, Observable} from 'rxjs';
 import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
@@ -11,7 +11,6 @@ import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {UntypedFormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {fade} from '../../../animations';
-import {delay} from '../../../services/delay';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Section} from '../../songs/services/section';
 import {GlobalSettings} from '../../../services/global-settings';
@@ -27,6 +26,7 @@ export interface PresentationSong {
   templateUrl: './remote.component.html',
   styleUrls: ['./remote.component.less'],
   animations: [fade],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RemoteComponent {
   public shows$: Observable<Show[]>;
@@ -71,32 +71,29 @@ export class RemoteComponent {
   }
 
   public async onShowChanged(change: string, updateShow = true): Promise<void> {
-    this.progress = true;
     if (updateShow) {
-      await this.showService.update$(change, {presentationSongId: 'empty'});
-      await delay(200);
       await this.globalSettingsService.set({currentShow: change});
       await this.showService.update$(change, {presentationSongId: 'title'});
     }
     this.currentShowId = change;
     this.showService
       .read$(change)
-      .pipe(debounceTime(100))
+      .pipe(debounceTime(10))
       .subscribe(show => {
         this.show = show;
       });
 
-    combineLatest([this.showService.read$(change), this.showSongService.list$(change)]).subscribe(([show, list]) => {
-      this.showSongs = list;
-      const presentationSongs = list.map(song => ({
-        id: song.id,
-        title: song.title,
-        sections: this.textRenderingService.parse(song.text, null),
-      }));
-      this.presentationSongs = show?.order.map(_ => presentationSongs.filter(f => f.id === _)[0]) ?? [];
-    });
-    await delay(500);
-    this.progress = false;
+    combineLatest([this.showService.read$(change), this.showSongService.list$(change)])
+      .pipe(debounceTime(10))
+      .subscribe(([show, list]) => {
+        this.showSongs = list;
+        const presentationSongs = list.map(song => ({
+          id: song.id,
+          title: song.title,
+          sections: this.textRenderingService.parse(song.text, null),
+        }));
+        this.presentationSongs = show?.order.map(_ => presentationSongs.filter(f => f.id === _)[0]) ?? [];
+      });
   }
 
   public getFirstLine(section: Section): string {
