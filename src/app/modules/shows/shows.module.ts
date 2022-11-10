@@ -33,9 +33,10 @@ import {RoleModule} from '../../services/user/role.module';
 import {SortByModule} from '../../widget-modules/pipes/sort-by/sort-by.module';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {FilterComponent} from './list/filter/filter.component';
+import {EditComponent} from './edit/edit.component';
 
 @NgModule({
-  declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent, FilterComponent],
+  declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent, FilterComponent, EditComponent],
   imports: [
     CommonModule,
     ShowsRoutingModule,

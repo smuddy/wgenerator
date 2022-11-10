@@ -5,14 +5,16 @@
       show.date.toDate() | date: 'dd.MM.yyyy'
     }} - {{ getStatus(show) }}"
   >
-    <i>{{show.public ? 'öffentliche' : 'geschlossene'}} Veranstaltung von
+    <p>{{show.public ? 'öffentliche' : 'geschlossene'}} Veranstaltung von
       <app-user-name [userId]="show.owner"></app-user-name>
-    </i>
+    </p>
     <div class="head">
       <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
       <div>
-        <app-menu-button @fade  (click)="onZoomOut()" [icon]="faZoomOut" class="btn-delete btn-icon" matTooltip="Vergrößern"></app-menu-button>
-        <app-menu-button @fade  (click)="onZoomIn()" [icon]="faZoomIn" class="btn-delete btn-icon" matTooltip="Verkleinern"></app-menu-button>
+        <app-menu-button @fade (click)="onZoomOut()" [icon]="faZoomOut" class="btn-delete btn-icon"
+                         matTooltip="Vergrößern"></app-menu-button>
+        <app-menu-button @fade (click)="onZoomIn()" [icon]="faZoomIn" class="btn-delete btn-icon"
+                         matTooltip="Verkleinern"></app-menu-button>
       </div>
     </div>
     <div *ngIf="showSongs" class="song-list" cdkDropList [cdkDropListDisabled]="show.published || showText"
@@ -40,46 +42,33 @@
     <app-button-row>
       <ng-container *appRole="['leader']">
         <ng-container *appOwner="show.owner">
-          <app-button
-            (click)="onArchive(true)"
-            *ngIf="!show.archived"
-            [icon]="faBox"
-          >
+          <app-button (click)="onArchive(true)" *ngIf="!show.archived" [icon]="faBox">
             Archivieren
           </app-button>
-          <app-button
-            (click)="onArchive(false)"
-            *ngIf="show.archived"
-            [icon]="faBoxOpen"
-          >
+          <app-button (click)="onArchive(false)" *ngIf="show.archived" [icon]="faBoxOpen">
             Wiederherstellen
           </app-button>
-          <app-button
-            (click)="onPublish(true)"
-            *ngIf="!show.published"
-            [icon]="faPublish"
-          >
+          <app-button (click)="onPublish(true)" *ngIf="!show.published" [icon]="faPublish">
             Veröffentlichen
           </app-button>
-          <app-button
-            (click)="onPublish(false)"
-            *ngIf="show.published"
-            [icon]="faUnpublish"
-          >
+          <app-button (click)="onPublish(false)" *ngIf="show.published" [icon]="faUnpublish">
             Veröffentlichung zurückziehen
+          </app-button>
+          <app-button (click)="onChange(show.id)" [icon]="faSliders" *ngIf="!show.published">
+            Ändern
           </app-button>
         </ng-container>
       </ng-container>
 
-      <app-button [icon]="faDownload" [matMenuTriggerFor]="menu"
-      >Herunterladen
+      <app-button [icon]="faDownload" [matMenuTriggerFor]="menu">
+        Herunterladen
       </app-button>
       <mat-menu #menu="matMenu">
-        <app-button (click)="onDownload()" [icon]="faUser"
-        >Ablauf für Lobpreisgruppe
+        <app-button (click)="onDownload()" [icon]="faUser">
+          Ablauf für Lobpreisgruppe
         </app-button>
-        <app-button (click)="onDownloadHandout()" [icon]="faUsers"
-        >Handout mit Copyright Infos
+        <app-button (click)="onDownloadHandout()" [icon]="faUsers">
+          Handout mit Copyright Infos
         </app-button>
       </mat-menu>
     </app-button-row>

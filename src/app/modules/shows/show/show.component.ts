@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ShowService} from '../services/show.service';
 import {Observable} from 'rxjs';
 import {Show} from '../services/show';
@@ -9,7 +9,18 @@ import {Song} from '../../songs/services/song';
 import {ShowSongService} from '../services/show-song.service';
 import {ShowSong} from '../services/show-song';
 import {DocxService} from '../services/docx.service';
-import {faBox, faBoxOpen, faExternalLinkAlt, faFileDownload, faLock, faMagnifyingGlassMinus, faMagnifyingGlassPlus, faUser, faUsers} from '@fortawesome/free-solid-svg-icons';
+import {
+  faBox,
+  faBoxOpen,
+  faExternalLinkAlt,
+  faFileDownload,
+  faLock,
+  faMagnifyingGlassMinus,
+  faMagnifyingGlassPlus,
+  faSliders,
+  faUser,
+  faUsers,
+} from '@fortawesome/free-solid-svg-icons';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {fade} from '../../../animations';
 
@@ -31,6 +42,7 @@ export class ShowComponent implements OnInit {
   public faPublish = faExternalLinkAlt;
   public faUnpublish = faLock;
   public faDownload = faFileDownload;
+  public faSliders = faSliders;
   public faUser = faUser;
   public faUsers = faUsers;
   public faZoomIn = faMagnifyingGlassPlus;
@@ -41,7 +53,8 @@ export class ShowComponent implements OnInit {
     private showService: ShowService,
     private songService: SongService,
     private showSongService: ShowSongService,
-    private docxService: DocxService
+    private docxService: DocxService,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -67,9 +80,11 @@ export class ShowComponent implements OnInit {
   }
 
   public textSize = 1;
+
   public onZoomIn() {
     this.textSize += 0.1;
   }
+
   public onZoomOut() {
     this.textSize -= 0.1;
   }
@@ -123,4 +138,8 @@ export class ShowComponent implements OnInit {
   }
 
   public trackBy = (index: number, show: ShowSong) => show.id;
+
+  public async onChange(showId: string) {
+    await this.router.navigateByUrl('/shows/' + showId + '/edit');
+  }
 }
