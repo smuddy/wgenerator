@@ -24,7 +24,7 @@ export class ShowService {
   public list$(publishedOnly = false): Observable<Show[]> {
     return this.userService.user$.pipe(
       switchMap(
-        () => this.showDataService.list$(),
+        () => this.showDataService.list$,
         (user: User | null, shows: Show[]) => ({user, shows})
       ),
       map(s => s.shows.filter(_ => !_.archived).filter(show => show.published || (show.owner === s.user?.id && !publishedOnly)))

@@ -1,4 +1,4 @@
-<div *ngIf="songs$ | async as songs" @fade>
+<div *ngIf="songs$ | async as songs">
   <app-list-header [anyFilterActive]="anyFilterActive">
     <app-filter [songs]="songs" route="songs"></app-filter>
   </app-list-header>

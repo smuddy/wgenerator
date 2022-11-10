@@ -3,7 +3,6 @@ import {combineLatest, Observable} from 'rxjs';
 import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {SongService} from '../../songs/services/song.service';
-import {Song} from '../../songs/services/song';
 import {faDesktop} from '@fortawesome/free-solid-svg-icons';
 import {ShowService} from '../../shows/services/show.service';
 import {ShowSong} from '../../shows/services/show-song';
@@ -32,7 +31,7 @@ export class RemoteComponent {
   public shows$: Observable<Show[]>;
   public show: Show | null = null;
   public showSongs: ShowSong[] = [];
-  public songs: Song[] = [];
+  public songs$ = this.songService.list$();
   public presentationSongs: PresentationSong[] = [];
   public currentShowId: string | null = null;
   public progress = false;
@@ -55,7 +54,6 @@ export class RemoteComponent {
     this.shows$ = showService
       .list$(true)
       .pipe(map(_ => _.filter(_ => _.date.toDate() > new Date(new Date().setMonth(new Date().getMonth() - 1))).sort((a, b) => (b.date < a.date ? -1 : b.date > a.date ? 1 : 0))));
-    songService.list$().subscribe(_ => (this.songs = _));
 
     globalSettingsService.get$
       .pipe(
@@ -72,29 +70,28 @@ export class RemoteComponent {
   }
 
   public async onShowChanged(change: string, updateShow = true): Promise<void> {
+    this.presentationSongs = [];
+    this.cRef.markForCheck();
+
     if (updateShow) {
       await this.globalSettingsService.set({currentShow: change});
       await this.showService.update$(change, {presentationSongId: 'title'});
     }
+
     this.currentShowId = change;
-    this.showService
-      .read$(change)
-      .pipe(debounceTime(10))
-      .subscribe(show => {
-        this.show = show;
-        this.cRef.markForCheck();
-      });
 
     combineLatest([this.showService.read$(change), this.showSongService.list$(change)])
-      .pipe(debounceTime(10))
+      .pipe(debounceTime(300))
       .subscribe(([show, list]) => {
         this.showSongs = list;
+        this.show = show;
         const presentationSongs = list.map(song => ({
           id: song.id,
           title: song.title,
           sections: this.textRenderingService.parse(song.text, null),
         }));
         this.presentationSongs = show?.order.map(_ => presentationSongs.filter(f => f.id === _)[0]) ?? [];
+        this.cRef.markForCheck();
       });
   }
 

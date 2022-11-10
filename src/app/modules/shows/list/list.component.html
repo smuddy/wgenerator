@@ -8,7 +8,6 @@
     <ng-container *ngIf="shows$ | async as shows">
       <app-card
         *ngIf="getPrivateSongs(shows).length > 0"
-        @fade
         [padding]="false"
         heading="meine Veranstaltungen"
       >
@@ -24,7 +23,6 @@
   <ng-container *ngIf="publicShows$ | async as shows">
     <app-card
       *ngIf="shows.length > 0"
-      @fade
       [padding]="false"
       heading="veröffentlichte Veranstaltungen"
     >

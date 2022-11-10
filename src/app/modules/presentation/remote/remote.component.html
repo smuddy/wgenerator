@@ -1,6 +1,6 @@
 <div *ngIf="shows$ | async as shows">
   <app-card>
-    <p *ngIf="!shows.length" @fade>
+    <p *ngIf="!shows.length">
       Es ist derzeit keine Veranstaltung vorhanden
     </p>
 
@@ -34,7 +34,7 @@
         </div>
       </div>
 
-      <div *ngFor="let song of presentationSongs; trackBy: trackBy" @fade class="song">
+      <div *ngFor="let song of presentationSongs; trackBy: trackBy" class="song">
         <div *ngIf="show"
              [class.active]="show.presentationSongId === song.id"
              class="title song-part"
@@ -101,7 +101,7 @@
         *ngIf="show"
         [addedLive]="true"
         [showSongs]="showSongs"
-        [songs]="songs"
+        [songs]="songs$|async"
         [show]="show"
       ></app-add-song>
     </ng-container>
