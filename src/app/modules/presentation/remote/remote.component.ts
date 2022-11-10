@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {combineLatest, Observable} from 'rxjs';
 import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
@@ -49,7 +49,8 @@ export class RemoteComponent {
     private showSongService: ShowSongService,
     private songService: SongService,
     private textRenderingService: TextRenderingService,
-    private globalSettingsService: GlobalSettingsService
+    private globalSettingsService: GlobalSettingsService,
+    private cRef: ChangeDetectorRef
   ) {
     this.shows$ = showService
       .list$(true)
@@ -81,6 +82,7 @@ export class RemoteComponent {
       .pipe(debounceTime(10))
       .subscribe(show => {
         this.show = show;
+        this.cRef.markForCheck();
       });
 
     combineLatest([this.showService.read$(change), this.showSongService.list$(change)])

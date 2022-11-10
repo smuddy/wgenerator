@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SongListComponent} from './song-list.component';
-import {ListItemComponent} from './list-item/list-item.component';
 import {CardModule} from '../../../widget-modules/components/card/card.module';
 import {RouterModule} from '@angular/router';
 import {LegalTypeTranslatorModule} from '../../../widget-modules/pipes/legal-type-translator/legal-type-translator.module';
@@ -18,7 +17,7 @@ import {RoleModule} from '../../../services/user/role.module';
 import {KeyTranslatorModule} from '../../../widget-modules/pipes/key-translator/key-translator.module';
 
 @NgModule({
-  declarations: [SongListComponent, ListItemComponent, FilterComponent],
+  declarations: [SongListComponent, FilterComponent],
   exports: [SongListComponent],
   imports: [
     CommonModule,

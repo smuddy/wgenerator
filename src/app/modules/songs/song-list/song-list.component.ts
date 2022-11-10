@@ -1,13 +1,14 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {SongService} from '../services/song.service';
 import {Song} from '../services/song';
-import {debounceTime, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
 import {fade} from '../../../animations';
 import {ActivatedRoute} from '@angular/router';
 import {filterSong} from '../../../services/filter.helper';
 import {FilterValues} from './filter/filter-values';
 import {ScrollService} from '../../../services/scroll.service';
+import {faBalanceScaleRight, faCheck, faPencilRuler} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-songs',
@@ -17,28 +18,25 @@ import {ScrollService} from '../../../services/scroll.service';
   animations: [fade],
 })
 export class SongListComponent implements OnInit, OnDestroy {
-  public songs$: Observable<Song[]> | null = null;
+  public songs$: Observable<Song[]> | null = combineLatest([
+    this.activatedRoute.queryParams.pipe(map(_ => _ as FilterValues)),
+    this.songService.list$().pipe(map(songs => songs.sort((a, b) => a.number - b.number))),
+  ]).pipe(
+    map(_ => {
+      const songs = _[1];
+      const filter = _[0];
+      this.anyFilterActive = this.checkIfFilterActive(filter);
+      return songs.filter(song => this.filter(song, filter));
+    })
+  );
   public anyFilterActive = false;
+  public faLegal = faBalanceScaleRight;
+  public faDraft = faPencilRuler;
+  public faFinal = faCheck;
 
   public constructor(private songService: SongService, private activatedRoute: ActivatedRoute, private scrollService: ScrollService) {}
 
   public ngOnInit(): void {
-    const filter$ = this.activatedRoute.queryParams.pipe(
-      debounceTime(300),
-      map(_ => _ as FilterValues)
-    );
-
-    const songs$ = this.songService.list$().pipe(map(songs => songs.sort((a, b) => a.number - b.number)));
-
-    this.songs$ = combineLatest([filter$, songs$]).pipe(
-      map(_ => {
-        const songs = _[1];
-        const filter = _[0];
-        this.anyFilterActive = this.checkIfFilterActive(filter);
-        return songs.filter(song => this.filter(song, filter));
-      })
-    );
-
     setTimeout(() => this.scrollService.restoreScrollPositionFor('songlist'), 100);
     setTimeout(() => this.scrollService.restoreScrollPositionFor('songlist'), 300);
   }
@@ -73,5 +71,6 @@ export class SongListComponent implements OnInit, OnDestroy {
 
     return flagStrings.indexOf(flag) !== -1;
   }
+
   public trackBy = (index: number, show: Song) => show.id;
 }

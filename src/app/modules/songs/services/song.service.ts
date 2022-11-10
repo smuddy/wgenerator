@@ -29,7 +29,7 @@ export class SongService {
     // importCCLI = (songs: Song[]) => this.updateFromCLI(songs);
   }
 
-  public list$ = (): Observable<Song[]> => this.songDataService.list$(); //.pipe(tap(_ => (this.list = _)));
+  public list$ = (): Observable<Song[]> => this.songDataService.list$; //.pipe(tap(_ => (this.list = _)));
   public read$ = (songId: string): Observable<Song | null> => this.songDataService.read$(songId);
   public read = (songId: string): Promise<Song | null> => firstValueFrom(this.read$(songId));
 

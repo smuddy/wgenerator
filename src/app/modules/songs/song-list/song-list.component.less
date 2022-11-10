@@ -1,0 +1,45 @@
+@import "../../../../styles/styles";
+
+.list-item {
+  padding: 5px 20px;
+  display: grid;
+  grid-template-columns: 50px auto 50px 30px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+
+  cursor: pointer;
+
+  &:hover {
+    background: @primary-color;
+    color: #fff;
+
+    .warning {
+      color: #fff;
+    }
+  }
+}
+
+.number {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.neutral, .warning, .success {
+    width: 30px;
+}
+
+.neutral {
+  color: #888;
+}
+
+.warning {
+  color: #ba3500;
+}
+
+.success {
+  color: #307501;
+}
