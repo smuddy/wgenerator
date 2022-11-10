@@ -1,18 +1,6 @@
-<div *ngIf="shows$ | async as shows">
-  <app-card>
-    <p *ngIf="!shows.length">
-      Es ist derzeit keine Veranstaltung vorhanden
-    </p>
-
-    <mat-form-field *ngIf="shows.length > 0" @fade appearance="outline">
-      <mat-label>Veranstaltung</mat-label>
-      <mat-select [formControl]="showControl">
-        <mat-option *ngFor="let show of shows" [value]="show.id">
-          {{ show.showType | showType }},
-          {{ show.date.toDate() | date: "dd.MM.yyyy" }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+<div *ngIf="show">
+  <app-card [heading]="show.showType | showType" [subheading]="show.date.toDate() | date:'dd.MM.yyyy'"
+            closeLink="/presentation/select" [closeIcon]="faIcon">
 
     <ng-container *ngIf="!progress">
       <div class="song">

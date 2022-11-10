@@ -5,8 +5,9 @@
     class="btn-close"
     mat-icon-button
   >
-    <fa-icon [icon]="faClose"></fa-icon>
+    <fa-icon [icon]="closeIcon"></fa-icon>
   </button>
   <div *ngIf="heading" class="heading">{{ heading }}</div>
+  <div *ngIf="subheading" class="subheading">{{ subheading }}</div>
   <ng-content></ng-content>
 </div>

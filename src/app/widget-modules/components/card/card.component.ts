@@ -9,7 +9,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
 export class CardComponent {
   @Input() public padding = true;
   @Input() public heading: string | null = null;
+  @Input() public subheading: string | null = null;
   @Input() public closeLink: string | null = null;
-
-  public faClose = faTimes;
+  @Input() public closeIcon = faTimes;
 }

@@ -17,9 +17,10 @@ import {MatSliderModule} from '@angular/material/slider';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AddSongModule} from '../../widget-modules/components/add-song/add-song.module';
 import {LogoComponent} from './monitor/logo/logo.component';
+import {SelectComponent} from './select/select.component';
 
 @NgModule({
-  declarations: [MonitorComponent, RemoteComponent, LegalComponent, LogoComponent],
+  declarations: [MonitorComponent, RemoteComponent, LegalComponent, LogoComponent, SelectComponent],
   exports: [RemoteComponent],
   imports: [
     CommonModule,

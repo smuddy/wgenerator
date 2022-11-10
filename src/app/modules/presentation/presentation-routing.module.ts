@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {RemoteComponent} from './remote/remote.component';
 import {MonitorComponent} from './monitor/monitor.component';
+import {SelectComponent} from './select/select.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'remote',
     component: RemoteComponent,
+  },
+  {
+    path: 'select',
+    component: SelectComponent,
   },
   {
     path: 'monitor',

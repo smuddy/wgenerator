@@ -1,14 +1,13 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {combineLatest, Observable} from 'rxjs';
+import {combineLatest} from 'rxjs';
 import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {SongService} from '../../songs/services/song.service';
-import {faDesktop} from '@fortawesome/free-solid-svg-icons';
+import {faDesktop, faRepeat} from '@fortawesome/free-solid-svg-icons';
 import {ShowService} from '../../shows/services/show.service';
 import {ShowSong} from '../../shows/services/show-song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
-import {UntypedFormControl} from '@angular/forms';
-import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {fade} from '../../../animations';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Section} from '../../songs/services/section';
@@ -28,16 +27,15 @@ export interface PresentationSong {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RemoteComponent {
-  public shows$: Observable<Show[]>;
   public show: Show | null = null;
   public showSongs: ShowSong[] = [];
   public songs$ = this.songService.list$();
   public presentationSongs: PresentationSong[] = [];
   public currentShowId: string | null = null;
   public progress = false;
+  public faIcon = faRepeat;
 
   public faDesktop = faDesktop;
-  public showControl = new UntypedFormControl();
 
   public trackBy(index: number, item: PresentationSong): string {
     return item.id;
@@ -51,48 +49,29 @@ export class RemoteComponent {
     private globalSettingsService: GlobalSettingsService,
     private cRef: ChangeDetectorRef
   ) {
-    this.shows$ = showService
-      .list$(true)
-      .pipe(map(_ => _.filter(_ => _.date.toDate() > new Date(new Date().setMonth(new Date().getMonth() - 1))).sort((a, b) => (b.date < a.date ? -1 : b.date > a.date ? 1 : 0))));
-
     globalSettingsService.get$
       .pipe(
         filter(_ => !!_),
         map(_ => _ as GlobalSettings),
-        map(_ => _.currentShow),
-        distinctUntilChanged()
+        map(_ => _.currentShow)
       )
       .subscribe(_ => {
-        this.showControl.setValue(_, {emitEvent: false});
-        void this.onShowChanged(_, false);
+        void this.onShowChanged(_);
       });
-    this.showControl.valueChanges.subscribe((value: string) => void this.onShowChanged(value));
   }
 
-  public async onShowChanged(change: string, updateShow = true): Promise<void> {
-    this.presentationSongs = [];
-    this.cRef.markForCheck();
-
-    if (updateShow) {
-      await this.globalSettingsService.set({currentShow: change});
-      await this.showService.update$(change, {presentationSongId: 'title'});
-    }
-
-    this.currentShowId = change;
-
-    combineLatest([this.showService.read$(change), this.showSongService.list$(change)])
-      .pipe(debounceTime(300))
-      .subscribe(([show, list]) => {
-        this.showSongs = list;
-        this.show = show;
-        const presentationSongs = list.map(song => ({
-          id: song.id,
-          title: song.title,
-          sections: this.textRenderingService.parse(song.text, null),
-        }));
-        this.presentationSongs = show?.order.map(_ => presentationSongs.filter(f => f.id === _)[0]) ?? [];
-        this.cRef.markForCheck();
-      });
+  public onShowChanged(change: string): void {
+    combineLatest([this.showService.read$(change), this.showSongService.list$(change)]).subscribe(([show, list]) => {
+      this.showSongs = list;
+      this.show = show;
+      const presentationSongs = list.map(song => ({
+        id: song.id,
+        title: song.title,
+        sections: this.textRenderingService.parse(song.text, null),
+      }));
+      this.presentationSongs = show?.order.map(_ => presentationSongs.filter(f => f.id === _)[0]) ?? [];
+      this.cRef.markForCheck();
+    });
   }
 
   public getFirstLine(section: Section): string {
