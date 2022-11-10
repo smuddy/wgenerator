@@ -1,4 +1,4 @@
-<div *ngIf="show">
+<div *ngIf="show" @fade>
   <app-card [heading]="show.showType | showType" [subheading]="show.date.toDate() | date:'dd.MM.yyyy'"
             closeLink="/presentation/select" [closeIcon]="faIcon">
 

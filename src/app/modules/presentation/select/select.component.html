@@ -1,5 +1,5 @@
-<div *ngIf="visible && shows$ | async as shows" @fade>
-  <app-card heading="Bitte eine Veranstaltung auswählen">
+<div *ngIf="shows$ | async as shows" @fade>
+  <app-card heading="Bitte eine Veranstaltung auswählen" *ngIf="visible">
     <p *ngIf="!shows.length">
       Es ist derzeit keine Veranstaltung vorhanden
     </p>
