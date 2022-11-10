@@ -22,9 +22,10 @@ export class SelectComponent implements OnInit {
 
   public async selectShow(show: Show) {
     this.visible = false;
+
     await this.globalSettingsService.set({currentShow: show.id});
-    await this.showService.update$(show.id, {presentationSongId: 'title'});
-    await this.router.navigateByUrl('/presentation/remote');
+    void this.showService.update$(show.id, {presentationSongId: 'title'});
+    void this.router.navigateByUrl('/presentation/remote');
   }
 
   public ngOnInit(): void {

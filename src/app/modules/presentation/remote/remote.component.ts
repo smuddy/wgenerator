@@ -31,7 +31,6 @@ export class RemoteComponent {
   public showSongs: ShowSong[] = [];
   public songs$ = this.songService.list$();
   public presentationSongs: PresentationSong[] = [];
-  public currentShowId: string | null = null;
   public progress = false;
   public faIcon = faRepeat;
 
@@ -78,19 +77,18 @@ export class RemoteComponent {
     return section.lines.filter(_ => _.type === 1)[0].text;
   }
 
-  public async onSectionClick(id: string, index: number): Promise<void> {
-    if (this.currentShowId != null)
-      await this.showService.update$(this.currentShowId, {
-        presentationSongId: id,
-        presentationSection: index,
-      });
+  public async onSectionClick(id: string, index: number, showId: string): Promise<void> {
+    await this.showService.update$(showId, {
+      presentationSongId: id,
+      presentationSection: index,
+    });
   }
 
-  public async onZoom(presentationZoom: number): Promise<void> {
-    if (this.currentShowId != null) await this.showService.update$(this.currentShowId, {presentationZoom});
+  public async onZoom(presentationZoom: number, showId: string): Promise<void> {
+    await this.showService.update$(showId, {presentationZoom});
   }
 
-  public async onBackground(presentationBackground: PresentationBackground): Promise<void> {
-    if (this.currentShowId != null) await this.showService.update$(this.currentShowId, {presentationBackground});
+  public async onBackground(presentationBackground: PresentationBackground, showId: string): Promise<void> {
+    await this.showService.update$(showId, {presentationBackground});
   }
 }
