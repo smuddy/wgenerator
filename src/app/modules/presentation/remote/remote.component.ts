@@ -3,7 +3,7 @@ import {combineLatest} from 'rxjs';
 import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {SongService} from '../../songs/services/song.service';
-import {faDesktop, faRepeat} from '@fortawesome/free-solid-svg-icons';
+import {faDesktop, faFolderOpen} from '@fortawesome/free-solid-svg-icons';
 import {ShowService} from '../../shows/services/show.service';
 import {ShowSong} from '../../shows/services/show-song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
@@ -32,7 +32,7 @@ export class RemoteComponent {
   public songs$ = this.songService.list$();
   public presentationSongs: PresentationSong[] = [];
   public progress = false;
-  public faIcon = faRepeat;
+  public faIcon = faFolderOpen;
 
   public faDesktop = faDesktop;
 
