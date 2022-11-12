@@ -13,6 +13,8 @@ import {RoleModule} from '../../../services/user/role.module';
 import {StatusTranslaterModule} from '../../../widget-modules/pipes/status-translater/status-translater.module';
 import {ButtonModule} from '../../../widget-modules/components/button/button.module';
 import {FileComponent} from './file/file.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {ShowTypeTranslaterModule} from '../../../widget-modules/pipes/show-type-translater/show-type-translater.module';
 
 @NgModule({
   declarations: [SongComponent, FileComponent],
@@ -31,6 +33,8 @@ import {FileComponent} from './file/file.component';
     RoleModule,
     StatusTranslaterModule,
     ButtonModule,
+    MatMenuModule,
+    ShowTypeTranslaterModule,
   ],
 })
 export class SongModule {}

@@ -64,6 +64,16 @@
       <app-button *appRole="['contributor']" [icon]="faEdit" routerLink="edit"
       >Bearbeiten
       </app-button>
+      <ng-container *appRole="['leader']">
+        <app-button [icon]="faFileCirclePlus" [matMenuTriggerFor]="menu">
+          Zu Veranstaltung hinzufügen
+        </app-button>
+        <mat-menu #menu="matMenu">
+          <app-button (click)="addSongToShow(show, song)" *ngFor="let show of privateShows$|async">
+            {{ show.date.toDate() | date: "dd.MM.yyyy" }} {{ show.showType | showType }}
+          </app-button>
+        </mat-menu>
+      </ng-container>
     </app-button-row>
   </app-card>
   <ng-container *ngIf="files$ | async as files">

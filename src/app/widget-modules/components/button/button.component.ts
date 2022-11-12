@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
-import {faCross} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-button',
@@ -8,5 +7,5 @@ import {faCross} from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./button.component.less'],
 })
 export class ButtonComponent {
-  @Input() public icon: IconProp = faCross;
+  @Input() public icon: IconProp | null = null;
 }

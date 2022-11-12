@@ -8,7 +8,10 @@ import {FileDataService} from '../services/file-data.service';
 import {File} from '../services/file';
 import {UserService} from '../../../services/user/user.service';
 import {User} from '../../../services/user/user';
-import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {faEdit, faFileCirclePlus, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {ShowService} from '../../shows/services/show.service';
+import {Show} from '../../shows/services/show';
+import {ShowSongService} from '../../shows/services/show-song.service';
 
 @Component({
   selector: 'app-song',
@@ -21,13 +24,17 @@ export class SongComponent implements OnInit {
   public user$: Observable<User | null> | null = null;
   public faEdit = faEdit;
   public faDelete = faTrash;
+  public faFileCirclePlus = faFileCirclePlus;
+  public privateShows$ = this.showService.list$().pipe(map(show => show.filter(_ => !_.published)));
 
   public constructor(
     private activatedRoute: ActivatedRoute,
     private songService: SongService,
     private fileService: FileDataService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private showService: ShowService,
+    private showSongService: ShowSongService
   ) {
     this.user$ = userService.user$;
   }
@@ -56,5 +63,12 @@ export class SongComponent implements OnInit {
   public async onDelete(songId: string): Promise<void> {
     await this.songService.delete(songId);
     await this.router.navigateByUrl('/songs');
+  }
+
+  public async addSongToShow(show: Show, song: Song) {
+    if (!show) return;
+    const newId = await this.showSongService.new$(show?.id, song.id, false);
+    await this.showService.update$(show?.id, {order: [...show.order, newId ?? '']});
+    await this.router.navigateByUrl('/shows/' + show.id);
   }
 }

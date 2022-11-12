@@ -1,18 +1,18 @@
 <div>
 <!--  <app-list-header *appRole="['leader']"></app-list-header>-->
   <app-list-header *appRole="['leader']">
-    <app-filter *ngIf="shows$ | async as shows" [shows]="shows"></app-filter>
+    <app-filter *ngIf="shows$ | async as shows" [shows]="publicShows$ | async"></app-filter>
   </app-list-header>
 
   <ng-container *appRole="['leader']">
-    <ng-container *ngIf="shows$ | async as shows">
+    <ng-container *ngIf="privateShows$ | async as shows">
       <app-card
-        *ngIf="getPrivateSongs(shows).length > 0"
+        *ngIf="shows.length > 0"
         [padding]="false"
         heading="meine Veranstaltungen"
       >
         <app-list-item
-          *ngFor="let show of getPrivateSongs(shows) | sortBy: 'desc':'date'"
+          *ngFor="let show of shows | sortBy: 'desc':'date'"
           [routerLink]="show.id"
           [show]="show"
         ></app-list-item>
