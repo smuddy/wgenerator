@@ -20,7 +20,10 @@ import {faBalanceScaleRight, faCheck, faPencilRuler} from '@fortawesome/free-sol
 export class SongListComponent implements OnInit, OnDestroy {
   public songs$: Observable<Song[]> | null = combineLatest([
     this.activatedRoute.queryParams.pipe(map(_ => _ as FilterValues)),
-    this.songService.list$().pipe(map(songs => songs.sort((a, b) => a.number - b.number))),
+    this.activatedRoute.data.pipe(
+      map(data => data.songList as Song[]),
+      map(songs => songs.sort((a, b) => a.number - b.number))
+    ),
   ]).pipe(
     map(_ => {
       const songs = _[1];
