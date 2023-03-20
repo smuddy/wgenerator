@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {combineLatest} from 'rxjs';
+import {combineLatest, Subject} from 'rxjs';
 import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {SongService} from '../../songs/services/song.service';
@@ -7,7 +7,7 @@ import {faDesktop, faFolderOpen} from '@fortawesome/free-solid-svg-icons';
 import {ShowService} from '../../shows/services/show.service';
 import {ShowSong} from '../../shows/services/show-song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
-import {filter, map} from 'rxjs/operators';
+import {debounceTime, filter, map} from 'rxjs/operators';
 import {fade} from '../../../animations';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Section} from '../../songs/services/section';
@@ -40,24 +40,7 @@ export class RemoteComponent {
     return item.id;
   }
 
-  public constructor(
-    private showService: ShowService,
-    private showSongService: ShowSongService,
-    private songService: SongService,
-    private textRenderingService: TextRenderingService,
-    private globalSettingsService: GlobalSettingsService,
-    private cRef: ChangeDetectorRef
-  ) {
-    globalSettingsService.get$
-      .pipe(
-        filter(_ => !!_),
-        map(_ => _ as GlobalSettings),
-        map(_ => _.currentShow)
-      )
-      .subscribe(_ => {
-        void this.onShowChanged(_);
-      });
-  }
+  public presentationDynamicCaptionChanged$ = new Subject<{presentationDynamicCaption: string; showId: string}>();
 
   public onShowChanged(change: string): void {
     combineLatest([this.showService.read$(change), this.showSongService.list$(change)]).subscribe(([show, list]) => {
@@ -90,5 +73,38 @@ export class RemoteComponent {
 
   public async onBackground(presentationBackground: PresentationBackground, showId: string): Promise<void> {
     await this.showService.update$(showId, {presentationBackground});
+  }
+  public presentationDynamicTextChanged$ = new Subject<{presentationDynamicText: string; showId: string}>();
+
+  public constructor(
+    private showService: ShowService,
+    private showSongService: ShowSongService,
+    private songService: SongService,
+    private textRenderingService: TextRenderingService,
+    private globalSettingsService: GlobalSettingsService,
+    private cRef: ChangeDetectorRef
+  ) {
+    globalSettingsService.get$
+      .pipe(
+        filter(_ => !!_),
+        map(_ => _ as GlobalSettings),
+        map(_ => _.currentShow)
+      )
+      .subscribe(_ => {
+        void this.onShowChanged(_);
+      });
+
+    this.presentationDynamicCaptionChanged$
+      .pipe(debounceTime(1000))
+      .subscribe(_ => void this.showService.update$(_.showId, {presentationDynamicCaption: _.presentationDynamicCaption}));
+    this.presentationDynamicTextChanged$.pipe(debounceTime(1000)).subscribe(_ => void this.showService.update$(_.showId, {presentationDynamicText: _.presentationDynamicText}));
+  }
+
+  public onDynamicCaption(presentationDynamicCaption: string, showId: string): void {
+    this.presentationDynamicCaptionChanged$.next({presentationDynamicCaption, showId});
+  }
+
+  public onDynamicText(presentationDynamicText: string, showId: string): void {
+    this.presentationDynamicTextChanged$.next({presentationDynamicText, showId});
   }
 }

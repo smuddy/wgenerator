@@ -18,6 +18,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AddSongModule} from '../../widget-modules/components/add-song/add-song.module';
 import {LogoComponent} from './monitor/logo/logo.component';
 import {SelectComponent} from './select/select.component';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [MonitorComponent, RemoteComponent, LegalComponent, LogoComponent, SelectComponent],
@@ -37,6 +38,7 @@ import {SelectComponent} from './select/select.component';
     FormsModule,
     AddSongModule,
     ReactiveFormsModule,
+    MatInputModule,
   ],
 })
 export class PresentationModule {}

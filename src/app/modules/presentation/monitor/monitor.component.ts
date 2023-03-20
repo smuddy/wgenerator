@@ -26,6 +26,8 @@ export class MonitorComponent implements OnInit {
   public songId: string | null = null;
   public index: number | null = null;
   public showType: string | null = null;
+  public presentationDynamicCaption: string | null = null;
+  public presentationDynamicText: string | null = null;
   public date: Date | null = null;
   public config$: Observable<Config | null>;
   public presentationBackground: PresentationBackground = 'none';
@@ -60,6 +62,8 @@ export class MonitorComponent implements OnInit {
           this.date = _.date.toDate();
           this.index = _.presentationSection;
           this.presentationBackground = _.presentationBackground;
+          this.presentationDynamicCaption = _.presentationDynamicCaption;
+          this.presentationDynamicText = _.presentationDynamicText;
           this.zoom = _.presentationZoom ?? 30;
           if (this.songId !== _.presentationSongId) this.songId = 'empty';
           setTimeout(() => (this.songId = _.presentationSongId), 600);

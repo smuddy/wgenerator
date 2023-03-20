@@ -49,6 +49,32 @@
         </div>
       </div>
 
+      <div class="song">
+        <div *ngIf="show"
+             [class.active]="show.presentationSongId === 'dynamicText'"
+             class="title song-part"
+        >
+          <div (click)="onSectionClick('dynamicText', -1, show.id)" class="head">
+            Freier Text
+          </div>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Überschrift</mat-label>
+          <input (ngModelChange)="onDynamicCaption($event, show.id)" [ngModel]="show.presentationDynamicCaption" autocomplete="off" id="dynamic-caption"
+                 matInput
+                 type="text">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Text</mat-label>
+          <textarea (ngModelChange)="onDynamicText($event, show.id)" [ngModel]="show.presentationDynamicText"
+                    autocomplete="off" id="dynamic-text"
+                    matInput></textarea>
+        </mat-form-field>
+
+      </div>
+
       <div *ngIf="show" class="div-bottom">
 
         <button routerLink="/presentation/monitor" mat-button>

@@ -15,6 +15,8 @@ export interface Show {
   order: string[];
 
   presentationSongId: string;
+  presentationDynamicCaption: string;
+  presentationDynamicText: string;
   presentationSection: number;
   presentationZoom: number;
   presentationBackground: PresentationBackground;
