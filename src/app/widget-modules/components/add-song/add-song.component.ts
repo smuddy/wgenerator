@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
 import {filterSong} from '../../../services/filter.helper';
 import {MatSelectChange} from '@angular/material/select';
@@ -12,6 +12,7 @@ import {ShowService} from '../../../modules/shows/services/show.service';
   selector: 'app-add-song',
   templateUrl: './add-song.component.html',
   styleUrls: ['./add-song.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddSongComponent {
   @Input() public songs: Song[] | null = null;

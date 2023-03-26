@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowService} from '../services/show.service';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Show} from '../services/show';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
@@ -30,7 +30,7 @@ import {fade} from '../../../animations';
   styleUrls: ['./show.component.less'],
   animations: [fade],
 })
-export class ShowComponent implements OnInit {
+export class ShowComponent implements OnInit, OnDestroy {
   public show$: Observable<Show | null> | null = null;
   public songs: Song[] | null = null;
   public showSongs: ShowSong[] | null = null;
@@ -47,6 +47,7 @@ export class ShowComponent implements OnInit {
   public faUsers = faUsers;
   public faZoomIn = faMagnifyingGlassPlus;
   public faZoomOut = faMagnifyingGlassMinus;
+  private subs: Subscription[] = [];
 
   public constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,7 +55,8 @@ export class ShowComponent implements OnInit {
     private songService: SongService,
     private showSongService: ShowSongService,
     private docxService: DocxService,
-    private router: Router
+    private router: Router,
+    private cRef: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -64,19 +66,30 @@ export class ShowComponent implements OnInit {
       tap((_: string) => (this.showId = _)),
       switchMap((showId: string) => this.showService.read$(showId))
     );
-    this.activatedRoute.params
-      .pipe(
-        map(param => param as {showId: string}),
-        map(param => param.showId),
-        switchMap(showId => this.showSongService.list$(showId)),
-        tap(_ => console.log(_)),
-        filter(_ => !!_ && _.length > 0)
-      )
-      .subscribe(_ => (this.showSongs = _));
-    this.songService
-      .list$()
-      .pipe(filter(_ => !!_))
-      .subscribe(_ => (this.songs = _));
+    this.subs.push(
+      this.activatedRoute.params
+        .pipe(
+          map(param => param as {showId: string}),
+          map(param => param.showId),
+          switchMap(showId => this.showSongService.list$(showId)),
+          filter(_ => !!_ && _.length > 0)
+        )
+        .subscribe(_ => {
+          this.showSongs = _;
+          this.cRef.markForCheck();
+        }),
+      this.songService
+        .list$()
+        .pipe(filter(_ => !!_))
+        .subscribe(_ => {
+          this.songs = _;
+          this.cRef.markForCheck();
+        })
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subs.forEach(_ => _.unsubscribe());
   }
 
   public textSize = 1;
@@ -87,12 +100,6 @@ export class ShowComponent implements OnInit {
 
   public onZoomOut() {
     this.textSize -= 0.1;
-  }
-
-  public getSong(songId: string): Song | null {
-    if (!this.songs) return null;
-    const filtered = this.songs.filter(_ => _.id === songId);
-    return filtered.length > 0 ? filtered[0] : null;
   }
 
   public async onArchive(archived: boolean): Promise<void> {

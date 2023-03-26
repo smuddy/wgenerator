@@ -6,6 +6,8 @@
 
     <div *ngIf="shows.length>0" class="list">
       <button mat-stroked-button *ngFor="let show of shows" (click)="selectShow(show)">
+        <app-user-name [userId]="show.owner"></app-user-name>
+        ,
         {{ show.showType | showType }},
         {{ show.date.toDate() | date: "dd.MM.yyyy" }}
       </button>

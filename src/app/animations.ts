@@ -32,7 +32,7 @@ export const fader = trigger('fader', [
       ':enter',
       [
         animate(
-          '200ms ease',
+          '300ms ease',
           style({
             opacity: 1,
             transform: 'scale(1) translateY(0)',

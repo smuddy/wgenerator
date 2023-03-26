@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from 'rxjs/operators';
 import {ShowService} from '../../shows/services/show.service';
 import {SongService} from '../../songs/services/song.service';
@@ -38,7 +38,8 @@ export class MonitorComponent implements OnInit {
     private songService: SongService,
     private textRenderingService: TextRenderingService,
     private globalSettingsService: GlobalSettingsService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private cRef: ChangeDetectorRef
   ) {
     this.config$ = configService.get$();
   }
@@ -66,7 +67,10 @@ export class MonitorComponent implements OnInit {
           this.presentationDynamicText = _.presentationDynamicText;
           this.zoom = _.presentationZoom ?? 30;
           if (this.songId !== _.presentationSongId) this.songId = 'empty';
-          setTimeout(() => (this.songId = _.presentationSongId), 600);
+          setTimeout(() => {
+            this.songId = _.presentationSongId;
+            this.cRef.markForCheck();
+          }, 600);
         }),
         switchMap((_: Show) => this.showSongService.read$(_.id, _.presentationSongId)),
         filter(_ => !!_),
@@ -74,6 +78,7 @@ export class MonitorComponent implements OnInit {
       )
       .subscribe(_ => {
         this.song = _;
+        this.cRef.markForCheck();
       });
   }
 }
