@@ -91,7 +91,8 @@ export class RemoteComponent {
         map(_ => _.currentShow)
       )
       .subscribe(_ => {
-        void this.onShowChanged(_);
+        this.onShowChanged(_);
+        this.cRef.markForCheck();
       });
 
     this.presentationDynamicCaptionChanged$
