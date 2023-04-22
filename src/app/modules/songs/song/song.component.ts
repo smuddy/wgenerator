@@ -25,7 +25,7 @@ export class SongComponent implements OnInit {
   public faEdit = faEdit;
   public faDelete = faTrash;
   public faFileCirclePlus = faFileCirclePlus;
-  public privateShows$ = this.showService.list$().pipe(map(show => show.filter(_ => !_.published)));
+  public privateShows$ = this.showService.list$().pipe(map(show => show.filter(_ => !_.published).sort((a, b) => b.date.toMillis() - a.date.toMillis())));
 
   public constructor(
     private activatedRoute: ActivatedRoute,
