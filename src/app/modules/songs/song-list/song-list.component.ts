@@ -29,7 +29,7 @@ export class SongListComponent implements OnInit, OnDestroy {
       const songs = _[1];
       const filter = _[0];
       this.anyFilterActive = this.checkIfFilterActive(filter);
-      return songs.filter(song => this.filter(song, filter));
+      return songs.filter(song => this.filter(song, filter)).sort((a, b) => a.title.localeCompare(b.title));
     })
   );
   public anyFilterActive = false;
