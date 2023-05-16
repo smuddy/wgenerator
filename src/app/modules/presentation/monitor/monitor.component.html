@@ -23,7 +23,7 @@
     <div class="date">{{ date | date: "dd.MM.yyyy" }}</div>
   </div>
 
-  <div *ngIf="songId === 'dynamicText'" @songSwitch class="start fullscreen">
+  <div *ngIf="songId === 'dynamicText'" @songSwitch class="start fullscreen dynamic-text">
     <div>{{ presentationDynamicCaption }}</div>
     <div class="date">{{ presentationDynamicText }}</div>
   </div>
@@ -33,13 +33,13 @@
     *ngIf="songId !== 'title' && songId !== 'empty'"
     [@songSwitch]="songId"
     [fullscreen]="true"
-    [index]="index"
+    [index]="index??0"
     [showSwitch]="false"
     [text]="song.text"
     chordMode="hide"
   ></app-song-text>
   <app-legal
-    *ngIf="songId !== 'title' && songId !== 'empty'"
+    *ngIf="songId !== 'title' && songId !== 'empty' && songId !== 'dynamicText'"
     [@songSwitch]="songId"
     [config]="config$ | async"
     [song]="song"
