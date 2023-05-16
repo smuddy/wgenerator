@@ -34,9 +34,11 @@ import {SortByModule} from '../../widget-modules/pipes/sort-by/sort-by.module';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {FilterComponent} from './list/filter/filter.component';
 import {EditComponent} from './edit/edit.component';
+import {ArchiveDialogComponent} from './dialog/archive-dialog/archive-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent, FilterComponent, EditComponent],
+  declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent, FilterComponent, EditComponent, ArchiveDialogComponent],
   imports: [
     CommonModule,
     ShowsRoutingModule,
@@ -66,6 +68,7 @@ import {EditComponent} from './edit/edit.component';
     RoleModule,
     SortByModule,
     MatTooltipModule,
+    MatDialogModule,
   ],
 })
 export class ShowsModule {}

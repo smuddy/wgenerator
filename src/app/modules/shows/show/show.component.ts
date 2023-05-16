@@ -23,6 +23,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {fade} from '../../../animations';
+import {MatDialog} from '@angular/material/dialog';
+import {ArchiveDialogComponent} from '../dialog/archive-dialog/archive-dialog.component';
 
 @Component({
   selector: 'app-show',
@@ -56,7 +58,8 @@ export class ShowComponent implements OnInit, OnDestroy {
     private showSongService: ShowSongService,
     private docxService: DocxService,
     private router: Router,
-    private cRef: ChangeDetectorRef
+    private cRef: ChangeDetectorRef,
+    public dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -102,8 +105,17 @@ export class ShowComponent implements OnInit, OnDestroy {
     this.textSize -= 0.1;
   }
 
-  public async onArchive(archived: boolean): Promise<void> {
-    if (this.showId != null) await this.showService.update$(this.showId, {archived});
+  public onArchive(archived: boolean): void {
+    if (!archived && this.showId != null) void this.showService.update$(this.showId, {archived});
+    else {
+      const dialogRef = this.dialog.open(ArchiveDialogComponent, {
+        width: '350px',
+      });
+
+      dialogRef.afterClosed().subscribe((archive: boolean) => {
+        if (archive && this.showId != null) void this.showService.update$(this.showId, {archived});
+      });
+    }
   }
 
   public async onPublish(published: boolean): Promise<void> {
