@@ -19,6 +19,7 @@ export class SongComponent implements OnInit {
   @Input() public showId: string | null = null;
   @Input() public showText: boolean | null = null;
   @Input() public index = -1;
+  @Input() public fullscreen = false;
 
   public keys: string[] = [];
   public faDelete = faTrash;

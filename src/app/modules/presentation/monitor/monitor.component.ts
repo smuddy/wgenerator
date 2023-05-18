@@ -12,6 +12,7 @@ import {TextRenderingService} from '../../songs/services/text-rendering.service'
 import {PresentationBackground, Show} from '../../shows/services/show';
 import {GlobalSettings} from '../../../services/global-settings';
 import {ShowSongService} from '../../shows/services/show-song.service';
+import {openFullscreen} from '../../../services/fullscreen';
 
 @Component({
   selector: 'app-monitor',
@@ -45,6 +46,7 @@ export class MonitorComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    openFullscreen();
     this.globalSettingsService.get$
       .pipe(
         debounceTime(100),

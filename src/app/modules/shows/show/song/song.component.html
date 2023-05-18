@@ -1,10 +1,10 @@
 <div *ngIf="iSong && iSong && show">
-  <div *ngIf="show.published" class="title published">
+  <div *ngIf="show.published || fullscreen" class="title published">
     <div class="key">{{ iSong.key }}</div>
     <div>{{ iSong.title }}</div>
   </div>
 
-  <div *ngIf="!show.published" class="song">
+  <div *ngIf="!show.published && !fullscreen" class="song">
     <span class="title">{{ iSong.title }}</span>
     <span *ngIf="!edit" class="keys">
       <span *ngIf="iSong.keyOriginal !== iSong.key">{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span>

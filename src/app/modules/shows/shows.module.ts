@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {ShowsRoutingModule} from './shows-routing.module';
@@ -70,5 +70,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatTooltipModule,
     MatDialogModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ShowsModule {}

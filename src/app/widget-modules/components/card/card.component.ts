@@ -12,4 +12,5 @@ export class CardComponent {
   @Input() public subheading: string | null = null;
   @Input() public closeLink: string | null = null;
   @Input() public closeIcon = faTimes;
+  @Input() public fullscreen = false;
 }

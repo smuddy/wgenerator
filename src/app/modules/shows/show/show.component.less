@@ -8,6 +8,12 @@
   border-bottom: 1px solid #0002;
 }
 
+.song-swipe {
+  margin-bottom: 20px;
+  min-height: calc(100vh - 60px);
+}
+
+
 .head {
   display: flex;
   justify-content: space-between;
@@ -35,4 +41,11 @@
 
 .example-list.cdk-drop-list-dragging .song-list:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.floating {
+  position: fixed;
+  right: 20px;
+  top: 12px;
+  z-index: 5;
 }

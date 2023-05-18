@@ -1,23 +1,30 @@
 <div *ngIf="show$ | async as show">
   <app-card
+    [fullscreen]="useSwiper"
     closeLink="../"
     heading="{{ show.showType | showType }}, {{
       show.date.toDate() | date: 'dd.MM.yyyy'
     }} - {{ getStatus(show) }}"
   >
-    <p>{{show.public ? 'öffentliche' : 'geschlossene'}} Veranstaltung von
+    <p *ngIf="!useSwiper">{{show.public ? 'öffentliche' : 'geschlossene'}} Veranstaltung von
       <app-user-name [userId]="show.owner"></app-user-name>
     </p>
     <div class="head">
-      <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
       <div>
+        <mat-checkbox *ngIf="!useSwiper" [(ngModel)]="showText">Text anzeigen</mat-checkbox>
+      </div>
+      <div [class.floating]="useSwiper">
         <app-menu-button @fade (click)="onZoomOut()" [icon]="faZoomOut" class="btn-delete btn-icon"
-                         matTooltip="Vergrößern"></app-menu-button>
-        <app-menu-button @fade (click)="onZoomIn()" [icon]="faZoomIn" class="btn-delete btn-icon"
                          matTooltip="Verkleinern"></app-menu-button>
+        <app-menu-button @fade (click)="onZoomIn()" [icon]="faZoomIn" class="btn-delete btn-icon"
+                         matTooltip="Vergrößern"></app-menu-button>
+        <app-menu-button (click)="useSwiper=!useSwiper;fullscreen(useSwiper)" @fade
+                         [icon]="useSwiper ? faFileLines : faFile" class="btn-delete btn-icon"
+                         matTooltip="Swiper umschalten"></app-menu-button>
       </div>
     </div>
-    <div *ngIf="showSongs" class="song-list" cdkDropList [cdkDropListDisabled]="show.published || showText"
+    <div *ngIf="showSongs && !useSwiper" [cdkDropListDisabled]="show.published || showText" cdkDropList
+         class="song-list"
          [style.cursor]="!(show.published || showText) ? 'drag' : 'inherit'"
          [style.font-size]="textSize + 'em'"
          (cdkDropListDropped)="drop($event, show)">
@@ -27,19 +34,34 @@
           [showId]="showId"
           [showText]="showText"
           [show]="show"
+          [fullscreen]="useSwiper"
           [index]="i"
         ></app-song>
       </div>
     </div>
 
+    <swiper-container *ngIf="useSwiper" scrollbar="true">
+      <swiper-slide *ngFor="let song of orderedShowSongs(show); let i = index; trackBy: trackBy" [style.font-size]="textSize + 'em'"
+                    class="song-swipe">
+        <app-song
+          [fullscreen]="true"
+          [index]="i"
+          [showId]="showId"
+          [showSong]="song"
+          [showText]="true"
+          [show]="show"
+        ></app-song>
+      </swiper-slide>
+    </swiper-container>
+
     <app-add-song
-      *ngIf="songs && !show.published"
+      *ngIf="songs && !show.published && !useSwiper"
       [show]="show"
       [showSongs]="showSongs"
       [songs]="songs"
     ></app-add-song>
 
-    <app-button-row>
+    <app-button-row *ngIf="!useSwiper">
       <ng-container *appRole="['leader']">
         <ng-container *appOwner="show.owner">
           <app-button (click)="onArchive(true)" *ngIf="!show.archived" [icon]="faBox">

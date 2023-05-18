@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/co
 import {fader} from './animations';
 import {ScrollService} from './services/scroll.service';
 import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
+import {register} from 'swiper/element/bundle';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
     scrollService.restoreScrollPosition$.subscribe(pos => {
       if (this.scrollbar && pos) this.scrollbar.directiveRef?.scrollTo(0, pos, 300);
     });
+    register();
   }
 
   public ngOnInit(): void {

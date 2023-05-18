@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowService} from '../services/show.service';
@@ -13,7 +13,9 @@ import {
   faBox,
   faBoxOpen,
   faExternalLinkAlt,
+  faFile,
   faFileDownload,
+  faFileLines,
   faLock,
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
@@ -25,6 +27,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {fade} from '../../../animations';
 import {MatDialog} from '@angular/material/dialog';
 import {ArchiveDialogComponent} from '../dialog/archive-dialog/archive-dialog.component';
+import {closeFullscreen, openFullscreen} from '../../../services/fullscreen';
 
 @Component({
   selector: 'app-show',
@@ -49,7 +52,10 @@ export class ShowComponent implements OnInit, OnDestroy {
   public faUsers = faUsers;
   public faZoomIn = faMagnifyingGlassPlus;
   public faZoomOut = faMagnifyingGlassMinus;
+  public faPage = faFile;
+  public faLines = faFileLines;
   private subs: Subscription[] = [];
+  public useSwiper = false;
 
   public constructor(
     private activatedRoute: ActivatedRoute,
@@ -161,4 +167,34 @@ export class ShowComponent implements OnInit, OnDestroy {
   public async onChange(showId: string) {
     await this.router.navigateByUrl('/shows/' + showId + '/edit');
   }
+
+  public faFileLines = faFileLines;
+  public faFile = faFile;
+
+  @HostListener('document:keydown', ['$event'])
+  public handleKeyboardEvent(event: KeyboardEvent) {
+    const swiperEl = document.querySelector('swiper-container') as unknown as Swiper;
+    switch (event.code) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        swiperEl.swiper.slideNext();
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        swiperEl.swiper.slidePrev();
+        break;
+    }
+  }
+
+  public fullscreen(useSwiper: boolean) {
+    if (useSwiper) openFullscreen();
+    else closeFullscreen();
+  }
+}
+
+export interface Swiper {
+  swiper: {
+    slideNext(): void;
+    slidePrev(): void;
+  };
 }
