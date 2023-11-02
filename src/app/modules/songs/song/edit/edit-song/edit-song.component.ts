@@ -7,9 +7,9 @@ import {EditService} from '../edit.service';
 import {first, map, switchMap} from 'rxjs/operators';
 import {KEYS} from '../../../services/key.helper';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
+import {MatLegacyChipInputEvent as MatChipInputEvent} from '@angular/material/legacy-chips';
 import {faExternalLinkAlt, faSave, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {SaveDialogComponent} from './save-dialog/save-dialog.component';
 
 @Component({
