@@ -1,12 +1,6 @@
 <app-navigation></app-navigation>
-<perfect-scrollbar
-  #scrollbar
-  (psScrollY)="onScoll($event)"
-  [perfectScrollbar]
-  class="scroll"
-  style="max-height: calc(100vh); width: 100%; overflow: hidden"
->
-  <div [@fader]="o.isActivated ? o.activatedRoute : ''" class="content">
+
+<div [@fader]="o.isActivated ? o.activatedRoute : ''" class="content">
     <router-outlet #o="outlet"></router-outlet>
   </div>
-</perfect-scrollbar>
+

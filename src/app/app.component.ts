@@ -1,7 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {fader} from './animations';
 import {ScrollService} from './services/scroll.service';
-import {PerfectScrollbarComponent} from 'ngx-perfect-scrollbar';
 import {register} from 'swiper/element/bundle';
 
 @Component({
@@ -12,12 +11,7 @@ import {register} from 'swiper/element/bundle';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  @ViewChild('scrollbar', {static: false}) public scrollbar: PerfectScrollbarComponent | null = null;
-
   public constructor(private scrollService: ScrollService) {
-    scrollService.restoreScrollPosition$.subscribe(pos => {
-      if (this.scrollbar && pos) this.scrollbar.directiveRef?.scrollTo(0, pos, 300);
-    });
     register();
   }
 

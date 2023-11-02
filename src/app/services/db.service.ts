@@ -21,7 +21,7 @@ export class DbService {
     return typeof ref === 'string' ? this.afs.doc<T>(ref) : ref;
   }
 
-  public doc$<T>(ref: DocumentPredicate<T>): Observable<(T & {id: string}) | null> {
+  public doc$<T>(ref: DocumentPredicate<T>): Observable<(NonNullable<T> & {id?: string}) | null> {
     return this.doc(ref)
       .valueChanges({idField: 'id'})
       .pipe(map(_ => (_ ? _ : null)));

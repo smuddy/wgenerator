@@ -7,6 +7,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
 import {map, switchMap} from 'rxjs/operators';
+import firebase from 'firebase/compat/app';
+import Timestamp = firebase.firestore.Timestamp;
 
 @Component({
   selector: 'app-edit',
@@ -56,7 +58,7 @@ export class EditComponent implements OnInit {
     await this.showService.update$(
       this.form.value.id as string,
       {
-        date: this.form.value.date,
+        date: Timestamp.fromDate(this.form.value.date),
         showType: this.form.value.showType,
       } as Partial<Show>
     );
