@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
 import {filterSong} from '../../../services/filter.helper';
-import {MatLegacySelectChange as MatSelectChange} from '@angular/material/legacy-select';
+import {MatSelectChange} from '@angular/material/select';
 import {Song} from '../../../modules/songs/services/song';
 import {ShowSong} from '../../../modules/shows/services/show-song';
 import {ShowSongService} from '../../../modules/shows/services/show-song.service';

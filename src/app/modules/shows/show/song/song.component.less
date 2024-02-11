@@ -17,8 +17,18 @@
 }
 
 .keys {
-  width: 40px;
-  margin: -24px 0 -20px 0;
+  position: relative;
+  margin-right: 10px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.transpose {
+  height: 0;
+  position: absolute;
 }
 
 .btn-up {
@@ -54,6 +64,7 @@
   grid-area: delete;
   justify-content: flex-end;
 }
+
 .btn-edit {
   grid-area: edit;
   justify-content: flex-end;

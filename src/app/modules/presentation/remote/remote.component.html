@@ -77,7 +77,7 @@
 
       <div *ngIf="show" class="div-bottom">
 
-        <button routerLink="/presentation/monitor" mat-button>
+        <button class="btn-start-presentation" mat-button routerLink="/presentation/monitor">
           <fa-icon [icon]="faDesktop"></fa-icon>
           Präsentation starten
         </button>
@@ -98,16 +98,18 @@
         </mat-form-field>
 
         <mat-slider
-          (ngModelChange)="onZoom($event, show.id)"
           [max]="100"
           [min]="10"
-          [ngModel]="show.presentationZoom"
           [step]="2"
-          [thumbLabel]="true"
           color="primary"
           class="zoom-slider"
-        >
+          #slider
+          ngDefaultControl
+        ><input (ngModelChange)="onZoom($event, show.id)"
+                [ngModel]="show.presentationZoom"
+                matSliderThumb>
         </mat-slider>
+
 
       </div>
 

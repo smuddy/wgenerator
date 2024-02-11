@@ -4,9 +4,11 @@
 
 @transition: all 300ms ease-in-out;
 
-//html, body {
-//  height: 100%;
-//}
+:root {
+  --color-primary: #4286f4;
+  --color-primary-light: #639af3;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -37,17 +39,11 @@ a {
   color: inherit;
 }
 
-.mat-form-field {
+.mat-mdc-form-field {
   width: 100%;
 }
 
-.mat-form-field .mat-form-field-infix {
-  width: unset;
-}
 
-.mat-form-field.mat-form-field-appearance-standard .mat-form-field-underline {
-  height: 0;
-}
 
 
 .content > *:not(router-outlet) {
@@ -79,49 +75,6 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-perfect-scrollbar.scroll > .ps.ps--scrolling-y > .ps__rail-y,
-perfect-scrollbar.scroll > .ps .ps__rail-y:hover {
-  background-color: #222;
-  opacity: .3;
-}
-
-.mat-chip.mat-standard-chip {
-  background: #fffa;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px #0000 inset;
-  transition: background-color 5000s ease-in-out 0s;
-}
-
-mat-dialog-container.mat-dialog-container {
-  background: #fffb;
-  backdrop-filter: blur(8px);
-  border-radius: 8px;
-}
-
-.mat-form-field-outline {
-  background: #fff4;
-  border-radius: 4px;
-}
-
-.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-outline-gap {
-  border-top-color: inherit !important;
-}
-
-.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
-.mat-form-field-appearance-outline.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label {
-  transform: translateY(-1.0em) scale(0.75);
-}
-
 
 body {
   .swiper-button-next, .swiper-button-prev {
@@ -131,4 +84,7 @@ body {
   .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
     opacity: 0;
   }
+
+  --mat-form-field-container-text-line-height: 16px;
+  --mat-form-field-container-text-size: 16px;
 }

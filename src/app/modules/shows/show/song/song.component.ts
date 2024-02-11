@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ShowSongService} from '../../services/show-song.service';
 import {ShowSong} from '../../services/show-song';
 import {getScale} from '../../../songs/services/key.helper';
@@ -7,6 +7,7 @@ import {ChordMode} from '../../../../widget-modules/components/song-text/song-te
 import {Show} from '../../services/show';
 import {faEraser, faPenToSquare, faSave, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {fade} from '../../../../animations';
+import {MatSelect} from '@angular/material/select';
 
 @Component({
   selector: 'app-song',
@@ -20,6 +21,8 @@ export class SongComponent implements OnInit {
   @Input() public showText: boolean | null = null;
   @Input() public index = -1;
   @Input() public fullscreen = false;
+
+  @ViewChild('option') private keyOptions: MatSelect;
 
   public keys: string[] = [];
   public faDelete = faTrash;
@@ -74,5 +77,9 @@ export class SongComponent implements OnInit {
     await this.showSongService.update$(this.showId, this.iSong.id, {
       chordMode: value,
     });
+  }
+
+  public openKeySelect(): void {
+    this.keyOptions.open();
   }
 }

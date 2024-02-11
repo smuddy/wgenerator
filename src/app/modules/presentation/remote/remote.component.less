@@ -47,21 +47,17 @@
   outline: 0.5px solid #eee;
 
   &:hover {
-    .card-1;
-    outline: 0 solid transparent;
+    outline: 0.5px solid var(--color-primary-light);
   }
 
   &.active {
-    .card-2;
-    outline: 0 solid transparent;
+    outline: 0.5px solid var(--color-primary);
 
     .head {
-      background: #4286f4;
+      background-color: var(--color-primary);
       color: white;
     }
 
-    .fragment {
-    }
   }
 }
 
@@ -79,7 +75,11 @@
 .div-bottom {
   display: grid;
   gap: 20px;
-  grid-template-columns: min-content min-content auto;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  .btn-start-presentation {
+    height: 56px;
+  }
 
   @media screen and (max-width: 860px) {
     gap: 10px;

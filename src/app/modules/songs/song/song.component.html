@@ -40,14 +40,15 @@
         [text]="song.text"
       ></app-song-text>
 
-      <mat-chip-list
+      <mat-chip-listbox
         *appRole="['leader', 'contributor']"
         aria-label="Attribute"
       >
-        <mat-chip *ngFor="let flag of getFlags(song.flags)">{{
+        <mat-chip-option *ngFor="let flag of getFlags(song.flags)">{{
           flag
-          }}</mat-chip>
-      </mat-chip-list>
+          }}
+        </mat-chip-option>
+      </mat-chip-listbox>
 
       <div *appRole="['leader', 'contributor']" class="text">
         {{ song.comment }}

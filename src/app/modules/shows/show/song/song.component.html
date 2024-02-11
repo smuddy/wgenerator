@@ -7,9 +7,10 @@
   <div *ngIf="!show.published && !fullscreen" class="song">
     <span class="title">{{ iSong.title }}</span>
     <span *ngIf="!edit" class="keys">
-      <span *ngIf="iSong.keyOriginal !== iSong.key">{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span>
-      <mat-form-field *ngIf="keys" appearance="standard" class="keys">
-        <mat-select [formControl]="keyFormControl">
+      <span *ngIf="iSong.keyOriginal !== iSong.key">{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span><span
+      (click)="openKeySelect()">{{ iSong.key }}</span>
+      <mat-form-field (click)="option.open()" *ngIf="keys" class="transpose">
+        <mat-select #option [formControl]="keyFormControl">
           <mat-option *ngFor="let key of keys" [value]="key">{{ key }}</mat-option>
         </mat-select>
       </mat-form-field>

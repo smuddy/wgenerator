@@ -25,7 +25,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {fade} from '../../../animations';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {ArchiveDialogComponent} from '../dialog/archive-dialog/archive-dialog.component';
 import {closeFullscreen, openFullscreen} from '../../../services/fullscreen';
 
