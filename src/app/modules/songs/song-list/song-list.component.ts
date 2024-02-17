@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {SongService} from '../services/song.service';
 import {Song} from '../services/song';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
 import {fade} from '../../../animations';
 import {ActivatedRoute} from '@angular/router';
@@ -21,6 +21,7 @@ export class SongListComponent implements OnInit, OnDestroy {
   public songs$: Observable<Song[]> | null = combineLatest([
     this.activatedRoute.queryParams.pipe(map(_ => _ as FilterValues)),
     this.activatedRoute.data.pipe(
+      tap(_ => console.log(_)),
       map(data => data.songList as Song[]),
       map(songs => songs.sort((a, b) => a.number - b.number))
     ),
@@ -29,7 +30,7 @@ export class SongListComponent implements OnInit, OnDestroy {
       const songs = _[1];
       const filter = _[0];
       this.anyFilterActive = this.checkIfFilterActive(filter);
-      return songs.filter(song => this.filter(song, filter)).sort((a, b) => a.title.localeCompare(b.title));
+      return songs.filter(song => this.filter(song, filter)).sort((a, b) => a.title?.localeCompare(b.title));
     })
   );
   public anyFilterActive = false;

@@ -24,6 +24,7 @@
   <mat-form-field *ngIf="edit" appearance="outline">
     <mat-label>Songtext</mat-label>
     <textarea matTooltip="Tonart ändern"
+              class="edit"
               [cdkTextareaAutosize]="true"
               [formControl]="editSongControl"
               matInput
