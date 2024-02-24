@@ -6,7 +6,8 @@
     "build": "ng build",
     "deploy": "ng build --configuration production && firebase deploy",
     "test": "ng test",
-    "lint": "ng lint --fix"
+    "lint": "ng lint --fix",
+    "update": "ng update @angular/cdk @angular/cli @angular/core @angular/material && ncu -u && npm i"
   },
   "private": true,
   "dependencies": {
