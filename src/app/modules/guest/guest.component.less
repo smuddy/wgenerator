@@ -1,16 +1,59 @@
+.page {
+  background: #0009;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  backdrop-filter: blur(8px);
+
+  --swiper-scrollbar-bg-color: #fff3;
+  --swiper-scrollbar-drag-bg-color: #fff9;
+  --swiper-scrollbar-sides-offset: 20px;
+  --swiper-scrollbar-top: 100px;
+  --swiper-scrollbar-bottom: auto;
+}
+
+.title {
+  color: white;
+  padding: 70px 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .left {
+    font-size: 1.8em;
+    color: #fff;
+  }
+}
+
+.song-title {
+  padding: 20px 20px 0;
+  font-size: 1.3em;
+}
+
+.legal {
+  padding: 0 20px;
+  font-size: 0.6em;
+  color: #fff9;
+}
+
 .view {
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: #0003;
-  backdrop-filter: blur(10px);
-  z-index: 1;
   color: white;
 }
 
 app-song-text {
   margin: 20px;
   display: block;
+}
+
+.song-swipe {
+  margin-top: 100px;
+  margin-bottom: 50px;
+  min-height: calc(100vh - 150px);
 }

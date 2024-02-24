@@ -1,11 +1,25 @@
-<div *ngIf="songs$ | async as songs" class="view">
-<!--  <swiper>-->
-<!--    <div *ngFor="let song of songs" class="song">-->
-<!--      <app-song-text-->
-<!--        [showSwitch]="false"-->
-<!--        [text]="song"-->
-<!--        chordMode="hide"-->
-<!--      ></app-song-text>-->
-<!--    </div>-->
-<!--  </swiper>-->
+<div *ngIf="show$|async as show" class="page">
+  <div class="title">
+    <div class="left">{{ show.showType|showType }}</div>
+    <div class="right">{{ show.date.toDate() | date: 'dd.MM.yyyy' }}</div>
+  </div>
+
+  <div class="view">
+    <swiper-container scrollbar="true">
+      <swiper-slide *ngFor="let song of show.songs; let i = index; trackBy: trackBy"
+                    class="song-swipe">
+        <div class="song-title">{{ song.title }}</div>
+
+        <div class="legal">
+          <p *ngIf="song.artist">{{ song.artist }}</p>
+        </div>
+
+        <app-song-text
+          [text]="song.text"
+        ></app-song-text>
+      </swiper-slide>
+    </swiper-container>
+  </div>
 </div>
+
+

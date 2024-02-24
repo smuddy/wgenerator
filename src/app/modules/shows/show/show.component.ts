@@ -19,6 +19,7 @@ import {
   faLock,
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
+  faShare,
   faSliders,
   faUser,
   faUsers,
@@ -28,6 +29,8 @@ import {fade} from '../../../animations';
 import {MatDialog} from '@angular/material/dialog';
 import {ArchiveDialogComponent} from '../dialog/archive-dialog/archive-dialog.component';
 import {closeFullscreen, openFullscreen} from '../../../services/fullscreen';
+import {GuestShowService} from '../../guest/guest-show.service';
+import {ShareDialogComponent} from '../dialog/share-dialog/share-dialog.component';
 
 @Component({
   selector: 'app-show',
@@ -46,14 +49,13 @@ export class ShowComponent implements OnInit, OnDestroy {
   public faBoxOpen = faBoxOpen;
   public faPublish = faExternalLinkAlt;
   public faUnpublish = faLock;
+  public faShare = faShare;
   public faDownload = faFileDownload;
   public faSliders = faSliders;
   public faUser = faUser;
   public faUsers = faUsers;
   public faZoomIn = faMagnifyingGlassPlus;
   public faZoomOut = faMagnifyingGlassMinus;
-  public faPage = faFile;
-  public faLines = faFileLines;
   private subs: Subscription[] = [];
   public useSwiper = false;
 
@@ -65,7 +67,8 @@ export class ShowComponent implements OnInit, OnDestroy {
     private docxService: DocxService,
     private router: Router,
     private cRef: ChangeDetectorRef,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private guestShowService: GuestShowService
   ) {}
 
   public ngOnInit(): void {
@@ -128,6 +131,11 @@ export class ShowComponent implements OnInit, OnDestroy {
     if (this.showId != null) await this.showService.update$(this.showId, {published});
   }
 
+  public onShare = async (show: Show): Promise<void> => {
+    const url = await this.guestShowService.share(show, this.orderedShowSongs(show));
+    this.dialog.open(ShareDialogComponent, {data: {url, show}});
+  };
+
   public getStatus(show: Show): string {
     if (show.published) {
       return 'veröffentlicht';
@@ -162,7 +170,7 @@ export class ShowComponent implements OnInit, OnDestroy {
     return show.order.map(_ => list.filter(f => f.id === _)[0]);
   }
 
-  public trackBy = (index: number, show: ShowSong) => show.id;
+  public trackBy = (_: number, show: ShowSong) => show.id;
 
   public async onChange(showId: string) {
     await this.router.navigateByUrl('/shows/' + showId + '/edit');

@@ -1,11 +1,9 @@
 import {Component} from '@angular/core';
-import {SongService} from '../songs/services/song.service';
-import {GlobalSettingsService} from '../../services/global-settings.service';
-import {Observable} from 'rxjs';
-import {filter, map, switchMap} from 'rxjs/operators';
-import {ShowSongService} from '../shows/services/show-song.service';
-import {GlobalSettings} from '../../services/global-settings';
-import {ShowService} from '../shows/services/show.service';
+import {GuestShowDataService} from './guest-show-data.service';
+import {ActivatedRoute} from '@angular/router';
+import {map, switchMap} from 'rxjs/operators';
+import {Song} from '../songs/services/song';
+import {ConfigService} from '../../services/config.service';
 
 @Component({
   selector: 'app-guest',
@@ -13,20 +11,17 @@ import {ShowService} from '../shows/services/show.service';
   styleUrls: ['./guest.component.less'],
 })
 export class GuestComponent {
-  public songs$: Observable<string[]> = this.globalSettingsService.get$.pipe(
-    filter(_ => !!_),
-    map(_ => _ as GlobalSettings),
-    map(_ => _.currentShow),
-    switchMap(_ => this.showSongService.list$(_).pipe(map(l => ({showSongs: l, currentShow: _})))),
-    switchMap(_ => this.showService.read$(_.currentShow).pipe(map(l => ({showSongs: _.showSongs, show: l})))),
-    filter(_ => !!_.showSongs),
-    map(_ => (_?.show ? _.show.order.map(o => _.showSongs.find(f => f.id === o) ?? _.showSongs[0]).map(m => m.text) : []))
+  public show$ = this.currentRoute.params.pipe(
+    map(param => param.id as string),
+    switchMap(id => this.service.read$(id))
   );
+  public config$ = this.configService.get$();
 
   public constructor(
-    private songService: SongService,
-    private showService: ShowService,
-    private globalSettingsService: GlobalSettingsService,
-    private showSongService: ShowSongService
+    private currentRoute: ActivatedRoute,
+    private service: GuestShowDataService,
+    private configService: ConfigService
   ) {}
+
+  public trackBy = (index: number, show: Song) => show.id;
 }

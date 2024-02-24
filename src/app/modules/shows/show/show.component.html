@@ -6,7 +6,7 @@
       show.date.toDate() | date: 'dd.MM.yyyy'
     }} - {{ getStatus(show) }}"
   >
-    <p *ngIf="!useSwiper">{{show.public ? 'öffentliche' : 'geschlossene'}} Veranstaltung von
+    <p *ngIf="!useSwiper">{{ show.public ? 'öffentliche' : 'geschlossene' }} Veranstaltung von
       <app-user-name [userId]="show.owner"></app-user-name>
     </p>
     <div class="head">
@@ -41,7 +41,8 @@
     </div>
 
     <swiper-container *ngIf="useSwiper" scrollbar="true">
-      <swiper-slide *ngFor="let song of orderedShowSongs(show); let i = index; trackBy: trackBy" [style.font-size]="textSize + 'em'"
+      <swiper-slide *ngFor="let song of orderedShowSongs(show); let i = index; trackBy: trackBy"
+                    [style.font-size]="textSize + 'em'"
                     class="song-swipe">
         <app-song
           [fullscreen]="true"
@@ -75,6 +76,9 @@
           </app-button>
           <app-button (click)="onPublish(false)" *ngIf="show.published" [icon]="faUnpublish">
             Veröffentlichung zurückziehen
+          </app-button>
+          <app-button (click)="onShare(show)" *ngIf="show.published" [icon]="faShare">
+            Teilen
           </app-button>
           <app-button (click)="onChange(show.id)" [icon]="faSliders" *ngIf="!show.published">
             Ändern

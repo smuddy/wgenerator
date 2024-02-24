@@ -1,0 +1,13 @@
+<div mat-dialog-content>
+  <a [href]="data.url">{{ data.url }}</a>
+  <div [style.background-image]="'url('+qrCode+')'" alt="qrcode" class="qrcode">
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button [mat-dialog-close]="true" cdkFocusInitial mat-button>
+    Schließen
+  </button>
+  <button (click)="share()" mat-button>
+    Teilen
+  </button>
+</div>

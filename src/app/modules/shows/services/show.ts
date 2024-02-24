@@ -13,6 +13,7 @@ export interface Show {
   published: boolean;
   archived: boolean;
   order: string[];
+  shareId: string;
 
   presentationSongId: string;
   presentationDynamicCaption: string;

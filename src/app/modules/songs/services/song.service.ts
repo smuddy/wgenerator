@@ -25,7 +25,10 @@ export class SongService {
 
   // private list: Song[];
 
-  public constructor(private songDataService: SongDataService, private userService: UserService) {
+  public constructor(
+    private songDataService: SongDataService,
+    private userService: UserService
+  ) {
     // importCCLI = (songs: Song[]) => this.updateFromCLI(songs);
   }
 
