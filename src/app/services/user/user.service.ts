@@ -14,18 +14,7 @@ export class UserService {
   private iUserId$ = new BehaviorSubject<string | null>(null);
   private iUser$ = new BehaviorSubject<User | null>(null);
 
-  public constructor(private afAuth: AngularFireAuth, private db: DbService, private router: Router) {
-    this.afAuth.authState
-      .pipe(
-        filter(auth => !!auth),
-        map(auth => auth?.uid ?? ''),
-        tap(uid => this.iUserId$.next(uid)),
-        switchMap(uid => this.readUser$(uid))
-      )
-      .subscribe(_ => this.iUser$.next(_));
-
-    this.db.col$<User>('users/').subscribe(_ => this.users$.next(_));
-  }
+  public users$ = new BehaviorSubject<User[]>([]);
 
   public get userId$(): Observable<string | null> {
     return this.iUserId$.asObservable();
@@ -37,7 +26,22 @@ export class UserService {
 
   public currentUser = async (): Promise<User | null> => firstValueFrom(this.user$);
 
-  private users$ = new BehaviorSubject<User[]>([]);
+  public constructor(
+    private afAuth: AngularFireAuth,
+    private db: DbService,
+    private router: Router
+  ) {
+    this.afAuth.authState
+      .pipe(
+        filter(auth => !!auth),
+        map(auth => auth?.uid ?? ''),
+        tap(uid => this.iUserId$.next(uid)),
+        switchMap(uid => this.readUser$(uid))
+      )
+      .subscribe(_ => this.iUser$.next(_));
+
+    this.db.col$<User>('users/').subscribe(_ => this.users$.next(_));
+  }
   public getUserbyId = (userId: string): Promise<User | null> => firstValueFrom(this.getUserbyId$(userId));
   public getUserbyId$ = (userId: string): Observable<User | null> => this.users$.pipe(map(_ => _.find(f => f.id === userId) || null));
 

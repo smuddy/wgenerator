@@ -23,18 +23,29 @@ export class ListComponent {
       return +filterValues.time;
     })
   );
+  public owner$ = this.activatedRoute.queryParams.pipe(
+    map(params => {
+      const filterValues = params as FilterValues;
+      return filterValues?.owner;
+    })
+  );
 
-  public publicShows$ = combineLatest([this.shows$, this.lastMonths$]).pipe(
-    map(_ =>
-      _[0].filter(f => {
-        const d = new Date();
-        d.setMonth(d.getMonth() - _[1]);
-        return f.published && f.date.toDate() >= d;
-      })
+  public publicShows$ = combineLatest([this.shows$, this.lastMonths$, this.owner$]).pipe(
+    map(([shows, lastMonths, owner]) =>
+      shows
+        .filter(f => {
+          const d = new Date();
+          d.setMonth(d.getMonth() - lastMonths);
+          return f.published && f.date.toDate() >= d;
+        })
+        .filter(show => !owner || show.owner === owner)
     )
   );
 
-  public constructor(private showService: ShowService, private activatedRoute: ActivatedRoute) {}
+  public constructor(
+    private showService: ShowService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   public trackBy = (index: number, show: unknown) => (show as Show).id;
 }

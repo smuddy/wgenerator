@@ -22,7 +22,11 @@ export class NewComponent implements OnInit {
   });
   public faSave = faSave;
 
-  public constructor(private showService: ShowService, showDataService: ShowDataService, private router: Router) {
+  public constructor(
+    private showService: ShowService,
+    showDataService: ShowDataService,
+    private router: Router
+  ) {
     this.shows$ = showDataService.list$;
   }
 

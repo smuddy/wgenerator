@@ -9,7 +9,7 @@
       <app-card
         *ngIf="shows.length > 0"
         [padding]="false"
-        heading="meine Veranstaltungen"
+        heading="Meine Veranstaltungen"
       >
         <app-list-item
           *ngFor="let show of shows | sortBy: 'desc':'date'"
@@ -24,7 +24,7 @@
     <app-card
       *ngIf="shows.length > 0"
       [padding]="false"
-      heading="veröffentlichte Veranstaltungen"
+      heading="Veröffentlichte Veranstaltungen"
     >
       <app-list-item
         *ngFor="let show of shows | sortBy: 'desc':'date'; trackBy: trackBy"
