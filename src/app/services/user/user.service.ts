@@ -6,6 +6,8 @@ import {User} from './user';
 import {DbService} from '../db.service';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
+import {ShowDataService} from '../../modules/shows/services/show-data.service';
+import {ShowSongDataService} from '../../modules/shows/services/show-song-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +31,9 @@ export class UserService {
   public constructor(
     private afAuth: AngularFireAuth,
     private db: DbService,
-    private router: Router
+    private router: Router,
+    private showDataService: ShowDataService,
+    private showSongDataService: ShowSongDataService
   ) {
     this.afAuth.authState
       .pipe(
@@ -49,6 +53,7 @@ export class UserService {
     const aUser = await this.afAuth.signInWithEmailAndPassword(user, password);
     if (!aUser.user) return null;
     const dUser = await this.readUser(aUser.user.uid);
+    await this.initSongUsage(dUser);
     this.iUser$.next(dUser);
     this.iUserId$.next(aUser.user.uid);
 
@@ -82,6 +87,40 @@ export class UserService {
     const dUser = await this.readUser(aUser.user.uid);
     this.iUser$.next(dUser);
     await this.router.navigateByUrl('/brand/new-user');
+  }
+
+  public incSongCount = (songId: string) => this.updateSongUsage(songId, 1);
+  public decSongCount = (songId: string) => this.updateSongUsage(songId, -1);
+
+  private async updateSongUsage(songId: string, direction: number) {
+    const user = await firstValueFrom(this.user$);
+    if (!user) return null;
+
+    const songUsage = user?.songUsage ?? {};
+    let currentSongCount = songUsage[songId];
+    if (currentSongCount === null || currentSongCount === undefined) currentSongCount = 0;
+    else currentSongCount = currentSongCount + direction;
+    songUsage[songId] = Math.max(0, currentSongCount);
+
+    await this.update$(user.id, {songUsage});
+  }
+
+  private async initSongUsage(user: User) {
+    if (user.songUsage) return;
+
+    const shows = await firstValueFrom(this.showDataService.listRaw$());
+    const myShows = shows.filter(show => show.owner === user.id);
+    const songUsage: {[songId: string]: number} = {};
+    for (const show of myShows) {
+      const showSongs = await firstValueFrom(this.showSongDataService.list$(show.id));
+      for (const showSong of showSongs) {
+        const current = songUsage[showSong.songId] ?? 0;
+        songUsage[showSong.songId] = current + 1;
+      }
+    }
+
+    await this.update$(user.id, {songUsage});
+    return;
   }
 
   private readUser$ = (uid: string) => this.db.doc$<User>('users/' + uid);

@@ -14,6 +14,7 @@ export class ShowDataService {
     this.dbService.col$<Show>(this.collection).subscribe(_ => this.list$.next(_));
   }
 
+  public listRaw$ = () => this.dbService.col$<Show>(this.collection);
   public list$ = new BehaviorSubject<Show[]>([]);
   public read$ = (showId: string): Observable<Show | null> => this.list$.pipe(map(_ => _.find(s => s.id === showId) || null));
 

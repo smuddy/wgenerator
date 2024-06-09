@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SongService} from '../services/song.service';
-import {map, switchMap} from 'rxjs/operators';
+import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {Song} from '../services/song';
-import {Observable} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {FileDataService} from '../services/file-data.service';
 import {File} from '../services/file';
 import {UserService} from '../../../services/user/user.service';
@@ -71,4 +71,12 @@ export class SongComponent implements OnInit {
     await this.showService.update$(show?.id, {order: [...show.order, newId ?? '']});
     await this.router.navigateByUrl('/shows/' + show.id);
   }
+
+  public songCount$ = () =>
+    combineLatest([this.user$, this.song$]).pipe(
+      map(([user, song]) => {
+        return user.songUsage[song.id];
+      }),
+      distinctUntilChanged()
+    );
 }

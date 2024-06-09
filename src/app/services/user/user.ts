@@ -5,4 +5,5 @@ export interface User {
   name: string;
   role: string;
   chordMode: ChordMode;
+  songUsage: {[songId: string]: number};
 }

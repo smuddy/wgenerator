@@ -29,6 +29,7 @@ export class ShowSongService {
       chordMode: user.chordMode,
       addedLive,
     };
+    await this.userService.incSongCount(songId);
     return await this.showSongDataService.add(showId, data);
   }
 
@@ -38,13 +39,15 @@ export class ShowSongService {
   public list$ = (showId: string): Observable<ShowSong[]> => this.showSongDataService.list$(showId);
   public list = (showId: string): Promise<ShowSong[]> => firstValueFrom(this.list$(showId));
 
-  public async delete$(showId: string, songId: string, index: number): Promise<void> {
-    await this.showSongDataService.delete(showId, songId);
+  public async delete$(showId: string, showSongId: string, index: number): Promise<void> {
+    const showSong = await this.read(showId, showSongId);
+    await this.showSongDataService.delete(showId, showSongId);
     const show = await firstValueFrom(this.showService.read$(showId));
     if (!show) return;
     const order = show.order;
     order.splice(index, 1);
     await this.showService.update$(showId, {order});
+    await this.userService.decSongCount(showSong.songId);
   }
 
   public update$ = async (showId: string, songId: string, data: Partial<ShowSong>): Promise<void> => await this.showSongDataService.update$(showId, songId, data);

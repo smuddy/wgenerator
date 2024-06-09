@@ -29,10 +29,10 @@
           <div *ngIf="song.label">Verlag: {{ song.label }}</div>
           <div *ngIf="song.origin">Quelle: {{ song.origin }}</div>
           <div *ngIf="song.origin">Quelle: {{ song.origin }}</div>
+          <div *ngIf="songCount$()|async as count">Wie oft verwendet: {{ count }}</div>
         </div>
       </div>
 
-      <!-- <div class="text">{{song.text}}</div>-->
       <app-song-text
         *ngIf="user$ | async as user"
         [chordMode]="user.chordMode"
