@@ -50,7 +50,8 @@
             "namedChunks": true,
             "allowedCommonJsDependencies": [
               "lodash",
-              "docx"
+              "docx",
+              "qrcode"
             ]
           },
           "configurations": {
