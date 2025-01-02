@@ -11,7 +11,7 @@ describe('MonitorComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [MonitorComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

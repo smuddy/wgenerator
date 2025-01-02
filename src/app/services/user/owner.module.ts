@@ -7,4 +7,5 @@ import {CommonModule} from '@angular/common';
   exports: [OwnerDirective],
   imports: [CommonModule],
 })
-export class OwnerModule {}
+export class OwnerModule {
+}

@@ -15,6 +15,7 @@ import {isEqual} from 'lodash';
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.less'],
+  standalone: false,
 })
 export class FilterComponent {
   @Input() public route = '/shows/';
@@ -38,7 +39,7 @@ export class FilterComponent {
     private showService: ShowService,
     private userService: UserService,
     activatedRoute: ActivatedRoute,
-    fb: UntypedFormBuilder
+    fb: UntypedFormBuilder,
   ) {
     this.filterFormGroup = fb.group({
       time: 1,
@@ -63,7 +64,7 @@ export class FilterComponent {
       this.showService.list$().pipe(
         map(shows => {
           return shows.map(show => show.owner).filter(onlyUnique);
-        })
+        }),
       ),
       this.userService.users$,
     ]).pipe(
@@ -76,7 +77,7 @@ export class FilterComponent {
           .sort(dynamicSort('value'));
       }),
       distinctUntilChanged(isEqual),
-      map(_ => _ as {key: string; value: string}[])
+      map(_ => _ as {key: string; value: string}[]),
     );
   };
 

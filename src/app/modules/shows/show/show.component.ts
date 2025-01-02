@@ -37,6 +37,7 @@ import {ShareDialogComponent} from '../dialog/share-dialog/share-dialog.componen
   templateUrl: './show.component.html',
   styleUrls: ['./show.component.less'],
   animations: [fade],
+  standalone: false,
 })
 export class ShowComponent implements OnInit, OnDestroy {
   public show$: Observable<Show | null> | null = null;
@@ -56,8 +57,11 @@ export class ShowComponent implements OnInit, OnDestroy {
   public faUsers = faUsers;
   public faZoomIn = faMagnifyingGlassPlus;
   public faZoomOut = faMagnifyingGlassMinus;
-  private subs: Subscription[] = [];
   public useSwiper = false;
+  public textSize = 1;
+  public faFileLines = faFileLines;
+  public faFile = faFile;
+  private subs: Subscription[] = [];
 
   public constructor(
     private activatedRoute: ActivatedRoute,
@@ -68,15 +72,16 @@ export class ShowComponent implements OnInit, OnDestroy {
     private router: Router,
     private cRef: ChangeDetectorRef,
     public dialog: MatDialog,
-    private guestShowService: GuestShowService
-  ) {}
+    private guestShowService: GuestShowService,
+  ) {
+  }
 
   public ngOnInit(): void {
     this.show$ = this.activatedRoute.params.pipe(
       map(param => param as {showId: string}),
       map(param => param.showId),
       tap((_: string) => (this.showId = _)),
-      switchMap((showId: string) => this.showService.read$(showId))
+      switchMap((showId: string) => this.showService.read$(showId)),
     );
     this.subs.push(
       this.activatedRoute.params
@@ -84,7 +89,7 @@ export class ShowComponent implements OnInit, OnDestroy {
           map(param => param as {showId: string}),
           map(param => param.showId),
           switchMap(showId => this.showSongService.list$(showId)),
-          filter(_ => !!_ && _.length > 0)
+          filter(_ => !!_ && _.length > 0),
         )
         .subscribe(_ => {
           this.showSongs = _;
@@ -96,15 +101,13 @@ export class ShowComponent implements OnInit, OnDestroy {
         .subscribe(_ => {
           this.songs = _;
           this.cRef.markForCheck();
-        })
+        }),
     );
   }
 
   public ngOnDestroy(): void {
     this.subs.forEach(_ => _.unsubscribe());
   }
-
-  public textSize = 1;
 
   public onZoomIn() {
     this.textSize += 0.1;
@@ -175,9 +178,6 @@ export class ShowComponent implements OnInit, OnDestroy {
   public async onChange(showId: string) {
     await this.router.navigateByUrl('/shows/' + showId + '/edit');
   }
-
-  public faFileLines = faFileLines;
-  public faFile = faFile;
 
   @HostListener('document:keydown', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent) {

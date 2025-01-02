@@ -9,6 +9,7 @@ import {register} from 'swiper/element/bundle';
   styleUrls: ['./app.component.less'],
   animations: [fader],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   public constructor(private scrollService: ScrollService) {

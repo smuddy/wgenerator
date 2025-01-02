@@ -25,9 +25,10 @@
         [class.chord]="line.type === 0"
         [class.disabled]="checkDisabled(i)"
         class="line"
-      >{{ line.text }}</div>
+      >{{ line.text }}
+      </div>
     </div>
-    <div class="error" *ngIf="sections.length===0">
+    <div *ngIf="sections.length===0" class="error">
       Es wurden keine Liedabschnitte gefunden! Bitte mindestens einen Abschnitt festlegen!
     </div>
   </div>
@@ -52,7 +53,7 @@
   </button>
 
   <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
-    <h1 *ngIf="header">{{header}}</h1>
+    <h1 *ngIf="header">{{ header }}</h1>
     <div
       #section
       *ngFor="let section of sections; let i = index"
@@ -64,7 +65,8 @@
         [class.chord]="line.type === 0"
         [class.disabled]="checkDisabled(i)"
         class="line"
-      >{{ line.text.trim() }}</div>
+      >{{ line.text.trim() }}
+      </div>
     </div>
   </div>
 

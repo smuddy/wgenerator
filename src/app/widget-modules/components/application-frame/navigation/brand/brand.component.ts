@@ -4,5 +4,7 @@ import {Component} from '@angular/core';
   selector: 'app-brand',
   templateUrl: './brand.component.html',
   styleUrls: ['./brand.component.less'],
+  standalone: false,
 })
-export class BrandComponent {}
+export class BrandComponent {
+}

@@ -19,6 +19,7 @@ import {openFullscreen} from '../../../services/fullscreen';
   templateUrl: './monitor.component.html',
   styleUrls: ['./monitor.component.less'],
   animations: [songSwitch],
+  standalone: false,
 })
 export class MonitorComponent implements OnInit {
   public song: Song | null = null;
@@ -40,7 +41,7 @@ export class MonitorComponent implements OnInit {
     private textRenderingService: TextRenderingService,
     private globalSettingsService: GlobalSettingsService,
     private configService: ConfigService,
-    private cRef: ChangeDetectorRef
+    private cRef: ChangeDetectorRef,
   ) {
     this.config$ = configService.get$();
   }
@@ -54,7 +55,7 @@ export class MonitorComponent implements OnInit {
         map(_ => _ as GlobalSettings),
         map(_ => _.currentShow),
         distinctUntilChanged(),
-        tap(_ => (this.currentShowId = _))
+        tap(_ => (this.currentShowId = _)),
       )
       .pipe(
         switchMap(_ => this.showService.read$(_)),
@@ -76,7 +77,7 @@ export class MonitorComponent implements OnInit {
         }),
         switchMap((_: Show) => this.showSongService.read$(_.id, _.presentationSongId)),
         filter(_ => !!_),
-        map(_ => _ as Song)
+        map(_ => _ as Song),
       )
       .subscribe(_ => {
         this.song = _;

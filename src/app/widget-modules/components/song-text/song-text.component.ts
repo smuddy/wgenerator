@@ -1,4 +1,14 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import {TextRenderingService} from '../../../modules/songs/services/text-rendering.service';
 import {faGripLines} from '@fortawesome/free-solid-svg-icons';
 import {songSwitch} from './animation';
@@ -15,6 +25,7 @@ export type ChordMode = 'show' | 'hide' | 'onlyFirst';
   templateUrl: './song-text.component.html',
   styleUrls: ['./song-text.component.less'],
   animations: [songSwitch],
+  standalone: false,
 })
 export class SongTextComponent implements OnInit {
   public sections: Section[] = [];
@@ -30,7 +41,8 @@ export class SongTextComponent implements OnInit {
   private iText = '';
   private iTranspose: TransposeMode | null = null;
 
-  public constructor(private textRenderingService: TextRenderingService, private elRef: ElementRef<HTMLElement>, private cRef: ChangeDetectorRef) {}
+  public constructor(private textRenderingService: TextRenderingService, private elRef: ElementRef<HTMLElement>, private cRef: ChangeDetectorRef) {
+  }
 
   @Input()
   public set chordMode(value: ChordMode) {
@@ -59,20 +71,6 @@ export class SongTextComponent implements OnInit {
       this.offset = -this.viewSections?.toArray()[this.index].nativeElement.offsetTop;
       this.cRef.markForCheck();
     }, 100);
-  }
-
-  private render() {
-    this.offset = 0;
-    this.sections = [];
-    if (this.fullscreen) {
-      setTimeout(() => {
-        this.sections = this.textRenderingService.parse(this.iText, this.iTranspose);
-        this.cRef.markForCheck();
-      }, 100);
-    } else {
-      this.sections = this.textRenderingService.parse(this.iText, this.iTranspose); //.sort((a, b) => a.type - b.type);
-      this.cRef.markForCheck();
-    }
   }
 
   public getLines(section: Section): Line[] {
@@ -106,6 +104,20 @@ export class SongTextComponent implements OnInit {
 
   public checkDisabled(i: number): boolean {
     return this.index !== -1 && this.index !== i;
+  }
+
+  private render() {
+    this.offset = 0;
+    this.sections = [];
+    if (this.fullscreen) {
+      setTimeout(() => {
+        this.sections = this.textRenderingService.parse(this.iText, this.iTranspose);
+        this.cRef.markForCheck();
+      }, 100);
+    } else {
+      this.sections = this.textRenderingService.parse(this.iText, this.iTranspose); //.sort((a, b) => a.type - b.type);
+      this.cRef.markForCheck();
+    }
   }
 
   private getNextChordMode(): ChordMode {

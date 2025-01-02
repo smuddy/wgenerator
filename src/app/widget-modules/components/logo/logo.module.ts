@@ -7,4 +7,5 @@ import {LogoComponent} from './logo.component';
   exports: [LogoComponent],
   imports: [CommonModule],
 })
-export class LogoModule {}
+export class LogoModule {
+}

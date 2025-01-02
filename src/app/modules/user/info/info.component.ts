@@ -11,12 +11,14 @@ import {roles} from '../../../services/user/roles';
   selector: 'app-info',
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.less'],
+  standalone: false,
 })
 export class InfoComponent implements OnInit {
   public user$: Observable<User | null> | null = null;
   public faSignOut = faSignOutAlt;
 
-  public constructor(private userService: UserService) {}
+  public constructor(private userService: UserService) {
+  }
 
   public ngOnInit(): void {
     this.user$ = this.userService.user$;

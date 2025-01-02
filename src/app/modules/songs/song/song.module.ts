@@ -6,7 +6,9 @@ import {SongTypeTranslaterModule} from '../../../widget-modules/pipes/song-type-
 import {MatButtonModule} from '@angular/material/button';
 import {ButtonRowModule} from '../../../widget-modules/components/button-row/button-row.module';
 import {RouterModule} from '@angular/router';
-import {LegalOwnerTranslatorModule} from '../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
+import {
+  LegalOwnerTranslatorModule,
+} from '../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
 import {SongTextModule} from '../../../widget-modules/components/song-text/song-text.module';
 import {MatChipsModule} from '@angular/material/chips';
 import {RoleModule} from '../../../services/user/role.module';
@@ -37,4 +39,5 @@ import {ShowTypeTranslaterModule} from '../../../widget-modules/pipes/show-type-
     ShowTypeTranslaterModule,
   ],
 })
-export class SongModule {}
+export class SongModule {
+}

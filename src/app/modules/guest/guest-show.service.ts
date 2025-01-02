@@ -10,8 +10,9 @@ import {ShowService} from '../shows/services/show.service';
 export class GuestShowService {
   public constructor(
     private showService: ShowService,
-    private guestShowDataService: GuestShowDataService
-  ) {}
+    private guestShowDataService: GuestShowDataService,
+  ) {
+  }
 
   public async share(show: Show, songs: Song[]): Promise<string> {
     const data = {

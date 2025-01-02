@@ -11,4 +11,5 @@ import {ReactiveFormsModule} from '@angular/forms';
   exports: [AddSongComponent],
   imports: [CommonModule, MatFormFieldModule, MatSelectModule, NgxMatSelectSearchModule, ReactiveFormsModule],
 })
-export class AddSongModule {}
+export class AddSongModule {
+}

@@ -10,6 +10,7 @@ import {KEYS} from '../../services/key.helper';
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.less'],
+  standalone: false,
 })
 export class FilterComponent {
   public filterFormGroup: UntypedFormGroup;

@@ -16,13 +16,15 @@ import {faBalanceScaleRight, faCheck, faPencilRuler} from '@fortawesome/free-sol
   styleUrls: ['./song-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fade],
+  standalone: false,
 })
 export class SongListComponent implements OnInit, OnDestroy {
+  public anyFilterActive = false;
   public songs$: Observable<Song[]> | null = combineLatest([
     this.activatedRoute.queryParams.pipe(map(_ => _ as FilterValues)),
     this.activatedRoute.data.pipe(
       map(data => data.songList as Song[]),
-      map(songs => songs.sort((a, b) => a.number - b.number))
+      map(songs => songs.sort((a, b) => a.number - b.number)),
     ),
   ]).pipe(
     map(_ => {
@@ -30,14 +32,14 @@ export class SongListComponent implements OnInit, OnDestroy {
       const filter = _[0];
       this.anyFilterActive = this.checkIfFilterActive(filter);
       return songs.filter(song => this.filter(song, filter)).sort((a, b) => a.title?.localeCompare(b.title));
-    })
+    }),
   );
-  public anyFilterActive = false;
   public faLegal = faBalanceScaleRight;
   public faDraft = faPencilRuler;
   public faFinal = faCheck;
 
-  public constructor(private songService: SongService, private activatedRoute: ActivatedRoute, private scrollService: ScrollService) {}
+  public constructor(private songService: SongService, private activatedRoute: ActivatedRoute, private scrollService: ScrollService) {
+  }
 
   public ngOnInit(): void {
     setTimeout(() => this.scrollService.restoreScrollPositionFor('songlist'), 100);
@@ -47,6 +49,8 @@ export class SongListComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.scrollService.storeScrollPositionFor('songlist');
   }
+
+  public trackBy = (index: number, show: Song) => show.id;
 
   private filter(song: Song, filter: FilterValues): boolean {
     let baseFilter = filterSong(song, filter.q);
@@ -74,6 +78,4 @@ export class SongListComponent implements OnInit, OnDestroy {
 
     return flagStrings.indexOf(flag) !== -1;
   }
-
-  public trackBy = (index: number, show: Song) => show.id;
 }

@@ -11,7 +11,7 @@ describe('MenuButtonComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [MenuButtonComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

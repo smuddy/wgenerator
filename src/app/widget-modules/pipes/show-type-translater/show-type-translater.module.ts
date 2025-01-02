@@ -7,4 +7,5 @@ import {ShowTypePipe} from './show-type.pipe';
   exports: [ShowTypePipe],
   imports: [CommonModule],
 })
-export class ShowTypeTranslaterModule {}
+export class ShowTypeTranslaterModule {
+}

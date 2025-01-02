@@ -11,14 +11,16 @@ import {fade} from '../../../animations';
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.less'],
   animations: [fade],
+  standalone: false,
 })
 export class SelectComponent implements OnInit {
-  public constructor(private showService: ShowService, private globalSettingsService: GlobalSettingsService, private router: Router) {}
   public visible = false;
-
   public shows$ = this.showService
     .list$(true)
     .pipe(map(_ => _.filter(_ => _.date.toDate() > new Date(new Date().setMonth(new Date().getMonth() - 1))).sort((a, b) => (b.date < a.date ? -1 : b.date > a.date ? 1 : 0))));
+
+  public constructor(private showService: ShowService, private globalSettingsService: GlobalSettingsService, private router: Router) {
+  }
 
   public async selectShow(show: Show) {
     this.visible = false;

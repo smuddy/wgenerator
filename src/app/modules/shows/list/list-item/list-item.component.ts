@@ -5,6 +5,7 @@ import {Show} from '../../services/show';
   selector: 'app-list-item',
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.less'],
+  standalone: false,
 })
 export class ListItemComponent {
   @Input() public show: Show | null = null;

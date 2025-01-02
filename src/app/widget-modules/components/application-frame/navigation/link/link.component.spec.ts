@@ -11,7 +11,7 @@ describe('LinkComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [LinkComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

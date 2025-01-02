@@ -9,19 +9,21 @@ import {ConfigService} from '../../services/config.service';
   selector: 'app-guest',
   templateUrl: './guest.component.html',
   styleUrls: ['./guest.component.less'],
+  standalone: false,
 })
 export class GuestComponent {
   public show$ = this.currentRoute.params.pipe(
     map(param => param.id as string),
-    switchMap(id => this.service.read$(id))
+    switchMap(id => this.service.read$(id)),
   );
   public config$ = this.configService.get$();
 
   public constructor(
     private currentRoute: ActivatedRoute,
     private service: GuestShowDataService,
-    private configService: ConfigService
-  ) {}
+    private configService: ConfigService,
+  ) {
+  }
 
   public trackBy = (index: number, show: Song) => show.id;
 }

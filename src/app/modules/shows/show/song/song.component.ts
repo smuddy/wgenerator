@@ -14,6 +14,7 @@ import {MatSelect} from '@angular/material/select';
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.less'],
   animations: [fade],
+  standalone: false,
 })
 export class SongComponent implements OnInit {
   @Input() public show: Show | null = null;
@@ -21,9 +22,6 @@ export class SongComponent implements OnInit {
   @Input() public showText: boolean | null = null;
   @Input() public index = -1;
   @Input() public fullscreen = false;
-
-  @ViewChild('option') private keyOptions: MatSelect;
-
   public keys: string[] = [];
   public faDelete = faTrash;
   public faEdit = faPenToSquare;
@@ -33,8 +31,10 @@ export class SongComponent implements OnInit {
   public iSong: ShowSong | null = null;
   public edit = false;
   public editSongControl = new UntypedFormControl();
+  @ViewChild('option') private keyOptions: MatSelect;
 
-  public constructor(private showSongService: ShowSongService) {}
+  public constructor(private showSongService: ShowSongService) {
+  }
 
   @Input()
   public set showSong(song: ShowSong) {

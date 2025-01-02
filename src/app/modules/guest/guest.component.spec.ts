@@ -11,7 +11,7 @@ describe('GuestComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [GuestComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

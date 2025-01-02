@@ -11,7 +11,7 @@ describe('ListItemComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [ListItemComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

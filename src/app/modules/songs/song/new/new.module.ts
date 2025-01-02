@@ -13,4 +13,5 @@ import {AutofocusModule} from '../../../../widget-modules/directives/autofocus/a
   declarations: [NewComponent],
   imports: [CommonModule, CardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, ButtonRowModule, ButtonModule, AutofocusModule],
 })
-export class NewModule {}
+export class NewModule {
+}

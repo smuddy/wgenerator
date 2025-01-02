@@ -20,4 +20,5 @@ import {ShowTypeTranslaterModule} from '../../widget-modules/pipes/show-type-tra
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class GuestModule {}
+export class GuestModule {
+}

@@ -7,6 +7,7 @@ import {User} from '../../../../services/user/user';
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.less'],
+  standalone: false,
 })
 export class UsersComponent {
   public users$: Observable<User[]>;

@@ -11,7 +11,7 @@ describe('HistoryComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [HistoryComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

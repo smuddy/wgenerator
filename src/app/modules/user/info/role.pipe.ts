@@ -3,6 +3,7 @@ import {roles} from '../../../services/user/roles';
 
 @Pipe({
   name: 'role',
+  standalone: false,
 })
 export class RolePipe implements PipeTransform {
   public transform(role: roles): string {

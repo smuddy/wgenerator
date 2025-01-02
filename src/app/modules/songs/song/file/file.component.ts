@@ -7,12 +7,14 @@ import {Observable} from 'rxjs';
   selector: 'app-file',
   templateUrl: './file.component.html',
   styleUrls: ['./file.component.less'],
+  standalone: false,
 })
 export class FileComponent {
   public url$: Observable<string> | null = null;
   public name = '';
 
-  public constructor(private storage: AngularFireStorage) {}
+  public constructor(private storage: AngularFireStorage) {
+  }
 
   @Input()
   public set file(file: File) {

@@ -7,4 +7,5 @@ import {LegalOwnerPipe} from './legal-owner.pipe';
   exports: [LegalOwnerPipe],
   imports: [CommonModule],
 })
-export class LegalOwnerTranslatorModule {}
+export class LegalOwnerTranslatorModule {
+}

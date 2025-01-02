@@ -11,7 +11,7 @@ describe('EditComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [EditComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

@@ -7,4 +7,5 @@ import {RoleDirective} from './role.directive';
   exports: [RoleDirective],
   imports: [CommonModule],
 })
-export class RoleModule {}
+export class RoleModule {
+}

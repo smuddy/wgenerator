@@ -1,18 +1,18 @@
 <div class="fullscreen background"></div>
 <div *ngIf="song && showType" [style.font-size.px]="zoom" class="fullscreen background">
 
-  <div class="bg-blue fullscreen bg-image" [class.visible]="presentationBackground==='blue'"></div>
-  <div class="bg-green fullscreen bg-image" [class.visible]="presentationBackground==='green'"></div>
-  <div class="bg-leder fullscreen bg-image" [class.visible]="presentationBackground==='leder'"></div>
-  <div class="bg-praise fullscreen bg-image" [class.visible]="presentationBackground==='praise'"></div>
-  <div class="bg-bible fullscreen bg-image" [class.visible]="presentationBackground==='bible'"></div>
+  <div [class.visible]="presentationBackground==='blue'" class="bg-blue fullscreen bg-image"></div>
+  <div [class.visible]="presentationBackground==='green'" class="bg-green fullscreen bg-image"></div>
+  <div [class.visible]="presentationBackground==='leder'" class="bg-leder fullscreen bg-image"></div>
+  <div [class.visible]="presentationBackground==='praise'" class="bg-praise fullscreen bg-image"></div>
+  <div [class.visible]="presentationBackground==='bible'" class="bg-bible fullscreen bg-image"></div>
 
 
   <div
     [@songSwitch]="songId"
     [class.blur]="songId === 'title' || songId === 'dynamicText'"
-    [class.no-logo]="presentationBackground!=='none'"
     [class.hide]="songId !== 'title' && songId !== 'empty' && songId !== 'dynamicText'"
+    [class.no-logo]="presentationBackground!=='none'"
     class="start fullscreen logo"
   >
     <app-logo></app-logo>
@@ -29,10 +29,10 @@
   </div>
 
   <app-song-text
-    [header]="song.title"
     *ngIf="songId !== 'title' && songId !== 'empty'"
     [@songSwitch]="songId"
     [fullscreen]="true"
+    [header]="song.title"
     [index]="index??0"
     [showSwitch]="false"
     [text]="song.text"

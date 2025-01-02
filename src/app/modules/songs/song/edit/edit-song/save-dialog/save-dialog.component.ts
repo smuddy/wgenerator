@@ -4,5 +4,7 @@ import {Component} from '@angular/core';
   selector: 'app-save-dialog',
   templateUrl: './save-dialog.component.html',
   styleUrls: ['./save-dialog.component.less'],
+  standalone: false,
 })
-export class SaveDialogComponent {}
+export class SaveDialogComponent {
+}

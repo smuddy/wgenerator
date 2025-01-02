@@ -11,7 +11,7 @@ describe('FileComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [FileComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

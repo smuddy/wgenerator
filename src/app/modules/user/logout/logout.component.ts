@@ -6,9 +6,11 @@ import {UserService} from '../../../services/user/user.service';
   selector: 'app-logout',
   templateUrl: './logout.component.html',
   styleUrls: ['./logout.component.less'],
+  standalone: false,
 })
 export class LogoutComponent implements AfterViewInit {
-  public constructor(private userService: UserService, private router: Router) {}
+  public constructor(private userService: UserService, private router: Router) {
+  }
 
   public async ngAfterViewInit(): Promise<void> {
     await this.userService.logout();

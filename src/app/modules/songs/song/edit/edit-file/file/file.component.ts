@@ -8,6 +8,7 @@ import {FileService} from '../../../../services/file.service';
   selector: 'app-file',
   templateUrl: './file.component.html',
   styleUrls: ['./file.component.less'],
+  standalone: false,
 })
 export class FileComponent {
   public url$: Observable<string> | null = null;
@@ -17,7 +18,8 @@ export class FileComponent {
   private fileId: string | null = null;
   private path: string | null = null;
 
-  public constructor(private fileService: FileService) {}
+  public constructor(private fileService: FileService) {
+  }
 
   @Input()
   public set file(file: File) {

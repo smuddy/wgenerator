@@ -3,6 +3,7 @@ import {SongLegalType} from '../../../modules/songs/services/song.service';
 
 @Pipe({
   name: 'legalType',
+  standalone: false,
 })
 export class LegalTypePipe implements PipeTransform {
   public transform(legalTypeKey: SongLegalType): string {

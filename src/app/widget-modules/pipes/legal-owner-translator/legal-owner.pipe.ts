@@ -3,6 +3,7 @@ import {SongLegalOwner} from '../../../modules/songs/services/song.service';
 
 @Pipe({
   name: 'legalOwner',
+  standalone: false,
 })
 export class LegalOwnerPipe implements PipeTransform {
   public transform(legalOwnerKey: SongLegalOwner): string {

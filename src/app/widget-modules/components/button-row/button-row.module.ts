@@ -7,4 +7,5 @@ import {ButtonRowComponent} from './button-row.component';
   exports: [ButtonRowComponent],
   imports: [CommonModule],
 })
-export class ButtonRowModule {}
+export class ButtonRowModule {
+}

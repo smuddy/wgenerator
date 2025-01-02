@@ -7,6 +7,7 @@ import {distinctUntilChanged, map, shareReplay, startWith} from 'rxjs/operators'
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.less'],
+  standalone: false,
 })
 export class NavigationComponent {
   public faSongs = faMusic;
@@ -18,7 +19,7 @@ export class NavigationComponent {
     map(() => window.scrollY),
     startWith(0),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 
   public isNavigationHidden = (scroll: number | null): boolean => (scroll ?? 0) > 60;

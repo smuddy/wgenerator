@@ -8,6 +8,7 @@ import {faSignInAlt, faUserPlus} from '@fortawesome/free-solid-svg-icons';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
+  standalone: false,
 })
 export class LoginComponent implements OnInit {
   public form: UntypedFormGroup = new UntypedFormGroup({
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   public faSignIn = faSignInAlt;
   public faNewUser = faUserPlus;
 
-  public constructor(private userService: UserService, private router: Router) {}
+  public constructor(private userService: UserService, private router: Router) {
+  }
 
   public ngOnInit(): void {
     this.form.reset;

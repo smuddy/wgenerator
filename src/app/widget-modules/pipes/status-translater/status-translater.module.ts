@@ -7,4 +7,5 @@ import {StatusPipe} from './status.pipe';
   exports: [StatusPipe],
   imports: [CommonModule],
 })
-export class StatusTranslaterModule {}
+export class StatusTranslaterModule {
+}

@@ -12,6 +12,7 @@ import {map} from 'rxjs/operators';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.less'],
   animations: [fade],
+  standalone: false,
 })
 export class ListComponent {
   public shows$ = this.showService.list$();
@@ -21,13 +22,13 @@ export class ListComponent {
       const filterValues = params as FilterValues;
       if (!filterValues?.time) return 1;
       return +filterValues.time;
-    })
+    }),
   );
   public owner$ = this.activatedRoute.queryParams.pipe(
     map(params => {
       const filterValues = params as FilterValues;
       return filterValues?.owner;
-    })
+    }),
   );
 
   public publicShows$ = combineLatest([this.shows$, this.lastMonths$, this.owner$]).pipe(
@@ -38,14 +39,15 @@ export class ListComponent {
           d.setMonth(d.getMonth() - lastMonths);
           return f.published && f.date.toDate() >= d;
         })
-        .filter(show => !owner || show.owner === owner)
-    )
+        .filter(show => !owner || show.owner === owner),
+    ),
   );
 
   public constructor(
     private showService: ShowService,
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private activatedRoute: ActivatedRoute,
+  ) {
+  }
 
   public trackBy = (index: number, show: unknown) => (show as Show).id;
 }

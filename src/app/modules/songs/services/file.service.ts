@@ -7,7 +7,8 @@ import {FileDataService} from './file-data.service';
   providedIn: 'root',
 })
 export class FileService {
-  public constructor(private storage: AngularFireStorage, private fileDataService: FileDataService) {}
+  public constructor(private storage: AngularFireStorage, private fileDataService: FileDataService) {
+  }
 
   public getDownloadUrl(path: string): Observable<string> {
     const ref = this.storage.ref(path);

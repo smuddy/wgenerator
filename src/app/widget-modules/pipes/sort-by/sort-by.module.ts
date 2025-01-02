@@ -7,4 +7,5 @@ import {SortByPipe} from './sort-by.pipe';
   exports: [SortByPipe],
   imports: [CommonModule],
 })
-export class SortByModule {}
+export class SortByModule {
+}

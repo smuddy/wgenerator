@@ -5,6 +5,7 @@ import {IconProp} from '@fortawesome/fontawesome-svg-core';
   selector: 'app-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.less'],
+  standalone: false,
 })
 export class ButtonComponent {
   @Input() public icon: IconProp | null = null;

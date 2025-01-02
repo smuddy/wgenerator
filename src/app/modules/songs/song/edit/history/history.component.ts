@@ -8,11 +8,13 @@ import {Song} from '../../../services/song';
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.less'],
+  standalone: false,
 })
 export class HistoryComponent implements OnInit {
   public song: Song | null = null;
 
-  public constructor(private activatedRoute: ActivatedRoute, private songService: SongService) {}
+  public constructor(private activatedRoute: ActivatedRoute, private songService: SongService) {
+  }
 
   public ngOnInit(): void {
     this.activatedRoute.params
@@ -20,7 +22,7 @@ export class HistoryComponent implements OnInit {
         map(param => param as {songId: string}),
         map(param => param.songId),
         switchMap(songId => this.songService.read$(songId)),
-        first()
+        first(),
       )
       .subscribe(song => {
         this.song = song;

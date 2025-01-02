@@ -11,7 +11,7 @@ describe('PasswordComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [PasswordComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

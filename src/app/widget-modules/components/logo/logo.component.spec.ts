@@ -11,7 +11,7 @@ describe('LogoComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [LogoComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

@@ -11,7 +11,7 @@ describe('BrandComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [BrandComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

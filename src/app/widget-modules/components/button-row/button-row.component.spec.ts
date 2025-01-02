@@ -11,7 +11,7 @@ describe('ButtonRowComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [ButtonRowComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

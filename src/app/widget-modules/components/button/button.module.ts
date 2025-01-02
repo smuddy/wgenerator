@@ -9,4 +9,5 @@ import {MatButtonModule} from '@angular/material/button';
   exports: [ButtonComponent],
   imports: [CommonModule, FontAwesomeModule, MatButtonModule],
 })
-export class ButtonModule {}
+export class ButtonModule {
+}

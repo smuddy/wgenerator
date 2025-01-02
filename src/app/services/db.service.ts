@@ -11,7 +11,8 @@ type DocumentPredicate<T> = string | AngularFirestoreDocument<T>;
   providedIn: 'root',
 })
 export class DbService {
-  public constructor(private afs: AngularFirestore) {}
+  public constructor(private afs: AngularFirestore) {
+  }
 
   public col<T>(ref: CollectionPredicate<T>, queryFn?: QueryFn): AngularFirestoreCollection<T> {
     return typeof ref === 'string' ? this.afs.collection<T>(ref, queryFn) : ref;

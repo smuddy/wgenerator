@@ -6,6 +6,7 @@ import {Config} from '../../../../services/config';
   selector: 'app-legal',
   templateUrl: './legal.component.html',
   styleUrls: ['./legal.component.less'],
+  standalone: false,
 })
 export class LegalComponent {
   @Input() public song: Song | null = null;

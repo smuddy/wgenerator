@@ -2,6 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'authMessage',
+  standalone: false,
 })
 export class AuthMessagePipe implements PipeTransform {
   public transform(code: string): string {

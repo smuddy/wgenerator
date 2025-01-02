@@ -8,14 +8,14 @@ import {map} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class SongDataService {
+  public list$ = new BehaviorSubject<Song[]>([]);
   private collection = 'songs';
 
   public constructor(private dbService: DbService) {
     this.dbService.col$<Song>(this.collection).subscribe(_ => this.list$.next(_));
   }
-
-  public list$ = new BehaviorSubject<Song[]>([]);
   // public list$ = (): Observable<Song[]> => this.dbService.col$(this.collection);
+
   //public read$ = (songId: string): Observable<Song | null> => this.dbService.doc$(this.collection + '/' + songId);
   public read$ = (songId: string): Observable<Song | null> => this.list$.pipe(map(_ => _.find(s => s.id === songId) || null));
   public update$ = async (songId: string, data: Partial<Song>): Promise<void> => await this.dbService.doc(this.collection + '/' + songId).update(data);

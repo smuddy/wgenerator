@@ -11,7 +11,7 @@ describe('PasswordSendComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [PasswordSendComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

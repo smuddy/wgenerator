@@ -33,8 +33,9 @@ export class DocxService {
     private songService: SongService,
     private textRenderingService: TextRenderingService,
     private userService: UserService,
-    private configService: ConfigService
-  ) {}
+    private configService: ConfigService,
+  ) {
+  }
 
   public async create(showId: string, options: DownloadOptions = {}): Promise<void> {
     const data = await this.prepareData(showId);
@@ -94,7 +95,10 @@ export class DocxService {
     });
   }
 
-  private renderSongs(songs: {showSong: ShowSong; sections: Section[]}[], options: DownloadOptions, config: Config): Paragraph[] {
+  private renderSongs(songs: {
+    showSong: ShowSong;
+    sections: Section[]
+  }[], options: DownloadOptions, config: Config): Paragraph[] {
     return songs.reduce((p: Paragraph[], song) => [...p, ...this.renderSong(song.showSong, song.showSong, song.sections, options, config)], []);
   }
 
@@ -199,7 +203,10 @@ export class DocxService {
         sections,
       };
     });
-    const songsLoaded = (await Promise.all(songsAsync)).filter(_ => !!_).map(_ => _ as {showSong: ShowSong; sections: Section[]});
+    const songsLoaded = (await Promise.all(songsAsync)).filter(_ => !!_).map(_ => _ as {
+      showSong: ShowSong;
+      sections: Section[]
+    });
     const songs = show.order.map(_ => songsLoaded.filter(f => f.showSong.id === _)[0]);
     return {songs, show, user, config};
   }

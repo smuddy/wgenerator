@@ -14,4 +14,5 @@ import {BrandComponent} from './navigation/brand/brand.component';
   imports: [CommonModule, RouterModule, FontAwesomeModule, FormsModule, RoleModule],
   exports: [NavigationComponent],
 })
-export class ApplicationFrameModule {}
+export class ApplicationFrameModule {
+}

@@ -14,28 +14,28 @@
         <mat-checkbox *ngIf="!useSwiper" [(ngModel)]="showText">Text anzeigen</mat-checkbox>
       </div>
       <div [class.floating]="useSwiper">
-        <app-menu-button @fade (click)="onZoomOut()" [icon]="faZoomOut" class="btn-delete btn-icon"
+        <app-menu-button (click)="onZoomOut()" @fade [icon]="faZoomOut" class="btn-delete btn-icon"
                          matTooltip="Verkleinern"></app-menu-button>
-        <app-menu-button @fade (click)="onZoomIn()" [icon]="faZoomIn" class="btn-delete btn-icon"
+        <app-menu-button (click)="onZoomIn()" @fade [icon]="faZoomIn" class="btn-delete btn-icon"
                          matTooltip="Vergrößern"></app-menu-button>
         <app-menu-button (click)="useSwiper=!useSwiper;fullscreen(useSwiper)" @fade
                          [icon]="useSwiper ? faFileLines : faFile" class="btn-delete btn-icon"
                          matTooltip="Swiper umschalten"></app-menu-button>
       </div>
     </div>
-    <div *ngIf="showSongs && !useSwiper" [cdkDropListDisabled]="show.published || showText" cdkDropList
-         class="song-list"
+    <div (cdkDropListDropped)="drop($event, show)" *ngIf="showSongs && !useSwiper" [cdkDropListDisabled]="show.published || showText"
          [style.cursor]="!(show.published || showText) ? 'drag' : 'inherit'"
          [style.font-size]="textSize + 'em'"
-         (cdkDropListDropped)="drop($event, show)">
-      <div *ngFor="let song of orderedShowSongs(show); let i = index; trackBy: trackBy" class="song-row" cdkDrag>
+         cdkDropList
+         class="song-list">
+      <div *ngFor="let song of orderedShowSongs(show); let i = index; trackBy: trackBy" cdkDrag class="song-row">
         <app-song
-          [showSong]="song"
-          [showId]="showId"
-          [showText]="showText"
-          [show]="show"
           [fullscreen]="useSwiper"
           [index]="i"
+          [showId]="showId"
+          [showSong]="song"
+          [showText]="showText"
+          [show]="show"
         ></app-song>
       </div>
     </div>
@@ -57,8 +57,8 @@
 
     <app-add-song
       *ngIf="songs && !show.published && !useSwiper"
-      [show]="show"
       [showSongs]="showSongs"
+      [show]="show"
       [songs]="songs"
     ></app-add-song>
 
@@ -80,7 +80,7 @@
           <app-button (click)="onShare(show)" *ngIf="show.published" [icon]="faShare">
             Teilen
           </app-button>
-          <app-button (click)="onChange(show.id)" [icon]="faSliders" *ngIf="!show.published">
+          <app-button (click)="onChange(show.id)" *ngIf="!show.published" [icon]="faSliders">
             Ändern
           </app-button>
         </ng-container>

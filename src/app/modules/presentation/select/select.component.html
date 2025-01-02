@@ -1,11 +1,11 @@
 <div *ngIf="shows$ | async as shows" @fade>
-  <app-card heading="Bitte eine Veranstaltung auswählen" *ngIf="visible">
+  <app-card *ngIf="visible" heading="Bitte eine Veranstaltung auswählen">
     <p *ngIf="!shows.length">
       Es ist derzeit keine Veranstaltung vorhanden
     </p>
 
     <div *ngIf="shows.length>0" class="list">
-      <button mat-stroked-button *ngFor="let show of shows" (click)="selectShow(show)">
+      <button (click)="selectShow(show)" *ngFor="let show of shows" mat-stroked-button>
         <app-user-name [userId]="show.owner"></app-user-name>
         ,
         {{ show.showType | showType }},

@@ -7,4 +7,5 @@ import {AutofocusDirective} from './autofocus.directive';
   exports: [AutofocusDirective],
   imports: [CommonModule],
 })
-export class AutofocusModule {}
+export class AutofocusModule {
+}

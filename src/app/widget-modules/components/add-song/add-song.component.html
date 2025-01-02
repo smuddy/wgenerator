@@ -8,8 +8,9 @@
         ></ngx-mat-select-search>
       </mat-option>
       <mat-option *ngFor="let song of filteredSongs()" [value]="song.id">{{
-        song.title
-        }}</mat-option>
+          song.title
+        }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
 </div>

@@ -7,4 +7,5 @@ import {KeyPipe} from './key.pipe';
   exports: [KeyPipe],
   imports: [CommonModule],
 })
-export class KeyTranslatorModule {}
+export class KeyTranslatorModule {
+}

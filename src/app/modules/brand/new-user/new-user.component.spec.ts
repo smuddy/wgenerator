@@ -11,7 +11,7 @@ describe('NewUserComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [NewUserComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

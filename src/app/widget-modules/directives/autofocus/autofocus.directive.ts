@@ -2,11 +2,13 @@ import {Directive, ElementRef, Input, OnInit} from '@angular/core';
 
 @Directive({
   selector: '[appAutofocus]',
+  standalone: false,
 })
 export class AutofocusDirective implements OnInit {
   private focus = true;
 
-  public constructor(private el: ElementRef<HTMLElement>) {}
+  public constructor(private el: ElementRef<HTMLElement>) {
+  }
 
   @Input()
   public set autofocus(condition: boolean) {

@@ -7,4 +7,5 @@ import {UserNameComponent} from './user-name.component';
   exports: [UserNameComponent],
   imports: [CommonModule],
 })
-export class UserNameModule {}
+export class UserNameModule {
+}

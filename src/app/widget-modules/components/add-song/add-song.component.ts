@@ -13,6 +13,7 @@ import {ShowService} from '../../../modules/shows/services/show.service';
   templateUrl: './add-song.component.html',
   styleUrls: ['./add-song.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AddSongComponent {
   @Input() public songs: Song[] | null = null;
@@ -21,7 +22,8 @@ export class AddSongComponent {
   @Input() public addedLive = false;
   public filteredSongsControl = new UntypedFormControl();
 
-  public constructor(private showSongService: ShowSongService, private showService: ShowService) {}
+  public constructor(private showSongService: ShowSongService, private showService: ShowService) {
+  }
 
   public filteredSongs(): Song[] {
     if (!this.songs) return [];

@@ -5,8 +5,9 @@
       <mat-label>Zeitraum</mat-label>
       <mat-select formControlName="time">
         <mat-option *ngFor="let time of times" [value]="time.key">{{
-          time.value
-          }}</mat-option>
+            time.value
+          }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
 

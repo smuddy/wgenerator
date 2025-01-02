@@ -2,7 +2,9 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {EditComponent} from './edit.component';
 import {CardModule} from '../../../../widget-modules/components/card/card.module';
-import {SongTypeTranslaterModule} from '../../../../widget-modules/pipes/song-type-translater/song-type-translater.module';
+import {
+  SongTypeTranslaterModule,
+} from '../../../../widget-modules/pipes/song-type-translater/song-type-translater.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -14,8 +16,12 @@ import {EditSongComponent} from './edit-song/edit-song.component';
 import {EditFileComponent} from './edit-file/edit-file.component';
 import {MatIconModule} from '@angular/material/icon';
 import {FileComponent} from './edit-file/file/file.component';
-import {LegalOwnerTranslatorModule} from '../../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
-import {LegalTypeTranslatorModule} from '../../../../widget-modules/pipes/legal-type-translator/legal-type-translator.module';
+import {
+  LegalOwnerTranslatorModule,
+} from '../../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
+import {
+  LegalTypeTranslatorModule,
+} from '../../../../widget-modules/pipes/legal-type-translator/legal-type-translator.module';
 import {KeyTranslatorModule} from '../../../../widget-modules/pipes/key-translator/key-translator.module';
 import {MatChipsModule} from '@angular/material/chips';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
@@ -57,4 +63,5 @@ import {SongTextModule} from '../../../../widget-modules/components/song-text/so
     SongTextModule,
   ],
 })
-export class EditModule {}
+export class EditModule {
+}

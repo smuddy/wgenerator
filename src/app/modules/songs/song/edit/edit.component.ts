@@ -5,6 +5,7 @@ import {EditSongComponent} from './edit-song/edit-song.component';
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.less'],
+  standalone: false,
 })
 export class EditComponent {
   @ViewChild(EditSongComponent) public editSongComponent: EditSongComponent | null = null;

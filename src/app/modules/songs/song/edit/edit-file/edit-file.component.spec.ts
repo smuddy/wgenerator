@@ -11,7 +11,7 @@ describe('EditFileComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [EditFileComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

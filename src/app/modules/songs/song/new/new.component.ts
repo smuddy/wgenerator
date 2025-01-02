@@ -10,6 +10,7 @@ import {Subscription} from 'rxjs';
   selector: 'app-new',
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.less'],
+  standalone: false,
 })
 export class NewComponent implements OnInit, OnDestroy {
   public faSave = faSave;
@@ -17,8 +18,10 @@ export class NewComponent implements OnInit, OnDestroy {
     number: new UntypedFormControl(null, Validators.required),
     title: new UntypedFormControl(null, Validators.required),
   });
+  private subs: Subscription[] = [];
 
-  public constructor(private songService: SongService, private router: Router) {}
+  public constructor(private songService: SongService, private router: Router) {
+  }
 
   public ngOnInit(): void {
     this.form.reset();
@@ -27,11 +30,10 @@ export class NewComponent implements OnInit, OnDestroy {
       this.songService.list$().subscribe(songs => {
         const freeSongnumber = this.getFreeSongNumber(songs);
         this.form.controls.number.setValue(freeSongnumber);
-      })
+      }),
     );
   }
 
-  private subs: Subscription[] = [];
   public ngOnDestroy(): void {
     this.subs.forEach(_ => _.unsubscribe());
   }

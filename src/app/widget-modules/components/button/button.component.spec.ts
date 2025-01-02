@@ -11,7 +11,7 @@ describe('ButtonComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [ButtonComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

@@ -11,6 +11,7 @@ import {faSave} from '@fortawesome/free-solid-svg-icons';
   selector: 'app-new',
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.less'],
+  standalone: false,
 })
 export class NewComponent implements OnInit {
   public shows$: Observable<Show[]>;
@@ -25,7 +26,7 @@ export class NewComponent implements OnInit {
   public constructor(
     private showService: ShowService,
     showDataService: ShowDataService,
-    private router: Router
+    private router: Router,
   ) {
     this.shows$ = showDataService.list$;
   }

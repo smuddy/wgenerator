@@ -8,7 +8,8 @@ import {map} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class RoleGuard {
-  public constructor(private userService: UserService, private router: Router) {}
+  public constructor(private userService: UserService, private router: Router) {
+  }
 
   public canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     const requiredRoles = next.data.requiredRoles as string[];
@@ -26,7 +27,7 @@ export class RoleGuard {
         const allowed = roles.some(s => requiredRoles.indexOf(s) !== -1);
 
         return allowed || this.router.createUrlTree(this.defaultRoute(roles));
-      })
+      }),
     );
   }
 

@@ -11,7 +11,7 @@ describe('RemoteComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [RemoteComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

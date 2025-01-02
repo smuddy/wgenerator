@@ -5,6 +5,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.less'],
+  standalone: false,
 })
 export class FilterComponent {
   public value = '';

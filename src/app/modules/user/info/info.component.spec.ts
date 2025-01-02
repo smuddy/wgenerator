@@ -11,7 +11,7 @@ describe('InfoComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [InfoComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

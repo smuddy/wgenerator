@@ -1,6 +1,6 @@
 <div *ngIf="show" @fade>
-  <app-card [heading]="show.showType | showType" [subheading]="show.date.toDate() | date:'dd.MM.yyyy'"
-            closeLink="/presentation/select" [closeIcon]="faIcon">
+  <app-card [closeIcon]="faIcon" [heading]="show.showType | showType"
+            [subheading]="show.date.toDate() | date:'dd.MM.yyyy'" closeLink="/presentation/select">
 
     <ng-container *ngIf="!progress">
       <div class="song">
@@ -61,7 +61,8 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Überschrift</mat-label>
-          <input (ngModelChange)="onDynamicCaption($event, show.id)" [ngModel]="show.presentationDynamicCaption" autocomplete="off" id="dynamic-caption"
+          <input (ngModelChange)="onDynamicCaption($event, show.id)" [ngModel]="show.presentationDynamicCaption"
+                 autocomplete="off" id="dynamic-caption"
                  matInput
                  type="text">
         </mat-form-field>
@@ -86,8 +87,8 @@
         <mat-form-field appearance="outline">
           <mat-label>Hintergrund</mat-label>
           <mat-select
-            [ngModel]="show.presentationBackground"
-            (ngModelChange)="onBackground($event, show.id)">
+            (ngModelChange)="onBackground($event, show.id)"
+            [ngModel]="show.presentationBackground">
             <mat-option value="none">kein Hintergrund</mat-option>
             <mat-option value="blue">Sternenhimmel</mat-option>
             <mat-option value="green">Blätter</mat-option>
@@ -98,12 +99,12 @@
         </mat-form-field>
 
         <mat-slider
+          #slider
           [max]="100"
           [min]="10"
           [step]="2"
-          color="primary"
           class="zoom-slider"
-          #slider
+          color="primary"
           ngDefaultControl
         ><input (ngModelChange)="onZoom($event, show.id)"
                 [ngModel]="show.presentationZoom"
@@ -117,8 +118,8 @@
         *ngIf="show"
         [addedLive]="true"
         [showSongs]="showSongs"
-        [songs]="songs$|async"
         [show]="show"
+        [songs]="songs$|async"
       ></app-add-song>
     </ng-container>
   </app-card>

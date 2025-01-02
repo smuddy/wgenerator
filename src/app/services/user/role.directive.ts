@@ -6,19 +6,22 @@ import {combineLatest} from 'rxjs';
 
 @Directive({
   selector: '[appRole]',
+  standalone: false,
 })
 export class RoleDirective implements OnInit {
   @Input() public appRole: roles[] = [];
   private currentUser: User | null = null;
   private loggedIn = false;
+  private currentViewState = false;
 
   public constructor(
     private element: ElementRef,
     private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef,
     private userService: UserService,
-    private changeDetection: ChangeDetectorRef
-  ) {}
+    private changeDetection: ChangeDetectorRef,
+  ) {
+  }
 
   public ngOnInit(): void {
     combineLatest([this.userService.user$, this.userService.loggedIn$()]).subscribe(_ => {
@@ -28,7 +31,6 @@ export class RoleDirective implements OnInit {
     });
   }
 
-  private currentViewState = false;
   private updateView() {
     const viewState = this.loggedIn && this.checkPermission();
     if (this.currentViewState !== viewState) {

@@ -19,7 +19,7 @@ describe('SongDataService', () => {
     () =>
       void TestBed.configureTestingModule({
         providers: [{provide: AngularFirestore, useValue: mockAngularFirestore}],
-      })
+      }),
   );
 
   it('should be created', () => {
@@ -34,6 +34,6 @@ describe('SongDataService', () => {
       service.list$().subscribe(s => {
         void expect(s[0].title).toEqual('title1');
       });
-    })
+    }),
   );
 });

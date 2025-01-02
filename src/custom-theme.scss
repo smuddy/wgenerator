@@ -16,19 +16,20 @@
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
 @include mat.all-component-typographies();
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$wgenerator-primary: mat.define-palette(mat.$indigo-palette);
-$wgenerator-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$wgenerator-primary: mat.m2-define-palette(mat.$m2-indigo-palette);
+$wgenerator-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$wgenerator-warn: mat.define-palette(mat.$red-palette);
+$wgenerator-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$wgenerator-theme: mat.define-light-theme($wgenerator-primary, $wgenerator-accent, $wgenerator-warn);
+$wgenerator-theme: mat.m2-define-light-theme($wgenerator-primary, $wgenerator-accent, $wgenerator-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -52,19 +53,20 @@ $wgenerator-theme: mat.define-light-theme($wgenerator-primary, $wgenerator-accen
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
 @include mat.all-component-typographies();
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$wgenerator-primary: mat.define-palette(mat.$indigo-palette);
-$wgenerator-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$wgenerator-primary: mat.m2-define-palette(mat.$m2-indigo-palette);
+$wgenerator-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$wgenerator-warn: mat.define-palette(mat.$red-palette);
+$wgenerator-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$wgenerator-theme: mat.define-light-theme($wgenerator-primary, $wgenerator-accent, $wgenerator-warn);
+$wgenerator-theme: mat.m2-define-light-theme($wgenerator-primary, $wgenerator-accent, $wgenerator-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -87,4 +89,5 @@ $wgenerator-theme: mat.define-light-theme($wgenerator-primary, $wgenerator-accen
 //  you can delete this line and instead use:
 //    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
 @include mat.all-component-typographies();
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();

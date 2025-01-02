@@ -14,8 +14,9 @@ export class ShowSongService {
     private showSongDataService: ShowSongDataService,
     private songDataService: SongDataService,
     private userService: UserService,
-    private showService: ShowService
-  ) {}
+    private showService: ShowService,
+  ) {
+  }
 
   public async new$(showId: string, songId: string, addedLive = false): Promise<string | null> {
     const song = await firstValueFrom(this.songDataService.read$(songId));

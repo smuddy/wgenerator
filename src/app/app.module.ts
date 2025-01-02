@@ -40,4 +40,5 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
   providers: [{provide: MAT_DATE_LOCALE, useValue: 'de-DE'}],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

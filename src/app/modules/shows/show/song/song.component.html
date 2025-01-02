@@ -23,11 +23,11 @@
 
   <mat-form-field *ngIf="edit" appearance="outline">
     <mat-label>Songtext</mat-label>
-    <textarea matTooltip="Tonart ändern"
-              class="edit"
-              [cdkTextareaAutosize]="true"
+    <textarea [cdkTextareaAutosize]="true"
               [formControl]="editSongControl"
+              class="edit"
               matInput
+              matTooltip="Tonart ändern"
     ></textarea>
   </mat-form-field>
   <div *ngIf="edit">Es wird nur der Liedtext für dieser Veranstaltung geändert.</div>

@@ -7,6 +7,7 @@ import {faUserPlus} from '@fortawesome/free-solid-svg-icons';
   selector: 'app-new',
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.less'],
+  standalone: false,
 })
 export class NewComponent implements OnInit {
   public form: UntypedFormGroup = this.fb.group({
@@ -16,7 +17,8 @@ export class NewComponent implements OnInit {
   });
   public faNewUser = faUserPlus;
 
-  public constructor(private fb: UntypedFormBuilder, private userService: UserService) {}
+  public constructor(private fb: UntypedFormBuilder, private userService: UserService) {
+  }
 
   public ngOnInit(): void {
     this.form.reset();

@@ -16,6 +16,7 @@ import {SaveDialogComponent} from './save-dialog/save-dialog.component';
   selector: 'app-edit-song',
   templateUrl: './edit-song.component.html',
   styleUrls: ['./edit-song.component.less'],
+  standalone: false,
 })
 export class EditSongComponent implements OnInit {
   public song: Song | null = null;
@@ -37,8 +38,9 @@ export class EditSongComponent implements OnInit {
     private songService: SongService,
     private editService: EditService,
     private router: Router,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog,
+  ) {
+  }
 
   public ngOnInit(): void {
     this.activatedRoute.params
@@ -46,7 +48,7 @@ export class EditSongComponent implements OnInit {
         map(param => param as {songId: string}),
         map(param => param.songId),
         switchMap(songId => this.songService.read$(songId)),
-        first()
+        first(),
       )
       .subscribe(song => {
         this.song = song;

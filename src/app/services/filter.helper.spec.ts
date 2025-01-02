@@ -4,7 +4,7 @@ import {filterSong} from './filter.helper';
 describe('Filter Helper', () => {
   const song: Song = {
     title: 'Song Title',
-    text: "This is a songtext, aa?bb!cc,dd.ee'ff",
+    text: 'This is a songtext, aa?bb!cc,dd.ee\'ff',
     legalOwner: '',
     label: '',
     id: '',

@@ -7,4 +7,5 @@ import {SectionTypePipe} from './section-type.pipe';
   exports: [SectionTypePipe],
   imports: [CommonModule],
 })
-export class SectionTypeTranslatorModule {}
+export class SectionTypeTranslatorModule {
+}

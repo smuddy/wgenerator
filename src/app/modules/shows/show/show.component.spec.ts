@@ -11,7 +11,7 @@ describe('ShowComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [ShowComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

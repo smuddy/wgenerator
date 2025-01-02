@@ -13,10 +13,28 @@ import {ShowSongDataService} from '../../modules/shows/services/show-song-data.s
   providedIn: 'root',
 })
 export class UserService {
+  public users$ = new BehaviorSubject<User[]>([]);
   private iUserId$ = new BehaviorSubject<string | null>(null);
   private iUser$ = new BehaviorSubject<User | null>(null);
 
-  public users$ = new BehaviorSubject<User[]>([]);
+  public constructor(
+    private afAuth: AngularFireAuth,
+    private db: DbService,
+    private router: Router,
+    private showDataService: ShowDataService,
+    private showSongDataService: ShowSongDataService,
+  ) {
+    this.afAuth.authState
+      .pipe(
+        filter(auth => !!auth),
+        map(auth => auth?.uid ?? ''),
+        tap(uid => this.iUserId$.next(uid)),
+        switchMap(uid => this.readUser$(uid)),
+      )
+      .subscribe(_ => this.iUser$.next(_));
+
+    this.db.col$<User>('users/').subscribe(_ => this.users$.next(_));
+  }
 
   public get userId$(): Observable<string | null> {
     return this.iUserId$.asObservable();
@@ -28,24 +46,6 @@ export class UserService {
 
   public currentUser = async (): Promise<User | null> => firstValueFrom(this.user$);
 
-  public constructor(
-    private afAuth: AngularFireAuth,
-    private db: DbService,
-    private router: Router,
-    private showDataService: ShowDataService,
-    private showSongDataService: ShowSongDataService
-  ) {
-    this.afAuth.authState
-      .pipe(
-        filter(auth => !!auth),
-        map(auth => auth?.uid ?? ''),
-        tap(uid => this.iUserId$.next(uid)),
-        switchMap(uid => this.readUser$(uid))
-      )
-      .subscribe(_ => this.iUser$.next(_));
-
-    this.db.col$<User>('users/').subscribe(_ => this.users$.next(_));
-  }
   public getUserbyId = (userId: string): Promise<User | null> => firstValueFrom(this.getUserbyId$(userId));
   public getUserbyId$ = (userId: string): Observable<User | null> => this.users$.pipe(map(_ => _.find(f => f.id === userId) || null));
 

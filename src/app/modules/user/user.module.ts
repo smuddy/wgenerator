@@ -44,4 +44,5 @@ import {SortByModule} from '../../widget-modules/pipes/sort-by/sort-by.module';
     SortByModule,
   ],
 })
-export class UserModule {}
+export class UserModule {
+}

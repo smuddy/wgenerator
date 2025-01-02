@@ -2,6 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'showType',
+  standalone: false,
 })
 export class ShowTypePipe implements PipeTransform {
   public transform(type: string): string {

@@ -25,6 +25,7 @@ export interface PresentationSong {
   styleUrls: ['./remote.component.less'],
   animations: [fade],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RemoteComponent {
   public show: Show | null = null;
@@ -35,12 +36,37 @@ export class RemoteComponent {
   public faIcon = faFolderOpen;
 
   public faDesktop = faDesktop;
+  public presentationDynamicCaptionChanged$ = new Subject<{presentationDynamicCaption: string; showId: string}>();
+  public presentationDynamicTextChanged$ = new Subject<{presentationDynamicText: string; showId: string}>();
+
+  public constructor(
+    private showService: ShowService,
+    private showSongService: ShowSongService,
+    private songService: SongService,
+    private textRenderingService: TextRenderingService,
+    private globalSettingsService: GlobalSettingsService,
+    private cRef: ChangeDetectorRef,
+  ) {
+    globalSettingsService.get$
+      .pipe(
+        filter(_ => !!_),
+        map(_ => _ as GlobalSettings),
+        map(_ => _.currentShow),
+      )
+      .subscribe(_ => {
+        this.onShowChanged(_);
+        this.cRef.markForCheck();
+      });
+
+    this.presentationDynamicCaptionChanged$
+      .pipe(debounceTime(1000))
+      .subscribe(_ => void this.showService.update$(_.showId, {presentationDynamicCaption: _.presentationDynamicCaption}));
+    this.presentationDynamicTextChanged$.pipe(debounceTime(1000)).subscribe(_ => void this.showService.update$(_.showId, {presentationDynamicText: _.presentationDynamicText}));
+  }
 
   public trackBy(index: number, item: PresentationSong): string {
     return item.id;
   }
-
-  public presentationDynamicCaptionChanged$ = new Subject<{presentationDynamicCaption: string; showId: string}>();
 
   public onShowChanged(change: string): void {
     combineLatest([this.showService.read$(change), this.showSongService.list$(change)]).subscribe(([show, list]) => {
@@ -73,32 +99,6 @@ export class RemoteComponent {
 
   public async onBackground(presentationBackground: PresentationBackground, showId: string): Promise<void> {
     await this.showService.update$(showId, {presentationBackground});
-  }
-  public presentationDynamicTextChanged$ = new Subject<{presentationDynamicText: string; showId: string}>();
-
-  public constructor(
-    private showService: ShowService,
-    private showSongService: ShowSongService,
-    private songService: SongService,
-    private textRenderingService: TextRenderingService,
-    private globalSettingsService: GlobalSettingsService,
-    private cRef: ChangeDetectorRef
-  ) {
-    globalSettingsService.get$
-      .pipe(
-        filter(_ => !!_),
-        map(_ => _ as GlobalSettings),
-        map(_ => _.currentShow)
-      )
-      .subscribe(_ => {
-        this.onShowChanged(_);
-        this.cRef.markForCheck();
-      });
-
-    this.presentationDynamicCaptionChanged$
-      .pipe(debounceTime(1000))
-      .subscribe(_ => void this.showService.update$(_.showId, {presentationDynamicCaption: _.presentationDynamicCaption}));
-    this.presentationDynamicTextChanged$.pipe(debounceTime(1000)).subscribe(_ => void this.showService.update$(_.showId, {presentationDynamicText: _.presentationDynamicText}));
   }
 
   public onDynamicCaption(presentationDynamicCaption: string, showId: string): void {

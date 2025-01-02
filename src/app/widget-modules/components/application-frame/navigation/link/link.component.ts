@@ -6,6 +6,7 @@ import {faCross} from '@fortawesome/free-solid-svg-icons';
   selector: 'app-link',
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.less'],
+  standalone: false,
 })
 export class LinkComponent {
   @Input() public text: string | null = null;

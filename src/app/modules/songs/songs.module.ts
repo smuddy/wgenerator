@@ -11,4 +11,5 @@ import {NewModule} from './song/new/new.module';
   declarations: [],
   imports: [CommonModule, SongsRoutingModule, SongListModule, SongModule, EditModule, NewModule],
 })
-export class SongsModule {}
+export class SongsModule {
+}

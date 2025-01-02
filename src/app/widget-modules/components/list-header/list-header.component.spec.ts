@@ -11,7 +11,7 @@ describe('ListHeaderComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [ListHeaderComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

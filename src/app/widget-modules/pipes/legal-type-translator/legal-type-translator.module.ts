@@ -7,4 +7,5 @@ import {LegalTypePipe} from './legal-type.pipe';
   exports: [LegalTypePipe],
   imports: [CommonModule],
 })
-export class LegalTypeTranslatorModule {}
+export class LegalTypeTranslatorModule {
+}

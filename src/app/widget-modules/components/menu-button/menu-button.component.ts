@@ -6,6 +6,7 @@ import {faCross} from '@fortawesome/free-solid-svg-icons';
   selector: 'app-menu-button',
   templateUrl: './menu-button.component.html',
   styleUrls: ['./menu-button.component.less'],
+  standalone: false,
 })
 export class MenuButtonComponent {
   @Input() public icon: IconProp = faCross;

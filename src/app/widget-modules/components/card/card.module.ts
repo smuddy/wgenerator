@@ -10,4 +10,5 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
   exports: [CardComponent],
   imports: [CommonModule, MatButtonModule, RouterModule, FontAwesomeModule],
 })
-export class CardModule {}
+export class CardModule {
+}

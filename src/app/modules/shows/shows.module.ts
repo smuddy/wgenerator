@@ -72,4 +72,5 @@ import {MatDialogModule} from '@angular/material/dialog';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ShowsModule {}
+export class ShowsModule {
+}

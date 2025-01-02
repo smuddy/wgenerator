@@ -7,11 +7,13 @@ import {Observable} from 'rxjs';
   selector: 'app-user-name',
   templateUrl: './user-name.component.html',
   styleUrls: ['./user-name.component.less'],
+  standalone: false,
 })
 export class UserNameComponent {
   public name$: Observable<string | null> | null = null;
 
-  public constructor(private userService: UserService) {}
+  public constructor(private userService: UserService) {
+  }
 
   @Input()
   public set userId(id: string) {

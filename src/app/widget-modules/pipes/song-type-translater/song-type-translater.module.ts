@@ -7,4 +7,5 @@ import {SongTypePipe} from './song-type.pipe';
   exports: [SongTypePipe],
   imports: [CommonModule],
 })
-export class SongTypeTranslaterModule {}
+export class SongTypeTranslaterModule {
+}

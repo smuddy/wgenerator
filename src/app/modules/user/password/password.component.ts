@@ -8,6 +8,7 @@ import {faWindowRestore} from '@fortawesome/free-solid-svg-icons';
   selector: 'app-password',
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.less'],
+  standalone: false,
 })
 export class PasswordComponent implements OnInit {
   public form: UntypedFormGroup = new UntypedFormGroup({
@@ -17,7 +18,8 @@ export class PasswordComponent implements OnInit {
   public errorMessage = '';
   public faNewPassword = faWindowRestore;
 
-  public constructor(public userService: UserService, private router: Router) {}
+  public constructor(public userService: UserService, private router: Router) {
+  }
 
   public ngOnInit(): void {
     this.form.reset();

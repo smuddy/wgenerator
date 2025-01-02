@@ -21,4 +21,5 @@ const routes: Routes = [
   declarations: [BrandComponent, NewUserComponent],
   imports: [CommonModule, RouterModule.forChild(routes), LogoModule],
 })
-export class BrandModule {}
+export class BrandModule {
+}

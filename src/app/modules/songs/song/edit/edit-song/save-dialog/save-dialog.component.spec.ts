@@ -11,7 +11,7 @@ describe('SaveDialogComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [SaveDialogComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

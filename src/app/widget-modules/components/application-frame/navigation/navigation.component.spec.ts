@@ -11,7 +11,7 @@ describe('NavigationComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [NavigationComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

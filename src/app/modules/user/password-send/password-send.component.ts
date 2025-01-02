@@ -4,5 +4,7 @@ import {Component} from '@angular/core';
   selector: 'app-password-send',
   templateUrl: './password-send.component.html',
   styleUrls: ['./password-send.component.less'],
+  standalone: false,
 })
-export class PasswordSendComponent {}
+export class PasswordSendComponent {
+}

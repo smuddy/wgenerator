@@ -7,6 +7,7 @@ import {fade} from '../../../animations';
   templateUrl: './list-header.component.html',
   styleUrls: ['./list-header.component.less'],
   animations: [fade],
+  standalone: false,
 })
 export class ListHeaderComponent {
   public faNew = faPlus;

@@ -3,7 +3,9 @@ import {CommonModule} from '@angular/common';
 import {SongListComponent} from './song-list.component';
 import {CardModule} from '../../../widget-modules/components/card/card.module';
 import {RouterModule} from '@angular/router';
-import {LegalTypeTranslatorModule} from '../../../widget-modules/pipes/legal-type-translator/legal-type-translator.module';
+import {
+  LegalTypeTranslatorModule,
+} from '../../../widget-modules/pipes/legal-type-translator/legal-type-translator.module';
 import {ListHeaderModule} from '../../../widget-modules/components/list-header/list-header.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -37,4 +39,5 @@ import {KeyTranslatorModule} from '../../../widget-modules/pipes/key-translator/
     KeyTranslatorModule,
   ],
 })
-export class SongListModule {}
+export class SongListModule {
+}

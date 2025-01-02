@@ -5,6 +5,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.less'],
+  standalone: false,
 })
 export class CardComponent {
   @Input() public padding = true;

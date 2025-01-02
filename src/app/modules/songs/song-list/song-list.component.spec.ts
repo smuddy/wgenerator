@@ -22,7 +22,7 @@ describe('SongListComponent', () => {
         providers: [{provide: SongService, useValue: mockSongService}],
         schemas: [NO_ERRORS_SCHEMA],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

@@ -14,6 +14,7 @@ import Timestamp = firebase.firestore.Timestamp;
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.less'],
+  standalone: false,
 })
 export class EditComponent implements OnInit {
   public shows$: Observable<Show[]>;
@@ -38,7 +39,7 @@ export class EditComponent implements OnInit {
         map(param => param as {showId: string}),
         map(param => param.showId),
         switchMap((showId: string) => this.showService.read$(showId)),
-        take(1)
+        take(1),
       )
       .subscribe(show => {
         this.form.setValue({
@@ -60,7 +61,7 @@ export class EditComponent implements OnInit {
       {
         date: Timestamp.fromDate(this.form.value.date),
         showType: this.form.value.showType,
-      } as Partial<Show>
+      } as Partial<Show>,
     );
     await this.router.navigateByUrl(`/shows/${this.form.value.id ?? ''}`);
   }

@@ -11,7 +11,7 @@ export class EditSongGuard {
     component: EditComponent,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
-    nextState: RouterStateSnapshot
+    nextState: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return component.editSongComponent ? component.editSongComponent.askForSave(nextState) : true;
   }

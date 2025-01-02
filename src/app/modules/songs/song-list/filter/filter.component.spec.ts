@@ -11,7 +11,7 @@ describe('FilterComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [FilterComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

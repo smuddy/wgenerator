@@ -17,6 +17,7 @@ import {ShowSongService} from '../../shows/services/show-song.service';
   selector: 'app-song',
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.less'],
+  standalone: false,
 })
 export class SongComponent implements OnInit {
   public song$: Observable<Song | null> | null = null;
@@ -34,7 +35,7 @@ export class SongComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private showService: ShowService,
-    private showSongService: ShowSongService
+    private showSongService: ShowSongService,
   ) {
     this.user$ = userService.user$;
   }
@@ -43,13 +44,13 @@ export class SongComponent implements OnInit {
     this.song$ = this.activatedRoute.params.pipe(
       map(param => param as {songId: string}),
       map(param => param.songId),
-      switchMap(songId => this.songService.read$(songId))
+      switchMap(songId => this.songService.read$(songId)),
     );
 
     this.files$ = this.activatedRoute.params.pipe(
       map(param => param as {songId: string}),
       map(param => param.songId),
-      switchMap(songId => this.fileService.read$(songId))
+      switchMap(songId => this.fileService.read$(songId)),
     );
   }
 
@@ -77,6 +78,6 @@ export class SongComponent implements OnInit {
       map(([user, song]) => {
         return user.songUsage[song.id];
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 }

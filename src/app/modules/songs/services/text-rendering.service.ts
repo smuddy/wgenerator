@@ -13,7 +13,8 @@ import {Line} from './line';
 export class TextRenderingService {
   private regexSection = /(Strophe|Refrain|Bridge)/;
 
-  public constructor(private transposeService: TransposeService) {}
+  public constructor(private transposeService: TransposeService) {
+  }
 
   public parse(text: string, transpose: TransposeMode | null): Section[] {
     if (!text) {

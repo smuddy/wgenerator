@@ -8,6 +8,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons';
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.less'],
+  standalone: false,
 })
 export class UserComponent {
   public id = '';
@@ -17,7 +18,8 @@ export class UserComponent {
   public edit = false;
   public faClose = faTimes;
 
-  public constructor(private userService: UserService) {}
+  public constructor(private userService: UserService) {
+  }
 
   @Input()
   public set user(value: User) {

@@ -2,7 +2,6 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent} from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
 import QRCode from 'qrcode';
-import {AsyncPipe} from '@angular/common';
 import {ShowTypePipe} from '../../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {Show} from '../../services/show';
 
@@ -13,8 +12,7 @@ export interface ShareDialogData {
 
 @Component({
   selector: 'app-share-dialog',
-  standalone: true,
-  imports: [MatButton, MatDialogActions, MatDialogContent, MatDialogClose, AsyncPipe],
+  imports: [MatButton, MatDialogActions, MatDialogContent, MatDialogClose],
   templateUrl: './share-dialog.component.html',
   styleUrl: './share-dialog.component.less',
 })

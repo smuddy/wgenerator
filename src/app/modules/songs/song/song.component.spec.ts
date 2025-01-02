@@ -18,7 +18,7 @@ describe('SongComponent', () => {
         declarations: [SongComponent],
         providers: [{provide: ActivatedRoute, useValue: mockActivatedRoute}],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

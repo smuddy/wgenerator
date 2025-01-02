@@ -11,6 +11,7 @@ import {File} from '../../../services/file';
   selector: 'app-edit-file',
   templateUrl: './edit-file.component.html',
   styleUrls: ['./edit-file.component.less'],
+  standalone: false,
 })
 export class EditFileComponent {
   public selectedFiles: FileList | null = null;
@@ -22,7 +23,7 @@ export class EditFileComponent {
     this.activatedRoute.params
       .pipe(
         map(param => param as {songId: string}),
-        map(param => param.songId)
+        map(param => param.songId),
       )
       .subscribe(songId => {
         this.songId = songId;
@@ -31,7 +32,7 @@ export class EditFileComponent {
     this.files$ = this.activatedRoute.params.pipe(
       map(param => param as {songId: string}),
       map(param => param.songId),
-      switchMap(songId => this.fileService.read$(songId))
+      switchMap(songId => this.fileService.read$(songId)),
     );
   }
 

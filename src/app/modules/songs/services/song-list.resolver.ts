@@ -9,7 +9,8 @@ import {filter} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class SongListResolver {
-  public constructor(private songService: SongService) {}
+  public constructor(private songService: SongService) {
+  }
 
   public resolve(): Observable<Song[]> {
     return this.songService.list$().pipe(filter(_ => _.length > 0));

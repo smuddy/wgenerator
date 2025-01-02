@@ -8,6 +8,7 @@ import {map} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ShowDataService {
+  public list$ = new BehaviorSubject<Show[]>([]);
   private collection = 'shows';
 
   public constructor(private dbService: DbService) {
@@ -15,7 +16,7 @@ export class ShowDataService {
   }
 
   public listRaw$ = () => this.dbService.col$<Show>(this.collection);
-  public list$ = new BehaviorSubject<Show[]>([]);
+
   public read$ = (showId: string): Observable<Show | null> => this.list$.pipe(map(_ => _.find(s => s.id === showId) || null));
 
   // public list$ = (): Observable<Show[]> => this.dbService.col$(this.collection);

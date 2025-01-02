@@ -11,7 +11,7 @@ describe('SongTextComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [SongTextComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

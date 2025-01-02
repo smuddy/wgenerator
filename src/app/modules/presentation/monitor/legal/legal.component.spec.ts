@@ -11,7 +11,7 @@ describe('LegalComponent', () => {
       void TestBed.configureTestingModule({
         declarations: [LegalComponent],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {

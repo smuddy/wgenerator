@@ -25,7 +25,7 @@ export const fader = trigger('fader', [
           transform: 'scale(1) translateY(-10px)',
         }),
       ],
-      {optional: true}
+      {optional: true},
     ),
     // Animate the new page in
     query(
@@ -36,10 +36,10 @@ export const fader = trigger('fader', [
           style({
             opacity: 1,
             transform: 'scale(1) translateY(0)',
-          })
+          }),
         ),
       ],
-      {optional: true}
+      {optional: true},
     ),
   ]),
 ]);

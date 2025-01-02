@@ -11,4 +11,5 @@ import {CardModule} from '../card/card.module';
   exports: [ListHeaderComponent],
   imports: [CommonModule, FontAwesomeModule, MatButtonModule, RouterModule, CardModule],
 })
-export class ListHeaderModule {}
+export class ListHeaderModule {
+}
