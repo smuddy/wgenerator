@@ -24,8 +24,9 @@
         *ngFor="let line of getLines(section)"
         [class.chord]="line.type === 0"
         [class.disabled]="checkDisabled(i)"
+        [class.comment]="isComment(line.text)"
         class="line"
-      >{{ line.text }}
+      >{{ transform(line.text) }}
       </div>
     </div>
     <div *ngIf="sections.length===0" class="error">

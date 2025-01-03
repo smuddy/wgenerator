@@ -124,4 +124,13 @@ export class SongTextComponent implements OnInit {
         return 'show';
     }
   }
+
+  public transform(text: string): string {
+    if (this.isComment(text)) text = text.slice(1);
+    return text.trim();
+  }
+
+  public isComment(text: string) {
+    return text.startsWith('#');
+  }
 }

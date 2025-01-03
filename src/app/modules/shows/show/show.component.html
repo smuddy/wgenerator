@@ -52,6 +52,7 @@
           [showText]="true"
           [show]="show"
         ></app-song>
+        <div class="next-song" *ngIf="getNextSong(orderedShowSongs(show), i) as next">{{next}}<fa-icon [icon]="faNextSong"></fa-icon></div>
       </swiper-slide>
     </swiper-container>
 

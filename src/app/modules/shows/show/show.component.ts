@@ -13,14 +13,15 @@ import {
   faArrowUpRightFromSquare,
   faBox,
   faBoxOpen,
-  faExternalLinkAlt,
+  faChevronRight,
   faFile,
   faFileDownload,
   faFileLines,
   faLock,
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
-  faSliders, faUnlock,
+  faSliders,
+  faUnlock,
   faUser,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
@@ -61,6 +62,7 @@ export class ShowComponent implements OnInit, OnDestroy {
   public textSize = 1;
   public faFileLines = faFileLines;
   public faFile = faFile;
+  public faNextSong = faChevronRight;
   private subs: Subscription[] = [];
 
   public constructor(
@@ -197,6 +199,12 @@ export class ShowComponent implements OnInit, OnDestroy {
   public fullscreen(useSwiper: boolean) {
     if (useSwiper) openFullscreen();
     else closeFullscreen();
+  }
+
+  public getNextSong(showSongs: ShowSong[], i: number): string {
+    if (!showSongs || showSongs.length === 0) return '';
+    const song = showSongs[i + 1];
+    return song?.title ?? '';
   }
 }
 
