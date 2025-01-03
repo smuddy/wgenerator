@@ -13,14 +13,13 @@ import {Line} from './line';
 export class TextRenderingService {
   private regexSection = /(Strophe|Refrain|Bridge)/;
 
-  public constructor(private transposeService: TransposeService) {
-  }
+  public constructor(private transposeService: TransposeService) {}
 
-  public parse(text: string, transpose: TransposeMode | null): Section[] {
+  public parse(text: string, transpose: TransposeMode | null, withComments = true): Section[] {
     if (!text) {
       return [];
     }
-    const arrayOfLines = text.split(/\r?\n/).filter(_ => _);
+    const arrayOfLines = text.split(/\r?\n/).filter(_ => _ && (!_.startsWith('#') || withComments));
     const indices = {
       [SectionType.Bridge]: 0,
       [SectionType.Chorus]: 0,

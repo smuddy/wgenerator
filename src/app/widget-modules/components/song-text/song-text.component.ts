@@ -1,14 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {TextRenderingService} from '../../../modules/songs/services/text-rendering.service';
 import {faGripLines} from '@fortawesome/free-solid-svg-icons';
 import {songSwitch} from './animation';
@@ -33,6 +23,7 @@ export class SongTextComponent implements OnInit {
   @Input() public index = -1;
   @Input() public fullscreen = false;
   @Input() public showSwitch = false;
+  @Input() public showComments = true;
   @Output() public chordModeChanged = new EventEmitter<ChordMode>();
   @ViewChildren('section') public viewSections: QueryList<ElementRef<HTMLElement>> | null = null;
   public faLines = faGripLines;
@@ -41,8 +32,11 @@ export class SongTextComponent implements OnInit {
   private iText = '';
   private iTranspose: TransposeMode | null = null;
 
-  public constructor(private textRenderingService: TextRenderingService, private elRef: ElementRef<HTMLElement>, private cRef: ChangeDetectorRef) {
-  }
+  public constructor(
+    private textRenderingService: TextRenderingService,
+    private elRef: ElementRef<HTMLElement>,
+    private cRef: ChangeDetectorRef
+  ) {}
 
   @Input()
   public set chordMode(value: ChordMode) {
@@ -111,11 +105,11 @@ export class SongTextComponent implements OnInit {
     this.sections = [];
     if (this.fullscreen) {
       setTimeout(() => {
-        this.sections = this.textRenderingService.parse(this.iText, this.iTranspose);
+        this.sections = this.textRenderingService.parse(this.iText, this.iTranspose, this.showComments);
         this.cRef.markForCheck();
       }, 100);
     } else {
-      this.sections = this.textRenderingService.parse(this.iText, this.iTranspose); //.sort((a, b) => a.type - b.type);
+      this.sections = this.textRenderingService.parse(this.iText, this.iTranspose, this.showComments); //.sort((a, b) => a.type - b.type);
       this.cRef.markForCheck();
     }
   }

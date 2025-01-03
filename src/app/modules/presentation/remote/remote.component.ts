@@ -12,6 +12,7 @@ import {fade} from '../../../animations';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Section} from '../../songs/services/section';
 import {GlobalSettings} from '../../../services/global-settings';
+import {LineType} from '../../songs/services/line-type';
 
 export interface PresentationSong {
   id: string;
@@ -44,13 +45,12 @@ export class RemoteComponent {
     private showSongService: ShowSongService,
     private songService: SongService,
     private textRenderingService: TextRenderingService,
-    private globalSettingsService: GlobalSettingsService,
+    globalSettingsService: GlobalSettingsService,
     private cRef: ChangeDetectorRef,
   ) {
     globalSettingsService.get$
       .pipe(
         filter(_ => !!_),
-        map(_ => _ as GlobalSettings),
         map(_ => _.currentShow),
       )
       .subscribe(_ => {
@@ -75,7 +75,7 @@ export class RemoteComponent {
       const presentationSongs = list.map(song => ({
         id: song.id,
         title: song.title,
-        sections: this.textRenderingService.parse(song.text, null),
+        sections: this.textRenderingService.parse(song.text, null, false),
       }));
       this.presentationSongs = show?.order.map(_ => presentationSongs.filter(f => f.id === _)[0]) ?? [];
       this.cRef.markForCheck();
@@ -83,7 +83,7 @@ export class RemoteComponent {
   }
 
   public getFirstLine(section: Section): string {
-    return section.lines.filter(_ => _.type === 1)[0].text;
+    return section.lines.filter(_ => _.type === LineType.text)[0].text;
   }
 
   public async onSectionClick(id: string, index: number, showId: string): Promise<void> {

@@ -10,6 +10,7 @@ import {ShowSongService} from '../services/show-song.service';
 import {ShowSong} from '../services/show-song';
 import {DocxService} from '../services/docx.service';
 import {
+  faArrowUpRightFromSquare,
   faBox,
   faBoxOpen,
   faExternalLinkAlt,
@@ -19,8 +20,7 @@ import {
   faLock,
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
-  faShare,
-  faSliders,
+  faSliders, faUnlock,
   faUser,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
@@ -48,9 +48,9 @@ export class ShowComponent implements OnInit, OnDestroy {
 
   public faBox = faBox;
   public faBoxOpen = faBoxOpen;
-  public faPublish = faExternalLinkAlt;
+  public faPublish = faUnlock;
   public faUnpublish = faLock;
-  public faShare = faShare;
+  public faShare = faArrowUpRightFromSquare;
   public faDownload = faFileDownload;
   public faSliders = faSliders;
   public faUser = faUser;
