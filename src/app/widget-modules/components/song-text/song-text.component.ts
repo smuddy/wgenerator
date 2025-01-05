@@ -15,7 +15,6 @@ export type ChordMode = 'show' | 'hide' | 'onlyFirst';
   templateUrl: './song-text.component.html',
   styleUrls: ['./song-text.component.less'],
   animations: [songSwitch],
-  standalone: false,
 })
 export class SongTextComponent implements OnInit {
   public sections: Section[] = [];
@@ -100,6 +99,15 @@ export class SongTextComponent implements OnInit {
     return this.index !== -1 && this.index !== i;
   }
 
+  public transform(text: string): string {
+    if (this.isComment(text)) text = text.slice(1);
+    return text;
+  }
+
+  public isComment(text: string) {
+    return text.startsWith('#');
+  }
+
   private render() {
     this.offset = 0;
     this.sections = [];
@@ -123,14 +131,5 @@ export class SongTextComponent implements OnInit {
       case 'onlyFirst':
         return 'show';
     }
-  }
-
-  public transform(text: string): string {
-    if (this.isComment(text)) text = text.slice(1);
-    return text.trim();
-  }
-
-  public isComment(text: string) {
-    return text.startsWith('#');
   }
 }
