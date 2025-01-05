@@ -15,7 +15,6 @@ import {ButtonRowModule} from '../../widget-modules/components/button-row/button
 import {MatButtonModule} from '@angular/material/button';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
-import {ShowTypeTranslaterModule} from '../../widget-modules/pipes/show-type-translater/show-type-translater.module';
 import {MatNativeDateModule} from '@angular/material/core';
 import {ShowComponent} from './show/show.component';
 import {SongComponent} from './show/song/song.component';
@@ -28,7 +27,6 @@ import {UserNameModule} from '../../services/user/user-name/user-name.module';
 import {MatMenuModule} from '@angular/material/menu';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {RoleModule} from '../../services/user/role.module';
-import {SortByModule} from '../../widget-modules/pipes/sort-by/sort-by.module';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {FilterComponent} from './list/filter/filter.component';
 import {EditComponent} from './edit/edit.component';
@@ -36,6 +34,8 @@ import {ArchiveDialogComponent} from './dialog/archive-dialog/archive-dialog.com
 import {MatDialogModule} from '@angular/material/dialog';
 import {SongTextComponent} from '../../widget-modules/components/song-text/song-text.component';
 import {AddSongComponent} from '../../widget-modules/components/add-song/add-song.component';
+import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {SortByPipe} from '../../widget-modules/pipes/sort-by/sort-by.pipe';
 
 @NgModule({
   declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent, FilterComponent, EditComponent, ArchiveDialogComponent],
@@ -53,7 +53,7 @@ import {AddSongComponent} from '../../widget-modules/components/add-song/add-son
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    ShowTypeTranslaterModule,
+    ShowTypePipe,
     FontAwesomeModule,
     MenuButtonModule,
     FormsModule,
@@ -66,7 +66,7 @@ import {AddSongComponent} from '../../widget-modules/components/add-song/add-son
     MatMenuModule,
     DragDropModule,
     RoleModule,
-    SortByModule,
+    SortByPipe,
     MatTooltipModule,
     MatDialogModule,
   ],

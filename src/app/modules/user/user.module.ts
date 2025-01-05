@@ -22,7 +22,7 @@ import {NewComponent} from './new/new.component';
 import {ButtonModule} from '../../widget-modules/components/button/button.module';
 import {LogoModule} from '../../widget-modules/components/logo/logo.module';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {SortByModule} from '../../widget-modules/pipes/sort-by/sort-by.module';
+import {SortByPipe} from '../../widget-modules/pipes/sort-by/sort-by.pipe';
 
 @NgModule({
   declarations: [LoginComponent, AuthMessagePipe, InfoComponent, LogoutComponent, RolePipe, PasswordComponent, PasswordSendComponent, UsersComponent, UserComponent, NewComponent],
@@ -41,8 +41,7 @@ import {SortByModule} from '../../widget-modules/pipes/sort-by/sort-by.module';
     ButtonModule,
     LogoModule,
     FontAwesomeModule,
-    SortByModule,
+    SortByPipe,
   ],
 })
-export class UserModule {
-}
+export class UserModule {}

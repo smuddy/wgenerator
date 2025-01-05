@@ -175,7 +175,7 @@ export class ShowComponent implements OnInit, OnDestroy {
     return show.order.map(_ => list.filter(f => f.id === _)[0]);
   }
 
-  public trackBy = (_: number, show: ShowSong) => show.id;
+  public trackBy = (_: number, show: ShowSong) => show?.id;
 
   public async onChange(showId: string) {
     await this.router.navigateByUrl('/shows/' + showId + '/edit');

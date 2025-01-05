@@ -7,8 +7,6 @@ import {RemoteComponent} from './remote/remote.component';
 import {CardModule} from '../../widget-modules/components/card/card.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import {ShowTypeTranslaterModule} from '../../widget-modules/pipes/show-type-translater/show-type-translater.module';
-import {SectionTypeTranslatorModule} from '../../widget-modules/pipes/section-type-translator/section-type-translator.module';
 import {LegalComponent} from './monitor/legal/legal.component';
 import {MatButtonModule} from '@angular/material/button';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
@@ -20,6 +18,8 @@ import {MatInputModule} from '@angular/material/input';
 import {UserNameModule} from '../../services/user/user-name/user-name.module';
 import {SongTextComponent} from '../../widget-modules/components/song-text/song-text.component';
 import {AddSongComponent} from '../../widget-modules/components/add-song/add-song.component';
+import {SectionTypePipe} from '../../widget-modules/pipes/section-type-translator/section-type.pipe';
+import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @NgModule({
   declarations: [MonitorComponent, RemoteComponent, LegalComponent, LogoComponent, SelectComponent],
@@ -30,8 +30,8 @@ import {AddSongComponent} from '../../widget-modules/components/add-song/add-son
     CardModule,
     MatFormFieldModule,
     MatSelectModule,
-    ShowTypeTranslaterModule,
-    SectionTypeTranslatorModule,
+    ShowTypePipe,
+    SectionTypePipe,
     SongTextComponent,
     MatButtonModule,
     FontAwesomeModule,

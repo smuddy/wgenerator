@@ -3,7 +3,6 @@ import {SongType} from '../../../modules/songs/services/song.service';
 
 @Pipe({
   name: 'songType',
-  standalone: false,
 })
 export class SongTypePipe implements PipeTransform {
   public transform(songTypeKey: SongType): string {

@@ -3,7 +3,6 @@ import {SectionType} from '../../../modules/songs/services/section-type';
 
 @Pipe({
   name: 'sectionType',
-  standalone: false,
 })
 export class SectionTypePipe implements PipeTransform {
   public transform(value: SectionType): string {

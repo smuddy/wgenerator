@@ -3,7 +3,6 @@ import {orderBy} from 'lodash';
 
 @Pipe({
   name: 'sortBy',
-  standalone: false,
 })
 export class SortByPipe implements PipeTransform {
   public transform(value: unknown[] | null, order: 'asc' | 'desc' = 'asc', column = ''): unknown[] | null {
