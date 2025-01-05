@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {GuestShowDataService} from './guest-show-data.service';
 import {ActivatedRoute} from '@angular/router';
 import {map, switchMap} from 'rxjs/operators';
@@ -12,6 +12,7 @@ import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show
   selector: 'app-guest',
   templateUrl: './guest.component.html',
   styleUrls: ['./guest.component.less'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [NgIf, NgFor, SongTextComponent, AsyncPipe, DatePipe, ShowTypePipe],
 })
 export class GuestComponent {

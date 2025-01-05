@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {filter, map, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowService} from '../services/show.service';
@@ -54,6 +54,7 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
   templateUrl: './show.component.html',
   styleUrls: ['./show.component.less'],
   animations: [fade],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     NgIf,
     CardComponent,
