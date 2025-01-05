@@ -7,6 +7,9 @@ import {SectionType} from '../../../modules/songs/services/section-type';
 import {LineType} from '../../../modules/songs/services/line-type';
 import {Section} from '../../../modules/songs/services/section';
 import {Line} from '../../../modules/songs/services/line';
+import {NgForOf, NgIf} from '@angular/common';
+import {MatIconButton} from '@angular/material/button';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 
 export type ChordMode = 'show' | 'hide' | 'onlyFirst';
 
@@ -15,6 +18,7 @@ export type ChordMode = 'show' | 'hide' | 'onlyFirst';
   templateUrl: './song-text.component.html',
   styleUrls: ['./song-text.component.less'],
   animations: [songSwitch],
+  imports: [NgIf, MatIconButton, FaIconComponent, NgForOf],
 })
 export class SongTextComponent implements OnInit {
   public sections: Section[] = [];

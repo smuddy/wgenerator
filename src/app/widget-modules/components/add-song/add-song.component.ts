@@ -1,19 +1,21 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {UntypedFormControl} from '@angular/forms';
+import {ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {filterSong} from '../../../services/filter.helper';
-import {MatSelectChange} from '@angular/material/select';
+import {MatFormField, MatLabel, MatOption, MatSelect, MatSelectChange} from '@angular/material/select';
 import {Song} from '../../../modules/songs/services/song';
 import {ShowSong} from '../../../modules/shows/services/show-song';
 import {ShowSongService} from '../../../modules/shows/services/show-song.service';
 import {Show} from '../../../modules/shows/services/show';
 import {ShowService} from '../../../modules/shows/services/show.service';
+import {NgForOf, NgIf} from '@angular/common';
+import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 
 @Component({
   selector: 'app-add-song',
   templateUrl: './add-song.component.html',
   styleUrls: ['./add-song.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, MatFormField, MatSelect, MatOption, MatLabel, NgxMatSelectSearchModule, ReactiveFormsModule, NgForOf],
 })
 export class AddSongComponent {
   @Input() public songs: Song[] | null = null;
@@ -22,8 +24,10 @@ export class AddSongComponent {
   @Input() public addedLive = false;
   public filteredSongsControl = new UntypedFormControl();
 
-  public constructor(private showSongService: ShowSongService, private showService: ShowService) {
-  }
+  public constructor(
+    private showSongService: ShowSongService,
+    private showService: ShowService
+  ) {}
 
   public filteredSongs(): Song[] {
     if (!this.songs) return [];

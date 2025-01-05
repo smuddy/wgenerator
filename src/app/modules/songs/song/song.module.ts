@@ -6,10 +6,7 @@ import {SongTypeTranslaterModule} from '../../../widget-modules/pipes/song-type-
 import {MatButtonModule} from '@angular/material/button';
 import {ButtonRowModule} from '../../../widget-modules/components/button-row/button-row.module';
 import {RouterModule} from '@angular/router';
-import {
-  LegalOwnerTranslatorModule,
-} from '../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
-import {SongTextModule} from '../../../widget-modules/components/song-text/song-text.module';
+import {LegalOwnerTranslatorModule} from '../../../widget-modules/pipes/legal-owner-translator/legal-owner-translator.module';
 import {MatChipsModule} from '@angular/material/chips';
 import {RoleModule} from '../../../services/user/role.module';
 import {StatusTranslaterModule} from '../../../widget-modules/pipes/status-translater/status-translater.module';
@@ -17,6 +14,7 @@ import {ButtonModule} from '../../../widget-modules/components/button/button.mod
 import {FileComponent} from './file/file.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {ShowTypeTranslaterModule} from '../../../widget-modules/pipes/show-type-translater/show-type-translater.module';
+import {SongTextComponent} from '../../../widget-modules/components/song-text/song-text.component';
 
 @NgModule({
   declarations: [SongComponent, FileComponent],
@@ -30,7 +28,7 @@ import {ShowTypeTranslaterModule} from '../../../widget-modules/pipes/show-type-
     MatButtonModule,
     ButtonRowModule,
     LegalOwnerTranslatorModule,
-    SongTextModule,
+    SongTextComponent,
     MatChipsModule,
     RoleModule,
     StatusTranslaterModule,
@@ -39,5 +37,4 @@ import {ShowTypeTranslaterModule} from '../../../widget-modules/pipes/show-type-
     ShowTypeTranslaterModule,
   ],
 })
-export class SongModule {
-}
+export class SongModule {}

@@ -21,9 +21,7 @@ import {ShowComponent} from './show/show.component';
 import {SongComponent} from './show/song/song.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MenuButtonModule} from '../../widget-modules/components/menu-button/menu-button.module';
-import {SongTextModule} from '../../widget-modules/components/song-text/song-text.module';
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
-import {AddSongModule} from '../../widget-modules/components/add-song/add-song.module';
 import {ButtonModule} from '../../widget-modules/components/button/button.module';
 import {OwnerModule} from '../../services/user/owner.module';
 import {UserNameModule} from '../../services/user/user-name/user-name.module';
@@ -36,6 +34,8 @@ import {FilterComponent} from './list/filter/filter.component';
 import {EditComponent} from './edit/edit.component';
 import {ArchiveDialogComponent} from './dialog/archive-dialog/archive-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {SongTextComponent} from '../../widget-modules/components/song-text/song-text.component';
+import {AddSongComponent} from '../../widget-modules/components/add-song/add-song.component';
 
 @NgModule({
   declarations: [NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent, FilterComponent, EditComponent, ArchiveDialogComponent],
@@ -57,9 +57,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     FontAwesomeModule,
     MenuButtonModule,
     FormsModule,
-    SongTextModule,
+    SongTextComponent,
     NgxMatSelectSearchModule,
-    AddSongModule,
+    AddSongComponent,
     ButtonModule,
     OwnerModule,
     UserNameModule,
@@ -72,5 +72,4 @@ import {MatDialogModule} from '@angular/material/dialog';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ShowsModule {
-}
+export class ShowsModule {}
