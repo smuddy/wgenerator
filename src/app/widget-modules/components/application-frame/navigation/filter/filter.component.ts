@@ -1,17 +1,20 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
-    selector: 'app-filter',
-    templateUrl: './filter.component.html',
-    styleUrls: ['./filter.component.less'],
-    imports: [ReactiveFormsModule, FormsModule],
+  selector: 'app-filter',
+  templateUrl: './filter.component.html',
+  styleUrls: ['./filter.component.less'],
+  imports: [ReactiveFormsModule, FormsModule],
 })
 export class FilterComponent {
   public value = '';
 
-  public constructor(private router: Router, activatedRoute: ActivatedRoute) {
+  public constructor(
+    private router: Router,
+    activatedRoute: ActivatedRoute
+  ) {
     activatedRoute.queryParams.subscribe((params: Params) => {
       const typedParams = params as {q: string};
       if (typedParams.q) this.value = typedParams.q;

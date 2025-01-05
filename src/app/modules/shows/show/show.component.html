@@ -23,7 +23,8 @@
                          matTooltip="Swiper umschalten"></app-menu-button>
       </div>
     </div>
-    <div (cdkDropListDropped)="drop($event, show)" *ngIf="showSongs && !useSwiper" [cdkDropListDisabled]="show.published || showText"
+    <div (cdkDropListDropped)="drop($event, show)" *ngIf="showSongs && !useSwiper"
+         [cdkDropListDisabled]="show.published || showText"
          [style.cursor]="!(show.published || showText) ? 'drag' : 'inherit'"
          [style.font-size]="textSize + 'em'"
          cdkDropList
@@ -52,7 +53,9 @@
           [showText]="true"
           [show]="show"
         ></app-song>
-        <div class="next-song" *ngIf="getNextSong(orderedShowSongs(show), i) as next">{{next}}<fa-icon [icon]="faNextSong"></fa-icon></div>
+        <div *ngIf="getNextSong(orderedShowSongs(show), i) as next" class="next-song">{{ next }}
+          <fa-icon [icon]="faNextSong"></fa-icon>
+        </div>
       </swiper-slide>
     </swiper-container>
 

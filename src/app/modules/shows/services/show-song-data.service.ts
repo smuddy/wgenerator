@@ -11,8 +11,7 @@ export class ShowSongDataService {
   private collection = 'shows';
   private subCollection = 'songs';
 
-  public constructor(private dbService: DbService) {
-  }
+  public constructor(private dbService: DbService) {}
 
   public list$ = (showId: string, queryFn?: QueryFn): Observable<ShowSong[]> => this.dbService.col$(`${this.collection}/${showId}/${this.subCollection}`, queryFn);
   public read$ = (showId: string, songId: string): Observable<ShowSong | null> => this.dbService.doc$(`${this.collection}/${showId}/${this.subCollection}/${songId}`);

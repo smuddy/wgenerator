@@ -10,29 +10,20 @@ import {ConfigService} from '../../../services/config.service';
 import {songSwitch} from '../../../widget-modules/components/song-text/animation';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
 import {PresentationBackground, Show} from '../../shows/services/show';
-import {GlobalSettings} from '../../../services/global-settings';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {openFullscreen} from '../../../services/fullscreen';
-import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
-import { LogoComponent } from './logo/logo.component';
-import { SongTextComponent } from '../../../widget-modules/components/song-text/song-text.component';
-import { LegalComponent } from './legal/legal.component';
-import { ShowTypePipe } from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {LogoComponent} from './logo/logo.component';
+import {SongTextComponent} from '../../../widget-modules/components/song-text/song-text.component';
+import {LegalComponent} from './legal/legal.component';
+import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @Component({
-    selector: 'app-monitor',
-    templateUrl: './monitor.component.html',
-    styleUrls: ['./monitor.component.less'],
-    animations: [songSwitch],
-    imports: [
-        NgIf,
-        LogoComponent,
-        SongTextComponent,
-        LegalComponent,
-        AsyncPipe,
-        DatePipe,
-        ShowTypePipe,
-    ],
+  selector: 'app-monitor',
+  templateUrl: './monitor.component.html',
+  styleUrls: ['./monitor.component.less'],
+  animations: [songSwitch],
+  imports: [NgIf, LogoComponent, SongTextComponent, LegalComponent, AsyncPipe, DatePipe, ShowTypePipe],
 })
 export class MonitorComponent implements OnInit {
   public song: Song | null = null;
@@ -54,7 +45,7 @@ export class MonitorComponent implements OnInit {
     private textRenderingService: TextRenderingService,
     private globalSettingsService: GlobalSettingsService,
     private configService: ConfigService,
-    private cRef: ChangeDetectorRef,
+    private cRef: ChangeDetectorRef
   ) {
     this.config$ = configService.get$();
   }
@@ -65,15 +56,15 @@ export class MonitorComponent implements OnInit {
       .pipe(
         debounceTime(100),
         filter(_ => !!_),
-        map(_ => _ as GlobalSettings),
+        map(_ => _),
         map(_ => _.currentShow),
         distinctUntilChanged(),
-        tap(_ => (this.currentShowId = _)),
+        tap(_ => (this.currentShowId = _))
       )
       .pipe(
         switchMap(_ => this.showService.read$(_)),
         filter(_ => !!_),
-        map(_ => _ as Show),
+        map(_ => _),
         tap<Show>(_ => {
           this.showType = _.showType;
           this.date = _.date.toDate();
@@ -90,7 +81,7 @@ export class MonitorComponent implements OnInit {
         }),
         switchMap((_: Show) => this.showSongService.read$(_.id, _.presentationSongId)),
         filter(_ => !!_),
-        map(_ => _ as Song),
+        map(_ => _ as Song)
       )
       .subscribe(_ => {
         this.song = _;

@@ -6,13 +6,11 @@ describe('AddSongComponent', () => {
   let component: AddSongComponent;
   let fixture: ComponentFixture<AddSongComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-    imports: [AddSongComponent],
-}).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      imports: [AddSongComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddSongComponent);

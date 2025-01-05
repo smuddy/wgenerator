@@ -6,13 +6,11 @@ describe('MenuButtonComponent', () => {
   let component: MenuButtonComponent;
   let fixture: ComponentFixture<MenuButtonComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-    imports: [MenuButtonComponent],
-}).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      imports: [MenuButtonComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MenuButtonComponent);

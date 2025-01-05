@@ -12,14 +12,12 @@ describe('SongComponent', () => {
     params: of({songId: '4711'}),
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-    imports: [SongComponent],
-    providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute }],
-}).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      imports: [SongComponent],
+      providers: [{provide: ActivatedRoute, useValue: mockActivatedRoute}],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SongComponent);

@@ -15,15 +15,13 @@ describe('SongListComponent', () => {
     list: () => of(songs),
   };
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-    imports: [SongListComponent],
-    providers: [{ provide: SongService, useValue: mockSongService }],
-    schemas: [NO_ERRORS_SCHEMA],
-}).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      imports: [SongListComponent],
+      providers: [{provide: SongService, useValue: mockSongService}],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SongListComponent);

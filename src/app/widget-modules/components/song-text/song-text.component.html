@@ -23,8 +23,8 @@
       <div
         *ngFor="let line of getLines(section)"
         [class.chord]="line.type === 0"
-        [class.disabled]="checkDisabled(i)"
         [class.comment]="isComment(line.text)"
+        [class.disabled]="checkDisabled(i)"
         class="line"
       >{{ transform(line.text) }}
       </div>

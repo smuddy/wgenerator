@@ -10,7 +10,10 @@ import {FileServer} from './fileServer';
   providedIn: 'root',
 })
 export class UploadService extends FileBase {
-  public constructor(private fileDataService: FileDataService, private angularFireStorage: AngularFireStorage) {
+  public constructor(
+    private fileDataService: FileDataService,
+    private angularFireStorage: AngularFireStorage
+  ) {
     super();
   }
 

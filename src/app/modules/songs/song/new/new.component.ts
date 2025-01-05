@@ -1,29 +1,21 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
-import { UntypedFormControl, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {SongService} from '../../services/song.service';
 import {Song} from '../../services/song';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
-import { CardComponent } from '../../../../widget-modules/components/card/card.component';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { ButtonRowComponent } from '../../../../widget-modules/components/button-row/button-row.component';
-import { ButtonComponent } from '../../../../widget-modules/components/button/button.component';
+import {CardComponent} from '../../../../widget-modules/components/card/card.component';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {ButtonRowComponent} from '../../../../widget-modules/components/button-row/button-row.component';
+import {ButtonComponent} from '../../../../widget-modules/components/button/button.component';
 
 @Component({
-    selector: 'app-new',
-    templateUrl: './new.component.html',
-    styleUrls: ['./new.component.less'],
-    imports: [
-        CardComponent,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        ButtonRowComponent,
-        ButtonComponent,
-    ],
+  selector: 'app-new',
+  templateUrl: './new.component.html',
+  styleUrls: ['./new.component.less'],
+  imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent],
 })
 export class NewComponent implements OnInit, OnDestroy {
   public faSave = faSave;
@@ -33,8 +25,10 @@ export class NewComponent implements OnInit, OnDestroy {
   });
   private subs: Subscription[] = [];
 
-  public constructor(private songService: SongService, private router: Router) {
-  }
+  public constructor(
+    private songService: SongService,
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.form.reset();
@@ -43,7 +37,7 @@ export class NewComponent implements OnInit, OnDestroy {
       this.songService.list$().subscribe(songs => {
         const freeSongnumber = this.getFreeSongNumber(songs);
         this.form.controls.number.setValue(freeSongnumber);
-      }),
+      })
     );
   }
 

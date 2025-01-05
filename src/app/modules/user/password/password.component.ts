@@ -1,31 +1,21 @@
 import {Component, OnInit} from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
 import {faWindowRestore} from '@fortawesome/free-solid-svg-icons';
-import { CardComponent } from '../../../widget-modules/components/card/card.component';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { ButtonRowComponent } from '../../../widget-modules/components/button-row/button-row.component';
-import { ButtonComponent } from '../../../widget-modules/components/button/button.component';
-import { NgIf } from '@angular/common';
-import { AuthMessagePipe } from '../login/auth-message.pipe';
+import {CardComponent} from '../../../widget-modules/components/card/card.component';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {ButtonRowComponent} from '../../../widget-modules/components/button-row/button-row.component';
+import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
+import {NgIf} from '@angular/common';
+import {AuthMessagePipe} from '../login/auth-message.pipe';
 
 @Component({
-    selector: 'app-password',
-    templateUrl: './password.component.html',
-    styleUrls: ['./password.component.less'],
-    imports: [
-        CardComponent,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        ButtonRowComponent,
-        ButtonComponent,
-        NgIf,
-        AuthMessagePipe,
-    ],
+  selector: 'app-password',
+  templateUrl: './password.component.html',
+  styleUrls: ['./password.component.less'],
+  imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent, NgIf, AuthMessagePipe],
 })
 export class PasswordComponent implements OnInit {
   public form: UntypedFormGroup = new UntypedFormGroup({
@@ -35,8 +25,10 @@ export class PasswordComponent implements OnInit {
   public errorMessage = '';
   public faNewPassword = faWindowRestore;
 
-  public constructor(public userService: UserService, private router: Router) {
-  }
+  public constructor(
+    public userService: UserService,
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.form.reset();

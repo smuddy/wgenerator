@@ -22,7 +22,7 @@ export function dynamicSort(property: string) {
     sortOrder = -1;
     property = property.substr(1);
   }
-  return function(a: unknown, b: unknown) {
+  return function (a: unknown, b: unknown) {
     /* next line works with strings and numbers,
      * and you may want to customize it to your needs
      */

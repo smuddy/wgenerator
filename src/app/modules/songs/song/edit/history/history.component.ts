@@ -3,25 +3,22 @@ import {first, map, switchMap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {SongService} from '../../../services/song.service';
 import {Song} from '../../../services/song';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
-import { CardComponent } from '../../../../../widget-modules/components/card/card.component';
+import {DatePipe, NgFor, NgIf} from '@angular/common';
+import {CardComponent} from '../../../../../widget-modules/components/card/card.component';
 
 @Component({
-    selector: 'app-history',
-    templateUrl: './history.component.html',
-    styleUrls: ['./history.component.less'],
-    imports: [
-        NgIf,
-        CardComponent,
-        NgFor,
-        DatePipe,
-    ],
+  selector: 'app-history',
+  templateUrl: './history.component.html',
+  styleUrls: ['./history.component.less'],
+  imports: [NgIf, CardComponent, NgFor, DatePipe],
 })
 export class HistoryComponent implements OnInit {
   public song: Song | null = null;
 
-  public constructor(private activatedRoute: ActivatedRoute, private songService: SongService) {
-  }
+  public constructor(
+    private activatedRoute: ActivatedRoute,
+    private songService: SongService
+  ) {}
 
   public ngOnInit(): void {
     this.activatedRoute.params
@@ -29,7 +26,7 @@ export class HistoryComponent implements OnInit {
         map(param => param as {songId: string}),
         map(param => param.songId),
         switchMap(songId => this.songService.read$(songId)),
-        first(),
+        first()
       )
       .subscribe(song => {
         this.song = song;

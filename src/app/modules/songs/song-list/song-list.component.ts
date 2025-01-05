@@ -4,35 +4,25 @@ import {Song} from '../services/song';
 import {map} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
 import {fade} from '../../../animations';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {filterSong} from '../../../services/filter.helper';
 import {FilterValues} from './filter/filter-values';
 import {ScrollService} from '../../../services/scroll.service';
 import {faBalanceScaleRight, faCheck, faPencilRuler} from '@fortawesome/free-solid-svg-icons';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ListHeaderComponent } from '../../../widget-modules/components/list-header/list-header.component';
-import { FilterComponent } from './filter/filter.component';
-import { CardComponent } from '../../../widget-modules/components/card/card.component';
-import { RoleDirective } from '../../../services/user/role.directive';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import {AsyncPipe, NgFor, NgIf} from '@angular/common';
+import {ListHeaderComponent} from '../../../widget-modules/components/list-header/list-header.component';
+import {FilterComponent} from './filter/filter.component';
+import {CardComponent} from '../../../widget-modules/components/card/card.component';
+import {RoleDirective} from '../../../services/user/role.directive';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 
 @Component({
-    selector: 'app-songs',
-    templateUrl: './song-list.component.html',
-    styleUrls: ['./song-list.component.less'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [fade],
-    imports: [
-        NgIf,
-        ListHeaderComponent,
-        FilterComponent,
-        CardComponent,
-        NgFor,
-        RouterLink,
-        RoleDirective,
-        FaIconComponent,
-        AsyncPipe,
-    ],
+  selector: 'app-songs',
+  templateUrl: './song-list.component.html',
+  styleUrls: ['./song-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fade],
+  imports: [NgIf, ListHeaderComponent, FilterComponent, CardComponent, NgFor, RouterLink, RoleDirective, FaIconComponent, AsyncPipe],
 })
 export class SongListComponent implements OnInit, OnDestroy {
   public anyFilterActive = false;
@@ -40,7 +30,7 @@ export class SongListComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.pipe(map(_ => _ as FilterValues)),
     this.activatedRoute.data.pipe(
       map(data => data.songList as Song[]),
-      map(songs => songs.sort((a, b) => a.number - b.number)),
+      map(songs => songs.sort((a, b) => a.number - b.number))
     ),
   ]).pipe(
     map(_ => {
@@ -48,14 +38,17 @@ export class SongListComponent implements OnInit, OnDestroy {
       const filter = _[0];
       this.anyFilterActive = this.checkIfFilterActive(filter);
       return songs.filter(song => this.filter(song, filter)).sort((a, b) => a.title?.localeCompare(b.title));
-    }),
+    })
   );
   public faLegal = faBalanceScaleRight;
   public faDraft = faPencilRuler;
   public faFinal = faCheck;
 
-  public constructor(private songService: SongService, private activatedRoute: ActivatedRoute, private scrollService: ScrollService) {
-  }
+  public constructor(
+    private songService: SongService,
+    private activatedRoute: ActivatedRoute,
+    private scrollService: ScrollService
+  ) {}
 
   public ngOnInit(): void {
     setTimeout(() => this.scrollService.restoreScrollPositionFor('songlist'), 100);

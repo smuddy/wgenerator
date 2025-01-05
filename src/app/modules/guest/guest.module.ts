@@ -6,18 +6,18 @@ import {SongTextComponent} from '../../widget-modules/components/song-text/song-
 import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild([
-            {
-                path: ':id',
-                component: GuestComponent,
-            },
-        ]),
-        SongTextComponent,
-        ShowTypePipe,
-        GuestComponent,
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [
+    CommonModule,
+    RouterModule.forChild([
+      {
+        path: ':id',
+        component: GuestComponent,
+      },
+    ]),
+    SongTextComponent,
+    ShowTypePipe,
+    GuestComponent,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class GuestModule {}

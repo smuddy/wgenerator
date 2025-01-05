@@ -7,8 +7,7 @@ import {Observable} from 'rxjs';
   providedIn: 'root',
 })
 export class GlobalSettingsService {
-  public constructor(private db: DbService) {
-  }
+  public constructor(private db: DbService) {}
 
   public get get$(): Observable<GlobalSettings | null> {
     return this.db.doc$<GlobalSettings>('global/static');

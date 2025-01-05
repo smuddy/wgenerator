@@ -14,6 +14,7 @@ export class SongDataService {
   public constructor(private dbService: DbService) {
     this.dbService.col$<Song>(this.collection).subscribe(_ => this.list$.next(_));
   }
+
   // public list$ = (): Observable<Song[]> => this.dbService.col$(this.collection);
 
   //public read$ = (songId: string): Observable<Song | null> => this.dbService.doc$(this.collection + '/' + songId);

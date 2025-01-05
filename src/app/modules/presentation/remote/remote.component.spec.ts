@@ -6,13 +6,11 @@ describe('RemoteComponent', () => {
   let component: RemoteComponent;
   let fixture: ComponentFixture<RemoteComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-    imports: [RemoteComponent],
-}).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      imports: [RemoteComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RemoteComponent);

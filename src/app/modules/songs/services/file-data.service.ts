@@ -8,8 +8,7 @@ import {DbService} from '../../../services/db.service';
   providedIn: 'root',
 })
 export class FileDataService {
-  public constructor(private db: DbService) {
-  }
+  public constructor(private db: DbService) {}
 
   public async set(songId: string, file: FileServer): Promise<string> {
     const songRef = this.db.doc('songs/' + songId);

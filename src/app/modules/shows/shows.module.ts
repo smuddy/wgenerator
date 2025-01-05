@@ -22,8 +22,6 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 
-
-
 import {MatMenuModule} from '@angular/material/menu';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
@@ -38,7 +36,7 @@ import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show
 import {SortByPipe} from '../../widget-modules/pipes/sort-by/sort-by.pipe';
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     ShowsRoutingModule,
     MatFormFieldModule,
@@ -60,8 +58,15 @@ import {SortByPipe} from '../../widget-modules/pipes/sort-by/sort-by.pipe';
     SortByPipe,
     MatTooltipModule,
     MatDialogModule,
-    NewComponent, ListComponent, ListItemComponent, ShowComponent, SongComponent, FilterComponent, EditComponent, ArchiveDialogComponent,
-],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    NewComponent,
+    ListComponent,
+    ListItemComponent,
+    ShowComponent,
+    SongComponent,
+    FilterComponent,
+    EditComponent,
+    ArchiveDialogComponent,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ShowsModule {}

@@ -6,13 +6,11 @@ describe('PasswordSendComponent', () => {
   let component: PasswordSendComponent;
   let fixture: ComponentFixture<PasswordSendComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-    imports: [PasswordSendComponent],
-}).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      imports: [PasswordSendComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PasswordSendComponent);

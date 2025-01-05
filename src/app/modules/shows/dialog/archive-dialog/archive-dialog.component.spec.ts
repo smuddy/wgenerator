@@ -8,8 +8,8 @@ describe('ArchiveDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [ArchiveDialogComponent],
-}).compileComponents();
+      imports: [ArchiveDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ArchiveDialogComponent);
     component = fixture.componentInstance;

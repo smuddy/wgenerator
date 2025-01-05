@@ -6,13 +6,11 @@ describe('UserNameComponent', () => {
   let component: UserNameComponent;
   let fixture: ComponentFixture<UserNameComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-    imports: [UserNameComponent],
-}).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      imports: [UserNameComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserNameComponent);

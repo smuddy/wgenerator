@@ -6,13 +6,11 @@ describe('SaveDialogComponent', () => {
   let component: SaveDialogComponent;
   let fixture: ComponentFixture<SaveDialogComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-    declarations: [SaveDialogComponent],
-}).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      declarations: [SaveDialogComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SaveDialogComponent);

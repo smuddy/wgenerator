@@ -22,14 +22,14 @@ export class UserService {
     private db: DbService,
     private router: Router,
     private showDataService: ShowDataService,
-    private showSongDataService: ShowSongDataService,
+    private showSongDataService: ShowSongDataService
   ) {
     this.afAuth.authState
       .pipe(
         filter(auth => !!auth),
         map(auth => auth?.uid ?? ''),
         tap(uid => this.iUserId$.next(uid)),
-        switchMap(uid => this.readUser$(uid)),
+        switchMap(uid => this.readUser$(uid))
       )
       .subscribe(_ => this.iUser$.next(_));
 

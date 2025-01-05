@@ -20,12 +20,11 @@ import {UsersComponent} from './info/users/users.component';
 import {UserComponent} from './info/users/user/user.component';
 import {NewComponent} from './new/new.component';
 
-
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {SortByPipe} from '../../widget-modules/pipes/sort-by/sort-by.pipe';
 
 @NgModule({
-    imports: [
+  imports: [
     CommonModule,
     UserRoutingModule,
     MatFormFieldModule,
@@ -36,7 +35,16 @@ import {SortByPipe} from '../../widget-modules/pipes/sort-by/sort-by.pipe';
     FormsModule,
     FontAwesomeModule,
     SortByPipe,
-    LoginComponent, AuthMessagePipe, InfoComponent, LogoutComponent, RolePipe, PasswordComponent, PasswordSendComponent, UsersComponent, UserComponent, NewComponent,
-],
+    LoginComponent,
+    AuthMessagePipe,
+    InfoComponent,
+    LogoutComponent,
+    RolePipe,
+    PasswordComponent,
+    PasswordSendComponent,
+    UsersComponent,
+    UserComponent,
+    NewComponent,
+  ],
 })
 export class UserModule {}

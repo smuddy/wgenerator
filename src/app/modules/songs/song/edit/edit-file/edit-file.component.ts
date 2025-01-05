@@ -6,26 +6,17 @@ import {map, switchMap} from 'rxjs/operators';
 import {FileDataService} from '../../../services/file-data.service';
 import {Observable} from 'rxjs';
 import {File} from '../../../services/file';
-import { CardComponent } from '../../../../../widget-modules/components/card/card.component';
-import { NgIf, NgStyle, NgFor, AsyncPipe } from '@angular/common';
-import { MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { FileComponent } from './file/file.component';
+import {CardComponent} from '../../../../../widget-modules/components/card/card.component';
+import {AsyncPipe, NgFor, NgIf, NgStyle} from '@angular/common';
+import {MatIconButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {FileComponent} from './file/file.component';
 
 @Component({
-    selector: 'app-edit-file',
-    templateUrl: './edit-file.component.html',
-    styleUrls: ['./edit-file.component.less'],
-    imports: [
-        CardComponent,
-        NgIf,
-        NgStyle,
-        MatIconButton,
-        MatIcon,
-        NgFor,
-        FileComponent,
-        AsyncPipe,
-    ],
+  selector: 'app-edit-file',
+  templateUrl: './edit-file.component.html',
+  styleUrls: ['./edit-file.component.less'],
+  imports: [CardComponent, NgIf, NgStyle, MatIconButton, MatIcon, NgFor, FileComponent, AsyncPipe],
 })
 export class EditFileComponent {
   public selectedFiles: FileList | null = null;
@@ -33,11 +24,15 @@ export class EditFileComponent {
   public songId: string | null = null;
   public files$: Observable<File[]>;
 
-  public constructor(private activatedRoute: ActivatedRoute, private uploadService: UploadService, private fileService: FileDataService) {
+  public constructor(
+    private activatedRoute: ActivatedRoute,
+    private uploadService: UploadService,
+    private fileService: FileDataService
+  ) {
     this.activatedRoute.params
       .pipe(
         map(param => param as {songId: string}),
-        map(param => param.songId),
+        map(param => param.songId)
       )
       .subscribe(songId => {
         this.songId = songId;
@@ -46,7 +41,7 @@ export class EditFileComponent {
     this.files$ = this.activatedRoute.params.pipe(
       map(param => param as {songId: string}),
       map(param => param.songId),
-      switchMap(songId => this.fileService.read$(songId)),
+      switchMap(songId => this.fileService.read$(songId))
     );
   }
 

@@ -5,27 +5,18 @@ import {Show} from '../../shows/services/show';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {Router} from '@angular/router';
 import {fade} from '../../../animations';
-import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
-import { CardComponent } from '../../../widget-modules/components/card/card.component';
-import { MatButton } from '@angular/material/button';
-import { UserNameComponent } from '../../../services/user/user-name/user-name.component';
-import { ShowTypePipe } from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {AsyncPipe, DatePipe, NgFor, NgIf} from '@angular/common';
+import {CardComponent} from '../../../widget-modules/components/card/card.component';
+import {MatButton} from '@angular/material/button';
+import {UserNameComponent} from '../../../services/user/user-name/user-name.component';
+import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @Component({
-    selector: 'app-select',
-    templateUrl: './select.component.html',
-    styleUrls: ['./select.component.less'],
-    animations: [fade],
-    imports: [
-        NgIf,
-        CardComponent,
-        NgFor,
-        MatButton,
-        UserNameComponent,
-        AsyncPipe,
-        DatePipe,
-        ShowTypePipe,
-    ],
+  selector: 'app-select',
+  templateUrl: './select.component.html',
+  styleUrls: ['./select.component.less'],
+  animations: [fade],
+  imports: [NgIf, CardComponent, NgFor, MatButton, UserNameComponent, AsyncPipe, DatePipe, ShowTypePipe],
 })
 export class SelectComponent implements OnInit {
   public visible = false;
@@ -33,8 +24,11 @@ export class SelectComponent implements OnInit {
     .list$(true)
     .pipe(map(_ => _.filter(_ => _.date.toDate() > new Date(new Date().setMonth(new Date().getMonth() - 1))).sort((a, b) => (b.date < a.date ? -1 : b.date > a.date ? 1 : 0))));
 
-  public constructor(private showService: ShowService, private globalSettingsService: GlobalSettingsService, private router: Router) {
-  }
+  public constructor(
+    private showService: ShowService,
+    private globalSettingsService: GlobalSettingsService,
+    private router: Router
+  ) {}
 
   public async selectShow(show: Show) {
     this.visible = false;

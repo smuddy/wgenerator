@@ -1,26 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../services/user/user.service';
 import {faUserPlus} from '@fortawesome/free-solid-svg-icons';
-import { CardComponent } from '../../../widget-modules/components/card/card.component';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { ButtonRowComponent } from '../../../widget-modules/components/button-row/button-row.component';
-import { ButtonComponent } from '../../../widget-modules/components/button/button.component';
+import {CardComponent} from '../../../widget-modules/components/card/card.component';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {ButtonRowComponent} from '../../../widget-modules/components/button-row/button-row.component';
+import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 
 @Component({
-    selector: 'app-new',
-    templateUrl: './new.component.html',
-    styleUrls: ['./new.component.less'],
-    imports: [
-        CardComponent,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        ButtonRowComponent,
-        ButtonComponent,
-    ],
+  selector: 'app-new',
+  templateUrl: './new.component.html',
+  styleUrls: ['./new.component.less'],
+  imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent],
 })
 export class NewComponent implements OnInit {
   public form: UntypedFormGroup = this.fb.group({
@@ -30,8 +22,10 @@ export class NewComponent implements OnInit {
   });
   public faNewUser = faUserPlus;
 
-  public constructor(private fb: UntypedFormBuilder, private userService: UserService) {
-  }
+  public constructor(
+    private fb: UntypedFormBuilder,
+    private userService: UserService
+  ) {}
 
   public ngOnInit(): void {
     this.form.reset();

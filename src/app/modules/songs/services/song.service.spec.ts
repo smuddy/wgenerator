@@ -15,7 +15,7 @@ describe('SongService', () => {
     () =>
       void TestBed.configureTestingModule({
         providers: [{provide: SongDataService, useValue: mockSongDataService}],
-      }),
+      })
   );
 
   it('should be created', () => {
@@ -23,13 +23,10 @@ describe('SongService', () => {
     void expect(service).toBeTruthy();
   });
 
-  it(
-    'should list songs',
-    waitForAsync(() => {
-      const service: SongService = TestBed.inject(SongService);
-      service.list$().subscribe(s => {
-        void expect(s[0].title).toEqual('title1');
-      });
-    }),
-  );
+  it('should list songs', waitForAsync(() => {
+    const service: SongService = TestBed.inject(SongService);
+    service.list$().subscribe(s => {
+      void expect(s[0].title).toEqual('title1');
+    });
+  }));
 });

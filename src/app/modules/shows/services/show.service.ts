@@ -15,7 +15,10 @@ export class ShowService {
   public static SHOW_TYPE_PRIVATE = ['home-group', 'prayer-group', 'misc-private'];
   private user: User | null = null;
 
-  public constructor(private showDataService: ShowDataService, private userService: UserService) {
+  public constructor(
+    private showDataService: ShowDataService,
+    private userService: UserService
+  ) {
     userService.user$.subscribe(_ => (this.user = _));
   }
 
@@ -25,14 +28,14 @@ export class ShowService {
     return this.userService.user$.pipe(
       switchMap(
         () => this.showDataService.list$,
-        (user: User | null, shows: Show[]) => ({user, shows}),
+        (user: User | null, shows: Show[]) => ({user, shows})
       ),
       map(s =>
         s.shows
           .sort((a, b) => a.date.toMillis() - b.date.toMillis())
           .filter(_ => !_.archived)
-          .filter(show => show.published || (show.owner === s.user?.id && !publishedOnly)),
-      ),
+          .filter(show => show.published || (show.owner === s.user?.id && !publishedOnly))
+      )
     );
   }
 

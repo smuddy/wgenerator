@@ -9,7 +9,7 @@ describe('ShowService', () => {
     () =>
       void TestBed.configureTestingModule({
         providers: [{provide: ShowDataService, useValue: mockShowDataService}],
-      }),
+      })
   );
 
   ShowService.SHOW_TYPE_PUBLIC.forEach(type => {

@@ -1,64 +1,64 @@
 import {Component, OnInit} from '@angular/core';
 import {Song} from '../../../services/song';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import {ReactiveFormsModule, UntypedFormGroup} from '@angular/forms';
 import {ActivatedRoute, Router, RouterStateSnapshot} from '@angular/router';
 import {SongService} from '../../../services/song.service';
 import {EditService} from '../edit.service';
 import {first, map, switchMap} from 'rxjs/operators';
 import {KEYS} from '../../../services/key.helper';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { MatChipInputEvent, MatChipGrid, MatChipRow, MatChipInput } from '@angular/material/chips';
+import {MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRow} from '@angular/material/chips';
 import {faExternalLinkAlt, faSave, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import {MatDialog} from '@angular/material/dialog';
 import {SaveDialogComponent} from './save-dialog/save-dialog.component';
-import { NgIf, NgFor } from '@angular/common';
-import { CardComponent } from '../../../../../widget-modules/components/card/card.component';
-import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatSelect } from '@angular/material/select';
-import { MatOption } from '@angular/material/core';
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { SongTextComponent } from '../../../../../widget-modules/components/song-text/song-text.component';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { MatTooltip } from '@angular/material/tooltip';
-import { ButtonRowComponent } from '../../../../../widget-modules/components/button-row/button-row.component';
-import { ButtonComponent } from '../../../../../widget-modules/components/button/button.component';
-import { SongTypePipe } from '../../../../../widget-modules/pipes/song-type-translater/song-type.pipe';
-import { LegalOwnerPipe } from '../../../../../widget-modules/pipes/legal-owner-translator/legal-owner.pipe';
-import { LegalTypePipe } from '../../../../../widget-modules/pipes/legal-type-translator/legal-type.pipe';
-import { KeyPipe } from '../../../../../widget-modules/pipes/key-translator/key.pipe';
-import { StatusPipe } from '../../../../../widget-modules/pipes/status-translater/status.pipe';
+import {NgFor, NgIf} from '@angular/common';
+import {CardComponent} from '../../../../../widget-modules/components/card/card.component';
+import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {MatSelect} from '@angular/material/select';
+import {MatOption} from '@angular/material/core';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import {SongTextComponent} from '../../../../../widget-modules/components/song-text/song-text.component';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {MatTooltip} from '@angular/material/tooltip';
+import {ButtonRowComponent} from '../../../../../widget-modules/components/button-row/button-row.component';
+import {ButtonComponent} from '../../../../../widget-modules/components/button/button.component';
+import {SongTypePipe} from '../../../../../widget-modules/pipes/song-type-translater/song-type.pipe';
+import {LegalOwnerPipe} from '../../../../../widget-modules/pipes/legal-owner-translator/legal-owner.pipe';
+import {LegalTypePipe} from '../../../../../widget-modules/pipes/legal-type-translator/legal-type.pipe';
+import {KeyPipe} from '../../../../../widget-modules/pipes/key-translator/key.pipe';
+import {StatusPipe} from '../../../../../widget-modules/pipes/status-translater/status.pipe';
 
 @Component({
-    selector: 'app-edit-song',
-    templateUrl: './edit-song.component.html',
-    styleUrls: ['./edit-song.component.less'],
-    imports: [
-        NgIf,
-        CardComponent,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatSelect,
-        NgFor,
-        MatOption,
-        CdkTextareaAutosize,
-        SongTextComponent,
-        MatChipGrid,
-        MatChipRow,
-        FaIconComponent,
-        MatChipInput,
-        MatSuffix,
-        MatTooltip,
-        ButtonRowComponent,
-        ButtonComponent,
-        SongTypePipe,
-        LegalOwnerPipe,
-        LegalTypePipe,
-        KeyPipe,
-        StatusPipe,
-    ],
+  selector: 'app-edit-song',
+  templateUrl: './edit-song.component.html',
+  styleUrls: ['./edit-song.component.less'],
+  imports: [
+    NgIf,
+    CardComponent,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatSelect,
+    NgFor,
+    MatOption,
+    CdkTextareaAutosize,
+    SongTextComponent,
+    MatChipGrid,
+    MatChipRow,
+    FaIconComponent,
+    MatChipInput,
+    MatSuffix,
+    MatTooltip,
+    ButtonRowComponent,
+    ButtonComponent,
+    SongTypePipe,
+    LegalOwnerPipe,
+    LegalTypePipe,
+    KeyPipe,
+    StatusPipe,
+  ],
 })
 export class EditSongComponent implements OnInit {
   public song: Song | null = null;
@@ -80,9 +80,8 @@ export class EditSongComponent implements OnInit {
     private songService: SongService,
     private editService: EditService,
     private router: Router,
-    public dialog: MatDialog,
-  ) {
-  }
+    public dialog: MatDialog
+  ) {}
 
   public ngOnInit(): void {
     this.activatedRoute.params
@@ -90,7 +89,7 @@ export class EditSongComponent implements OnInit {
         map(param => param as {songId: string}),
         map(param => param.songId),
         switchMap(songId => this.songService.read$(songId)),
-        first(),
+        first()
       )
       .subscribe(song => {
         this.song = song;

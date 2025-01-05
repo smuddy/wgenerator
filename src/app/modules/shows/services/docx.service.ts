@@ -4,7 +4,6 @@ import {ShowService} from './show.service';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {ShowSongService} from './show-song.service';
 import {Song} from '../../songs/services/song';
-import {SongService} from '../../songs/services/song.service';
 import {ShowSong} from './show-song';
 import {Show} from './show';
 import {ChordMode} from '../../../widget-modules/components/song-text/song-text.component';
@@ -32,7 +31,7 @@ export class DocxService {
     private showSongService: ShowSongService,
     private textRenderingService: TextRenderingService,
     private userService: UserService,
-    private configService: ConfigService,
+    private configService: ConfigService
   ) {}
 
   public async create(showId: string, options: DownloadOptions = {}): Promise<void> {

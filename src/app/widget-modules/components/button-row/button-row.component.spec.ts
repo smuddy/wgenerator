@@ -6,13 +6,11 @@ describe('ButtonRowComponent', () => {
   let component: ButtonRowComponent;
   let fixture: ComponentFixture<ButtonRowComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      void TestBed.configureTestingModule({
-    imports: [ButtonRowComponent],
-}).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    void TestBed.configureTestingModule({
+      imports: [ButtonRowComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ButtonRowComponent);

@@ -25,60 +25,60 @@ import {
   faUser,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
-import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {fade} from '../../../animations';
 import {MatDialog} from '@angular/material/dialog';
 import {ArchiveDialogComponent} from '../dialog/archive-dialog/archive-dialog.component';
 import {closeFullscreen, openFullscreen} from '../../../services/fullscreen';
 import {GuestShowService} from '../../guest/guest-show.service';
 import {ShareDialogComponent} from '../dialog/share-dialog/share-dialog.component';
-import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
-import { CardComponent } from '../../../widget-modules/components/card/card.component';
-import { UserNameComponent } from '../../../services/user/user-name/user-name.component';
-import { MatCheckbox } from '@angular/material/checkbox';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MenuButtonComponent } from '../../../widget-modules/components/menu-button/menu-button.component';
-import { MatTooltip } from '@angular/material/tooltip';
-import { SongComponent } from './song/song.component';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { AddSongComponent } from '../../../widget-modules/components/add-song/add-song.component';
-import { ButtonRowComponent } from '../../../widget-modules/components/button-row/button-row.component';
-import { RoleDirective } from '../../../services/user/role.directive';
-import { OwnerDirective } from '../../../services/user/owner.directive';
-import { ButtonComponent } from '../../../widget-modules/components/button/button.component';
-import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
-import { ShowTypePipe } from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {AsyncPipe, DatePipe, NgFor, NgIf} from '@angular/common';
+import {CardComponent} from '../../../widget-modules/components/card/card.component';
+import {UserNameComponent} from '../../../services/user/user-name/user-name.component';
+import {MatCheckbox} from '@angular/material/checkbox';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MenuButtonComponent} from '../../../widget-modules/components/menu-button/menu-button.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {SongComponent} from './song/song.component';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {AddSongComponent} from '../../../widget-modules/components/add-song/add-song.component';
+import {ButtonRowComponent} from '../../../widget-modules/components/button-row/button-row.component';
+import {RoleDirective} from '../../../services/user/role.directive';
+import {OwnerDirective} from '../../../services/user/owner.directive';
+import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
+import {MatMenu, MatMenuTrigger} from '@angular/material/menu';
+import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @Component({
-    selector: 'app-show',
-    templateUrl: './show.component.html',
-    styleUrls: ['./show.component.less'],
-    animations: [fade],
-    imports: [
-        NgIf,
-        CardComponent,
-        UserNameComponent,
-        MatCheckbox,
-        ReactiveFormsModule,
-        FormsModule,
-        MenuButtonComponent,
-        MatTooltip,
-        CdkDropList,
-        NgFor,
-        CdkDrag,
-        SongComponent,
-        FaIconComponent,
-        AddSongComponent,
-        ButtonRowComponent,
-        RoleDirective,
-        OwnerDirective,
-        ButtonComponent,
-        MatMenuTrigger,
-        MatMenu,
-        AsyncPipe,
-        DatePipe,
-        ShowTypePipe,
-    ],
+  selector: 'app-show',
+  templateUrl: './show.component.html',
+  styleUrls: ['./show.component.less'],
+  animations: [fade],
+  imports: [
+    NgIf,
+    CardComponent,
+    UserNameComponent,
+    MatCheckbox,
+    ReactiveFormsModule,
+    FormsModule,
+    MenuButtonComponent,
+    MatTooltip,
+    CdkDropList,
+    NgFor,
+    CdkDrag,
+    SongComponent,
+    FaIconComponent,
+    AddSongComponent,
+    ButtonRowComponent,
+    RoleDirective,
+    OwnerDirective,
+    ButtonComponent,
+    MatMenuTrigger,
+    MatMenu,
+    AsyncPipe,
+    DatePipe,
+    ShowTypePipe,
+  ],
 })
 export class ShowComponent implements OnInit, OnDestroy {
   public show$: Observable<Show | null> | null = null;
@@ -114,16 +114,15 @@ export class ShowComponent implements OnInit, OnDestroy {
     private router: Router,
     private cRef: ChangeDetectorRef,
     public dialog: MatDialog,
-    private guestShowService: GuestShowService,
-  ) {
-  }
+    private guestShowService: GuestShowService
+  ) {}
 
   public ngOnInit(): void {
     this.show$ = this.activatedRoute.params.pipe(
       map(param => param as {showId: string}),
       map(param => param.showId),
       tap((_: string) => (this.showId = _)),
-      switchMap((showId: string) => this.showService.read$(showId)),
+      switchMap((showId: string) => this.showService.read$(showId))
     );
     this.subs.push(
       this.activatedRoute.params
@@ -131,7 +130,7 @@ export class ShowComponent implements OnInit, OnDestroy {
           map(param => param as {showId: string}),
           map(param => param.showId),
           switchMap(showId => this.showSongService.list$(showId)),
-          filter(_ => !!_ && _.length > 0),
+          filter(_ => !!_ && _.length > 0)
         )
         .subscribe(_ => {
           this.showSongs = _;
@@ -143,7 +142,7 @@ export class ShowComponent implements OnInit, OnDestroy {
         .subscribe(_ => {
           this.songs = _;
           this.cRef.markForCheck();
-        }),
+        })
     );
   }
 

@@ -3,34 +3,21 @@ import {User} from '../../../../../services/user/user';
 import {UserService} from '../../../../../services/user/user.service';
 import {ROLE_TYPES} from '../../../../../services/user/roles';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import { NgIf, NgFor } from '@angular/common';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatSelect } from '@angular/material/select';
-import { MatOption } from '@angular/material/core';
-import { MatIconButton } from '@angular/material/button';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { RolePipe } from '../../role.pipe';
+import {NgFor, NgIf} from '@angular/common';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatSelect} from '@angular/material/select';
+import {MatOption} from '@angular/material/core';
+import {MatIconButton} from '@angular/material/button';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {RolePipe} from '../../role.pipe';
 
 @Component({
-    selector: 'app-user',
-    templateUrl: './user.component.html',
-    styleUrls: ['./user.component.less'],
-    imports: [
-        NgIf,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        ReactiveFormsModule,
-        FormsModule,
-        MatSelect,
-        NgFor,
-        MatOption,
-        MatIconButton,
-        FaIconComponent,
-        RolePipe,
-    ],
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.less'],
+  imports: [NgIf, MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, MatSelect, NgFor, MatOption, MatIconButton, FaIconComponent, RolePipe],
 })
 export class UserComponent {
   public id = '';
@@ -40,8 +27,7 @@ export class UserComponent {
   public edit = false;
   public faClose = faTimes;
 
-  public constructor(private userService: UserService) {
-  }
+  public constructor(private userService: UserService) {}
 
   @Input()
   public set user(value: User) {

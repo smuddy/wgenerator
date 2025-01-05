@@ -1,35 +1,24 @@
 import {Component, Input} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {SongService} from '../../services/song.service';
 import {FilterValues} from './filter-values';
 import {Song} from '../../services/song';
 import {KEYS} from '../../services/key.helper';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatSelect } from '@angular/material/select';
-import { MatOption } from '@angular/material/core';
-import { NgFor } from '@angular/common';
-import { LegalTypePipe } from '../../../../widget-modules/pipes/legal-type-translator/legal-type.pipe';
-import { KeyPipe } from '../../../../widget-modules/pipes/key-translator/key.pipe';
-import { SongTypePipe } from '../../../../widget-modules/pipes/song-type-translater/song-type.pipe';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {MatSelect} from '@angular/material/select';
+import {MatOption} from '@angular/material/core';
+import {NgFor} from '@angular/common';
+import {LegalTypePipe} from '../../../../widget-modules/pipes/legal-type-translator/legal-type.pipe';
+import {KeyPipe} from '../../../../widget-modules/pipes/key-translator/key.pipe';
+import {SongTypePipe} from '../../../../widget-modules/pipes/song-type-translater/song-type.pipe';
 
 @Component({
-    selector: 'app-filter',
-    templateUrl: './filter.component.html',
-    styleUrls: ['./filter.component.less'],
-    imports: [
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatSelect,
-        MatOption,
-        NgFor,
-        LegalTypePipe,
-        KeyPipe,
-        SongTypePipe,
-    ],
+  selector: 'app-filter',
+  templateUrl: './filter.component.html',
+  styleUrls: ['./filter.component.less'],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, MatOption, NgFor, LegalTypePipe, KeyPipe, SongTypePipe],
 })
 export class FilterComponent {
   public filterFormGroup: UntypedFormGroup;
@@ -39,7 +28,11 @@ export class FilterComponent {
   public legalType = SongService.LEGAL_TYPE;
   public keys = KEYS;
 
-  public constructor(private router: Router, activatedRoute: ActivatedRoute, fb: UntypedFormBuilder) {
+  public constructor(
+    private router: Router,
+    activatedRoute: ActivatedRoute,
+    fb: UntypedFormBuilder
+  ) {
     this.filterFormGroup = fb.group({
       q: '',
       type: '',

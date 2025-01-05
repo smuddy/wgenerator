@@ -22,8 +22,8 @@ import {SectionTypePipe} from '../../widget-modules/pipes/section-type-translato
 import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @NgModule({
-    exports: [RemoteComponent],
-    imports: [
+  exports: [RemoteComponent],
+  imports: [
     CommonModule,
     PresentationRoutingModule,
     MatFormFieldModule,
@@ -38,7 +38,11 @@ import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show
     AddSongComponent,
     ReactiveFormsModule,
     MatInputModule,
-    MonitorComponent, RemoteComponent, LegalComponent, LogoComponent, SelectComponent,
-],
+    MonitorComponent,
+    RemoteComponent,
+    LegalComponent,
+    LogoComponent,
+    SelectComponent,
+  ],
 })
 export class PresentationModule {}

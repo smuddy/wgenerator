@@ -3,45 +3,45 @@ import {ShowDataService} from '../services/show-data.service';
 import {Observable, take} from 'rxjs';
 import {Show} from '../services/show';
 import {ShowService} from '../services/show.service';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
 import {map, switchMap} from 'rxjs/operators';
 import firebase from 'firebase/compat/app';
-import { CardComponent } from '../../../widget-modules/components/card/card.component';
-import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
-import { MatSelect } from '@angular/material/select';
-import { MatOptgroup, MatOption } from '@angular/material/core';
-import { NgFor } from '@angular/common';
-import { MatInput } from '@angular/material/input';
-import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
-import { ButtonRowComponent } from '../../../widget-modules/components/button-row/button-row.component';
-import { ButtonComponent } from '../../../widget-modules/components/button/button.component';
-import { ShowTypePipe } from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {CardComponent} from '../../../widget-modules/components/card/card.component';
+import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
+import {MatSelect} from '@angular/material/select';
+import {MatOptgroup, MatOption} from '@angular/material/core';
+import {NgFor} from '@angular/common';
+import {MatInput} from '@angular/material/input';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
+import {ButtonRowComponent} from '../../../widget-modules/components/button-row/button-row.component';
+import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
+import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import Timestamp = firebase.firestore.Timestamp;
 
 @Component({
-    selector: 'app-edit',
-    templateUrl: './edit.component.html',
-    styleUrls: ['./edit.component.less'],
-    imports: [
-        CardComponent,
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatSelect,
-        MatOptgroup,
-        NgFor,
-        MatOption,
-        MatInput,
-        MatDatepickerInput,
-        MatDatepickerToggle,
-        MatSuffix,
-        MatDatepicker,
-        ButtonRowComponent,
-        ButtonComponent,
-        ShowTypePipe,
-    ],
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.less'],
+  imports: [
+    CardComponent,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOptgroup,
+    NgFor,
+    MatOption,
+    MatInput,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatSuffix,
+    MatDatepicker,
+    ButtonRowComponent,
+    ButtonComponent,
+    ShowTypePipe,
+  ],
 })
 export class EditComponent implements OnInit {
   public shows$: Observable<Show[]>;
@@ -54,7 +54,12 @@ export class EditComponent implements OnInit {
   });
   public faSave = faSave;
 
-  public constructor(private showService: ShowService, showDataService: ShowDataService, private router: Router, private activatedRoute: ActivatedRoute) {
+  public constructor(
+    private showService: ShowService,
+    showDataService: ShowDataService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.shows$ = showDataService.list$;
   }
 
@@ -66,7 +71,7 @@ export class EditComponent implements OnInit {
         map(param => param as {showId: string}),
         map(param => param.showId),
         switchMap((showId: string) => this.showService.read$(showId)),
-        take(1),
+        take(1)
       )
       .subscribe(show => {
         this.form.setValue({
@@ -83,13 +88,10 @@ export class EditComponent implements OnInit {
       return;
     }
 
-    await this.showService.update$(
-      this.form.value.id as string,
-      {
-        date: Timestamp.fromDate(this.form.value.date),
-        showType: this.form.value.showType,
-      } as Partial<Show>,
-    );
+    await this.showService.update$(this.form.value.id, {
+      date: Timestamp.fromDate(this.form.value.date),
+      showType: this.form.value.showType,
+    } as Partial<Show>);
     await this.router.navigateByUrl(`/shows/${this.form.value.id ?? ''}`);
   }
 }

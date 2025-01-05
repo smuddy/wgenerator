@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import { KeyValue, NgFor } from '@angular/common';
+import {KeyValue, NgFor} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {FilterValues} from './filter-values';
 import {Show} from '../../services/show';
 import {ShowService} from '../../services/show.service';
@@ -10,25 +10,16 @@ import {combineLatest, Observable} from 'rxjs';
 import {dynamicSort, onlyUnique} from '../../../../services/filter.helper';
 import {UserService} from '../../../../services/user/user.service';
 import {isEqual} from 'lodash';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatSelect } from '@angular/material/select';
-import { MatOption, MatOptgroup } from '@angular/material/core';
-import { ShowTypePipe } from '../../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatSelect} from '@angular/material/select';
+import {MatOptgroup, MatOption} from '@angular/material/core';
+import {ShowTypePipe} from '../../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @Component({
-    selector: 'app-filter',
-    templateUrl: './filter.component.html',
-    styleUrls: ['./filter.component.less'],
-    imports: [
-        ReactiveFormsModule,
-        MatFormField,
-        MatLabel,
-        MatSelect,
-        NgFor,
-        MatOption,
-        MatOptgroup,
-        ShowTypePipe,
-    ],
+  selector: 'app-filter',
+  templateUrl: './filter.component.html',
+  styleUrls: ['./filter.component.less'],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, NgFor, MatOption, MatOptgroup, ShowTypePipe],
 })
 export class FilterComponent {
   @Input() public route = '/shows/';
@@ -52,7 +43,7 @@ export class FilterComponent {
     private showService: ShowService,
     private userService: UserService,
     activatedRoute: ActivatedRoute,
-    fb: UntypedFormBuilder,
+    fb: UntypedFormBuilder
   ) {
     this.filterFormGroup = fb.group({
       time: 1,
@@ -77,7 +68,7 @@ export class FilterComponent {
       this.showService.list$().pipe(
         map(shows => {
           return shows.map(show => show.owner).filter(onlyUnique);
-        }),
+        })
       ),
       this.userService.users$,
     ]).pipe(
@@ -90,7 +81,7 @@ export class FilterComponent {
           .sort(dynamicSort('value'));
       }),
       distinctUntilChanged(isEqual),
-      map(_ => _ as {key: string; value: string}[]),
+      map(_ => _ as {key: string; value: string}[])
     );
   };
 

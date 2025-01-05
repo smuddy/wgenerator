@@ -6,46 +6,45 @@ import {ChordMode} from '../../../widget-modules/components/song-text/song-text.
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import {RolePipe} from './role.pipe';
 import {roles} from '../../../services/user/roles';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../../widget-modules/components/card/card.component';
-import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
-import { MatSelect } from '@angular/material/select';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
-import { ButtonRowComponent } from '../../../widget-modules/components/button-row/button-row.component';
-import { ButtonComponent } from '../../../widget-modules/components/button/button.component';
-import { RouterLink } from '@angular/router';
-import { RoleDirective } from '../../../services/user/role.directive';
-import { UsersComponent } from './users/users.component';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {CardComponent} from '../../../widget-modules/components/card/card.component';
+import {MatFormField, MatHint, MatLabel} from '@angular/material/form-field';
+import {MatSelect} from '@angular/material/select';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatOption} from '@angular/material/core';
+import {ButtonRowComponent} from '../../../widget-modules/components/button-row/button-row.component';
+import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
+import {RouterLink} from '@angular/router';
+import {RoleDirective} from '../../../services/user/role.directive';
+import {UsersComponent} from './users/users.component';
 
 @Component({
-    selector: 'app-info',
-    templateUrl: './info.component.html',
-    styleUrls: ['./info.component.less'],
-    imports: [
-        NgIf,
-        CardComponent,
-        MatFormField,
-        MatLabel,
-        MatSelect,
-        ReactiveFormsModule,
-        FormsModule,
-        MatOption,
-        MatHint,
-        ButtonRowComponent,
-        ButtonComponent,
-        RouterLink,
-        RoleDirective,
-        UsersComponent,
-        AsyncPipe,
-    ],
+  selector: 'app-info',
+  templateUrl: './info.component.html',
+  styleUrls: ['./info.component.less'],
+  imports: [
+    NgIf,
+    CardComponent,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    ReactiveFormsModule,
+    FormsModule,
+    MatOption,
+    MatHint,
+    ButtonRowComponent,
+    ButtonComponent,
+    RouterLink,
+    RoleDirective,
+    UsersComponent,
+    AsyncPipe,
+  ],
 })
 export class InfoComponent implements OnInit {
   public user$: Observable<User | null> | null = null;
   public faSignOut = faSignOutAlt;
 
-  public constructor(private userService: UserService) {
-  }
+  public constructor(private userService: UserService) {}
 
   public ngOnInit(): void {
     this.user$ = this.userService.user$;
