@@ -28,9 +28,7 @@ import {SongTypePipe} from '../../../../widget-modules/pipes/song-type-translate
 import {StatusPipe} from '../../../../widget-modules/pipes/status-translater/status.pipe';
 
 @NgModule({
-  declarations: [SaveDialogComponent],
   exports: [EditComponent],
-  bootstrap: [SaveDialogComponent],
   imports: [
     CommonModule,
     SongTypePipe,
@@ -55,6 +53,7 @@ import {StatusPipe} from '../../../../widget-modules/pipes/status-translater/sta
     EditFileComponent,
     FileComponent,
     HistoryComponent,
+    SaveDialogComponent,
   ],
 })
 export class EditModule {}
