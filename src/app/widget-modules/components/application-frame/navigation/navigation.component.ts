@@ -2,12 +2,25 @@ import {Component} from '@angular/core';
 import {faChalkboard, faMusic, faPersonBooth, faUserCog} from '@fortawesome/free-solid-svg-icons';
 import {fromEvent, Observable} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, startWith} from 'rxjs/operators';
+import { BrandComponent } from './brand/brand.component';
+import { RouterLink } from '@angular/router';
+import { RoleDirective } from '../../../../services/user/role.directive';
+import { LinkComponent } from './link/link.component';
+import { FilterComponent } from './filter/filter.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.less'],
-  standalone: false,
+    selector: 'app-navigation',
+    templateUrl: './navigation.component.html',
+    styleUrls: ['./navigation.component.less'],
+    imports: [
+        BrandComponent,
+        RouterLink,
+        RoleDirective,
+        LinkComponent,
+        FilterComponent,
+        AsyncPipe,
+    ],
 })
 export class NavigationComponent {
   public faSongs = faMusic;

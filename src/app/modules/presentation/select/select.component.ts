@@ -5,13 +5,27 @@ import {Show} from '../../shows/services/show';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {Router} from '@angular/router';
 import {fade} from '../../../animations';
+import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { CardComponent } from '../../../widget-modules/components/card/card.component';
+import { MatButton } from '@angular/material/button';
+import { UserNameComponent } from '../../../services/user/user-name/user-name.component';
+import { ShowTypePipe } from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @Component({
-  selector: 'app-select',
-  templateUrl: './select.component.html',
-  styleUrls: ['./select.component.less'],
-  animations: [fade],
-  standalone: false,
+    selector: 'app-select',
+    templateUrl: './select.component.html',
+    styleUrls: ['./select.component.less'],
+    animations: [fade],
+    imports: [
+        NgIf,
+        CardComponent,
+        NgFor,
+        MatButton,
+        UserNameComponent,
+        AsyncPipe,
+        DatePipe,
+        ShowTypePipe,
+    ],
 })
 export class SelectComponent implements OnInit {
   public visible = false;

@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {fader} from './animations';
 import {ScrollService} from './services/scroll.service';
 import {register} from 'swiper/element/bundle';
+import {RouterOutlet} from '@angular/router';
+import {NavigationComponent} from './widget-modules/components/application-frame/navigation/navigation.component';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,7 @@ import {register} from 'swiper/element/bundle';
   styleUrls: ['./app.component.less'],
   animations: [fader],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [RouterOutlet, NavigationComponent],
 })
 export class AppComponent implements OnInit {
   public constructor(private scrollService: ScrollService) {

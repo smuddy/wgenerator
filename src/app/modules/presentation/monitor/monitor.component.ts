@@ -13,13 +13,26 @@ import {PresentationBackground, Show} from '../../shows/services/show';
 import {GlobalSettings} from '../../../services/global-settings';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {openFullscreen} from '../../../services/fullscreen';
+import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { LogoComponent } from './logo/logo.component';
+import { SongTextComponent } from '../../../widget-modules/components/song-text/song-text.component';
+import { LegalComponent } from './legal/legal.component';
+import { ShowTypePipe } from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @Component({
-  selector: 'app-monitor',
-  templateUrl: './monitor.component.html',
-  styleUrls: ['./monitor.component.less'],
-  animations: [songSwitch],
-  standalone: false,
+    selector: 'app-monitor',
+    templateUrl: './monitor.component.html',
+    styleUrls: ['./monitor.component.less'],
+    animations: [songSwitch],
+    imports: [
+        NgIf,
+        LogoComponent,
+        SongTextComponent,
+        LegalComponent,
+        AsyncPipe,
+        DatePipe,
+        ShowTypePipe,
+    ],
 })
 export class MonitorComponent implements OnInit {
   public song: Song | null = null;

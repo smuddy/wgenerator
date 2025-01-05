@@ -9,8 +9,8 @@ describe('GuestComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [GuestComponent],
-      }).compileComponents();
+    imports: [GuestComponent],
+}).compileComponents();
     }),
   );
 

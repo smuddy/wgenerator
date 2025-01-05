@@ -4,10 +4,7 @@ import {UserService} from './user.service';
 import {User} from './user';
 import {combineLatest} from 'rxjs';
 
-@Directive({
-  selector: '[appRole]',
-  standalone: false,
-})
+@Directive({ selector: '[appRole]', })
 export class RoleDirective implements OnInit {
   @Input() public appRole: roles[] = [];
   private currentUser: User | null = null;

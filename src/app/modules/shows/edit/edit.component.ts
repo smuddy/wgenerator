@@ -3,18 +3,45 @@ import {ShowDataService} from '../services/show-data.service';
 import {Observable, take} from 'rxjs';
 import {Show} from '../services/show';
 import {ShowService} from '../services/show.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
 import {map, switchMap} from 'rxjs/operators';
 import firebase from 'firebase/compat/app';
+import { CardComponent } from '../../../widget-modules/components/card/card.component';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { MatOptgroup, MatOption } from '@angular/material/core';
+import { NgFor } from '@angular/common';
+import { MatInput } from '@angular/material/input';
+import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
+import { ButtonRowComponent } from '../../../widget-modules/components/button-row/button-row.component';
+import { ButtonComponent } from '../../../widget-modules/components/button/button.component';
+import { ShowTypePipe } from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import Timestamp = firebase.firestore.Timestamp;
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.less'],
-  standalone: false,
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.less'],
+    imports: [
+        CardComponent,
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatSelect,
+        MatOptgroup,
+        NgFor,
+        MatOption,
+        MatInput,
+        MatDatepickerInput,
+        MatDatepickerToggle,
+        MatSuffix,
+        MatDatepicker,
+        ButtonRowComponent,
+        ButtonComponent,
+        ShowTypePipe,
+    ],
 })
 export class EditComponent implements OnInit {
   public shows$: Observable<Show[]>;

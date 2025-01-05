@@ -2,19 +2,43 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ShowSongService} from '../../services/show-song.service';
 import {ShowSong} from '../../services/show-song';
 import {getScale} from '../../../songs/services/key.helper';
-import {UntypedFormControl} from '@angular/forms';
-import {ChordMode} from '../../../../widget-modules/components/song-text/song-text.component';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { ChordMode, SongTextComponent } from '../../../../widget-modules/components/song-text/song-text.component';
 import {Show} from '../../services/show';
 import {faEraser, faPenToSquare, faSave, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {fade} from '../../../../animations';
 import {MatSelect} from '@angular/material/select';
+import { NgIf, NgFor } from '@angular/common';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatOption } from '@angular/material/core';
+import { MenuButtonComponent } from '../../../../widget-modules/components/menu-button/menu-button.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatInput } from '@angular/material/input';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { ButtonRowComponent } from '../../../../widget-modules/components/button-row/button-row.component';
+import { ButtonComponent } from '../../../../widget-modules/components/button/button.component';
 
 @Component({
-  selector: 'app-song',
-  templateUrl: './song.component.html',
-  styleUrls: ['./song.component.less'],
-  animations: [fade],
-  standalone: false,
+    selector: 'app-song',
+    templateUrl: './song.component.html',
+    styleUrls: ['./song.component.less'],
+    animations: [fade],
+    imports: [
+        NgIf,
+        MatFormField,
+        MatSelect,
+        ReactiveFormsModule,
+        NgFor,
+        MatOption,
+        MenuButtonComponent,
+        MatTooltip,
+        MatLabel,
+        MatInput,
+        CdkTextareaAutosize,
+        ButtonRowComponent,
+        ButtonComponent,
+        SongTextComponent,
+    ],
 })
 export class SongComponent implements OnInit {
   @Input() public show: Show | null = null;

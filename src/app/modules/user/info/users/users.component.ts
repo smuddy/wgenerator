@@ -2,12 +2,22 @@ import {Component} from '@angular/core';
 import {UserService} from '../../../../services/user/user.service';
 import {Observable} from 'rxjs';
 import {User} from '../../../../services/user/user';
+import { CardComponent } from '../../../../widget-modules/components/card/card.component';
+import { NgFor, AsyncPipe } from '@angular/common';
+import { UserComponent } from './user/user.component';
+import { SortByPipe } from '../../../../widget-modules/pipes/sort-by/sort-by.pipe';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.less'],
-  standalone: false,
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.less'],
+    imports: [
+        CardComponent,
+        NgFor,
+        UserComponent,
+        AsyncPipe,
+        SortByPipe,
+    ],
 })
 export class UsersComponent {
   public users$: Observable<User[]>;

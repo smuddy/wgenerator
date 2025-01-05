@@ -9,8 +9,8 @@ describe('InfoComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [InfoComponent],
-      }).compileComponents();
+    imports: [InfoComponent],
+}).compileComponents();
     }),
   );
 

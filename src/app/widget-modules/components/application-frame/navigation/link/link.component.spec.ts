@@ -9,8 +9,8 @@ describe('LinkComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [LinkComponent],
-      }).compileComponents();
+    imports: [LinkComponent],
+}).compileComponents();
     }),
   );
 

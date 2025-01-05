@@ -1,10 +1,7 @@
 import {Directive, ElementRef, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
 import {UserService} from './user.service';
 
-@Directive({
-  selector: '[appOwner]',
-  standalone: false,
-})
+@Directive({ selector: '[appOwner]', })
 export class OwnerDirective implements OnInit {
   private currentUserId: string | null = null;
   private iAppOwner: string | null = null;

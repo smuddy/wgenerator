@@ -9,8 +9,8 @@ describe('PasswordComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [PasswordComponent],
-      }).compileComponents();
+    imports: [PasswordComponent],
+}).compileComponents();
     }),
   );
 

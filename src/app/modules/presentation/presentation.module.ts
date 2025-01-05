@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {PresentationRoutingModule} from './presentation-routing.module';
 import {MonitorComponent} from './monitor/monitor.component';
 import {RemoteComponent} from './remote/remote.component';
-import {CardModule} from '../../widget-modules/components/card/card.module';
+
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {LegalComponent} from './monitor/legal/legal.component';
@@ -15,19 +15,17 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LogoComponent} from './monitor/logo/logo.component';
 import {SelectComponent} from './select/select.component';
 import {MatInputModule} from '@angular/material/input';
-import {UserNameModule} from '../../services/user/user-name/user-name.module';
+
 import {SongTextComponent} from '../../widget-modules/components/song-text/song-text.component';
 import {AddSongComponent} from '../../widget-modules/components/add-song/add-song.component';
 import {SectionTypePipe} from '../../widget-modules/pipes/section-type-translator/section-type.pipe';
 import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @NgModule({
-  declarations: [MonitorComponent, RemoteComponent, LegalComponent, LogoComponent, SelectComponent],
-  exports: [RemoteComponent],
-  imports: [
+    exports: [RemoteComponent],
+    imports: [
     CommonModule,
     PresentationRoutingModule,
-    CardModule,
     MatFormFieldModule,
     MatSelectModule,
     ShowTypePipe,
@@ -40,7 +38,7 @@ import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show
     AddSongComponent,
     ReactiveFormsModule,
     MatInputModule,
-    UserNameModule,
-  ],
+    MonitorComponent, RemoteComponent, LegalComponent, LogoComponent, SelectComponent,
+],
 })
 export class PresentationModule {}

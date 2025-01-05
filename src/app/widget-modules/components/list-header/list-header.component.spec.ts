@@ -9,8 +9,8 @@ describe('ListHeaderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [ListHeaderComponent],
-      }).compileComponents();
+    imports: [ListHeaderComponent],
+}).compileComponents();
     }),
   );
 

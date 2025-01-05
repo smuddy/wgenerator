@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {KeyValue} from '@angular/common';
+import { KeyValue, NgFor } from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import {FilterValues} from './filter-values';
 import {Show} from '../../services/show';
 import {ShowService} from '../../services/show.service';
@@ -10,12 +10,25 @@ import {combineLatest, Observable} from 'rxjs';
 import {dynamicSort, onlyUnique} from '../../../../services/filter.helper';
 import {UserService} from '../../../../services/user/user.service';
 import {isEqual} from 'lodash';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { MatOption, MatOptgroup } from '@angular/material/core';
+import { ShowTypePipe } from '../../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @Component({
-  selector: 'app-filter',
-  templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.less'],
-  standalone: false,
+    selector: 'app-filter',
+    templateUrl: './filter.component.html',
+    styleUrls: ['./filter.component.less'],
+    imports: [
+        ReactiveFormsModule,
+        MatFormField,
+        MatLabel,
+        MatSelect,
+        NgFor,
+        MatOption,
+        MatOptgroup,
+        ShowTypePipe,
+    ],
 })
 export class FilterComponent {
   @Input() public route = '/shows/';

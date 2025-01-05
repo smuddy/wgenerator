@@ -9,8 +9,8 @@ describe('LoginComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [LoginComponent],
-      }).compileComponents();
+    imports: [LoginComponent],
+}).compileComponents();
     }),
   );
 

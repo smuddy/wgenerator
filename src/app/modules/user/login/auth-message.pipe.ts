@@ -1,9 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({
-  name: 'authMessage',
-  standalone: false,
-})
+@Pipe({ name: 'authMessage', })
 export class AuthMessagePipe implements PipeTransform {
   public transform(code: string): string {
     switch (code) {

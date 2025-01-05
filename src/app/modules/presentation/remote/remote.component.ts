@@ -13,6 +13,20 @@ import {TextRenderingService} from '../../songs/services/text-rendering.service'
 import {Section} from '../../songs/services/section';
 import {GlobalSettings} from '../../../services/global-settings';
 import {LineType} from '../../songs/services/line-type';
+import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { CardComponent } from '../../../widget-modules/components/card/card.component';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { MatSlider, MatSliderThumb } from '@angular/material/slider';
+import { AddSongComponent } from '../../../widget-modules/components/add-song/add-song.component';
+import { ShowTypePipe } from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import { SectionTypePipe } from '../../../widget-modules/pipes/section-type-translator/section-type.pipe';
 
 export interface PresentationSong {
   id: string;
@@ -21,12 +35,33 @@ export interface PresentationSong {
 }
 
 @Component({
-  selector: 'app-remote',
-  templateUrl: './remote.component.html',
-  styleUrls: ['./remote.component.less'],
-  animations: [fade],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'app-remote',
+    templateUrl: './remote.component.html',
+    styleUrls: ['./remote.component.less'],
+    animations: [fade],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        CardComponent,
+        NgFor,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        ReactiveFormsModule,
+        FormsModule,
+        MatButton,
+        RouterLink,
+        FaIconComponent,
+        MatSelect,
+        MatOption,
+        MatSlider,
+        MatSliderThumb,
+        AddSongComponent,
+        AsyncPipe,
+        DatePipe,
+        ShowTypePipe,
+        SectionTypePipe,
+    ],
 })
 export class RemoteComponent {
   public show: Show | null = null;

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {SongService} from '../services/song.service';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {Song} from '../services/song';
@@ -12,12 +12,45 @@ import {faEdit, faFileCirclePlus, faTrash} from '@fortawesome/free-solid-svg-ico
 import {ShowService} from '../../shows/services/show.service';
 import {Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
+import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { CardComponent } from '../../../widget-modules/components/card/card.component';
+import { RoleDirective } from '../../../services/user/role.directive';
+import { SongTextComponent } from '../../../widget-modules/components/song-text/song-text.component';
+import { MatChipListbox, MatChipOption } from '@angular/material/chips';
+import { ButtonRowComponent } from '../../../widget-modules/components/button-row/button-row.component';
+import { ButtonComponent } from '../../../widget-modules/components/button/button.component';
+import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
+import { FileComponent } from './file/file.component';
+import { SongTypePipe } from '../../../widget-modules/pipes/song-type-translater/song-type.pipe';
+import { LegalOwnerPipe } from '../../../widget-modules/pipes/legal-owner-translator/legal-owner.pipe';
+import { StatusPipe } from '../../../widget-modules/pipes/status-translater/status.pipe';
+import { ShowTypePipe } from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 
 @Component({
-  selector: 'app-song',
-  templateUrl: './song.component.html',
-  styleUrls: ['./song.component.less'],
-  standalone: false,
+    selector: 'app-song',
+    templateUrl: './song.component.html',
+    styleUrls: ['./song.component.less'],
+    imports: [
+        NgIf,
+        CardComponent,
+        RoleDirective,
+        SongTextComponent,
+        MatChipListbox,
+        NgFor,
+        MatChipOption,
+        ButtonRowComponent,
+        ButtonComponent,
+        RouterLink,
+        MatMenuTrigger,
+        MatMenu,
+        FileComponent,
+        AsyncPipe,
+        DatePipe,
+        SongTypePipe,
+        LegalOwnerPipe,
+        StatusPipe,
+        ShowTypePipe,
+    ],
 })
 export class SongComponent implements OnInit {
   public song$: Observable<Song | null> | null = null;

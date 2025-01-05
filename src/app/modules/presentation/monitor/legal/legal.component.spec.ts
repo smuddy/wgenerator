@@ -9,8 +9,8 @@ describe('LegalComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [LegalComponent],
-      }).compileComponents();
+    imports: [LegalComponent],
+}).compileComponents();
     }),
   );
 

@@ -4,15 +4,33 @@ import {Show} from '../services/show';
 import {fade} from '../../../animations';
 import {ShowService} from '../services/show.service';
 import {FilterValues} from './filter/filter-values';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import {map} from 'rxjs/operators';
+import { RoleDirective } from '../../../services/user/role.directive';
+import { ListHeaderComponent } from '../../../widget-modules/components/list-header/list-header.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { FilterComponent } from './filter/filter.component';
+import { CardComponent } from '../../../widget-modules/components/card/card.component';
+import { ListItemComponent } from './list-item/list-item.component';
+import { SortByPipe } from '../../../widget-modules/pipes/sort-by/sort-by.pipe';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.less'],
-  animations: [fade],
-  standalone: false,
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.less'],
+    animations: [fade],
+    imports: [
+        RoleDirective,
+        ListHeaderComponent,
+        NgIf,
+        FilterComponent,
+        CardComponent,
+        NgFor,
+        ListItemComponent,
+        RouterLink,
+        AsyncPipe,
+        SortByPipe,
+    ],
 })
 export class ListComponent {
   public shows$ = this.showService.list$();

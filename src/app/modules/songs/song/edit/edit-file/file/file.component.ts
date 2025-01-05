@@ -3,12 +3,19 @@ import {Observable} from 'rxjs';
 import {File} from '../../../../services/file';
 import {faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import {FileService} from '../../../../services/file.service';
+import { MatIconButton } from '@angular/material/button';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-file',
-  templateUrl: './file.component.html',
-  styleUrls: ['./file.component.less'],
-  standalone: false,
+    selector: 'app-file',
+    templateUrl: './file.component.html',
+    styleUrls: ['./file.component.less'],
+    imports: [
+        MatIconButton,
+        FaIconComponent,
+        AsyncPipe,
+    ],
 })
 export class FileComponent {
   public url$: Observable<string> | null = null;

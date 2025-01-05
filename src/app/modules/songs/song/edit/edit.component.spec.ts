@@ -9,8 +9,8 @@ describe('EditComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [EditComponent],
-      }).compileComponents();
+    imports: [EditComponent],
+}).compileComponents();
     }),
   );
 

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BrandComponent} from './brand.component';
 import {RouterModule, Routes} from '@angular/router';
-import {LogoModule} from '../../widget-modules/components/logo/logo.module';
+
 import {NewUserComponent} from './new-user/new-user.component';
 
 const routes: Routes = [
@@ -18,8 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [BrandComponent, NewUserComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), LogoModule],
+    imports: [CommonModule, RouterModule.forChild(routes), BrandComponent, NewUserComponent],
 })
 export class BrandModule {
 }

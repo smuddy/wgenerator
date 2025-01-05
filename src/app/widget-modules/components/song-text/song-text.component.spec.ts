@@ -9,8 +9,8 @@ describe('SongTextComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [SongTextComponent],
-      }).compileComponents();
+    imports: [SongTextComponent],
+}).compileComponents();
     }),
   );
 

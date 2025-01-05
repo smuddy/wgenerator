@@ -18,10 +18,10 @@ describe('SongListComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [SongListComponent],
-        providers: [{provide: SongService, useValue: mockSongService}],
-        schemas: [NO_ERRORS_SCHEMA],
-      }).compileComponents();
+    imports: [SongListComponent],
+    providers: [{ provide: SongService, useValue: mockSongService }],
+    schemas: [NO_ERRORS_SCHEMA],
+}).compileComponents();
     }),
   );
 

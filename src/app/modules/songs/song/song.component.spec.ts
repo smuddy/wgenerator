@@ -15,9 +15,9 @@ describe('SongComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [SongComponent],
-        providers: [{provide: ActivatedRoute, useValue: mockActivatedRoute}],
-      }).compileComponents();
+    imports: [SongComponent],
+    providers: [{ provide: ActivatedRoute, useValue: mockActivatedRoute }],
+}).compileComponents();
     }),
   );
 

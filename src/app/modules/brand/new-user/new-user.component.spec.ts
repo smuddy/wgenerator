@@ -9,8 +9,8 @@ describe('NewUserComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [NewUserComponent],
-      }).compileComponents();
+    imports: [NewUserComponent],
+}).compileComponents();
     }),
   );
 

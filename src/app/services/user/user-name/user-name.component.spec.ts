@@ -9,8 +9,8 @@ describe('UserNameComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [UserNameComponent],
-      }).compileComponents();
+    imports: [UserNameComponent],
+}).compileComponents();
     }),
   );
 

@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {EditComponent} from './edit.component';
-import {CardModule} from '../../../../widget-modules/components/card/card.module';
+
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
-import {ButtonRowModule} from '../../../../widget-modules/components/button-row/button-row.module';
+
 import {RouterModule} from '@angular/router';
 import {EditSongComponent} from './edit-song/edit-song.component';
 import {EditFileComponent} from './edit-file/edit-file.component';
@@ -15,7 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {FileComponent} from './edit-file/file/file.component';
 import {MatChipsModule} from '@angular/material/chips';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {ButtonModule} from '../../../../widget-modules/components/button/button.module';
+
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {SaveDialogComponent} from './edit-song/save-dialog/save-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -28,22 +28,18 @@ import {SongTypePipe} from '../../../../widget-modules/pipes/song-type-translate
 import {StatusPipe} from '../../../../widget-modules/pipes/status-translater/status.pipe';
 
 @NgModule({
-  declarations: [EditComponent, EditSongComponent, EditFileComponent, FileComponent, SaveDialogComponent, HistoryComponent],
-  exports: [EditComponent],
-  bootstrap: [SaveDialogComponent],
-  imports: [
+    declarations: [SaveDialogComponent],
+    exports: [EditComponent],
+    bootstrap: [SaveDialogComponent],
+    imports: [
     CommonModule,
-    CardModule,
     SongTypePipe,
     ReactiveFormsModule,
     RouterModule,
-
     MatInputModule,
     MatButtonModule,
     MatCheckboxModule,
     MatSelectModule,
-    ButtonRowModule,
-
     MatIconModule,
     LegalOwnerPipe,
     LegalTypePipe,
@@ -51,10 +47,10 @@ import {StatusPipe} from '../../../../widget-modules/pipes/status-translater/sta
     MatChipsModule,
     FontAwesomeModule,
     StatusPipe,
-    ButtonModule,
     MatTooltipModule,
     MatDialogModule,
     SongTextComponent,
-  ],
+    EditComponent, EditSongComponent, EditFileComponent, FileComponent, HistoryComponent,
+],
 })
 export class EditModule {}

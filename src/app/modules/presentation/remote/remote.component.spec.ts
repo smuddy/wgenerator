@@ -9,8 +9,8 @@ describe('RemoteComponent', () => {
   beforeEach(
     waitForAsync(() => {
       void TestBed.configureTestingModule({
-        declarations: [RemoteComponent],
-      }).compileComponents();
+    imports: [RemoteComponent],
+}).compileComponents();
     }),
   );
 
