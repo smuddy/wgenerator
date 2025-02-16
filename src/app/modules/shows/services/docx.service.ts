@@ -213,7 +213,7 @@ export class DocxService {
             sections: Section[];
           }
       );
-    const songs = show.order.map(_ => songsLoaded.filter(f => f.showSong.id === _)[0]);
+    const songs = show.order.map(_ => songsLoaded.find(f => f.showSong.id === _)).filter(_ => !!_);
     return {songs, show, user, config};
   }
 
