@@ -19,8 +19,8 @@
         <app-menu-button (click)="onZoomIn()" @fade [icon]="faZoomIn" class="btn-delete btn-icon"
                          matTooltip="Vergrößern"></app-menu-button>
         <app-menu-button (click)="useSwiper=!useSwiper;fullscreen(useSwiper)" @fade
-                         [icon]="useSwiper ? faFileLines : faFile" class="btn-delete btn-icon"
-                         matTooltip="Swiper umschalten"></app-menu-button>
+                         [icon]="useSwiper ? faRestore : faMaximize" class="btn-delete btn-icon"
+                         matTooltip="Vollbild"></app-menu-button>
       </div>
     </div>
     <div (cdkDropListDropped)="drop($event, show)" *ngIf="showSongs && !useSwiper"
@@ -53,6 +53,7 @@
           [showText]="true"
           [show]="show"
         ></app-song>
+        <div class="time">{{ currentTime | date: 'HH:mm' }}</div>
         <div *ngIf="getNextSong(orderedShowSongs(show), i) as next" class="next-song">{{ next }}
           <fa-icon [icon]="faNextSong"></fa-icon>
         </div>

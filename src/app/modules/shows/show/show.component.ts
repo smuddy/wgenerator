@@ -14,12 +14,12 @@ import {
   faBox,
   faBoxOpen,
   faChevronRight,
-  faFile,
   faFileDownload,
-  faFileLines,
   faLock,
   faMagnifyingGlassMinus,
   faMagnifyingGlassPlus,
+  faMaximize,
+  faMinimize,
   faSliders,
   faUnlock,
   faUser,
@@ -101,9 +101,10 @@ export class ShowComponent implements OnInit, OnDestroy {
   public faZoomOut = faMagnifyingGlassMinus;
   public useSwiper = false;
   public textSize = 1;
-  public faFileLines = faFileLines;
-  public faFile = faFile;
+  public faRestore = faMinimize;
+  public faMaximize = faMaximize;
   public faNextSong = faChevronRight;
+  public currentTime: Date;
   private subs: Subscription[] = [];
 
   public constructor(
@@ -119,6 +120,10 @@ export class ShowComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    this.currentTime = new Date();
+    setInterval(() => {
+      this.currentTime = new Date();
+    }, 10000);
     this.show$ = this.activatedRoute.params.pipe(
       map(param => param as {showId: string}),
       map(param => param.showId),
@@ -223,6 +228,7 @@ export class ShowComponent implements OnInit, OnDestroy {
 
   @HostListener('document:keydown', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent) {
+    if (!this.useSwiper) return;
     const swiperEl = document.querySelector('swiper-container') as unknown as Swiper;
     switch (event.code) {
       case 'ArrowRight':
@@ -237,6 +243,7 @@ export class ShowComponent implements OnInit, OnDestroy {
   }
 
   public fullscreen(useSwiper: boolean) {
+    this.textSize = useSwiper ? 2 : 1;
     if (useSwiper) openFullscreen();
     else closeFullscreen();
   }
