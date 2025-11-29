@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {combineLatest, Subject} from 'rxjs';
 import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
@@ -7,7 +7,7 @@ import {faDesktop, faFolderOpen} from '@fortawesome/free-solid-svg-icons';
 import {ShowService} from '../../shows/services/show.service';
 import {ShowSong} from '../../shows/services/show-song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
-import {debounceTime, filter, map} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, map, switchMap, takeUntil} from 'rxjs/operators';
 import {fade} from '../../../animations';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Section} from '../../songs/services/section';
@@ -62,7 +62,7 @@ export interface PresentationSong {
     SectionTypePipe,
   ],
 })
-export class RemoteComponent {
+export class RemoteComponent implements OnDestroy {
   public show: Show | null = null;
   public showSongs: ShowSong[] = [];
   public songs$ = this.songService.list$();
@@ -73,6 +73,7 @@ export class RemoteComponent {
   public faDesktop = faDesktop;
   public presentationDynamicCaptionChanged$ = new Subject<{presentationDynamicCaption: string; showId: string}>();
   public presentationDynamicTextChanged$ = new Subject<{presentationDynamicText: string; showId: string}>();
+  private destroy$ = new Subject<void>();
 
   public constructor(
     private showService: ShowService,
@@ -84,11 +85,29 @@ export class RemoteComponent {
   ) {
     globalSettingsService.get$
       .pipe(
-        filter(_ => !!_),
-        map(_ => _.currentShow)
+        filter((settings): settings is NonNullable<typeof settings> => !!settings),
+        map(_ => _.currentShow),
+        filter((showId): showId is string => !!showId),
+        distinctUntilChanged(),
+        switchMap(showId =>
+          combineLatest([this.showService.read$(showId), this.showSongService.list$(showId)]).pipe(
+            map(([show, list]) => {
+              const presentationSongs = list.map(song => ({
+                id: song.id,
+                title: song.title,
+                sections: this.textRenderingService.parse(song.text, null, false),
+              }));
+              return {show, list, presentationSongs};
+            })
+          )
+        ),
+        takeUntil(this.destroy$)
       )
-      .subscribe(_ => {
-        this.onShowChanged(_);
+      .subscribe(({show, list, presentationSongs}) => {
+        this.showSongs = list;
+        this.show = show;
+        const order = show?.order ?? [];
+        this.presentationSongs = order.map(id => presentationSongs.find(f => f.id === id) ?? null).filter((s): s is PresentationSong => !!s);
         this.cRef.markForCheck();
       });
 
@@ -100,20 +119,6 @@ export class RemoteComponent {
 
   public trackBy(index: number, item: PresentationSong): string {
     return item.id;
-  }
-
-  public onShowChanged(change: string): void {
-    combineLatest([this.showService.read$(change), this.showSongService.list$(change)]).subscribe(([show, list]) => {
-      this.showSongs = list;
-      this.show = show;
-      const presentationSongs = list.map(song => ({
-        id: song.id,
-        title: song.title,
-        sections: this.textRenderingService.parse(song.text, null, false),
-      }));
-      this.presentationSongs = show?.order.map(_ => presentationSongs.filter(f => f.id === _)[0]) ?? [];
-      this.cRef.markForCheck();
-    });
   }
 
   public getFirstLine(section: Section): string {
@@ -141,5 +146,10 @@ export class RemoteComponent {
 
   public onDynamicText(presentationDynamicText: string, showId: string): void {
     this.presentationDynamicTextChanged$.next({presentationDynamicText, showId});
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
