@@ -11,7 +11,7 @@ import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSong} from '../../shows/services/show-song';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {openFullscreen} from '../../../services/fullscreen';
-import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {LogoComponent} from './logo/logo.component';
 import {SongTextComponent} from '../../../widget-modules/components/song-text/song-text.component';
 import {LegalComponent} from './legal/legal.component';
@@ -22,7 +22,7 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
   templateUrl: './monitor.component.html',
   styleUrls: ['./monitor.component.less'],
   animations: [songSwitch],
-  imports: [NgIf, LogoComponent, SongTextComponent, LegalComponent, AsyncPipe, DatePipe, ShowTypePipe],
+  imports: [LogoComponent, SongTextComponent, LegalComponent, AsyncPipe, DatePipe, ShowTypePipe],
 })
 export class MonitorComponent implements OnInit, OnDestroy {
   public song: Song | null = null;
@@ -50,26 +50,24 @@ export class MonitorComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     openFullscreen();
-    const currentShowId$ = this.globalSettingsService.get$
-      .pipe(
-        filter((settings): settings is NonNullable<typeof settings> => !!settings),
-        map(settings => settings.currentShow),
-        filter((showId): showId is string => !!showId),
-        distinctUntilChanged(),
-        tap(_ => (this.currentShowId = _)),
-        takeUntil(this.destroy$)
-      );
+    const currentShowId$ = this.globalSettingsService.get$.pipe(
+      filter((settings): settings is NonNullable<typeof settings> => !!settings),
+      map(settings => settings.currentShow),
+      filter((showId): showId is string => !!showId),
+      distinctUntilChanged(),
+      tap(_ => (this.currentShowId = _)),
+      takeUntil(this.destroy$)
+    );
 
-    const show$ = currentShowId$
-      .pipe(
-        switchMap(showId => this.showService.read$(showId)),
-        filter((show): show is Show => !!show),
-        shareReplay({
-          bufferSize: 1,
-          refCount: true,
-        }),
-        takeUntil(this.destroy$)
-      );
+    const show$ = currentShowId$.pipe(
+      switchMap(showId => this.showService.read$(showId)),
+      filter((show): show is Show => !!show),
+      shareReplay({
+        bufferSize: 1,
+        refCount: true,
+      }),
+      takeUntil(this.destroy$)
+    );
 
     show$
       .pipe(

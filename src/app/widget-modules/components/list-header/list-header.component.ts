@@ -4,7 +4,7 @@ import {fade} from '../../../animations';
 import {MatIconButton} from '@angular/material/button';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {RouterLink} from '@angular/router';
-import {NgIf} from '@angular/common';
+
 import {CardComponent} from '../card/card.component';
 
 @Component({
@@ -12,7 +12,7 @@ import {CardComponent} from '../card/card.component';
   templateUrl: './list-header.component.html',
   styleUrls: ['./list-header.component.less'],
   animations: [fade],
-  imports: [MatIconButton, FaIconComponent, RouterLink, NgIf, CardComponent],
+  imports: [MatIconButton, FaIconComponent, RouterLink, CardComponent],
 })
 export class ListHeaderComponent {
   public faNew = faPlus;

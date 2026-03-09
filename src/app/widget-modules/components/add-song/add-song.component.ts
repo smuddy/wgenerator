@@ -7,7 +7,7 @@ import {ShowSong} from '../../../modules/shows/services/show-song';
 import {ShowSongService} from '../../../modules/shows/services/show-song.service';
 import {Show} from '../../../modules/shows/services/show';
 import {ShowService} from '../../../modules/shows/services/show.service';
-import {NgForOf, NgIf} from '@angular/common';
+
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 
 @Component({
@@ -15,7 +15,7 @@ import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
   templateUrl: './add-song.component.html',
   styleUrls: ['./add-song.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, MatFormField, MatSelect, MatOption, MatLabel, NgxMatSelectSearchModule, ReactiveFormsModule, NgForOf],
+  imports: [MatFormField, MatSelect, MatOption, MatLabel, NgxMatSelectSearchModule, ReactiveFormsModule],
 })
 export class AddSongComponent {
   @Input() public songs: Song[] | null = null;

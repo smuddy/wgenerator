@@ -3,14 +3,14 @@ import {first, map, switchMap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {SongService} from '../../../services/song.service';
 import {Song} from '../../../services/song';
-import {DatePipe, NgFor, NgIf} from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {CardComponent} from '../../../../../widget-modules/components/card/card.component';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.less'],
-  imports: [NgIf, CardComponent, NgFor, DatePipe],
+  imports: [CardComponent, DatePipe],
 })
 export class HistoryComponent implements OnInit {
   public song: Song | null = null;

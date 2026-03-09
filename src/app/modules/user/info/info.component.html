@@ -1,34 +1,36 @@
-<app-card *ngIf="user$ | async as user" heading="Hallo {{ user.name }}">
-  <p>
-    <span *ngIf="getUserRoles(user.role).length === 0" class="warn"
-    >Es wurden noch keine Berechtigungen zugeteilt, bitte wende Dich an den
-      Administrator!</span
-    >
-    <span>{{ transdormUserRoles(user.role) }}</span>
-  </p>
+@if (user$ | async; as user) {
+  <app-card heading="Hallo {{ user.name }}">
+    <p>
+      @if (getUserRoles(user.role).length === 0) {
+        <span class="warn"
+          >Es wurden noch keine Berechtigungen zugeteilt, bitte wende Dich an den
+          Administrator!</span
+          >
+        }
+        <span>{{ transdormUserRoles(user.role) }}</span>
+      </p>
+      <mat-form-field appearance="outline">
+        <mat-label>bevorzugte Anzeige der Akkorde</mat-label>
+        <mat-select
+          (ngModelChange)="onChordModeChanged(user.id, $event)"
+          [ngModel]="user.chordMode"
+          >
+          <mat-option [value]="null"></mat-option>
+          <mat-option value="hide">nur den Liedtext anzeigen</mat-option>
+          <mat-option value="onlyFirst"
+            >in Strophen die Akkorde nur für die erste anzeigen
+          </mat-option>
+          <mat-option value="show">alle anzeigen</mat-option>
+        </mat-select>
+        <mat-hint
+          >Das ist nur die Voreinstellung, die Anzeige kann für jedes Lied geändert
+          werden.
+        </mat-hint>
+      </mat-form-field>
+      <app-button-row>
+        <app-button [icon]="faSignOut" routerLink="../logout">Abmelden</app-button>
+      </app-button-row>
+    </app-card>
+  }
 
-  <mat-form-field appearance="outline">
-    <mat-label>bevorzugte Anzeige der Akkorde</mat-label>
-    <mat-select
-      (ngModelChange)="onChordModeChanged(user.id, $event)"
-      [ngModel]="user.chordMode"
-    >
-      <mat-option [value]="null"></mat-option>
-      <mat-option value="hide">nur den Liedtext anzeigen</mat-option>
-      <mat-option value="onlyFirst"
-      >in Strophen die Akkorde nur für die erste anzeigen
-      </mat-option>
-      <mat-option value="show">alle anzeigen</mat-option>
-    </mat-select>
-    <mat-hint
-    >Das ist nur die Voreinstellung, die Anzeige kann für jedes Lied geändert
-      werden.
-    </mat-hint>
-  </mat-form-field>
-
-  <app-button-row>
-    <app-button [icon]="faSignOut" routerLink="../logout">Abmelden</app-button>
-  </app-button-row>
-</app-card>
-
-<app-users *appRole="['admin']"></app-users>
+  <app-users *appRole="['admin']"></app-users>

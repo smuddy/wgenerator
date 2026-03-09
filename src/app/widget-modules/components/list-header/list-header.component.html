@@ -3,7 +3,7 @@
     (click)="onFilterClick()"
     [class.filter-active]="anyFilterActive"
     mat-icon-button
-  >
+    >
     <fa-icon [icon]="faFilter"></fa-icon>
   </button>
   <button mat-icon-button routerLink="new">
@@ -11,8 +11,10 @@
   </button>
 </div>
 
-<div *ngIf="filterVisible || anyFilterActive" @fade>
-  <app-card>
-    <ng-content></ng-content>
-  </app-card>
-</div>
+@if (filterVisible || anyFilterActive) {
+  <div @fade>
+    <app-card>
+      <ng-content></ng-content>
+    </app-card>
+  </div>
+}

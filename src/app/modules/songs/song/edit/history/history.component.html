@@ -1,6 +1,10 @@
-<app-card *ngIf="song && song.edits" heading="letzte Änderungen">
-  <div *ngFor="let edit of song.edits" class="list">
-    <div>{{ edit.username }}</div>
-    <div>{{ edit.timestamp.toDate() | date: "dd.MM.yyyy" }}</div>
-  </div>
-</app-card>
+@if (song && song.edits) {
+  <app-card heading="letzte Änderungen">
+    @for (edit of song.edits; track edit) {
+      <div class="list">
+        <div>{{ edit.username }}</div>
+        <div>{{ edit.timestamp.toDate() | date: "dd.MM.yyyy" }}</div>
+      </div>
+    }
+  </app-card>
+}

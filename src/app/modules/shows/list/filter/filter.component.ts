@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {KeyValue, NgFor} from '@angular/common';
+import {KeyValue} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {FilterValues} from './filter-values';
@@ -19,7 +19,7 @@ import {ShowTypePipe} from '../../../../widget-modules/pipes/show-type-translate
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.less'],
-  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, NgFor, MatOption, MatOptgroup, ShowTypePipe],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatOptgroup, ShowTypePipe],
 })
 export class FilterComponent {
   @Input() public route = '/shows/';

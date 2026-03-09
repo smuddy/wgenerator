@@ -8,7 +8,7 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {map, switchMap} from 'rxjs/operators';
 import {RoleDirective} from '../../../services/user/role.directive';
 import {ListHeaderComponent} from '../../../widget-modules/components/list-header/list-header.component';
-import {AsyncPipe, NgFor, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {FilterComponent} from './filter/filter.component';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {ListItemComponent} from './list-item/list-item.component';
@@ -19,7 +19,7 @@ import {SortByPipe} from '../../../widget-modules/pipes/sort-by/sort-by.pipe';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.less'],
   animations: [fade],
-  imports: [RoleDirective, ListHeaderComponent, NgIf, FilterComponent, CardComponent, NgFor, ListItemComponent, RouterLink, AsyncPipe, SortByPipe],
+  imports: [RoleDirective, ListHeaderComponent, FilterComponent, CardComponent, ListItemComponent, RouterLink, AsyncPipe, SortByPipe],
 })
 export class ListComponent {
   public shows$ = this.showService.list$();
@@ -59,9 +59,7 @@ export class ListComponent {
     map(([queriedShows, fallbackShows, owner, showType]) => {
       const shows = queriedShows.length > 0 || fallbackShows.length === 0 ? queriedShows : fallbackShows;
 
-      return shows
-        .filter(show => !owner || show.owner === owner)
-        .filter(show => !showType || show.showType === showType);
+      return shows.filter(show => !owner || show.owner === owner).filter(show => !showType || show.showType === showType);
     })
   );
 

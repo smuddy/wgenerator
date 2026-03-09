@@ -11,7 +11,7 @@ import {MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRow} from '@angular
 import {faExternalLinkAlt, faSave, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import {MatDialog} from '@angular/material/dialog';
 import {SaveDialogComponent} from './save-dialog/save-dialog.component';
-import {NgFor, NgIf} from '@angular/common';
+
 import {CardComponent} from '../../../../../widget-modules/components/card/card.component';
 import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -34,14 +34,12 @@ import {StatusPipe} from '../../../../../widget-modules/pipes/status-translater/
   templateUrl: './edit-song.component.html',
   styleUrls: ['./edit-song.component.less'],
   imports: [
-    NgIf,
     CardComponent,
     ReactiveFormsModule,
     MatFormField,
     MatLabel,
     MatInput,
     MatSelect,
-    NgFor,
     MatOption,
     CdkTextareaAutosize,
     SongTextComponent,

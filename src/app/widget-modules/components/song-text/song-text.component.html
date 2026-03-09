@@ -1,75 +1,83 @@
-<div
-  (click)="onClick()"
-  *ngIf="sections && !fullscreen"
-  [class.chords]="iChordMode !== 'hide'"
-  class="song-text"
->
-  <button
-    (click)="onChordClick()"
-    *ngIf="showSwitch"
-    class="menu"
-    mat-icon-button
-  >
-    <fa-icon [icon]="faLines"></fa-icon>
-  </button>
-
-  <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
-    <div
-      #section
-      *ngFor="let section of sections; let i = index"
-      [class.chorus]="section.type === 1"
-      class="section"
+@if (sections && !fullscreen) {
+  <div
+    (click)="onClick()"
+    [class.chords]="iChordMode !== 'hide'"
+    class="song-text"
     >
-      <div
-        *ngFor="let line of getLines(section)"
-        [class.chord]="line.type === 0"
-        [class.comment]="isComment(line.text)"
-        [class.disabled]="checkDisabled(i)"
-        class="line"
-      >{{ transform(line.text) }}
-      </div>
+    @if (showSwitch) {
+      <button
+        (click)="onChordClick()"
+        class="menu"
+        mat-icon-button
+        >
+        <fa-icon [icon]="faLines"></fa-icon>
+      </button>
+    }
+    <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
+      @for (section of sections; track section; let i = $index) {
+        <div
+          #section
+          [class.chorus]="section.type === 1"
+          class="section"
+          >
+          @for (line of getLines(section); track line) {
+            <div
+              [class.chord]="line.type === 0"
+              [class.comment]="isComment(line.text)"
+              [class.disabled]="checkDisabled(i)"
+              class="line"
+              >{{ transform(line.text) }}
+            </div>
+          }
+        </div>
+      }
+      @if (sections.length===0) {
+        <div class="error">
+          Es wurden keine Liedabschnitte gefunden! Bitte mindestens einen Abschnitt festlegen!
+        </div>
+      }
     </div>
-    <div *ngIf="sections.length===0" class="error">
-      Es wurden keine Liedabschnitte gefunden! Bitte mindestens einen Abschnitt festlegen!
-    </div>
+    <ng-content></ng-content>
   </div>
+}
 
-  <ng-content></ng-content>
-</div>
-
-<div
-  (click)="onClick()"
-  *ngIf="sections && fullscreen"
-  [@songSwitch]="sections"
-  [class.chords]="iChordMode !== 'hide'"
-  class="song-text"
->
-  <button
-    (click)="onChordClick()"
-    *ngIf="showSwitch"
-    class="menu"
-    mat-icon-button
-  >
-    <fa-icon [icon]="faLines"></fa-icon>
-  </button>
-
-  <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
-    <h1 *ngIf="header">{{ header }}</h1>
-    <div
-      #section
-      *ngFor="let section of sections; let i = index"
-      [class.chorus]="section.type === 1"
-      class="section"
+@if (sections && fullscreen) {
+  <div
+    (click)="onClick()"
+    [@songSwitch]="sections"
+    [class.chords]="iChordMode !== 'hide'"
+    class="song-text"
     >
-      <div
-        *ngFor="let line of getLines(section)"
-        [class.chord]="line.type === 0"
-        [class.disabled]="checkDisabled(i)"
-        class="line"
-      >{{ line.text.trim() }}
-      </div>
+    @if (showSwitch) {
+      <button
+        (click)="onChordClick()"
+        class="menu"
+        mat-icon-button
+        >
+        <fa-icon [icon]="faLines"></fa-icon>
+      </button>
+    }
+    <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
+      @if (header) {
+        <h1>{{ header }}</h1>
+      }
+      @for (section of sections; track section; let i = $index) {
+        <div
+          #section
+          [class.chorus]="section.type === 1"
+          class="section"
+          >
+          @for (line of getLines(section); track line) {
+            <div
+              [class.chord]="line.type === 0"
+              [class.disabled]="checkDisabled(i)"
+              class="line"
+              >{{ line.text.trim() }}
+            </div>
+          }
+        </div>
+      }
     </div>
+    <ng-content></ng-content>
   </div>
-
-  <ng-content></ng-content>
-</div>
+}

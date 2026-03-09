@@ -111,7 +111,7 @@ export class TransposeService {
 
   private transposeChord(chord: Chord, map: TransposeMap): Chord {
     const translatedChord = map[chord.chord] ?? 'X';
-    const translatedSlashChord = chord.slashChord ? map[chord.slashChord] ?? 'X' : null;
+    const translatedSlashChord = chord.slashChord ? (map[chord.slashChord] ?? 'X') : null;
 
     return {
       ...chord,
@@ -147,7 +147,7 @@ export class TransposeService {
 
   private renderChord(chord: Chord): string {
     const renderedChord = scaleMapping[chord.chord] ?? 'X';
-    const renderedSlashChord = chord.slashChord ? scaleMapping[chord.slashChord] ?? 'X' : '';
+    const renderedSlashChord = chord.slashChord ? (scaleMapping[chord.slashChord] ?? 'X') : '';
 
     return renderedChord + (chord.add ?? '') + (renderedSlashChord ? '/' + renderedSlashChord : '');
   }

@@ -5,16 +5,20 @@
         <mat-label>Art der Veranstaltung</mat-label>
         <mat-select formControlName="showType">
           <mat-optgroup label="öffentlich">
-            <mat-option *ngFor="let key of showTypePublic" [value]="key">{{
+            @for (key of showTypePublic; track key) {
+              <mat-option [value]="key">{{
                 key | showType
-              }}
-            </mat-option>
+                }}
+              </mat-option>
+            }
           </mat-optgroup>
           <mat-optgroup label="privat">
-            <mat-option *ngFor="let key of showTypePrivate" [value]="key">{{
+            @for (key of showTypePrivate; track key) {
+              <mat-option [value]="key">{{
                 key | showType
-              }}
-            </mat-option>
+                }}
+              </mat-option>
+            }
           </mat-optgroup>
         </mat-select>
       </mat-form-field>

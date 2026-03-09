@@ -32,7 +32,7 @@ import {ArchiveDialogComponent} from '../dialog/archive-dialog/archive-dialog.co
 import {closeFullscreen, openFullscreen} from '../../../services/fullscreen';
 import {GuestShowService} from '../../guest/guest-show.service';
 import {ShareDialogComponent} from '../dialog/share-dialog/share-dialog.component';
-import {AsyncPipe, DatePipe, NgFor, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {UserNameComponent} from '../../../services/user/user-name/user-name.component';
 import {MatCheckbox} from '@angular/material/checkbox';
@@ -56,7 +56,6 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
   animations: [fade],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    NgIf,
     CardComponent,
     UserNameComponent,
     MatCheckbox,
@@ -65,7 +64,6 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
     MenuButtonComponent,
     MatTooltip,
     CdkDropList,
-    NgFor,
     CdkDrag,
     SongComponent,
     FaIconComponent,

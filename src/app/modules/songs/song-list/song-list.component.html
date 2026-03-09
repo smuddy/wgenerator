@@ -1,30 +1,40 @@
-<div *ngIf="songs$ | async as songs">
-  <app-list-header [anyFilterActive]="anyFilterActive">
-    <app-filter [songs]="songs" route="songs"></app-filter>
-  </app-list-header>
-
-  <app-card [padding]="false">
-    <div *ngFor="let song of songs; trackBy: trackBy" [routerLink]="song.id" class="list-item">
-      <div class="number">{{ song.number }}</div>
-      <div>{{ song.title }}</div>
-      <div>
-        <ng-container *appRole="['contributor']">
-          <div *ngIf="song.status === 'draft'" class="warning">
-            <fa-icon [icon]="faDraft"></fa-icon>
+@if (songs$ | async; as songs) {
+  <div>
+    <app-list-header [anyFilterActive]="anyFilterActive">
+      <app-filter [songs]="songs" route="songs"></app-filter>
+    </app-list-header>
+    <app-card [padding]="false">
+      @for (song of songs; track trackBy($index, song)) {
+        <div [routerLink]="song.id" class="list-item">
+          <div class="number">{{ song.number }}</div>
+          <div>{{ song.title }}</div>
+          <div>
+            <ng-container *appRole="['contributor']">
+              @if (song.status === 'draft') {
+                <div class="warning">
+                  <fa-icon [icon]="faDraft"></fa-icon>
+                </div>
+              }
+              @if (song.status === 'set') {
+                <div class="neutral">
+                  <fa-icon [icon]="faDraft"></fa-icon>
+                </div>
+              }
+              @if (song.status === 'final') {
+                <div class="success">
+                  <fa-icon [icon]="faFinal"></fa-icon>
+                </div>
+              }
+            </ng-container>
+            @if (song.legalType === 'open') {
+              <div class="warning">
+                <fa-icon [icon]="faLegal"></fa-icon>
+              </div>
+            }
           </div>
-          <div *ngIf="song.status === 'set'" class="neutral">
-            <fa-icon [icon]="faDraft"></fa-icon>
-          </div>
-          <div *ngIf="song.status === 'final'" class="success">
-            <fa-icon [icon]="faFinal"></fa-icon>
-          </div>
-        </ng-container>
-        <div *ngIf="song.legalType === 'open'" class="warning">
-          <fa-icon [icon]="faLegal"></fa-icon>
+          <div>{{ song.key }}</div>
         </div>
-      </div>
-      <div>{{ song.key }}</div>
-    </div>
-
-  </app-card>
-</div>
+      }
+    </app-card>
+  </div>
+}

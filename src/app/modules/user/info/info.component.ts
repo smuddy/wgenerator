@@ -6,7 +6,7 @@ import {ChordMode} from '../../../widget-modules/components/song-text/song-text.
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import {RolePipe} from './role.pipe';
 import {roles} from '../../../services/user/roles';
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {MatFormField, MatHint, MatLabel} from '@angular/material/form-field';
 import {MatSelect} from '@angular/material/select';
@@ -23,7 +23,6 @@ import {UsersComponent} from './users/users.component';
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.less'],
   imports: [
-    NgIf,
     CardComponent,
     MatFormField,
     MatLabel,

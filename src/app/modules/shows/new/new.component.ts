@@ -10,7 +10,7 @@ import {CardComponent} from '../../../widget-modules/components/card/card.compon
 import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatSelect} from '@angular/material/select';
 import {MatOptgroup, MatOption} from '@angular/material/core';
-import {NgFor} from '@angular/common';
+
 import {MatInput} from '@angular/material/input';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {ButtonRowComponent} from '../../../widget-modules/components/button-row/button-row.component';
@@ -28,7 +28,6 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
     MatLabel,
     MatSelect,
     MatOptgroup,
-    NgFor,
     MatOption,
     MatInput,
     MatDatepickerInput,

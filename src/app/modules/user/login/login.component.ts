@@ -6,7 +6,7 @@ import {faSignInAlt, faUserPlus} from '@fortawesome/free-solid-svg-icons';
 import {LogoComponent} from '../../../widget-modules/components/logo/logo.component';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
-import {NgIf} from '@angular/common';
+
 import {MatButton} from '@angular/material/button';
 import {AuthMessagePipe} from './auth-message.pipe';
 
@@ -14,7 +14,7 @@ import {AuthMessagePipe} from './auth-message.pipe';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
-  imports: [LogoComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, NgIf, MatButton, RouterLink, AuthMessagePipe],
+  imports: [LogoComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, RouterLink, AuthMessagePipe],
 })
 export class LoginComponent implements OnInit {
   public form: UntypedFormGroup = new UntypedFormGroup({

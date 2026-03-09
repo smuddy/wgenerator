@@ -9,7 +9,7 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
-import {NgFor} from '@angular/common';
+
 import {LegalTypePipe} from '../../../../widget-modules/pipes/legal-type-translator/legal-type.pipe';
 import {KeyPipe} from '../../../../widget-modules/pipes/key-translator/key.pipe';
 import {SongTypePipe} from '../../../../widget-modules/pipes/song-type-translater/song-type.pipe';
@@ -18,7 +18,7 @@ import {SongTypePipe} from '../../../../widget-modules/pipes/song-type-translate
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.less'],
-  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, MatOption, NgFor, LegalTypePipe, KeyPipe, SongTypePipe],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, MatOption, LegalTypePipe, KeyPipe, SongTypePipe],
 })
 export class FilterComponent {
   public filterFormGroup: UntypedFormGroup;

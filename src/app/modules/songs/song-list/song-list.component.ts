@@ -9,7 +9,7 @@ import {filterSong} from '../../../services/filter.helper';
 import {FilterValues} from './filter/filter-values';
 import {ScrollService} from '../../../services/scroll.service';
 import {faBalanceScaleRight, faCheck, faPencilRuler} from '@fortawesome/free-solid-svg-icons';
-import {AsyncPipe, NgFor, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {ListHeaderComponent} from '../../../widget-modules/components/list-header/list-header.component';
 import {FilterComponent} from './filter/filter.component';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
@@ -22,7 +22,7 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
   styleUrls: ['./song-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fade],
-  imports: [NgIf, ListHeaderComponent, FilterComponent, CardComponent, NgFor, RouterLink, RoleDirective, FaIconComponent, AsyncPipe],
+  imports: [ListHeaderComponent, FilterComponent, CardComponent, RouterLink, RoleDirective, FaIconComponent, AsyncPipe],
 })
 export class SongListComponent implements OnInit, OnDestroy {
   public anyFilterActive = false;

@@ -7,7 +7,7 @@ import {FileDataService} from '../../../services/file-data.service';
 import {Observable} from 'rxjs';
 import {File} from '../../../services/file';
 import {CardComponent} from '../../../../../widget-modules/components/card/card.component';
-import {AsyncPipe, NgFor, NgIf, NgStyle} from '@angular/common';
+import {AsyncPipe, NgStyle} from '@angular/common';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {FileComponent} from './file/file.component';
@@ -16,7 +16,7 @@ import {FileComponent} from './file/file.component';
   selector: 'app-edit-file',
   templateUrl: './edit-file.component.html',
   styleUrls: ['./edit-file.component.less'],
-  imports: [CardComponent, NgIf, NgStyle, MatIconButton, MatIcon, NgFor, FileComponent, AsyncPipe],
+  imports: [CardComponent, NgStyle, MatIconButton, MatIcon, FileComponent, AsyncPipe],
 })
 export class EditFileComponent {
   public selectedFiles: FileList | null = null;

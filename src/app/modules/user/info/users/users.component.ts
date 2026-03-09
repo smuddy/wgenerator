@@ -3,7 +3,7 @@ import {UserService} from '../../../../services/user/user.service';
 import {Observable} from 'rxjs';
 import {User} from '../../../../services/user/user';
 import {CardComponent} from '../../../../widget-modules/components/card/card.component';
-import {AsyncPipe, NgFor} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {UserComponent} from './user/user.component';
 import {SortByPipe} from '../../../../widget-modules/pipes/sort-by/sort-by.pipe';
 
@@ -11,7 +11,7 @@ import {SortByPipe} from '../../../../widget-modules/pipes/sort-by/sort-by.pipe'
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.less'],
-  imports: [CardComponent, NgFor, UserComponent, AsyncPipe, SortByPipe],
+  imports: [CardComponent, UserComponent, AsyncPipe, SortByPipe],
 })
 export class UsersComponent {
   public users$: Observable<User[]>;

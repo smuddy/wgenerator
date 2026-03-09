@@ -9,10 +9,12 @@
       <mat-label>Typ</mat-label>
       <mat-select formControlName="type">
         <mat-option [value]="null">- kein Filter -</mat-option>
-        <mat-option *ngFor="let type of types" [value]="type">{{
+        @for (type of types; track type) {
+          <mat-option [value]="type">{{
             type | songType
-          }}
-        </mat-option>
+            }}
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
@@ -20,10 +22,12 @@
       <mat-label>Tonart</mat-label>
       <mat-select formControlName="key">
         <mat-option [value]="null">- kein Filter -</mat-option>
-        <mat-option *ngFor="let key of keys" [value]="key">{{
+        @for (key of keys; track key) {
+          <mat-option [value]="key">{{
             key | key
-          }}
-        </mat-option>
+            }}
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
@@ -31,10 +35,12 @@
       <mat-label>Rechtlicher Status</mat-label>
       <mat-select formControlName="legalType">
         <mat-option [value]="null">- kein Filter -</mat-option>
-        <mat-option *ngFor="let key of legalType" [value]="key">{{
+        @for (key of legalType; track key) {
+          <mat-option [value]="key">{{
             key | legalType
-          }}
-        </mat-option>
+            }}
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
@@ -42,10 +48,12 @@
       <mat-label>Attribute</mat-label>
       <mat-select formControlName="flag">
         <mat-option [value]="null">- kein Filter -</mat-option>
-        <mat-option *ngFor="let flag of getFlags()" [value]="flag">{{
+        @for (flag of getFlags(); track flag) {
+          <mat-option [value]="flag">{{
             flag
-          }}
-        </mat-option>
+            }}
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
   </div>

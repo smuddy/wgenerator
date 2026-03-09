@@ -1,47 +1,69 @@
-<div *ngIf="iSong && iSong && show">
-  <div *ngIf="show.published || fullscreen" class="title published">
-    <div class="key">{{ iSong.key }}</div>
-    <div>{{ iSong.title }}</div>
-  </div>
-
-  <div *ngIf="!show.published && !fullscreen" class="song">
-    <span class="title">{{ iSong.title }}</span>
-    <span *ngIf="!edit" class="keys">
-      <span *ngIf="iSong.keyOriginal !== iSong.key">{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span><span
-      (click)="openKeySelect()">{{ iSong.key }}</span>
-      <mat-form-field (click)="option.open()" *ngIf="keys" class="transpose">
-        <mat-select #option [formControl]="keyFormControl">
-          <mat-option *ngFor="let key of keys" [value]="key">{{ key }}</mat-option>
-        </mat-select>
+@if (iSong && iSong && show) {
+  <div>
+    @if (show.published || fullscreen) {
+      <div class="title published">
+        <div class="key">{{ iSong.key }}</div>
+        <div>{{ iSong.title }}</div>
+      </div>
+    }
+    @if (!show.published && !fullscreen) {
+      <div class="song">
+        <span class="title">{{ iSong.title }}</span>
+        @if (!edit) {
+          <span class="keys">
+            @if (iSong.keyOriginal !== iSong.key) {
+              <span>{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span>
+              }<span
+            (click)="openKeySelect()">{{ iSong.key }}</span>
+            @if (keys) {
+              <mat-form-field (click)="option.open()" class="transpose">
+                <mat-select #option [formControl]="keyFormControl">
+                  @for (key of keys; track key) {
+                    <mat-option [value]="key">{{ key }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            }
+          </span>
+        }
+        @if (!edit) {
+          <app-menu-button (click)="onEdit()" [icon]="faEdit" class="btn-edit btn-icon"
+          matTooltip="Lied für diese Veranstaltung bearbeiten"></app-menu-button>
+        }
+        @if (!edit) {
+          <app-menu-button (click)="onDelete()" [icon]="faDelete" class="btn-delete btn-icon"
+          matTooltip="Lied aus Veranstaltung entfernen"></app-menu-button>
+        }
+      </div>
+    }
+    @if (edit) {
+      <mat-form-field appearance="outline">
+        <mat-label>Songtext</mat-label>
+        <textarea [cdkTextareaAutosize]="true"
+          [formControl]="editSongControl"
+          class="edit"
+          matInput
+          matTooltip="Tonart ändern"
+        ></textarea>
       </mat-form-field>
-    </span>
-    <app-menu-button (click)="onEdit()" *ngIf="!edit" [icon]="faEdit" class="btn-edit btn-icon"
-                     matTooltip="Lied für diese Veranstaltung bearbeiten"></app-menu-button>
-    <app-menu-button (click)="onDelete()" *ngIf="!edit" [icon]="faDelete" class="btn-delete btn-icon"
-                     matTooltip="Lied aus Veranstaltung entfernen"></app-menu-button>
+    }
+    @if (edit) {
+      <div>Es wird nur der Liedtext für dieser Veranstaltung geändert.</div>
+    }
+    @if (edit) {
+      <app-button-row>
+        <app-button (click)="onSave()" [icon]="faSave">Speichern</app-button>
+        <app-button (click)="onDiscard()" [icon]="faEraser">Verwerfen</app-button>
+      </app-button-row>
+    }
+    @if (!edit && (showText )) {
+      <app-song-text
+        (chordModeChanged)="onChordModeChanged($event)"
+        [chordMode]="iSong.chordMode"
+        [showSwitch]="!show.published"
+        [text]="iSong.text"
+        [transpose]="{ baseKey: iSong.keyOriginal, targetKey: iSong.key }"
+      ></app-song-text>
+    }
   </div>
-
-  <mat-form-field *ngIf="edit" appearance="outline">
-    <mat-label>Songtext</mat-label>
-    <textarea [cdkTextareaAutosize]="true"
-              [formControl]="editSongControl"
-              class="edit"
-              matInput
-              matTooltip="Tonart ändern"
-    ></textarea>
-  </mat-form-field>
-  <div *ngIf="edit">Es wird nur der Liedtext für dieser Veranstaltung geändert.</div>
-  <app-button-row *ngIf="edit">
-    <app-button (click)="onSave()" [icon]="faSave">Speichern</app-button>
-    <app-button (click)="onDiscard()" [icon]="faEraser">Verwerfen</app-button>
-  </app-button-row>
-
-  <app-song-text
-    (chordModeChanged)="onChordModeChanged($event)"
-    *ngIf="!edit && (showText )"
-    [chordMode]="iSong.chordMode"
-    [showSwitch]="!show.published"
-    [text]="iSong.text"
-    [transpose]="{ baseKey: iSong.keyOriginal, targetKey: iSong.key }"
-  ></app-song-text>
-</div>
+}

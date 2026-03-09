@@ -52,9 +52,7 @@ describe('TransposeService', () => {
     const line: Line = {
       type: LineType.chord,
       text: '',
-      chords: [
-        {chord: 'Q', add: 'sus4', slashChord: null, position: 0, length: 1},
-      ],
+      chords: [{chord: 'Q', add: 'sus4', slashChord: null, position: 0, length: 1}],
     };
 
     const rendered = service.renderChords(line);
@@ -66,9 +64,7 @@ describe('TransposeService', () => {
     const line: Line = {
       type: LineType.chord,
       text: '',
-      chords: [
-        {chord: 'C', add: null, slashChord: 'Q', position: 0, length: 1},
-      ],
+      chords: [{chord: 'C', add: null, slashChord: 'Q', position: 0, length: 1}],
     };
 
     const rendered = service.renderChords(line);
@@ -80,9 +76,7 @@ describe('TransposeService', () => {
     const line: Line = {
       type: LineType.chord,
       text: '',
-      chords: [
-        {chord: 'C', add: null, slashChord: null, position: 120, length: 1},
-      ],
+      chords: [{chord: 'C', add: null, slashChord: null, position: 120, length: 1}],
     };
 
     const rendered = service.renderChords(line);

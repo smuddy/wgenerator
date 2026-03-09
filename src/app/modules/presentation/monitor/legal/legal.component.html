@@ -1,14 +1,27 @@
-<ng-container *ngIf="song">
-  <p *ngIf="song.artist">{{ song.artist }}</p>
-  <p *ngIf="song.label">{{ song.label }}</p>
-  <p *ngIf="song.termsOfUse" class="terms-of-use">{{ song.termsOfUse }}</p>
-  <p *ngIf="song.origin">{{ song.origin }}</p>
-
-  <div *ngIf="song.legalOwnerId">
-    <p *ngIf="song.legalOwner === 'CCLI' && config">
-      CCLI-Liednummer {{ song.legalOwnerId }}, CCLI-Lizenznummer
-      {{ config.ccliLicenseId }}
-    </p>
-    <p *ngIf="song.legalOwner !== 'CCLI'">Liednummer {{ song.legalOwnerId }}</p>
-  </div>
-</ng-container>
+@if (song) {
+  @if (song.artist) {
+    <p>{{ song.artist }}</p>
+  }
+  @if (song.label) {
+    <p>{{ song.label }}</p>
+  }
+  @if (song.termsOfUse) {
+    <p class="terms-of-use">{{ song.termsOfUse }}</p>
+  }
+  @if (song.origin) {
+    <p>{{ song.origin }}</p>
+  }
+  @if (song.legalOwnerId) {
+    <div>
+      @if (song.legalOwner === 'CCLI' && config) {
+        <p>
+          CCLI-Liednummer {{ song.legalOwnerId }}, CCLI-Lizenznummer
+          {{ config.ccliLicenseId }}
+        </p>
+      }
+      @if (song.legalOwner !== 'CCLI') {
+        <p>Liednummer {{ song.legalOwnerId }}</p>
+      }
+    </div>
+  }
+}

@@ -14,22 +14,24 @@
           formControlName="pass"
           matInput
           type="password"
-        />
+          />
       </mat-form-field>
-      <p *ngIf="errorMessage" class="error">{{ errorMessage | authMessage }}</p>
+      @if (errorMessage) {
+        <p class="error">{{ errorMessage | authMessage }}</p>
+      }
       <button
         (click)="onLogin()"
         class="btn-login"
         color="primary"
         mat-stroked-button
-      >
+        >
         Anmelden
       </button>
       <button
         class="btn-password"
         mat-stroked-button
         routerLink="/user/password"
-      >
+        >
         Passwort zurücksetzen
       </button>
       <button class="btn-user" mat-stroked-button routerLink="/user/new">

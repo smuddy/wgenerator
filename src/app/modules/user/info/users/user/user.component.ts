@@ -3,7 +3,7 @@ import {User} from '../../../../../services/user/user';
 import {UserService} from '../../../../../services/user/user.service';
 import {ROLE_TYPES} from '../../../../../services/user/roles';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import {NgFor, NgIf} from '@angular/common';
+
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -17,7 +17,7 @@ import {RolePipe} from '../../role.pipe';
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.less'],
-  imports: [NgIf, MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, MatSelect, NgFor, MatOption, MatIconButton, FaIconComponent, RolePipe],
+  imports: [MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, MatSelect, MatOption, MatIconButton, FaIconComponent, RolePipe],
 })
 export class UserComponent {
   public id = '';

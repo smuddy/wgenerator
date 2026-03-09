@@ -8,7 +8,7 @@ import {Show} from '../../services/show';
 import {faEraser, faPenToSquare, faSave, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {fade} from '../../../../animations';
 import {MatSelect} from '@angular/material/select';
-import {NgFor, NgIf} from '@angular/common';
+
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatOption} from '@angular/material/core';
 import {MenuButtonComponent} from '../../../../widget-modules/components/menu-button/menu-button.component';
@@ -24,11 +24,9 @@ import {ButtonComponent} from '../../../../widget-modules/components/button/butt
   styleUrls: ['./song.component.less'],
   animations: [fade],
   imports: [
-    NgIf,
     MatFormField,
     MatSelect,
     ReactiveFormsModule,
-    NgFor,
     MatOption,
     MenuButtonComponent,
     MatTooltip,

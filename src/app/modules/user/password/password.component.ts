@@ -8,14 +8,14 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {ButtonRowComponent} from '../../../widget-modules/components/button-row/button-row.component';
 import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
-import {NgIf} from '@angular/common';
+
 import {AuthMessagePipe} from '../login/auth-message.pipe';
 
 @Component({
   selector: 'app-password',
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.less'],
-  imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent, NgIf, AuthMessagePipe],
+  imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent, AuthMessagePipe],
 })
 export class PasswordComponent implements OnInit {
   public form: UntypedFormGroup = new UntypedFormGroup({

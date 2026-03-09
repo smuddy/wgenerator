@@ -1,16 +1,25 @@
-<div *ngIf="shows$ | async as shows" @fade>
-  <app-card *ngIf="visible" heading="Bitte eine Veranstaltung auswählen">
-    <p *ngIf="!shows.length">
-      Es ist derzeit keine Veranstaltung vorhanden
-    </p>
-
-    <div *ngIf="shows.length>0" class="list">
-      <button (click)="selectShow(show)" *ngFor="let show of shows" mat-stroked-button>
-        <app-user-name [userId]="show.owner"></app-user-name>
-        ,
-        {{ show.showType | showType }},
-        {{ show.date.toDate() | date: "dd.MM.yyyy" }}
-      </button>
-    </div>
-  </app-card>
-</div>
+@if (shows$ | async; as shows) {
+  <div @fade>
+    @if (visible) {
+      <app-card heading="Bitte eine Veranstaltung auswählen">
+        @if (!shows.length) {
+          <p>
+            Es ist derzeit keine Veranstaltung vorhanden
+          </p>
+        }
+        @if (shows.length>0) {
+          <div class="list">
+            @for (show of shows; track show) {
+              <button (click)="selectShow(show)" mat-stroked-button>
+                <app-user-name [userId]="show.owner"></app-user-name>
+                ,
+                {{ show.showType | showType }},
+                {{ show.date.toDate() | date: "dd.MM.yyyy" }}
+              </button>
+            }
+          </div>
+        }
+      </app-card>
+    }
+  </div>
+}

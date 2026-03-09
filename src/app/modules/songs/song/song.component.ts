@@ -12,7 +12,7 @@ import {faEdit, faFileCirclePlus, faTrash} from '@fortawesome/free-solid-svg-ico
 import {ShowService} from '../../shows/services/show.service';
 import {Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
-import {AsyncPipe, DatePipe, NgFor, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {RoleDirective} from '../../../services/user/role.directive';
 import {SongTextComponent} from '../../../widget-modules/components/song-text/song-text.component';
@@ -31,12 +31,10 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.less'],
   imports: [
-    NgIf,
     CardComponent,
     RoleDirective,
     SongTextComponent,
     MatChipListbox,
-    NgFor,
     MatChipOption,
     ButtonRowComponent,
     ButtonComponent,

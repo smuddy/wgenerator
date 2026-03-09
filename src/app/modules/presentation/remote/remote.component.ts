@@ -12,7 +12,7 @@ import {fade} from '../../../animations';
 import {TextRenderingService} from '../../songs/services/text-rendering.service';
 import {Section} from '../../songs/services/section';
 import {LineType} from '../../songs/services/line-type';
-import {AsyncPipe, DatePipe, NgFor, NgIf} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -40,9 +40,7 @@ export interface PresentationSong {
   animations: [fade],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CardComponent,
-    NgFor,
     MatFormField,
     MatLabel,
     MatInput,
