@@ -3,10 +3,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {InfoComponent} from './info/info.component';
 import {LogoutComponent} from './logout/logout.component';
-import {AngularFireAuthGuard, redirectUnauthorizedTo} from '@angular/fire/compat/auth-guard';
 import {PasswordComponent} from './password/password.component';
 import {PasswordSendComponent} from './password-send/password-send.component';
 import {NewComponent} from './new/new.component';
+import {AuthGuard} from '../../widget-modules/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -37,8 +37,7 @@ const routes: Routes = [
   {
     path: 'info',
     component: InfoComponent,
-    canActivate: [AngularFireAuthGuard],
-    data: {authGuardPipe: () => redirectUnauthorizedTo(['user', 'login'])},
+    canActivate: [AuthGuard],
   },
 ];
 

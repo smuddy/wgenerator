@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {Auth, authState, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
 import {BehaviorSubject, firstValueFrom, Observable} from 'rxjs';
 import {filter, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 import {User} from './user';
@@ -26,13 +26,13 @@ export class UserService {
   private userByIdCache = new Map<string, Observable<User | null>>();
 
   public constructor(
-    private afAuth: AngularFireAuth,
+    private auth: Auth,
     private db: DbService,
     private router: Router,
     private showDataService: ShowDataService,
     private showSongDataService: ShowSongDataService
   ) {
-    this.afAuth.authState
+    authState(this.auth)
       .pipe(
         filter(auth => !!auth),
         map(auth => auth?.uid ?? ''),
@@ -65,7 +65,7 @@ export class UserService {
   };
 
   public async login(user: string, password: string): Promise<string | null> {
-    const aUser = await this.afAuth.signInWithEmailAndPassword(user, password);
+    const aUser = await signInWithEmailAndPassword(this.auth, user, password);
     if (!aUser.user) return null;
     const dUser = await this.readUser(aUser.user.uid);
     if (!dUser) return null;
@@ -76,12 +76,12 @@ export class UserService {
     return aUser.user.uid;
   }
 
-  public loggedIn$: () => Observable<boolean> = () => this.afAuth.authState.pipe(map(_ => !!_));
+  public loggedIn$: () => Observable<boolean> = () => authState(this.auth).pipe(map(_ => !!_));
 
   public list$: () => Observable<User[]> = (): Observable<User[]> => this.users$;
 
   public async logout(): Promise<void> {
-    await this.afAuth.signOut();
+    await signOut(this.auth);
     this.iUser$.next(null);
     this.iUserId$.next(null);
   }
@@ -92,11 +92,11 @@ export class UserService {
 
   public async changePassword(user: string): Promise<void> {
     const url = environment.url;
-    await this.afAuth.sendPasswordResetEmail(user, {url});
+    await sendPasswordResetEmail(this.auth, user, {url});
   }
 
   public async createNewUser(user: string, name: string, password: string): Promise<void> {
-    const aUser = await this.afAuth.createUserWithEmailAndPassword(user, password);
+    const aUser = await createUserWithEmailAndPassword(this.auth, user, password);
     if (!aUser.user) return;
     const userId = aUser.user.uid;
     await this.db.doc('users/' + userId).set({name, chordMode: 'onlyFirst', songUsage: {}});

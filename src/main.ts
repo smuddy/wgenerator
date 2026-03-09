@@ -9,13 +9,11 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 import {AngularFireStorageModule} from '@angular/fire/compat/storage';
-import {AngularFireDatabaseModule} from '@angular/fire/compat/database';
-import {AngularFireAuthModule} from '@angular/fire/compat/auth';
-import {AngularFireAuthGuardModule} from '@angular/fire/compat/auth-guard';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {AppComponent} from './app/app.component';
 import {provideFirebaseApp, initializeApp} from '@angular/fire/app';
 import {provideFirestore, getFirestore} from '@angular/fire/firestore';
+import {getAuth, provideAuth} from '@angular/fire/auth';
 import {UserService} from './app/services/user/user.service';
 
 declare global {
@@ -41,12 +39,10 @@ bootstrapApplication(AppComponent, {
       AngularFireModule.initializeApp(environment.firebase),
       AngularFirestoreModule.enablePersistence({synchronizeTabs: true}),
       AngularFireStorageModule,
-      AngularFireDatabaseModule,
-      AngularFireAuthModule,
-      AngularFireAuthGuardModule,
       FontAwesomeModule
     ),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
     provideAnimations(),
