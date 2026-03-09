@@ -1,5 +1,11 @@
 button {
-  color: #373b44;
+  color: var(--text);
+  transition: var(--transition);
+
+  &:hover {
+    color: var(--primary-active);
+  }
+
   @media screen and (max-width: 860px) {
     font-size: 30px;
   }

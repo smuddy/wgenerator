@@ -1,8 +1,31 @@
 :root {
-  --color-primary: #4286f4;
-  --color-primary-light: #639af3;
-  --primary-color: #4286f4;
-  --navigation-background: #fffffff1;
+  --bg-deep: #292e49;
+  --bg-mid: #536976;
+  --bg-soft: #bbd2c5;
+
+  --surface: rgba(244, 247, 245, 0.88);
+  --surface-strong: rgba(255, 255, 255, 0.96);
+  --surface-dark: rgba(30, 36, 52, 0.72);
+  --surface-border: rgba(41, 46, 73, 0.16);
+
+  --text: #1f2433;
+  --text-muted: #5f6b73;
+  --text-soft: #7a858c;
+  --text-inverse: #f7fbff;
+
+  --color-primary: #6f8f95;
+  --color-primary-light: #85a4aa;
+  --primary-color: #6f8f95;
+  --primary-hover: #85a4aa;
+  --primary-active: #5b797e;
+  --accent-color: #7fd1b9;
+
+  --success: #4e9b6f;
+  --warning: #d79a55;
+  --danger: #c96b72;
+
+  --navigation-background: rgba(30, 36, 52, 0.72);
+  --hover-background: rgba(111, 143, 149, 0.16);
   --transition: all 300ms ease-in-out;
 }
 
@@ -15,9 +38,9 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 14px;
-  color: #333;
+  color: var(--text);
 
-  background: linear-gradient(39deg, #292e49, #536976, #bbd2c5);
+  background: linear-gradient(39deg, var(--bg-deep), var(--bg-mid), var(--bg-soft));
   overflow: auto;
 }
 
@@ -39,6 +62,15 @@ a {
   width: 100%;
 }
 
+.mat-mdc-icon-button {
+  color: var(--primary-color) !important;
+  transition: var(--transition);
+
+  &:hover {
+    color: var(--primary-active) !important;
+  }
+}
+
 
 .content > *:not(router-outlet) {
   display: flex;
@@ -53,7 +85,7 @@ a {
 
 .btn-icon {
   opacity: 0.2;
-  transition: all 300ms ease-in-out;
+  transition: var(--transition);
 
   &:hover {
     opacity: 1;

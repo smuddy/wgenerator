@@ -9,7 +9,7 @@ a {
   box-sizing: border-box;
   background: transparent;
   transition: var(--transition);
-  border-color: #222;
+  border-color: transparent;
 
   fa-icon {
     display: inline-block;
@@ -24,8 +24,9 @@ a {
   }
 
   &:hover {
-    opacity: 0.9;
-    border-bottom: 5px solid #555;
+    opacity: 1;
+    color: var(--primary-hover);
+    border-bottom: 5px solid var(--hover-background);
 
     fa-icon {
       transform: scale(1.2);
@@ -35,6 +36,7 @@ a {
   &.active {
     border-bottom: 5px solid var(--primary-color);
     opacity: 1;
+    color: var(--text-inverse);
 
     fa-icon {
       transform: scale(1.3);

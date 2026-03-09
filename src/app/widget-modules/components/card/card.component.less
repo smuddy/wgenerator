@@ -3,18 +3,20 @@
 .card {
   margin: 20px;
   border-radius: 8px;
-  background: #fffc;
+  background: var(--surface);
   backdrop-filter: blur(15px);
+  border: 1px solid var(--surface-border);
   overflow: hidden;
   width: 800px;
   position: relative;
+  color: var(--text);
 
   @media screen and (max-width: 860px) {
     width: 100vw;
     border-radius: 0;
-    background: #ffff;
+    background: var(--surface-strong);
     margin: 0;
-    color: #000;
+    color: var(--text);
   }
 
   &.padding {
@@ -25,9 +27,9 @@
 
   &.fullscreen {
     border-radius: 0;
-    background: #ffff;
+    background: var(--surface-strong);
     margin: 0;
-    color: #000;
+    color: var(--text);
     position: fixed;
     left: 0;
     right: 0;
@@ -44,6 +46,7 @@
   margin-bottom: 20px;
   margin-right: 20px;
   opacity: 0.7;
+  color: var(--text);
   padding-left: 20px;
   padding-top: 20px;
 }
@@ -54,6 +57,7 @@
   margin-bottom: 20px;
   margin-right: 20px;
   opacity: 0.7;
+  color: var(--text-muted);
   padding-left: 20px;
   padding-top: 20px;
 }
@@ -68,4 +72,5 @@
   right: 10px;
   top: 15px;
   opacity: 0.7;
+  color: var(--text-muted);
 }

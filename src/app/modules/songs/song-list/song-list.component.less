@@ -9,13 +9,14 @@
   }
 
   cursor: pointer;
+  transition: var(--transition);
 
   &:hover {
-    background: var(--primary-color);
-    color: #fff;
+    background: var(--hover-background);
+    color: var(--text);
 
     .warning {
-      color: #fff;
+      color: var(--danger);
     }
   }
 }
@@ -31,13 +32,13 @@
 }
 
 .neutral {
-  color: #888;
+  color: var(--text-soft);
 }
 
 .warning {
-  color: #ba3500;
+  color: var(--danger);
 }
 
 .success {
-  color: #307501;
+  color: var(--success);
 }
