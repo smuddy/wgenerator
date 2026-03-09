@@ -14,7 +14,7 @@ describe('TransposeService', () => {
 
   it('should create map upwards', () => {
     const distance = service.getDistance('D', 'G');
-    const map = service.getMap('D', 'G', distance);
+    const map = service.getMap('D', 'G');
 
     if (map) {
       void expect(map['D']).toBe('G');
@@ -23,7 +23,7 @@ describe('TransposeService', () => {
 
   it('should create map downwards', () => {
     const distance = service.getDistance('G', 'D');
-    const map = service.getMap('G', 'D', distance);
+    const map = service.getMap('G', 'D');
 
     if (map) {
       void expect(map['G']).toBe('D');
@@ -32,7 +32,7 @@ describe('TransposeService', () => {
 
   it('should transpose enharmonic targets by semitone distance', () => {
     const distance = service.getDistance('C', 'Db');
-    const map = service.getMap('C', 'Db', distance);
+    const map = service.getMap('C', 'Db');
 
     void expect(distance).toBe(1);
     void expect(map?.['C']).toBe('Db');
@@ -41,7 +41,7 @@ describe('TransposeService', () => {
 
   it('should keep german B/H notation consistent', () => {
     const distance = service.getDistance('H', 'C');
-    const map = service.getMap('H', 'C', distance);
+    const map = service.getMap('H', 'C');
 
     void expect(distance).toBe(1);
     void expect(map?.['H']).toBe('C');

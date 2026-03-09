@@ -67,7 +67,7 @@ export class TransposeService {
     if (line.type !== LineType.chord || !line.chords) return line;
 
     const difference = this.getDistance(baseKey, targetKey);
-    const map = this.getMap(baseKey, targetKey, difference);
+    const map = this.getMap(baseKey, targetKey);
 
     const chords = difference !== 0 && map ? line.chords.map(chord => this.transposeChord(chord, map)) : line.chords;
     const renderedLine = this.renderLine(chords);
@@ -85,8 +85,8 @@ export class TransposeService {
   }
 
   public getDistance(baseKey: string, targetKey: string): number {
-    const baseSemitone = this.keyToSemitone[baseKey];
-    const targetSemitone = this.keyToSemitone[targetKey];
+    const baseSemitone = this.getSemitone(baseKey);
+    const targetSemitone = this.getSemitone(targetKey);
 
     if (baseSemitone === undefined || targetSemitone === undefined) {
       return 0;
@@ -95,8 +95,8 @@ export class TransposeService {
     return (targetSemitone - baseSemitone + 12) % 12;
   }
 
-  public getMap(baseKey: string, targetKey: string, difference: number): TransposeMap | null {
-    const cacheKey = `${baseKey}:${targetKey}:${difference}`;
+  public getMap(baseKey: string, targetKey: string): TransposeMap | null {
+    const cacheKey = `${baseKey}:${targetKey}`;
     const cachedMap = this.mapCache.get(cacheKey);
     if (cachedMap) {
       return cachedMap;
@@ -108,6 +108,7 @@ export class TransposeService {
       return null;
     }
 
+    const difference = this.getDistance(baseKey, targetKey);
     const map: TransposeMap = {};
     sourceScales.forEach((sourceScale, scaleIndex) => {
       const targetScale = targetScales[scaleIndex];
@@ -132,6 +133,8 @@ export class TransposeService {
   }
 
   private transposeChord(chord: Chord, map: TransposeMap): Chord {
+    // Intentional fallback: unknown chord tokens must stay visibly invalid as "X".
+    // Do not replace this with the original token without explicit product approval.
     const translatedChord = map[chord.chord] ?? 'X';
     const translatedSlashChord = chord.slashChord ? (map[chord.slashChord] ?? 'X') : null;
 
@@ -147,31 +150,36 @@ export class TransposeService {
       return Math.max(max, chord.position + this.renderChord(chord).length);
     }, 0);
 
-    let template = ''.padEnd(width, ' ');
+    const buffer = Array.from({length: width}, () => ' ');
 
     chords.forEach(chord => {
       const pos = chord.position;
       const renderedChord = this.renderChord(chord);
-      const newLength = renderedChord.length;
+      const requiredLength = pos + renderedChord.length;
 
-      if (template.length < pos + newLength) {
-        template = template.padEnd(pos + newLength, ' ');
+      while (buffer.length < requiredLength) {
+        buffer.push(' ');
       }
 
-      const pre = template.slice(0, pos);
-      const post = template.slice(pos + newLength);
-
-      template = pre + renderedChord + post;
+      for (let i = 0; i < renderedChord.length; i++) {
+        buffer[pos + i] = renderedChord[i];
+      }
     });
 
-    return template.trimEnd();
+    return buffer.join('').trimEnd();
   }
 
   private renderChord(chord: Chord): string {
+    // Intentional fallback: unknown chord tokens must stay visibly invalid as "X".
+    // Do not replace this with the original token without explicit product approval.
     const renderedChord = scaleMapping[chord.chord] ?? 'X';
     const renderedSlashChord = chord.slashChord ? (scaleMapping[chord.slashChord] ?? 'X') : '';
 
     return renderedChord + (chord.add ?? '') + (renderedSlashChord ? '/' + renderedSlashChord : '');
+  }
+
+  private getSemitone(key: string): number | undefined {
+    return this.keyToSemitone[key];
   }
 
   private getScaleVariants(key: string): ScaleVariants | null {
