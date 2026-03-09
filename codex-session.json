@@ -1,0 +1,76 @@
+{
+  "updated_at": "2026-03-09",
+  "project": "wgenerator",
+  "summary": {
+    "css_theme": [
+      "LESS @-Variablen durch CSS-Custom-Properties ersetzt",
+      "natuerlichere Farbpalette auf Basis des Body-Gradients eingefuehrt",
+      "Material Icon Buttons auf die Primaerfarbe abgestimmt",
+      "mehrere harte Farben in normale App-Views auf Tokens umgestellt",
+      "Monitor-/Beamer-Ansicht bewusst kontrastreich belassen"
+    ],
+    "material_theme": [
+      "src/custom-theme.scss auf map-basierte Angular-Material-M2-Theme-Definition umgestellt",
+      "Warnung zu legacy define-light-theme-Signatur behoben"
+    ],
+    "transpose": [
+      "TransposeService auf Halbtonlogik umgebaut",
+      "unbekannte Akkorde rendern bewusst als X",
+      "dynamisches Rendern statt festem 100-Zeichen-Template",
+      "Tests fuer Enharmonik, B/H, X-Faelle und Key-Helper ergaenzt",
+      "key.helper Korrekturen: Gb-Mapping und D-Skala"
+    ],
+    "firebase_reads": [
+      "ConfigService und GlobalSettingsService auf Singleton-Streams umgestellt",
+      "read$ fuer shows, songs und guest wieder direkt ueber doc$ statt list$.find(...)",
+      "songUsage Login-Backfill entfernt",
+      "songUsage-Inkremente auf FieldValue.increment(...) umgestellt",
+      "Admin-Konsoleintrag window.wgeneratorAdmin.rebuildSongUsage() hinzugefuegt",
+      "showSongDataService.list$(showId) pro showId gecacht",
+      "monitor.component.ts entkoppelt, damit Show-Metadaten keine unnoetigen Song-Reads triggern"
+    ],
+    "shows_filter": [
+      "showType-Filter funktioniert wieder clientseitig",
+      "Zeitraumfilter fachlich auf heute minus n*30 Tage umgestellt",
+      "oeffentliche Shows werden fuer den Zeitraum serverseitig per Firestore-Query geladen",
+      "owner und showType filtern weiterhin clientseitig auf dem kleineren Resultset",
+      "Null-Fall im Filter-Template abgesichert"
+    ]
+  },
+  "important_files": [
+    "src/styles/styles.less",
+    "src/custom-theme.scss",
+    "src/app/modules/songs/services/transpose.service.ts",
+    "src/app/modules/songs/services/transpose.service.spec.ts",
+    "src/app/modules/songs/services/key.helper.ts",
+    "src/app/modules/songs/services/key.helper.spec.ts",
+    "src/app/services/config.service.ts",
+    "src/app/services/global-settings.service.ts",
+    "src/app/services/user/user.service.ts",
+    "src/main.ts",
+    "src/app/modules/shows/services/show-song-data.service.ts",
+    "src/app/modules/presentation/monitor/monitor.component.ts",
+    "src/app/modules/presentation/remote/remote.component.ts",
+    "src/app/modules/shows/services/show-data.service.ts",
+    "src/app/modules/shows/list/list.component.ts",
+    "src/app/modules/shows/list/filter/filter.component.ts",
+    "src/app/modules/shows/list/filter/filter.component.html",
+    "src/app/modules/songs/song/song.component.ts",
+    "src/app/modules/songs/song/song.component.html",
+    "README.md"
+  ],
+  "console_commands": {
+    "song_usage_rebuild": "await window.wgeneratorAdmin.rebuildSongUsage()"
+  },
+  "known_tradeoffs": [
+    "songUsage wird historisch nicht mehr automatisch beim Login rekonstruiert; dafuer ist die Admin-Migration gedacht",
+    "songUsage decrement kann bei inkonsistenten Aufrufpfaden theoretisch unter 0 laufen",
+    "owner- und showType-Filter fuer Shows laufen noch clientseitig",
+    "oeffentliche Show-Zeitraumquery kann Firestore-Indexe benoetigen"
+  },
+  "next_candidates": [
+    "remote.component.ts weiter entkoppeln, damit textRendering.parse(...) nicht bei jeder Show-Metadatenaenderung fuer alle Songs neu laeuft",
+    "users$ als Voll-Collection-Livestream spaeter auf Einzelreads bzw. gezieltere Nutzung pruefen",
+    "weitere Firestore-Read-Hotspots mit echten Metriken gegenpruefen"
+  ]
+}
