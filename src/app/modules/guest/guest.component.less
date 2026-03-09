@@ -1,5 +1,5 @@
 .page {
-  background: #0009;
+  background: var(--overlay);
   position: fixed;
   top: 0;
   bottom: 0;
@@ -7,15 +7,15 @@
   right: 0;
   backdrop-filter: blur(8px);
 
-  --swiper-scrollbar-bg-color: #fff3;
-  --swiper-scrollbar-drag-bg-color: #fff9;
+  --swiper-scrollbar-bg-color: rgba(247, 251, 255, 0.2);
+  --swiper-scrollbar-drag-bg-color: rgba(247, 251, 255, 0.6);
   --swiper-scrollbar-sides-offset: 20px;
   --swiper-scrollbar-top: 100px;
   --swiper-scrollbar-bottom: auto;
 }
 
 .title {
-  color: white;
+  color: var(--text-inverse);
   padding: 70px 20px 0;
   display: flex;
   justify-content: space-between;
@@ -23,7 +23,7 @@
 
   .left {
     font-size: 1.8em;
-    color: #fff;
+    color: var(--text-inverse);
   }
 }
 
@@ -35,7 +35,7 @@
 .legal {
   padding: 0 20px;
   font-size: 0.6em;
-  color: #fff9;
+  color: rgba(247, 251, 255, 0.72);
 }
 
 .view {
@@ -44,7 +44,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  color: white;
+  color: var(--text-inverse);
 }
 
 app-song-text {

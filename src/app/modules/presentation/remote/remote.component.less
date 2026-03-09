@@ -1,12 +1,14 @@
 @import "../../../../styles/shadow";
 
 .song {
-  background: #fff;
+  background: var(--surface-strong);
   width: 100%;
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 10px;
   box-sizing: border-box;
+  color: var(--text);
+  border: 1px solid var(--surface-border);
 
   @media screen and (max-width: 860px) {
     width: 100vw;
@@ -14,7 +16,7 @@
     border-radius: 0;
     box-sizing: border-box;
     margin: -11px -20px 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--surface-border);
   }
 }
 
@@ -39,31 +41,31 @@
 }
 
 .song-part {
-  background: #fff;
+  background: var(--surface-strong);
   border-radius: 8px;
   overflow: hidden;
-  transition: 300ms all ease-in-out;
+  transition: var(--transition);
   cursor: pointer;
-  outline: 0.5px solid #eee;
+  outline: 1px solid var(--divider);
 
   &:hover {
-    outline: 0.5px solid var(--color-primary-light);
+    outline: 1px solid var(--primary-hover);
   }
 
   &.active {
-    outline: 0.5px solid var(--color-primary);
+    outline: 1px solid var(--primary-color);
 
     .head {
-      background-color: var(--color-primary);
-      color: white;
+      background-color: var(--primary-color);
+      color: var(--text-inverse);
     }
 
   }
 }
 
 .head {
-  transition: 300ms all ease-in-out;
-  background: #eee;
+  transition: var(--transition);
+  background: var(--surface-muted);
   padding: 10px;
   font-weight: bold;
 }
@@ -100,9 +102,9 @@
 a {
   font-size: 30px;
   padding: 10px;
-  transition: all 300ms ease-in-out;
+  transition: var(--transition);
 
   &:hover {
-    color: #4286f4;
+    color: var(--link-color);
   }
 }

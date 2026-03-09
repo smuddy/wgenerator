@@ -4,7 +4,7 @@
 
 p.error {
   margin: 8px 10px;
-  color: darkred;
+  color: var(--danger);
 }
 
 .login {
@@ -12,9 +12,11 @@ p.error {
   padding: 20px;
   width: 400px;
   margin: 100px 0;
-  background: #fffa;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
   border-radius: 8px;
   font-size: 18px;
+  color: var(--text);
   position: relative;
   @media screen and (max-width: 860px) {
     margin: 20px;
@@ -33,11 +35,11 @@ button {
 
 .btn-password {
   margin-bottom: 20px;
-  color: #888;
+  color: var(--text-soft);
 }
 
 .btn-user {
-  color: #888;
+  color: var(--text-soft);
 }
 
 .frame {
