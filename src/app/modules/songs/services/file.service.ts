@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {AngularFireStorage} from '@angular/fire/compat/storage';
-import {firstValueFrom, Observable} from 'rxjs';
+import {deleteObject, getDownloadURL, ref, Storage} from '@angular/fire/storage';
+import {from, Observable} from 'rxjs';
 import {FileDataService} from './file-data.service';
 
 @Injectable({
@@ -8,18 +8,16 @@ import {FileDataService} from './file-data.service';
 })
 export class FileService {
   public constructor(
-    private storage: AngularFireStorage,
+    private storage: Storage,
     private fileDataService: FileDataService
   ) {}
 
   public getDownloadUrl(path: string): Observable<string> {
-    const ref = this.storage.ref(path);
-    return ref.getDownloadURL() as Observable<string>;
+    return from(getDownloadURL(ref(this.storage, path)));
   }
 
   public delete(path: string, songId: string, fileId: string): void {
-    const ref = this.storage.ref(path);
-    void firstValueFrom(ref.delete());
+    void deleteObject(ref(this.storage, path));
     void this.fileDataService.delete(songId, fileId);
   }
 }

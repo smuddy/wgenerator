@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {File} from '../../services/file';
-import {AngularFireStorage} from '@angular/fire/compat/storage';
-import {Observable} from 'rxjs';
+import {getDownloadURL, ref, Storage} from '@angular/fire/storage';
+import {from, Observable} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 
 @Component({
@@ -14,12 +14,11 @@ export class FileComponent {
   public url$: Observable<string> | null = null;
   public name = '';
 
-  public constructor(private storage: AngularFireStorage) {}
+  public constructor(private storage: Storage) {}
 
   @Input()
   public set file(file: File) {
-    const ref = this.storage.ref(file.path + '/' + file.name);
-    this.url$ = ref.getDownloadURL() as Observable<string>;
+    this.url$ = from(getDownloadURL(ref(this.storage, file.path + '/' + file.name)));
     this.name = file.name;
   }
 }

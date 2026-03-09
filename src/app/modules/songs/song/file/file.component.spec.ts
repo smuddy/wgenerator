@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {Storage} from '@angular/fire/storage';
 
 import {FileComponent} from './file.component';
 
@@ -9,6 +10,7 @@ describe('FileComponent', () => {
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
       imports: [FileComponent],
+      providers: [{provide: Storage, useValue: {}}],
     }).compileComponents();
   }));
 

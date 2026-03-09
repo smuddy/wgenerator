@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Upload} from './upload';
 import {FileDataService} from './file-data.service';
-import {AngularFireStorage} from '@angular/fire/compat/storage';
-import {finalize} from 'rxjs/operators';
+import {ref, Storage, uploadBytesResumable} from '@angular/fire/storage';
 import {FileBase} from './fileBase';
 import {FileServer} from './fileServer';
 
@@ -12,7 +11,7 @@ import {FileServer} from './fileServer';
 export class UploadService extends FileBase {
   public constructor(
     private fileDataService: FileDataService,
-    private angularFireStorage: AngularFireStorage
+    private storage: Storage
   ) {
     super();
   }
@@ -22,14 +21,19 @@ export class UploadService extends FileBase {
     const filePath = `${directory}/${upload.file.name}`;
     upload.path = directory;
 
-    const ref = this.angularFireStorage.ref(filePath);
-    const task = ref.put(upload.file);
+    const storageRef = ref(this.storage, filePath);
+    const task = uploadBytesResumable(storageRef, upload.file);
 
-    task.percentageChanges().subscribe(percent => (upload.progress = percent ?? 0));
-    task
-      .snapshotChanges()
-      .pipe(finalize(() => void this.saveFileData(songId, upload)))
-      .subscribe();
+    task.on(
+      'state_changed',
+      snapshot => {
+        upload.progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      },
+      () => {
+        // Keep current UX: upload errors are ignored by this service.
+      },
+      () => void this.saveFileData(songId, upload)
+    );
   }
 
   private async saveFileData(songId: string, upload: Upload) {
