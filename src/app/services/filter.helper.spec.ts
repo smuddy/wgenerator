@@ -5,10 +5,10 @@ describe('Filter Helper', () => {
   const song: Song = {
     title: 'Song Title',
     text: "This is a songtext, aa?bb!cc,dd.ee'ff",
-    legalOwner: '',
+    legalOwner: 'other',
     label: '',
     id: '',
-    legalType: '',
+    legalType: 'open',
     artist: '',
     comment: '',
     edits: [],
@@ -18,9 +18,9 @@ describe('Filter Helper', () => {
     number: 1,
     legalOwnerId: '',
     origin: '',
-    status: '',
+    status: 'draft',
     tempo: 10,
-    type: '',
+    type: 'Misc',
     termsOfUse: '',
   };
 
