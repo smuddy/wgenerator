@@ -1,24 +1,20 @@
 import {TestBed} from '@angular/core/testing';
 
 import {SongDataService} from './song-data.service';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {firstValueFrom, of} from 'rxjs';
+import {DbService} from '../../../services/db.service';
 
 describe('SongDataService', () => {
   const songs = [{title: 'title1'}];
 
-  const angularFirestoreCollection = {
-    valueChanges: () => of(songs),
-  };
-
-  const mockAngularFirestore = {
-    collection: () => angularFirestoreCollection,
+  const mockDbService = {
+    col$: () => of(songs),
   };
 
   beforeEach(
     () =>
       void TestBed.configureTestingModule({
-        providers: [{provide: AngularFirestore, useValue: mockAngularFirestore}],
+        providers: [{provide: DbService, useValue: mockDbService}],
       })
   );
 

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {DbService} from '../../../services/db.service';
 import {Observable} from 'rxjs';
 import {ShowSong} from './show-song';
-import {QueryFn} from '@angular/fire/compat/firestore/interfaces';
+import {QueryConstraint} from '@angular/fire/firestore';
 import {shareReplay} from 'rxjs/operators';
 
 @Injectable({
@@ -15,9 +15,9 @@ export class ShowSongDataService {
 
   public constructor(private dbService: DbService) {}
 
-  public list$ = (showId: string, queryFn?: QueryFn): Observable<ShowSong[]> => {
-    if (queryFn) {
-      return this.dbService.col$(`${this.collection}/${showId}/${this.subCollection}`, queryFn);
+  public list$ = (showId: string, queryConstraints?: QueryConstraint[]): Observable<ShowSong[]> => {
+    if (queryConstraints && queryConstraints.length > 0) {
+      return this.dbService.col$(`${this.collection}/${showId}/${this.subCollection}`, queryConstraints);
     }
 
     const cached = this.listCache.get(showId);

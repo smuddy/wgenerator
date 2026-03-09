@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {debounceTime, distinctUntilChanged, filter, map, shareReplay, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, shareReplay, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ShowService} from '../../shows/services/show.service';
 import {Song} from '../../songs/services/song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
@@ -52,10 +52,9 @@ export class MonitorComponent implements OnInit, OnDestroy {
     openFullscreen();
     const currentShowId$ = this.globalSettingsService.get$
       .pipe(
-        debounceTime(100),
-        filter(_ => !!_),
-        map(_ => _),
-        map(_ => _.currentShow),
+        filter((settings): settings is NonNullable<typeof settings> => !!settings),
+        map(settings => settings.currentShow),
+        filter((showId): showId is string => !!showId),
         distinctUntilChanged(),
         tap(_ => (this.currentShowId = _)),
         takeUntil(this.destroy$)
@@ -92,6 +91,9 @@ export class MonitorComponent implements OnInit, OnDestroy {
         map(show => ({showId: show.id, presentationSongId: show.presentationSongId})),
         distinctUntilChanged((a, b) => a.showId === b.showId && a.presentationSongId === b.presentationSongId),
         tap(({presentationSongId}) => {
+          if (presentationSongId === 'title' || presentationSongId === 'dynamicText' || !presentationSongId) {
+            this.song = null;
+          }
           if (this.songId !== presentationSongId) {
             this.songId = 'empty';
           }

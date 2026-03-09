@@ -7,7 +7,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {ActivatedRoute, Router} from '@angular/router';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
 import {map, switchMap} from 'rxjs/operators';
-import firebase from 'firebase/compat/app';
+import {Timestamp} from '@angular/fire/firestore';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatSelect} from '@angular/material/select';
@@ -18,7 +18,6 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/m
 import {ButtonRowComponent} from '../../../widget-modules/components/button-row/button-row.component';
 import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
-import Timestamp = firebase.firestore.Timestamp;
 
 @Component({
   selector: 'app-edit',

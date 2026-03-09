@@ -3,8 +3,7 @@ import {Observable} from 'rxjs';
 import {DbService} from '../../../services/db.service';
 import {Show} from './show';
 import {map, shareReplay} from 'rxjs/operators';
-import {QueryFn} from '@angular/fire/compat/firestore/interfaces';
-import firebase from 'firebase/compat/app';
+import {orderBy, QueryConstraint, Timestamp, where} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -28,11 +27,11 @@ export class ShowDataService {
     const startDate = new Date();
     startDate.setHours(0, 0, 0, 0);
     startDate.setDate(startDate.getDate() - lastMonths * 30);
-    const startTimestamp = firebase.firestore.Timestamp.fromDate(startDate);
+    const startTimestamp = Timestamp.fromDate(startDate);
 
-    const queryFn: QueryFn = ref => ref.where('published', '==', true).where('date', '>=', startTimestamp).orderBy('date', 'desc');
+    const queryConstraints: QueryConstraint[] = [where('published', '==', true), where('date', '>=', startTimestamp), orderBy('date', 'desc')];
 
-    return this.dbService.col$<Show>(this.collection, queryFn).pipe(
+    return this.dbService.col$<Show>(this.collection, queryConstraints).pipe(
       map(shows => shows.filter(show => !show.archived)),
       shareReplay({
         bufferSize: 1,

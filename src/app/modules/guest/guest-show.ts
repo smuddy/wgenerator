@@ -1,6 +1,5 @@
-import firebase from 'firebase/compat/app';
 import {Song} from '../songs/services/song';
-import Timestamp = firebase.firestore.Timestamp;
+import {Timestamp} from '@angular/fire/firestore';
 
 export interface GuestShow {
   id: string;

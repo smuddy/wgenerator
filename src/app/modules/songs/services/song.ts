@@ -1,6 +1,5 @@
-import firebase from 'firebase/compat/app';
 import {SongLegalOwner, SongLegalType, SongStatus, SongType} from './song.service';
-import Timestamp = firebase.firestore.Timestamp;
+import {Timestamp} from '@angular/fire/firestore';
 
 export interface Song {
   id: string;

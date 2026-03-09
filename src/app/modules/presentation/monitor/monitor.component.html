@@ -1,5 +1,5 @@
 <div class="fullscreen background"></div>
-<div *ngIf="song && showType" [style.font-size.px]="zoom" class="fullscreen background">
+<div *ngIf="showType" [style.font-size.px]="zoom" class="fullscreen background">
 
   <div [class.visible]="presentationBackground==='blue'" class="bg-blue fullscreen bg-image"></div>
   <div [class.visible]="presentationBackground==='green'" class="bg-green fullscreen bg-image"></div>
@@ -29,7 +29,7 @@
   </div>
 
   <app-song-text
-    *ngIf="songId !== 'title' && songId !== 'empty'"
+    *ngIf="song && songId !== 'title' && songId !== 'empty' && songId !== 'dynamicText'"
     [@songSwitch]="songId"
     [fullscreen]="true"
     [header]="song.title"
@@ -40,7 +40,7 @@
     chordMode="hide"
   ></app-song-text>
   <app-legal
-    *ngIf="songId !== 'title' && songId !== 'empty' && songId !== 'dynamicText'"
+    *ngIf="song && songId !== 'title' && songId !== 'empty' && songId !== 'dynamicText'"
     [@songSwitch]="songId"
     [config]="config$ | async"
     [song]="song"

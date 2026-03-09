@@ -8,7 +8,7 @@ import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 import {ShowDataService} from '../../modules/shows/services/show-data.service';
 import {ShowSongDataService} from '../../modules/shows/services/show-song-data.service';
-import firebase from 'firebase/compat/app';
+import {increment} from '@angular/fire/firestore';
 
 export interface SongUsageMigrationResult {
   usersProcessed: number;
@@ -159,7 +159,7 @@ export class UserService {
     if (!user) return null;
 
     await this.db.doc<User>('users/' + user.id).update({
-      [`songUsage.${songId}`]: firebase.firestore.FieldValue.increment(direction),
+      [`songUsage.${songId}`]: increment(direction),
     });
   }
 
