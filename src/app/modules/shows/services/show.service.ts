@@ -1,7 +1,7 @@
 import {Injectable, inject} from '@angular/core';
 import {ShowDataService} from './show-data.service';
 import {Show} from './show';
-import {Observable} from 'rxjs';
+import {firstValueFrom, Observable} from 'rxjs';
 import {UserService} from '../../../services/user/user.service';
 import {map, switchMap} from 'rxjs/operators';
 import {User} from '../../../services/user/user';
@@ -16,13 +16,6 @@ export class ShowService {
   public static SHOW_TYPE = ['service-worship', 'service-praise', 'home-group-big', 'home-group', 'prayer-group', 'teens-group', 'kids-group', 'misc-public', 'misc-private'];
   public static SHOW_TYPE_PUBLIC = ['service-worship', 'service-praise', 'home-group-big', 'teens-group', 'kids-group', 'misc-public'];
   public static SHOW_TYPE_PRIVATE = ['home-group', 'prayer-group', 'misc-private'];
-  private user: User | null = null;
-
-  public constructor() {
-    const userService = this.userService;
-
-    userService.user$.subscribe(_ => (this.user = _));
-  }
 
   public read$ = (showId: string): Observable<Show | null> => this.showDataService.read$(showId);
   public listPublicSince$ = (lastMonths: number): Observable<Show[]> => this.showDataService.listPublicSince$(lastMonths);
@@ -40,10 +33,11 @@ export class ShowService {
   public update$ = async (showId: string, data: Partial<Show>): Promise<void> => this.showDataService.update(showId, data);
 
   public async new$(data: Partial<Show>): Promise<string | null> {
-    if (!data.showType || !this.user) return null;
+    const user = await firstValueFrom(this.userService.user$);
+    if (!data.showType || !user) return null;
     const calculatedData: Partial<Show> = {
       ...data,
-      owner: this.user.id,
+      owner: user.id,
       order: [],
       public: ShowService.SHOW_TYPE_PUBLIC.indexOf(data.showType) !== -1,
     };
