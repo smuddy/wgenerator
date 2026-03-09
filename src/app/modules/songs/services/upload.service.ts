@@ -18,12 +18,7 @@ export class UploadService extends FileBase {
     const filePath = `${directory}/${upload.file.name}`;
     upload.path = directory;
 
-    const {task} = runInInjectionContext(this.environmentInjector, () => {
-      const storageRef = ref(this.storage, filePath);
-      return {
-        task: uploadBytesResumable(storageRef, upload.file),
-      };
-    });
+    const task = runInInjectionContext(this.environmentInjector, () => this.startUpload(filePath, upload.file));
 
     task.on(
       'state_changed',
@@ -44,5 +39,10 @@ export class UploadService extends FileBase {
       createdAt: new Date(),
     };
     await this.fileDataService.set(songId, file);
+  }
+
+  private startUpload(filePath: string, file: File) {
+    const storageRef = ref(this.storage, filePath);
+    return uploadBytesResumable(storageRef, file);
   }
 }
