@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
@@ -17,6 +17,9 @@ import {AuthMessagePipe} from './auth-message.pipe';
   imports: [LogoComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, RouterLink, AuthMessagePipe],
 })
 export class LoginComponent implements OnInit {
+  private userService = inject(UserService);
+  private router = inject(Router);
+
   public form: UntypedFormGroup = new UntypedFormGroup({
     user: new UntypedFormControl(null, [Validators.required, Validators.email]),
     pass: new UntypedFormControl(null, [Validators.required]),
@@ -25,13 +28,8 @@ export class LoginComponent implements OnInit {
   public faSignIn = faSignInAlt;
   public faNewUser = faUserPlus;
 
-  public constructor(
-    private userService: UserService,
-    private router: Router
-  ) {}
-
   public ngOnInit(): void {
-    this.form.reset;
+    this.form.reset();
   }
 
   public async onLogin(): Promise<void> {

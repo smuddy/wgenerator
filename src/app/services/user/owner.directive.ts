@@ -1,17 +1,15 @@
-import {Directive, ElementRef, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Directive, ElementRef, Input, OnInit, TemplateRef, ViewContainerRef, inject} from '@angular/core';
 import {UserService} from './user.service';
 
 @Directive({selector: '[appOwner]'})
 export class OwnerDirective implements OnInit {
+  private element = inject(ElementRef);
+  private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
+  private viewContainer = inject(ViewContainerRef);
+  private userService = inject(UserService);
+
   private currentUserId: string | null = null;
   private iAppOwner: string | null = null;
-
-  public constructor(
-    private element: ElementRef,
-    private templateRef: TemplateRef<unknown>,
-    private viewContainer: ViewContainerRef,
-    private userService: UserService
-  ) {}
 
   @Input()
   public set appOwner(value: string) {

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 
 import {Observable} from 'rxjs';
 import {SongService} from './song.service';
@@ -9,7 +9,7 @@ import {take} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class SongListResolver {
-  public constructor(private songService: SongService) {}
+  private songService = inject(SongService);
 
   public resolve(): Observable<Song[]> {
     return this.songService.list$().pipe(take(1));

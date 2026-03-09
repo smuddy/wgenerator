@@ -1,5 +1,4 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {orderBy} from 'lodash';
 
 @Pipe({
   name: 'sortBy',
@@ -19,7 +18,29 @@ export class SortByPipe implements PipeTransform {
     if (value.length <= 1) {
       return value;
     } // array with only one item
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    return orderBy(value, [column], [order]);
+    return [...value].sort((left, right) => {
+      const leftValue = this.getComparableValue(left, column);
+      const rightValue = this.getComparableValue(right, column);
+      const result = leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0;
+      return order === 'asc' ? result : -result;
+    });
+  }
+
+  private getComparableValue(item: unknown, column: string): string | number {
+    const value = (item as Record<string, unknown>)[column];
+    if (value instanceof Date) {
+      return value.getTime();
+    }
+
+    switch (typeof value) {
+      case 'number':
+        return value;
+      case 'string':
+        return value;
+      case 'boolean':
+        return value ? 1 : 0;
+      default:
+        return '';
+    }
   }
 }

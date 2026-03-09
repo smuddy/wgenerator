@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
@@ -18,17 +18,15 @@ import {AuthMessagePipe} from '../login/auth-message.pipe';
   imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent, AuthMessagePipe],
 })
 export class PasswordComponent implements OnInit {
+  public userService = inject(UserService);
+  private router = inject(Router);
+
   public form: UntypedFormGroup = new UntypedFormGroup({
     user: new UntypedFormControl(null, [Validators.required, Validators.email]),
   });
 
   public errorMessage = '';
   public faNewPassword = faWindowRestore;
-
-  public constructor(
-    public userService: UserService,
-    private router: Router
-  ) {}
 
   public ngOnInit(): void {
     this.form.reset();

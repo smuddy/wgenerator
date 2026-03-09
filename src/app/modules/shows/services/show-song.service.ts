@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {ShowSongDataService} from './show-song-data.service';
 import {firstValueFrom, Observable} from 'rxjs';
 import {ShowSong} from './show-song';
@@ -10,12 +10,10 @@ import {ShowService} from './show.service';
   providedIn: 'root',
 })
 export class ShowSongService {
-  public constructor(
-    private showSongDataService: ShowSongDataService,
-    private songDataService: SongDataService,
-    private userService: UserService,
-    private showService: ShowService
-  ) {}
+  private showSongDataService = inject(ShowSongDataService);
+  private songDataService = inject(SongDataService);
+  private userService = inject(UserService);
+  private showService = inject(ShowService);
 
   public async new$(showId: string, songId: string, addedLive = false): Promise<string | null> {
     const song = await firstValueFrom(this.songDataService.read$(songId));

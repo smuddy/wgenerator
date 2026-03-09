@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild, inject} from '@angular/core';
 import {ShowSongService} from '../../services/show-song.service';
 import {ShowSong} from '../../services/show-song';
 import {getScale} from '../../../songs/services/key.helper';
@@ -39,6 +39,8 @@ import {ButtonComponent} from '../../../../widget-modules/components/button/butt
   ],
 })
 export class SongComponent implements OnInit {
+  private showSongService = inject(ShowSongService);
+
   @Input() public show: Show | null = null;
   @Input() public showId: string | null = null;
   @Input() public showText: boolean | null = null;
@@ -54,8 +56,6 @@ export class SongComponent implements OnInit {
   public edit = false;
   public editSongControl = new UntypedFormControl();
   @ViewChild('option') private keyOptions: MatSelect;
-
-  public constructor(private showSongService: ShowSongService) {}
 
   @Input()
   public set showSong(song: ShowSong) {

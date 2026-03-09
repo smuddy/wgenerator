@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Directive, ElementRef, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
+import {ChangeDetectorRef, Directive, ElementRef, Input, OnInit, TemplateRef, ViewContainerRef, inject} from '@angular/core';
 import {roles} from './roles';
 import {UserService} from './user.service';
 import {User} from './user';
@@ -6,18 +6,16 @@ import {combineLatest} from 'rxjs';
 
 @Directive({selector: '[appRole]'})
 export class RoleDirective implements OnInit {
+  private element = inject(ElementRef);
+  private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
+  private viewContainer = inject(ViewContainerRef);
+  private userService = inject(UserService);
+  private changeDetection = inject(ChangeDetectorRef);
+
   @Input() public appRole: roles[] = [];
   private currentUser: User | null = null;
   private loggedIn = false;
   private currentViewState = false;
-
-  public constructor(
-    private element: ElementRef,
-    private templateRef: TemplateRef<unknown>,
-    private viewContainer: ViewContainerRef,
-    private userService: UserService,
-    private changeDetection: ChangeDetectorRef
-  ) {}
 
   public ngOnInit(): void {
     combineLatest([this.userService.user$, this.userService.loggedIn$()]).subscribe(_ => {

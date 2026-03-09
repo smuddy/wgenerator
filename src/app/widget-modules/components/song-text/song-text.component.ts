@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren, inject} from '@angular/core';
 import {TextRenderingService} from '../../../modules/songs/services/text-rendering.service';
 import {faGripLines} from '@fortawesome/free-solid-svg-icons';
 import {songSwitch} from './animation';
@@ -21,6 +21,10 @@ export type ChordMode = 'show' | 'hide' | 'onlyFirst';
   imports: [MatIconButton, FaIconComponent],
 })
 export class SongTextComponent implements OnInit {
+  private textRenderingService = inject(TextRenderingService);
+  private elRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private cRef = inject(ChangeDetectorRef);
+
   public sections: Section[] = [];
   @Input() public header: string | null = null;
   @Input() public index = -1;
@@ -34,12 +38,6 @@ export class SongTextComponent implements OnInit {
   public iChordMode: ChordMode = 'hide';
   private iText = '';
   private iTranspose: TransposeMode | null = null;
-
-  public constructor(
-    private textRenderingService: TextRenderingService,
-    private elRef: ElementRef<HTMLElement>,
-    private cRef: ChangeDetectorRef
-  ) {}
 
   @Input()
   public set chordMode(value: ChordMode) {

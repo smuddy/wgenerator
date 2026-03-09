@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, inject} from '@angular/core';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
 import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {SongService} from '../../services/song.service';
@@ -19,17 +19,15 @@ import {ButtonComponent} from '../../../../widget-modules/components/button/butt
   imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent],
 })
 export class NewComponent implements OnInit, OnDestroy {
+  private songService = inject(SongService);
+  private router = inject(Router);
+
   public faSave = faSave;
   public form: UntypedFormGroup = new UntypedFormGroup({
     number: new UntypedFormControl(null, Validators.required),
     title: new UntypedFormControl(null, Validators.required),
   });
   private subs: Subscription[] = [];
-
-  public constructor(
-    private songService: SongService,
-    private router: Router
-  ) {}
 
   public ngOnInit(): void {
     this.form.reset();

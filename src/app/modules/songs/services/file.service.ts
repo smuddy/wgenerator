@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {deleteObject, getDownloadURL, ref, Storage} from '@angular/fire/storage';
 import {from, Observable} from 'rxjs';
 import {FileDataService} from './file-data.service';
@@ -7,10 +7,8 @@ import {FileDataService} from './file-data.service';
   providedIn: 'root',
 })
 export class FileService {
-  public constructor(
-    private storage: Storage,
-    private fileDataService: FileDataService
-  ) {}
+  private storage = inject(Storage);
+  private fileDataService = inject(FileDataService);
 
   public getDownloadUrl(path: string): Observable<string> {
     return from(getDownloadURL(ref(this.storage, path)));

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, inject} from '@angular/core';
 import {UserService} from '../user.service';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -11,9 +11,9 @@ import {AsyncPipe} from '@angular/common';
   imports: [AsyncPipe],
 })
 export class UserNameComponent {
-  public name$: Observable<string | null> | null = null;
+  private userService = inject(UserService);
 
-  public constructor(private userService: UserService) {}
+  public name$: Observable<string | null> | null = null;
 
   @Input()
   public set userId(id: string) {

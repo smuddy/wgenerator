@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, inject} from '@angular/core';
 import {distinctUntilChanged, filter, map, shareReplay, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ShowService} from '../../shows/services/show.service';
 import {Song} from '../../songs/services/song';
@@ -25,6 +25,12 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
   imports: [LogoComponent, SongTextComponent, LegalComponent, AsyncPipe, DatePipe, ShowTypePipe],
 })
 export class MonitorComponent implements OnInit, OnDestroy {
+  private showService = inject(ShowService);
+  private showSongService = inject(ShowSongService);
+  private globalSettingsService = inject(GlobalSettingsService);
+  private configService = inject(ConfigService);
+  private cRef = inject(ChangeDetectorRef);
+
   public song: Song | null = null;
   public zoom = 10;
   public currentShowId: string | null = null;
@@ -38,13 +44,9 @@ export class MonitorComponent implements OnInit, OnDestroy {
   public presentationBackground: PresentationBackground = 'none';
   private destroy$ = new Subject<void>();
 
-  public constructor(
-    private showService: ShowService,
-    private showSongService: ShowSongService,
-    private globalSettingsService: GlobalSettingsService,
-    private configService: ConfigService,
-    private cRef: ChangeDetectorRef
-  ) {
+  public constructor() {
+    const configService = this.configService;
+
     this.config$ = configService.get$();
   }
 

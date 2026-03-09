@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../../services/user/user.service';
 import {faUserPlus} from '@fortawesome/free-solid-svg-icons';
@@ -15,17 +15,15 @@ import {ButtonComponent} from '../../../widget-modules/components/button/button.
   imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent],
 })
 export class NewComponent implements OnInit {
+  private fb = inject(UntypedFormBuilder);
+  private userService = inject(UserService);
+
   public form: UntypedFormGroup = this.fb.group({
     email: new UntypedFormControl(null, [Validators.required, Validators.email]),
     name: new UntypedFormControl(null, [Validators.required]),
     password: new UntypedFormControl(null, [Validators.required, Validators.minLength(6)]),
   });
   public faNewUser = faUserPlus;
-
-  public constructor(
-    private fb: UntypedFormBuilder,
-    private userService: UserService
-  ) {}
 
   public ngOnInit(): void {
     this.form.reset();

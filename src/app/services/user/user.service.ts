@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {Auth, authState, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
 import {BehaviorSubject, firstValueFrom, Observable} from 'rxjs';
 import {filter, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
@@ -20,18 +20,18 @@ export interface SongUsageMigrationResult {
   providedIn: 'root',
 })
 export class UserService {
+  private auth = inject(Auth);
+  private db = inject(DbService);
+  private router = inject(Router);
+  private showDataService = inject(ShowDataService);
+  private showSongDataService = inject(ShowSongDataService);
+
   public users$ = this.db.col$<User>('users').pipe(shareReplay({bufferSize: 1, refCount: true}));
   private iUserId$ = new BehaviorSubject<string | null>(null);
   private iUser$ = new BehaviorSubject<User | null>(null);
   private userByIdCache = new Map<string, Observable<User | null>>();
 
-  public constructor(
-    private auth: Auth,
-    private db: DbService,
-    private router: Router,
-    private showDataService: ShowDataService,
-    private showSongDataService: ShowSongDataService
-  ) {
+  public constructor() {
     authState(this.auth)
       .pipe(
         filter(auth => !!auth),

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject} from '@angular/core';
 import {SongService} from '../services/song.service';
 import {Song} from '../services/song';
 import {map} from 'rxjs/operators';
@@ -25,6 +25,10 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
   imports: [ListHeaderComponent, FilterComponent, CardComponent, RouterLink, RoleDirective, FaIconComponent, AsyncPipe],
 })
 export class SongListComponent implements OnInit, OnDestroy {
+  private songService = inject(SongService);
+  private activatedRoute = inject(ActivatedRoute);
+  private scrollService = inject(ScrollService);
+
   public anyFilterActive = false;
   public songs$: Observable<Song[]> = combineLatest([
     this.activatedRoute.queryParams.pipe(map(_ => _ as FilterValues)),
@@ -38,12 +42,6 @@ export class SongListComponent implements OnInit, OnDestroy {
   public faLegal = faBalanceScaleRight;
   public faDraft = faPencilRuler;
   public faFinal = faCheck;
-
-  public constructor(
-    private songService: SongService,
-    private activatedRoute: ActivatedRoute,
-    private scrollService: ScrollService
-  ) {}
 
   public ngOnInit(): void {
     setTimeout(() => this.scrollService.restoreScrollPositionFor('songlist'), 100);

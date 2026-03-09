@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {ActivatedRouteSnapshot, Router, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserService} from '../../services/user/user.service';
@@ -8,10 +8,8 @@ import {map} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class RoleGuard {
-  public constructor(
-    private userService: UserService,
-    private router: Router
-  ) {}
+  private userService = inject(UserService);
+  private router = inject(Router);
 
   public canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     const requiredRoles = next.data.requiredRoles as string[];

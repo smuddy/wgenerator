@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {TransposeService} from './transpose.service';
 import {TransposeMode} from './transpose-mode';
 import {SectionType} from './section-type';
@@ -11,9 +11,9 @@ import {Line} from './line';
   providedIn: 'root',
 })
 export class TextRenderingService {
-  private regexSection = /(Strophe|Refrain|Bridge)/;
+  private transposeService = inject(TransposeService);
 
-  public constructor(private transposeService: TransposeService) {}
+  private regexSection = /(Strophe|Refrain|Bridge)/;
 
   public parse(text: string, transpose: TransposeMode | null, withComments = true): Section[] {
     if (!text) {

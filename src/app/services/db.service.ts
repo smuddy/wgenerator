@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {
   addDoc,
   collection,
@@ -76,7 +76,7 @@ export class DbDocument<T> {
   providedIn: 'root',
 })
 export class DbService {
-  public constructor(private fs: Firestore) {}
+  private fs = inject(Firestore);
 
   public col<T>(ref: CollectionPredicate<T>): DbCollection<T> {
     return typeof ref === 'string' ? new DbCollection<T>(this.fs, ref) : ref;

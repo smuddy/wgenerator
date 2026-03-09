@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
 
@@ -8,13 +8,13 @@ import {UserService} from '../../../services/user/user.service';
   styleUrls: ['./logout.component.less'],
 })
 export class LogoutComponent implements AfterViewInit {
-  public constructor(
-    private userService: UserService,
-    private router: Router
-  ) {}
+  private userService = inject(UserService);
+  private router = inject(Router);
 
-  public async ngAfterViewInit(): Promise<void> {
-    await this.userService.logout();
-    await this.router.navigateByUrl('/');
+  public ngAfterViewInit(): void {
+    void (async () => {
+      await this.userService.logout();
+      await this.router.navigateByUrl('/');
+    })();
   }
 }

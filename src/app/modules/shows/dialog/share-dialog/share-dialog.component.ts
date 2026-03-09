@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent} from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
 import QRCode from 'qrcode';
@@ -17,9 +17,13 @@ export interface ShareDialogData {
   styleUrl: './share-dialog.component.less',
 })
 export class ShareDialogComponent {
+  public data = inject<ShareDialogData>(MAT_DIALOG_DATA);
+
   public qrCode: string;
 
-  public constructor(@Inject(MAT_DIALOG_DATA) public data: ShareDialogData) {
+  public constructor() {
+    const data = this.data;
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
     QRCode.toDataURL(data.url, {
       type: 'image/jpeg',

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {ShowService} from '../../shows/services/show.service';
 import {Show} from '../../shows/services/show';
@@ -19,16 +19,14 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
   imports: [CardComponent, MatButton, UserNameComponent, AsyncPipe, DatePipe, ShowTypePipe],
 })
 export class SelectComponent implements OnInit {
+  private showService = inject(ShowService);
+  private globalSettingsService = inject(GlobalSettingsService);
+  private router = inject(Router);
+
   public visible = false;
   public shows$ = this.showService
     .list$(true)
     .pipe(map(_ => _.filter(_ => _.date.toDate() > new Date(new Date().setMonth(new Date().getMonth() - 1))).sort((a, b) => (b.date < a.date ? -1 : b.date > a.date ? 1 : 0))));
-
-  public constructor(
-    private showService: ShowService,
-    private globalSettingsService: GlobalSettingsService,
-    private router: Router
-  ) {}
 
   public async selectShow(show: Show) {
     this.visible = false;

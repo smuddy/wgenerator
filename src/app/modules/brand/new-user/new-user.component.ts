@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {UserService} from '../../../services/user/user.service';
 import {Observable} from 'rxjs';
 import {User} from '../../../services/user/user';
@@ -12,9 +12,13 @@ import {AsyncPipe} from '@angular/common';
   imports: [BrandComponent, AsyncPipe],
 })
 export class NewUserComponent {
+  private userService = inject(UserService);
+
   public user$: Observable<User | null> | null = null;
 
-  public constructor(private userService: UserService) {
+  public constructor() {
+    const userService = this.userService;
+
     this.user$ = userService.user$;
   }
 }

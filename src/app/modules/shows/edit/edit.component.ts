@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {ShowDataService} from '../services/show-data.service';
 import {Observable, take} from 'rxjs';
 import {Show} from '../services/show';
@@ -42,6 +42,10 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
   ],
 })
 export class EditComponent implements OnInit {
+  private showService = inject(ShowService);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+
   public shows$: Observable<Show[]>;
   public showTypePublic = ShowService.SHOW_TYPE_PUBLIC;
   public showTypePrivate = ShowService.SHOW_TYPE_PRIVATE;
@@ -52,12 +56,9 @@ export class EditComponent implements OnInit {
   });
   public faSave = faSave;
 
-  public constructor(
-    private showService: ShowService,
-    showDataService: ShowDataService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {
+  public constructor() {
+    const showDataService = inject(ShowDataService);
+
     this.shows$ = showDataService.list$;
   }
 

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {Song} from '../../../services/song';
 import {ReactiveFormsModule, UntypedFormGroup} from '@angular/forms';
 import {ActivatedRoute, Router, RouterStateSnapshot} from '@angular/router';
@@ -59,6 +59,12 @@ import {StatusPipe} from '../../../../../widget-modules/pipes/status-translater/
   ],
 })
 export class EditSongComponent implements OnInit {
+  private activatedRoute = inject(ActivatedRoute);
+  private songService = inject(SongService);
+  private editService = inject(EditService);
+  private router = inject(Router);
+  public dialog = inject(MatDialog);
+
   public song: Song | null = null;
   public form: UntypedFormGroup = new UntypedFormGroup({});
   public keys = KEYS;
@@ -72,14 +78,6 @@ export class EditSongComponent implements OnInit {
   public faSave = faSave;
   public faLink = faExternalLinkAlt;
   public songtextFocus = false;
-
-  public constructor(
-    private activatedRoute: ActivatedRoute,
-    private songService: SongService,
-    private editService: EditService,
-    private router: Router,
-    public dialog: MatDialog
-  ) {}
 
   public ngOnInit(): void {
     this.activatedRoute.params

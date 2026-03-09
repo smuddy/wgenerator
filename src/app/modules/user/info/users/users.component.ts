@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {UserService} from '../../../../services/user/user.service';
 import {Observable} from 'rxjs';
 import {User} from '../../../../services/user/user';
@@ -14,9 +14,13 @@ import {SortByPipe} from '../../../../widget-modules/pipes/sort-by/sort-by.pipe'
   imports: [CardComponent, UserComponent, AsyncPipe, SortByPipe],
 })
 export class UsersComponent {
+  private userService = inject(UserService);
+
   public users$: Observable<User[]>;
 
-  public constructor(private userService: UserService) {
+  public constructor() {
+    const userService = this.userService;
+
     this.users$ = userService.list$();
   }
 }

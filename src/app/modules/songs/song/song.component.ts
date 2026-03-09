@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {SongService} from '../services/song.service';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
@@ -51,6 +51,14 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
   ],
 })
 export class SongComponent implements OnInit {
+  private activatedRoute = inject(ActivatedRoute);
+  private songService = inject(SongService);
+  private fileService = inject(FileDataService);
+  private userService = inject(UserService);
+  private router = inject(Router);
+  private showService = inject(ShowService);
+  private showSongService = inject(ShowSongService);
+
   public song$: Observable<Song | null> | null = null;
   public files$: Observable<File[] | null> | null = null;
   public user$: Observable<User | null> | null = null;
@@ -60,15 +68,9 @@ export class SongComponent implements OnInit {
   public faFileCirclePlus = faFileCirclePlus;
   public privateShows$ = this.showService.list$().pipe(map(show => show.filter(_ => !_.published).sort((a, b) => b.date.toMillis() - a.date.toMillis())));
 
-  public constructor(
-    private activatedRoute: ActivatedRoute,
-    private songService: SongService,
-    private fileService: FileDataService,
-    private userService: UserService,
-    private router: Router,
-    private showService: ShowService,
-    private showSongService: ShowSongService
-  ) {
+  public constructor() {
+    const userService = this.userService;
+
     this.user$ = userService.user$;
   }
 

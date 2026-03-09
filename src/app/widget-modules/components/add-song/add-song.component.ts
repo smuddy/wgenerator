@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, inject} from '@angular/core';
 import {ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {filterSong} from '../../../services/filter.helper';
 import {MatFormField, MatLabel, MatOption, MatSelect, MatSelectChange} from '@angular/material/select';
@@ -18,16 +18,14 @@ import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
   imports: [MatFormField, MatSelect, MatOption, MatLabel, NgxMatSelectSearchModule, ReactiveFormsModule],
 })
 export class AddSongComponent {
+  private showSongService = inject(ShowSongService);
+  private showService = inject(ShowService);
+
   @Input() public songs: Song[] | null = null;
   @Input() public showSongs: ShowSong[] | null = null;
   @Input() public show: Show | null = null;
   @Input() public addedLive = false;
   public filteredSongsControl = new UntypedFormControl();
-
-  public constructor(
-    private showSongService: ShowSongService,
-    private showService: ShowService
-  ) {}
 
   public filteredSongs(): Song[] {
     if (!this.songs) return [];

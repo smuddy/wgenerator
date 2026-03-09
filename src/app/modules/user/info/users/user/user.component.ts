@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, inject} from '@angular/core';
 import {User} from '../../../../../services/user/user';
 import {UserService} from '../../../../../services/user/user.service';
 import {ROLE_TYPES} from '../../../../../services/user/roles';
@@ -20,14 +20,14 @@ import {RolePipe} from '../../role.pipe';
   imports: [MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, MatSelect, MatOption, MatIconButton, FaIconComponent, RolePipe],
 })
 export class UserComponent {
+  private userService = inject(UserService);
+
   public id = '';
   public name = '';
   public roles: string[] = [];
   public ROLE_TYPES = ROLE_TYPES;
   public edit = false;
   public faClose = faTimes;
-
-  public constructor(private userService: UserService) {}
 
   @Input()
   public set user(value: User) {

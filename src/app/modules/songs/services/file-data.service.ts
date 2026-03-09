@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {File} from './file';
 import {Observable} from 'rxjs';
 import {FileServer} from './fileServer';
@@ -8,7 +8,7 @@ import {DbService} from '../../../services/db.service';
   providedIn: 'root',
 })
 export class FileDataService {
-  public constructor(private db: DbService) {}
+  private db = inject(DbService);
 
   public async set(songId: string, file: FileServer): Promise<string> {
     const songRef = this.db.doc('songs/' + songId);

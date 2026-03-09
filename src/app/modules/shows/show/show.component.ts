@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, OnDestroy, OnInit, inject} from '@angular/core';
 import {filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowService} from '../services/show.service';
@@ -80,6 +80,16 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
   ],
 })
 export class ShowComponent implements OnInit, OnDestroy {
+  private activatedRoute = inject(ActivatedRoute);
+  private showService = inject(ShowService);
+  private songService = inject(SongService);
+  private showSongService = inject(ShowSongService);
+  private docxService = inject(DocxService);
+  private router = inject(Router);
+  private cRef = inject(ChangeDetectorRef);
+  public dialog = inject(MatDialog);
+  private guestShowService = inject(GuestShowService);
+
   public show$: Observable<Show | null> | null = null;
   public songs$: Observable<Song[] | null> | null = null;
   public showSongs: ShowSong[] | null = null;
@@ -104,18 +114,6 @@ export class ShowComponent implements OnInit, OnDestroy {
   public faNextSong = faChevronRight;
   public currentTime: Date;
   private subs: Subscription[] = [];
-
-  public constructor(
-    private activatedRoute: ActivatedRoute,
-    private showService: ShowService,
-    private songService: SongService,
-    private showSongService: ShowSongService,
-    private docxService: DocxService,
-    private router: Router,
-    private cRef: ChangeDetectorRef,
-    public dialog: MatDialog,
-    private guestShowService: GuestShowService
-  ) {}
 
   public ngOnInit(): void {
     this.currentTime = new Date();

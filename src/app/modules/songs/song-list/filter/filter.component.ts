@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {SongService} from '../../services/song.service';
@@ -21,6 +21,8 @@ import {SongTypePipe} from '../../../../widget-modules/pipes/song-type-translate
   imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, MatOption, LegalTypePipe, KeyPipe, SongTypePipe],
 })
 export class FilterComponent {
+  private router = inject(Router);
+
   public filterFormGroup: UntypedFormGroup;
   @Input() public route = '/';
   @Input() public songs: Song[] = [];
@@ -28,11 +30,10 @@ export class FilterComponent {
   public legalType = SongService.LEGAL_TYPE;
   public keys = KEYS;
 
-  public constructor(
-    private router: Router,
-    activatedRoute: ActivatedRoute,
-    fb: UntypedFormBuilder
-  ) {
+  public constructor() {
+    const activatedRoute = inject(ActivatedRoute);
+    const fb = inject(UntypedFormBuilder);
+
     this.filterFormGroup = fb.group({
       q: '',
       type: '',

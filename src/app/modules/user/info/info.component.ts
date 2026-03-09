@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {UserService} from '../../../services/user/user.service';
 import {Observable} from 'rxjs';
 import {User} from '../../../services/user/user';
@@ -40,10 +40,10 @@ import {UsersComponent} from './users/users.component';
   ],
 })
 export class InfoComponent implements OnInit {
+  private userService = inject(UserService);
+
   public user$: Observable<User | null> | null = null;
   public faSignOut = faSignOutAlt;
-
-  public constructor(private userService: UserService) {}
 
   public ngOnInit(): void {
     this.user$ = this.userService.user$;

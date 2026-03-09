@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, inject} from '@angular/core';
 import {File} from '../../services/file';
 import {getDownloadURL, ref, Storage} from '@angular/fire/storage';
 import {from, Observable} from 'rxjs';
@@ -11,10 +11,10 @@ import {AsyncPipe} from '@angular/common';
   imports: [AsyncPipe],
 })
 export class FileComponent {
+  private storage = inject(Storage);
+
   public url$: Observable<string> | null = null;
   public name = '';
-
-  public constructor(private storage: Storage) {}
 
   @Input()
   public set file(file: File) {

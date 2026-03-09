@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {Document, HeadingLevel, ISectionOptions, Packer, Paragraph} from 'docx';
 import {ShowService} from './show.service';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
@@ -26,13 +26,11 @@ export interface DownloadOptions {
   providedIn: 'root',
 })
 export class DocxService {
-  public constructor(
-    private showService: ShowService,
-    private showSongService: ShowSongService,
-    private textRenderingService: TextRenderingService,
-    private userService: UserService,
-    private configService: ConfigService
-  ) {}
+  private showService = inject(ShowService);
+  private showSongService = inject(ShowSongService);
+  private textRenderingService = inject(TextRenderingService);
+  private userService = inject(UserService);
+  private configService = inject(ConfigService);
 
   public async create(showId: string, options: DownloadOptions = {}): Promise<void> {
     const data = await this.prepareData(showId);
@@ -194,17 +192,17 @@ export class DocxService {
     if (!config) return null;
 
     const showSongs = await this.showSongService.list(showId);
-    const songsAsync = showSongs.map(showSong => {
-      const sections = this.textRenderingService.parse(showSong.text, {
-        baseKey: showSong.keyOriginal,
-        targetKey: showSong.key,
-      });
-      return {
-        showSong,
-        sections,
-      };
-    });
-    const songsLoaded = (await Promise.all(songsAsync))
+    const songsLoaded = showSongs
+      .map(showSong => {
+        const sections = this.textRenderingService.parse(showSong.text, {
+          baseKey: showSong.keyOriginal,
+          targetKey: showSong.key,
+        });
+        return {
+          showSong,
+          sections,
+        };
+      })
       .filter(_ => !!_)
       .map(
         _ =>

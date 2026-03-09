@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {Upload} from '../../../services/upload';
 import {UploadService} from '../../../services/upload.service';
 import {ActivatedRoute} from '@angular/router';
@@ -19,16 +19,16 @@ import {FileComponent} from './file/file.component';
   imports: [CardComponent, NgStyle, MatIconButton, MatIcon, FileComponent, AsyncPipe],
 })
 export class EditFileComponent {
+  private activatedRoute = inject(ActivatedRoute);
+  private uploadService = inject(UploadService);
+  private fileService = inject(FileDataService);
+
   public selectedFiles: FileList | null = null;
   public currentUpload: Upload | null = null;
   public songId: string | null = null;
   public files$: Observable<File[]>;
 
-  public constructor(
-    private activatedRoute: ActivatedRoute,
-    private uploadService: UploadService,
-    private fileService: FileDataService
-  ) {
+  public constructor() {
     this.activatedRoute.params
       .pipe(
         map(param => param as {songId: string}),

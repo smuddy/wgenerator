@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, inject} from '@angular/core';
 import {KeyValue} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
@@ -9,7 +9,6 @@ import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {combineLatest, Observable, of} from 'rxjs';
 import {dynamicSort, onlyUnique} from '../../../../services/filter.helper';
 import {UserService} from '../../../../services/user/user.service';
-import {isEqual} from 'lodash';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatSelect} from '@angular/material/select';
 import {MatOptgroup, MatOption} from '@angular/material/core';
@@ -22,6 +21,10 @@ import {ShowTypePipe} from '../../../../widget-modules/pipes/show-type-translate
   imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatOptgroup, ShowTypePipe],
 })
 export class FilterComponent {
+  private router = inject(Router);
+  private showService = inject(ShowService);
+  private userService = inject(UserService);
+
   @Input() public route = '/shows/';
   @Input() public shows: Show[] = [];
 
@@ -38,13 +41,10 @@ export class FilterComponent {
 
   public owners: {key: string; value: string}[] = [];
 
-  public constructor(
-    private router: Router,
-    private showService: ShowService,
-    private userService: UserService,
-    activatedRoute: ActivatedRoute,
-    fb: UntypedFormBuilder
-  ) {
+  public constructor() {
+    const activatedRoute = inject(ActivatedRoute);
+    const fb = inject(UntypedFormBuilder);
+
     this.filterFormGroup = fb.group({
       time: 1,
       owner: null,
@@ -92,7 +92,7 @@ export class FilterComponent {
       map(owners => {
         return owners.sort(dynamicSort('value'));
       }),
-      distinctUntilChanged(isEqual),
+      distinctUntilChanged((left, right) => this.sameOwners(left, right)),
       map(_ => _ as {key: string; value: string}[])
     );
   };
@@ -103,5 +103,13 @@ export class FilterComponent {
       queryParamsHandling: 'merge',
     });
     await this.router.navigateByUrl(route);
+  }
+
+  private sameOwners(left: {key: string; value: string}[], right: {key: string; value: string}[]): boolean {
+    if (left.length !== right.length) {
+      return false;
+    }
+
+    return left.every((owner, index) => owner.key === right[index]?.key && owner.value === right[index]?.value);
   }
 }

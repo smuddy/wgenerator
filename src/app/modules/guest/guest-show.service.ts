@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {Show} from '../shows/services/show';
 import {Song} from '../songs/services/song';
 import {GuestShowDataService} from './guest-show-data.service';
@@ -8,10 +8,8 @@ import {ShowService} from '../shows/services/show.service';
   providedIn: 'root',
 })
 export class GuestShowService {
-  public constructor(
-    private showService: ShowService,
-    private guestShowDataService: GuestShowDataService
-  ) {}
+  private showService = inject(ShowService);
+  private guestShowDataService = inject(GuestShowDataService);
 
   public async share(show: Show, songs: Song[]): Promise<string> {
     const data = {

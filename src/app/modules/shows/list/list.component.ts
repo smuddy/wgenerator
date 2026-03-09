@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {combineLatest} from 'rxjs';
 import {Show} from '../services/show';
 import {fade} from '../../../animations';
@@ -22,8 +22,9 @@ import {SortByPipe} from '../../../widget-modules/pipes/sort-by/sort-by.pipe';
   imports: [RoleDirective, ListHeaderComponent, FilterComponent, CardComponent, ListItemComponent, RouterLink, AsyncPipe, SortByPipe],
 })
 export class ListComponent {
-  public shows$ = this.showService.list$();
-  public privateShows$ = this.showService.list$().pipe(map(show => show.filter(_ => !_.published)));
+  private showService = inject(ShowService);
+  private activatedRoute = inject(ActivatedRoute);
+
   public lastMonths$ = this.activatedRoute.queryParams.pipe(
     map(params => {
       const filterValues = params as FilterValues;
@@ -43,8 +44,9 @@ export class ListComponent {
       return filterValues?.showType;
     })
   );
+  public shows$ = this.showService.list$();
+  public privateShows$ = this.showService.list$().pipe(map(show => show.filter(_ => !_.published)));
   public queriedPublicShows$ = this.lastMonths$.pipe(switchMap(lastMonths => this.showService.listPublicSince$(lastMonths)));
-
   public fallbackPublicShows$ = combineLatest([this.shows$, this.lastMonths$]).pipe(
     map(([shows, lastMonths]) => {
       const startDate = new Date();
@@ -54,7 +56,6 @@ export class ListComponent {
       return shows.filter(show => show.published && !show.archived && show.date.toDate() >= startDate);
     })
   );
-
   public publicShows$ = combineLatest([this.queriedPublicShows$, this.fallbackPublicShows$, this.owner$, this.showType$]).pipe(
     map(([queriedShows, fallbackShows, owner, showType]) => {
       const shows = queriedShows.length > 0 || fallbackShows.length === 0 ? queriedShows : fallbackShows;
@@ -62,11 +63,6 @@ export class ListComponent {
       return shows.filter(show => !owner || show.owner === owner).filter(show => !showType || show.showType === showType);
     })
   );
-
-  public constructor(
-    private showService: ShowService,
-    private activatedRoute: ActivatedRoute
-  ) {}
 
   public trackBy = (index: number, show: unknown) => (show as Show).id;
 }

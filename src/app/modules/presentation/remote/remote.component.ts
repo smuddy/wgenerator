@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, inject} from '@angular/core';
 import {combineLatest, Subject} from 'rxjs';
 import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
@@ -61,6 +61,12 @@ export interface PresentationSong {
   ],
 })
 export class RemoteComponent implements OnDestroy {
+  private showService = inject(ShowService);
+  private showSongService = inject(ShowSongService);
+  private songService = inject(SongService);
+  private textRenderingService = inject(TextRenderingService);
+  private cRef = inject(ChangeDetectorRef);
+
   public show: Show | null = null;
   public showSongs: ShowSong[] = [];
   public songs$ = this.songService.list$();
@@ -73,14 +79,9 @@ export class RemoteComponent implements OnDestroy {
   public presentationDynamicTextChanged$ = new Subject<{presentationDynamicText: string; showId: string}>();
   private destroy$ = new Subject<void>();
 
-  public constructor(
-    private showService: ShowService,
-    private showSongService: ShowSongService,
-    private songService: SongService,
-    private textRenderingService: TextRenderingService,
-    globalSettingsService: GlobalSettingsService,
-    private cRef: ChangeDetectorRef
-  ) {
+  public constructor() {
+    const globalSettingsService = inject(GlobalSettingsService);
+
     const currentShowId$ = globalSettingsService.get$.pipe(
       filter((settings): settings is NonNullable<typeof settings> => !!settings),
       map(_ => _.currentShow),

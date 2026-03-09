@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {Observable} from 'rxjs';
 import {DbService} from '../../../services/db.service';
 import {Show} from './show';
@@ -9,6 +9,8 @@ import {orderBy, QueryConstraint, Timestamp, where} from '@angular/fire/firestor
   providedIn: 'root',
 })
 export class ShowDataService {
+  private dbService = inject(DbService);
+
   private collection = 'shows';
   public list$: Observable<Show[]> = this.dbService.col$<Show>(this.collection).pipe(
     // server-side ordering cuts client work and keeps stable order across subscribers
@@ -18,8 +20,6 @@ export class ShowDataService {
       refCount: true,
     })
   );
-
-  public constructor(private dbService: DbService) {}
 
   public listRaw$ = () => this.dbService.col$<Show>(this.collection);
 

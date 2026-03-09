@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, inject} from '@angular/core';
 import {Observable} from 'rxjs';
 import {File} from '../../../../services/file';
 import {faTrashAlt} from '@fortawesome/free-solid-svg-icons';
@@ -14,14 +14,14 @@ import {AsyncPipe} from '@angular/common';
   imports: [MatIconButton, FaIconComponent, AsyncPipe],
 })
 export class FileComponent {
+  private fileService = inject(FileService);
+
   public url$: Observable<string> | null = null;
   public name = '';
   public faTrash = faTrashAlt;
   @Input() public songId: string | null = null;
   private fileId: string | null = null;
   private path: string | null = null;
-
-  public constructor(private fileService: FileService) {}
 
   @Input()
   public set file(file: File) {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, inject} from '@angular/core';
 import {fader} from './animations';
 import {ScrollService} from './services/scroll.service';
 import {register} from 'swiper/element/bundle';
@@ -14,7 +14,9 @@ import {NavigationComponent} from './widget-modules/components/application-frame
   imports: [RouterOutlet, NavigationComponent],
 })
 export class AppComponent implements OnInit {
-  public constructor(private scrollService: ScrollService) {
+  private scrollService = inject(ScrollService);
+
+  public constructor() {
     register();
   }
 

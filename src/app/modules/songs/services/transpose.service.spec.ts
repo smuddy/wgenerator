@@ -34,18 +34,18 @@ describe('TransposeService', () => {
     const distance = service.getDistance('C', 'Db');
     const map = service.getMap('C', 'Db', distance);
 
-    expect(distance).toBe(1);
-    expect(map?.['C']).toBe('Db');
-    expect(map?.['G']).toBe('Ab');
+    void expect(distance).toBe(1);
+    void expect(map?.['C']).toBe('Db');
+    void expect(map?.['G']).toBe('Ab');
   });
 
   it('should keep german B/H notation consistent', () => {
     const distance = service.getDistance('H', 'C');
     const map = service.getMap('H', 'C', distance);
 
-    expect(distance).toBe(1);
-    expect(map?.['H']).toBe('C');
-    expect(map?.['B']).toBe('C#');
+    void expect(distance).toBe(1);
+    void expect(map?.['H']).toBe('C');
+    void expect(map?.['B']).toBe('C#');
   });
 
   it('should render unknown chords as X', () => {
@@ -57,7 +57,7 @@ describe('TransposeService', () => {
 
     const rendered = service.renderChords(line);
 
-    expect(rendered.text).toBe('Xsus4');
+    void expect(rendered.text).toBe('Xsus4');
   });
 
   it('should render unknown slash chords as X', () => {
@@ -69,7 +69,7 @@ describe('TransposeService', () => {
 
     const rendered = service.renderChords(line);
 
-    expect(rendered.text).toBe('C/X');
+    void expect(rendered.text).toBe('C/X');
   });
 
   it('should transpose lines with long chord positions without truncating', () => {
@@ -81,7 +81,7 @@ describe('TransposeService', () => {
 
     const rendered = service.renderChords(line);
 
-    expect(rendered.text.length).toBe(121);
-    expect(rendered.text.endsWith('C')).toBeTrue();
+    void expect(rendered.text.length).toBe(121);
+    void expect(rendered.text.endsWith('C')).toBeTrue();
   });
 });

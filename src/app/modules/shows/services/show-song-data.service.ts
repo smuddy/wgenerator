@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {DbService} from '../../../services/db.service';
 import {Observable} from 'rxjs';
 import {ShowSong} from './show-song';
@@ -9,11 +9,11 @@ import {shareReplay} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ShowSongDataService {
+  private dbService = inject(DbService);
+
   private collection = 'shows';
   private subCollection = 'songs';
   private listCache = new Map<string, Observable<ShowSong[]>>();
-
-  public constructor(private dbService: DbService) {}
 
   public list$ = (showId: string, queryConstraints?: QueryConstraint[]): Observable<ShowSong[]> => {
     if (queryConstraints && queryConstraints.length > 0) {

@@ -1,4 +1,4 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, inject} from '@angular/core';
 import {GuestShowDataService} from './guest-show-data.service';
 import {ActivatedRoute} from '@angular/router';
 import {map, switchMap} from 'rxjs/operators';
@@ -16,17 +16,15 @@ import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show
   imports: [SongTextComponent, AsyncPipe, DatePipe, ShowTypePipe],
 })
 export class GuestComponent {
+  private currentRoute = inject(ActivatedRoute);
+  private service = inject(GuestShowDataService);
+  private configService = inject(ConfigService);
+
   public show$ = this.currentRoute.params.pipe(
     map(param => param.id as string),
     switchMap(id => this.service.read$(id))
   );
   public config$ = this.configService.get$();
-
-  public constructor(
-    private currentRoute: ActivatedRoute,
-    private service: GuestShowDataService,
-    private configService: ConfigService
-  ) {}
 
   public trackBy = (index: number, show: Song) => show.id;
 }

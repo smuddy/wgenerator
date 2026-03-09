@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {Upload} from './upload';
 import {FileDataService} from './file-data.service';
 import {ref, Storage, uploadBytesResumable} from '@angular/fire/storage';
@@ -9,12 +9,8 @@ import {FileServer} from './fileServer';
   providedIn: 'root',
 })
 export class UploadService extends FileBase {
-  public constructor(
-    private fileDataService: FileDataService,
-    private storage: Storage
-  ) {
-    super();
-  }
+  private fileDataService = inject(FileDataService);
+  private storage = inject(Storage);
 
   public pushUpload(songId: string, upload: Upload): void {
     const directory = this.directory(songId);

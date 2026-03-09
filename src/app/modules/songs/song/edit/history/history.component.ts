@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {first, map, switchMap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {SongService} from '../../../services/song.service';
@@ -13,12 +13,10 @@ import {CardComponent} from '../../../../../widget-modules/components/card/card.
   imports: [CardComponent, DatePipe],
 })
 export class HistoryComponent implements OnInit {
-  public song: Song | null = null;
+  private activatedRoute = inject(ActivatedRoute);
+  private songService = inject(SongService);
 
-  public constructor(
-    private activatedRoute: ActivatedRoute,
-    private songService: SongService
-  ) {}
+  public song: Song | null = null;
 
   public ngOnInit(): void {
     this.activatedRoute.params

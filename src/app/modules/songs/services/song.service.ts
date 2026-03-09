@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {firstValueFrom, Observable} from 'rxjs';
 import {Song} from './song';
 import {SongDataService} from './song-data.service';
@@ -16,20 +16,14 @@ export type SongLegalType = 'open' | 'allowed';
   providedIn: 'root',
 })
 export class SongService {
+  private songDataService = inject(SongDataService);
+  private userService = inject(UserService);
+
   public static TYPES: SongType[] = ['Praise', 'Worship', 'Misc'];
   public static STATUS: SongStatus[] = ['draft', 'set', 'final'];
 
   public static LEGAL_OWNER: SongLegalOwner[] = ['CCLI', 'other'];
   public static LEGAL_TYPE: SongLegalType[] = ['open', 'allowed'];
-
-  // private list: Song[];
-
-  public constructor(
-    private songDataService: SongDataService,
-    private userService: UserService
-  ) {
-    // importCCLI = (songs: Song[]) => this.updateFromCLI(songs);
-  }
 
   public list$ = (): Observable<Song[]> => this.songDataService.list$; //.pipe(tap(_ => (this.list = _)));
   public read$ = (songId: string): Observable<Song | null> => this.songDataService.read$(songId);
