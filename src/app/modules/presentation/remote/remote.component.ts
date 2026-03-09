@@ -83,31 +83,40 @@ export class RemoteComponent implements OnDestroy {
     globalSettingsService: GlobalSettingsService,
     private cRef: ChangeDetectorRef
   ) {
-    globalSettingsService.get$
+    const currentShowId$ = globalSettingsService.get$
       .pipe(
         filter((settings): settings is NonNullable<typeof settings> => !!settings),
         map(_ => _.currentShow),
         filter((showId): showId is string => !!showId),
         distinctUntilChanged(),
-        switchMap(showId =>
-          combineLatest([this.showService.read$(showId), this.showSongService.list$(showId)]).pipe(
-            map(([show, list]) => {
-              const presentationSongs = list.map(song => ({
-                id: song.id,
-                title: song.title,
-                sections: this.textRenderingService.parse(song.text, null, false),
-              }));
-              return {show, list, presentationSongs};
-            })
-          )
-        ),
         takeUntil(this.destroy$)
-      )
-      .subscribe(({show, list, presentationSongs}) => {
-        this.showSongs = list;
+      );
+
+    const show$ = currentShowId$.pipe(
+      switchMap(showId => this.showService.read$(showId)),
+      takeUntil(this.destroy$)
+    );
+
+    const parsedSongs$ = currentShowId$.pipe(
+      switchMap(showId => this.showSongService.list$(showId)),
+      map(list => ({
+        list,
+        parsed: list.map(song => ({
+          id: song.id,
+          title: song.title,
+          sections: this.textRenderingService.parse(song.text, null, false),
+        })),
+      })),
+      takeUntil(this.destroy$)
+    );
+
+    combineLatest([show$, parsedSongs$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([show, parsedSongs]) => {
+        this.showSongs = parsedSongs.list;
         this.show = show;
         const order = show?.order ?? [];
-        const presentationSongsById = new Map(presentationSongs.map(song => [song.id, song] as const));
+        const presentationSongsById = new Map(parsedSongs.parsed.map(song => [song.id, song] as const));
         this.presentationSongs = order.map(id => presentationSongsById.get(id) ?? null).filter((s): s is PresentationSong => !!s);
         this.cRef.markForCheck();
       });

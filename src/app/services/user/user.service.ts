@@ -23,6 +23,7 @@ export class UserService {
   public users$ = this.db.col$<User>('users').pipe(shareReplay({bufferSize: 1, refCount: true}));
   private iUserId$ = new BehaviorSubject<string | null>(null);
   private iUser$ = new BehaviorSubject<User | null>(null);
+  private userByIdCache = new Map<string, Observable<User | null>>();
 
   public constructor(
     private afAuth: AngularFireAuth,
@@ -52,7 +53,16 @@ export class UserService {
   public currentUser = async (): Promise<User | null> => firstValueFrom(this.user$);
 
   public getUserbyId = (userId: string): Promise<User | null> => firstValueFrom(this.getUserbyId$(userId));
-  public getUserbyId$ = (userId: string): Observable<User | null> => this.users$.pipe(map(_ => _.find(f => f.id === userId) || null));
+  public getUserbyId$ = (userId: string): Observable<User | null> => {
+    const cached = this.userByIdCache.get(userId);
+    if (cached) {
+      return cached;
+    }
+
+    const user$ = this.db.doc$<User>(`users/${userId}`).pipe(shareReplay({bufferSize: 1, refCount: true}));
+    this.userByIdCache.set(userId, user$);
+    return user$;
+  };
 
   public async login(user: string, password: string): Promise<string | null> {
     const aUser = await this.afAuth.signInWithEmailAndPassword(user, password);

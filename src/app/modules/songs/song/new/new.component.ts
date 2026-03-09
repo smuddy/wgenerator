@@ -5,6 +5,7 @@ import {SongService} from '../../services/song.service';
 import {Song} from '../../services/song';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {take} from 'rxjs/operators';
 import {CardComponent} from '../../../../widget-modules/components/card/card.component';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -34,7 +35,7 @@ export class NewComponent implements OnInit, OnDestroy {
     this.form.reset();
 
     this.subs.push(
-      this.songService.list$().subscribe(songs => {
+      this.songService.list$().pipe(take(1)).subscribe(songs => {
         const freeSongnumber = this.getFreeSongNumber(songs);
         this.form.controls.number.setValue(freeSongnumber);
       })

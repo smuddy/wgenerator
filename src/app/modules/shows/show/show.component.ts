@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {filter, map, switchMap, tap} from 'rxjs/operators';
+import {filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowService} from '../services/show.service';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import {Show} from '../services/show';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
@@ -83,7 +83,7 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
 })
 export class ShowComponent implements OnInit, OnDestroy {
   public show$: Observable<Show | null> | null = null;
-  public songs: Song[] | null = null;
+  public songs$: Observable<Song[] | null> | null = null;
   public showSongs: ShowSong[] | null = null;
   public showId: string | null = null;
   public showText = false;
@@ -128,7 +128,11 @@ export class ShowComponent implements OnInit, OnDestroy {
       map(param => param as {showId: string}),
       map(param => param.showId),
       tap((_: string) => (this.showId = _)),
-      switchMap((showId: string) => this.showService.read$(showId))
+      switchMap((showId: string) => this.showService.read$(showId)),
+      shareReplay({
+        bufferSize: 1,
+        refCount: true,
+      })
     );
     this.subs.push(
       this.activatedRoute.params
@@ -141,14 +145,15 @@ export class ShowComponent implements OnInit, OnDestroy {
         .subscribe(_ => {
           this.showSongs = _;
           this.cRef.markForCheck();
-        }),
-      this.songService
-        .list$()
-        .pipe(filter(_ => !!_))
-        .subscribe(_ => {
-          this.songs = _;
-          this.cRef.markForCheck();
         })
+    );
+
+    this.songs$ = this.show$.pipe(
+      switchMap(show => (show && !show.published ? this.songService.list$() : of(null))),
+      shareReplay({
+        bufferSize: 1,
+        refCount: true,
+      })
     );
   }
 
@@ -217,7 +222,8 @@ export class ShowComponent implements OnInit, OnDestroy {
   public orderedShowSongs(show: Show): ShowSong[] {
     const list = this.showSongs;
     if (!list) return [];
-    return show.order.map(_ => list.filter(f => f.id === _)[0]);
+    const byId = new Map(list.map(item => [item.id, item] as const));
+    return show.order.map(id => byId.get(id)).filter((song): song is ShowSong => !!song);
   }
 
   public trackBy = (_: number, show: ShowSong) => show?.id;

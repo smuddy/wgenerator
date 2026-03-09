@@ -60,12 +60,14 @@
       </swiper-slide>
     </swiper-container>
 
-    <app-add-song
-      *ngIf="songs && !show.published && !useSwiper"
-      [showSongs]="showSongs"
-      [show]="show"
-      [songs]="songs"
-    ></app-add-song>
+    <ng-container *ngIf="songs$ | async as songs">
+      <app-add-song
+        *ngIf="songs && !show.published && !useSwiper"
+        [showSongs]="showSongs"
+        [show]="show"
+        [songs]="songs"
+      ></app-add-song>
+    </ng-container>
 
     <app-button-row *ngIf="!useSwiper">
       <ng-container *appRole="['leader']">
