@@ -37,9 +37,15 @@ export class ListComponent {
       return filterValues?.owner;
     })
   );
+  public showType$ = this.activatedRoute.queryParams.pipe(
+    map(params => {
+      const filterValues = params as FilterValues;
+      return filterValues?.showType;
+    })
+  );
 
-  public publicShows$ = combineLatest([this.shows$, this.lastMonths$, this.owner$]).pipe(
-    map(([shows, lastMonths, owner]) =>
+  public publicShows$ = combineLatest([this.shows$, this.lastMonths$, this.owner$, this.showType$]).pipe(
+    map(([shows, lastMonths, owner, showType]) =>
       shows
         .filter(f => {
           const d = new Date();
@@ -47,6 +53,7 @@ export class ListComponent {
           return f.published && f.date.toDate() >= d;
         })
         .filter(show => !owner || show.owner === owner)
+        .filter(show => !showType || show.showType === showType)
     )
   );
 
