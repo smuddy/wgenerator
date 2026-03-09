@@ -1,12 +1,9 @@
-@primary-color: #4286f4;
-
-@navigation-background: #fffffff1;
-
-@transition: all 300ms ease-in-out;
-
 :root {
   --color-primary: #4286f4;
   --color-primary-light: #639af3;
+  --primary-color: #4286f4;
+  --navigation-background: #fffffff1;
+  --transition: all 300ms ease-in-out;
 }
 
 html {
@@ -20,9 +17,7 @@ body {
   font-size: 14px;
   color: #333;
 
-  background-image: url("/assets/background.jpg");
-  background-size: cover;
-  background-position: center;
+  background: linear-gradient(39deg, #292e49, #536976, #bbd2c5);
   overflow: auto;
 }
 
@@ -43,8 +38,6 @@ a {
 .mat-mdc-form-field {
   width: 100%;
 }
-
-
 
 
 .content > *:not(router-outlet) {

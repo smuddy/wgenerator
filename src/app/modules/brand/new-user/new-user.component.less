@@ -1,4 +1,6 @@
-@animation-duration: 20s;
+:host {
+  --animation-duration: 20s;
+}
 
 .frame {
   width: 512px;
@@ -11,10 +13,10 @@
 .brand {
   position: absolute;
   left: 0;
-  animation: @animation-duration brand ease-in-out forwards;
+  animation: var(--animation-duration) brand ease-in-out forwards;
   opacity: 0;
   @media screen and (max-width: 860px) {
-    animation: @animation-duration brand-mobile ease-in-out forwards;
+    animation: var(--animation-duration) brand-mobile ease-in-out forwards;
   }
 }
 
@@ -34,7 +36,7 @@
     @media screen and (max-width: 860px) {
       font-size: 40px;
     }
-    animation: @animation-duration welcome ease-in-out forwards;
+    animation: var(--animation-duration) welcome ease-in-out forwards;
   }
 
   .name {
@@ -43,14 +45,14 @@
     @media screen and (max-width: 860px) {
       font-size: 30px;
     }
-    animation: @animation-duration name ease-in-out forwards;
+    animation: var(--animation-duration) name ease-in-out forwards;
   }
 
   .roles {
     opacity: 0;
     font-size: 20px;
     margin-top: 40px;
-    animation: @animation-duration roles ease-in-out forwards;
+    animation: var(--animation-duration) roles ease-in-out forwards;
   }
 }
 

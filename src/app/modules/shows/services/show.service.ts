@@ -30,11 +30,7 @@ export class ShowService {
         () => this.showDataService.list$,
         (user: User | null, shows: Show[]) => ({user, shows})
       ),
-      map(s =>
-        s.shows
-          .filter(show => !show.archived)
-          .filter(show => show.published || (show.owner === s.user?.id && !publishedOnly))
-      )
+      map(s => s.shows.filter(show => !show.archived).filter(show => show.published || (show.owner === s.user?.id && !publishedOnly)))
     );
   }
 
