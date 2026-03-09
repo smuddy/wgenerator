@@ -33,7 +33,25 @@ export class TransposeService {
 
   public getDistance(baseKey: string, targetKey: string): number {
     const scale = getScaleType(baseKey);
-    return scale ? (scale[0].indexOf(targetKey) - scale[0].indexOf(baseKey) ?? scale[1].indexOf(targetKey) - scale[1].indexOf(baseKey)) % 12 : 0;
+    if (!scale) {
+      return 0;
+    }
+
+    const primaryBaseIndex = scale[0].indexOf(baseKey);
+    const primaryTargetIndex = scale[0].indexOf(targetKey);
+
+    if (primaryBaseIndex !== -1 && primaryTargetIndex !== -1) {
+      return (primaryTargetIndex - primaryBaseIndex) % 12;
+    }
+
+    const secondaryBaseIndex = scale[1].indexOf(baseKey);
+    const secondaryTargetIndex = scale[1].indexOf(targetKey);
+
+    if (secondaryBaseIndex !== -1 && secondaryTargetIndex !== -1) {
+      return (secondaryTargetIndex - secondaryBaseIndex) % 12;
+    }
+
+    return 0;
   }
 
   public getMap(baseKey: string, difference: number): TransposeMap | null {
