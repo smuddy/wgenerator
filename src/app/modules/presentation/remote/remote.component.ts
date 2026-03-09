@@ -107,7 +107,8 @@ export class RemoteComponent implements OnDestroy {
         this.showSongs = list;
         this.show = show;
         const order = show?.order ?? [];
-        this.presentationSongs = order.map(id => presentationSongs.find(f => f.id === id) ?? null).filter((s): s is PresentationSong => !!s);
+        const presentationSongsById = new Map(presentationSongs.map(song => [song.id, song] as const));
+        this.presentationSongs = order.map(id => presentationSongsById.get(id) ?? null).filter((s): s is PresentationSong => !!s);
         this.cRef.markForCheck();
       });
 
