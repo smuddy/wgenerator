@@ -22,10 +22,8 @@ export class ShowDataService {
 
   public listRaw$ = () => this.dbService.col$<Show>(this.collection);
 
-  public read$ = (showId: string): Observable<Show | null> => this.list$.pipe(map(_ => _.find(s => s.id === showId) || null));
+  public read$ = (showId: string): Observable<Show | null> => this.dbService.doc$(`${this.collection}/${showId}`);
 
-  // public list$ = (): Observable<Show[]> => this.dbService.col$(this.collection);
-  // public read$ = (showId: string): Observable<Show | null> => this.dbService.doc$(`${this.collection}/${showId}`);
   public update = async (showId: string, data: Partial<Show>): Promise<void> => await this.dbService.doc(`${this.collection}/${showId}`).update(data);
   public add = async (data: Partial<Show>): Promise<string> => (await this.dbService.col(this.collection).add(data)).id;
 }

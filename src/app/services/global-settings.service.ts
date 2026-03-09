@@ -8,15 +8,17 @@ import {shareReplay} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class GlobalSettingsService {
+  private readonly settings$ = this.db.doc$<GlobalSettings>('global/static').pipe(
+    shareReplay({
+      bufferSize: 1,
+      refCount: true,
+    })
+  );
+
   public constructor(private db: DbService) {}
 
   public get get$(): Observable<GlobalSettings | null> {
-    return this.db.doc$<GlobalSettings>('global/static').pipe(
-      shareReplay({
-        bufferSize: 1,
-        refCount: true,
-      })
-    );
+    return this.settings$;
   }
 
   public async set(data: Partial<GlobalSettings>): Promise<void> {

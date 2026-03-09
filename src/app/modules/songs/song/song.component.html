@@ -28,8 +28,7 @@
           <div *ngIf="song.artist">Künstler: {{ song.artist }}</div>
           <div *ngIf="song.label">Verlag: {{ song.label }}</div>
           <div *ngIf="song.origin">Quelle: {{ song.origin }}</div>
-          <div *ngIf="song.origin">Quelle: {{ song.origin }}</div>
-          <div *ngIf="songCount$()|async as count">Wie oft verwendet: {{ count }}</div>
+          <div>Wie oft verwendet: {{ songCount$ | async }}</div>
         </div>
       </div>
 

@@ -56,6 +56,7 @@ export class SongComponent implements OnInit {
   public song$: Observable<Song | null> | null = null;
   public files$: Observable<File[] | null> | null = null;
   public user$: Observable<User | null> | null = null;
+  public songCount$: Observable<number> | null = null;
   public faEdit = faEdit;
   public faDelete = faTrash;
   public faFileCirclePlus = faFileCirclePlus;
@@ -85,6 +86,17 @@ export class SongComponent implements OnInit {
       map(param => param.songId),
       switchMap(songId => this.fileService.read$(songId))
     );
+
+    this.songCount$ = combineLatest([this.user$, this.song$]).pipe(
+      map(([user, song]) => {
+        if (!song) {
+          return 0;
+        }
+
+        return user?.songUsage?.[song.id] ?? 0;
+      }),
+      distinctUntilChanged()
+    );
   }
 
   public getFlags = (flags: string): string[] => {
@@ -105,12 +117,4 @@ export class SongComponent implements OnInit {
     await this.showService.update$(show?.id, {order: [...show.order, newId ?? '']});
     await this.router.navigateByUrl('/shows/' + show.id);
   }
-
-  public songCount$ = () =>
-    combineLatest([this.user$, this.song$]).pipe(
-      map(([user, song]) => {
-        return user.songUsage[song.id];
-      }),
-      distinctUntilChanged()
-    );
 }

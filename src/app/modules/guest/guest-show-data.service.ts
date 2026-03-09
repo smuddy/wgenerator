@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
+import {shareReplay} from 'rxjs/operators';
 import {DbService} from 'src/app/services/db.service';
 import {GuestShow} from './guest-show';
 
@@ -18,7 +18,7 @@ export class GuestShowDataService {
 
   public constructor(private dbService: DbService) {}
 
-  public read$: (id: string) => Observable<GuestShow | null> = (id: string): Observable<GuestShow | null> => this.list$.pipe(map(_ => _.find(s => s.id === id) || null));
+  public read$: (id: string) => Observable<GuestShow | null> = (id: string): Observable<GuestShow | null> => this.dbService.doc$(`${this.collection}/${id}`);
   public update$: (id: string, data: Partial<GuestShow>) => Promise<void> = async (id: string, data: Partial<GuestShow>): Promise<void> =>
     await this.dbService.doc(this.collection + '/' + id).update(data);
   public add: (data: Partial<GuestShow>) => Promise<string> = async (data: Partial<GuestShow>): Promise<string> => (await this.dbService.col(this.collection).add(data)).id;
