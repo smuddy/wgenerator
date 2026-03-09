@@ -5,8 +5,8 @@ import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from '@angula
 import {FilterValues} from './filter-values';
 import {Show} from '../../services/show';
 import {ShowService} from '../../services/show.service';
-import {distinctUntilChanged, map} from 'rxjs/operators';
-import {combineLatest, Observable} from 'rxjs';
+import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {combineLatest, Observable, of} from 'rxjs';
 import {dynamicSort, onlyUnique} from '../../../../services/filter.helper';
 import {UserService} from '../../../../services/user/user.service';
 import {isEqual} from 'lodash';
@@ -66,21 +66,31 @@ export class FilterComponent {
   }
 
   public owners$ = (): Observable<{key: string; value: string}[]> => {
-    return combineLatest([
-      this.showService.list$().pipe(
-        map(shows => {
-          return shows.map(show => show.owner).filter(onlyUnique);
-        })
+    return this.showService.list$().pipe(
+      map(shows =>
+        shows
+          .map(show => show.owner)
+          .filter(onlyUnique)
+          .filter((ownerId): ownerId is string => !!ownerId)
       ),
-      this.userService.users$,
-    ]).pipe(
-      map(([owners, users]) => {
-        return owners
-          .map(ownerId => ({
-            key: ownerId,
-            value: users.find(user => user.id === ownerId)?.name,
-          }))
-          .sort(dynamicSort('value'));
+      switchMap(ownerIds => {
+        if (ownerIds.length === 0) {
+          return of([] as {key: string; value: string}[]);
+        }
+
+        return combineLatest(
+          ownerIds.map(ownerId =>
+            this.userService.getUserbyId$(ownerId).pipe(
+              map(user => ({
+                key: ownerId,
+                value: user?.name,
+              }))
+            )
+          )
+        );
+      }),
+      map(owners => {
+        return owners.sort(dynamicSort('value'));
       }),
       distinctUntilChanged(isEqual),
       map(_ => _ as {key: string; value: string}[])

@@ -35,10 +35,13 @@ export class NewComponent implements OnInit, OnDestroy {
     this.form.reset();
 
     this.subs.push(
-      this.songService.list$().pipe(take(1)).subscribe(songs => {
-        const freeSongnumber = this.getFreeSongNumber(songs);
-        this.form.controls.number.setValue(freeSongnumber);
-      })
+      this.songService
+        .list$()
+        .pipe(take(1))
+        .subscribe(songs => {
+          const freeSongnumber = this.getFreeSongNumber(songs);
+          this.form.controls.number.setValue(freeSongnumber);
+        })
     );
   }
 

@@ -83,14 +83,13 @@ export class RemoteComponent implements OnDestroy {
     globalSettingsService: GlobalSettingsService,
     private cRef: ChangeDetectorRef
   ) {
-    const currentShowId$ = globalSettingsService.get$
-      .pipe(
-        filter((settings): settings is NonNullable<typeof settings> => !!settings),
-        map(_ => _.currentShow),
-        filter((showId): showId is string => !!showId),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$)
-      );
+    const currentShowId$ = globalSettingsService.get$.pipe(
+      filter((settings): settings is NonNullable<typeof settings> => !!settings),
+      map(_ => _.currentShow),
+      filter((showId): showId is string => !!showId),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    );
 
     const show$ = currentShowId$.pipe(
       switchMap(showId => this.showService.read$(showId)),
