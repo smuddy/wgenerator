@@ -1,15 +1,14 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from 'rxjs/operators';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {debounceTime, distinctUntilChanged, filter, map, shareReplay, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ShowService} from '../../shows/services/show.service';
-import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {Config} from '../../../services/config';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {ConfigService} from '../../../services/config.service';
 import {songSwitch} from '../../../widget-modules/components/song-text/animation';
-import {TextRenderingService} from '../../songs/services/text-rendering.service';
 import {PresentationBackground, Show} from '../../shows/services/show';
+import {ShowSong} from '../../shows/services/show-song';
 import {ShowSongService} from '../../shows/services/show-song.service';
 import {openFullscreen} from '../../../services/fullscreen';
 import {AsyncPipe, DatePipe, NgIf} from '@angular/common';
@@ -25,7 +24,7 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
   animations: [songSwitch],
   imports: [NgIf, LogoComponent, SongTextComponent, LegalComponent, AsyncPipe, DatePipe, ShowTypePipe],
 })
-export class MonitorComponent implements OnInit {
+export class MonitorComponent implements OnInit, OnDestroy {
   public song: Song | null = null;
   public zoom = 10;
   public currentShowId: string | null = null;
@@ -37,12 +36,11 @@ export class MonitorComponent implements OnInit {
   public date: Date | null = null;
   public config$: Observable<Config | null>;
   public presentationBackground: PresentationBackground = 'none';
+  private destroy$ = new Subject<void>();
 
   public constructor(
     private showService: ShowService,
     private showSongService: ShowSongService,
-    private songService: SongService,
-    private textRenderingService: TextRenderingService,
     private globalSettingsService: GlobalSettingsService,
     private configService: ConfigService,
     private cRef: ChangeDetectorRef
@@ -52,40 +50,68 @@ export class MonitorComponent implements OnInit {
 
   public ngOnInit(): void {
     openFullscreen();
-    this.globalSettingsService.get$
+    const currentShowId$ = this.globalSettingsService.get$
       .pipe(
         debounceTime(100),
         filter(_ => !!_),
         map(_ => _),
         map(_ => _.currentShow),
         distinctUntilChanged(),
-        tap(_ => (this.currentShowId = _))
-      )
+        tap(_ => (this.currentShowId = _)),
+        takeUntil(this.destroy$)
+      );
+
+    const show$ = currentShowId$
       .pipe(
-        switchMap(_ => this.showService.read$(_)),
-        filter(_ => !!_),
-        map(_ => _),
-        tap<Show>(_ => {
-          this.showType = _.showType;
-          this.date = _.date.toDate();
-          this.index = _.presentationSection;
-          this.presentationBackground = _.presentationBackground;
-          this.presentationDynamicCaption = _.presentationDynamicCaption;
-          this.presentationDynamicText = _.presentationDynamicText;
-          this.zoom = _.presentationZoom ?? 30;
-          if (this.songId !== _.presentationSongId) this.songId = 'empty';
+        switchMap(showId => this.showService.read$(showId)),
+        filter((show): show is Show => !!show),
+        shareReplay({
+          bufferSize: 1,
+          refCount: true,
+        }),
+        takeUntil(this.destroy$)
+      );
+
+    show$
+      .pipe(
+        tap(show => {
+          this.showType = show.showType;
+          this.date = show.date.toDate();
+          this.index = show.presentationSection;
+          this.presentationBackground = show.presentationBackground;
+          this.presentationDynamicCaption = show.presentationDynamicCaption;
+          this.presentationDynamicText = show.presentationDynamicText;
+          this.zoom = show.presentationZoom ?? 30;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => this.cRef.markForCheck());
+
+    show$
+      .pipe(
+        map(show => ({showId: show.id, presentationSongId: show.presentationSongId})),
+        distinctUntilChanged((a, b) => a.showId === b.showId && a.presentationSongId === b.presentationSongId),
+        tap(({presentationSongId}) => {
+          if (this.songId !== presentationSongId) {
+            this.songId = 'empty';
+          }
           setTimeout(() => {
-            this.songId = _.presentationSongId;
+            this.songId = presentationSongId;
             this.cRef.markForCheck();
           }, 600);
         }),
-        switchMap((_: Show) => this.showSongService.read$(_.id, _.presentationSongId)),
-        filter(_ => !!_),
-        map(_ => _ as Song)
+        switchMap(({showId, presentationSongId}) => this.showSongService.read$(showId, presentationSongId)),
+        filter((song): song is ShowSong => !!song),
+        takeUntil(this.destroy$)
       )
-      .subscribe(_ => {
-        this.song = _;
+      .subscribe(song => {
+        this.song = song;
         this.cRef.markForCheck();
       });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
