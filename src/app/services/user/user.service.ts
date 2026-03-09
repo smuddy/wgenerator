@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {BehaviorSubject, firstValueFrom, Observable} from 'rxjs';
-import {filter, map, switchMap, tap} from 'rxjs/operators';
+import {filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {User} from './user';
 import {DbService} from '../db.service';
 import {environment} from '../../../environments/environment';
@@ -13,7 +13,7 @@ import {ShowSongDataService} from '../../modules/shows/services/show-song-data.s
   providedIn: 'root',
 })
 export class UserService {
-  public users$ = new BehaviorSubject<User[]>([]);
+  public users$ = this.db.col$<User>('users').pipe(shareReplay({bufferSize: 1, refCount: true}));
   private iUserId$ = new BehaviorSubject<string | null>(null);
   private iUser$ = new BehaviorSubject<User | null>(null);
 
@@ -32,8 +32,6 @@ export class UserService {
         switchMap(uid => this.readUser$(uid))
       )
       .subscribe(_ => this.iUser$.next(_));
-
-    this.db.col$<User>('users/').subscribe(_ => this.users$.next(_));
   }
 
   public get userId$(): Observable<string | null> {
@@ -62,7 +60,7 @@ export class UserService {
 
   public loggedIn$: () => Observable<boolean> = () => this.afAuth.authState.pipe(map(_ => !!_));
 
-  public list$: () => Observable<User[]> = (): Observable<User[]> => this.db.col$('users');
+  public list$: () => Observable<User[]> = (): Observable<User[]> => this.users$;
 
   public async logout(): Promise<void> {
     await this.afAuth.signOut();

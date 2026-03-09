@@ -32,8 +32,7 @@ export class ShowService {
       ),
       map(s =>
         s.shows
-          .sort((a, b) => a.date.toMillis() - b.date.toMillis())
-          .filter(_ => !_.archived)
+          .filter(show => !show.archived)
           .filter(show => show.published || (show.owner === s.user?.id && !publishedOnly))
       )
     );

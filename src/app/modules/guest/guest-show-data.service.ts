@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 import {DbService} from 'src/app/services/db.service';
 import {GuestShow} from './guest-show';
 
@@ -8,12 +8,15 @@ import {GuestShow} from './guest-show';
   providedIn: 'root',
 })
 export class GuestShowDataService {
-  public list$: BehaviorSubject<GuestShow[]> = new BehaviorSubject<GuestShow[]>([]);
   private collection = 'guest';
+  public list$: Observable<GuestShow[]> = this.dbService.col$<GuestShow>(this.collection).pipe(
+    shareReplay({
+      bufferSize: 1,
+      refCount: true,
+    })
+  );
 
-  public constructor(private dbService: DbService) {
-    this.dbService.col$<GuestShow>(this.collection).subscribe(_ => this.list$.next(_));
-  }
+  public constructor(private dbService: DbService) {}
 
   public read$: (id: string) => Observable<GuestShow | null> = (id: string): Observable<GuestShow | null> => this.list$.pipe(map(_ => _.find(s => s.id === id) || null));
   public update$: (id: string, data: Partial<GuestShow>) => Promise<void> = async (id: string, data: Partial<GuestShow>): Promise<void> =>

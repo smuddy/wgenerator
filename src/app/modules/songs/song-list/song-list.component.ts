@@ -26,16 +26,11 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 })
 export class SongListComponent implements OnInit, OnDestroy {
   public anyFilterActive = false;
-  public songs$: Observable<Song[]> | null = combineLatest([
+  public songs$: Observable<Song[]> = combineLatest([
     this.activatedRoute.queryParams.pipe(map(_ => _ as FilterValues)),
-    this.activatedRoute.data.pipe(
-      map(data => data.songList as Song[]),
-      map(songs => songs.sort((a, b) => a.number - b.number))
-    ),
+    this.songService.list$().pipe(map(songs => [...songs].sort((a, b) => a.number - b.number))),
   ]).pipe(
-    map(_ => {
-      const songs = _[1];
-      const filter = _[0];
+    map(([filter, songs]) => {
       this.anyFilterActive = this.checkIfFilterActive(filter);
       return songs.filter(song => this.filter(song, filter)).sort((a, b) => a.title?.localeCompare(b.title));
     })

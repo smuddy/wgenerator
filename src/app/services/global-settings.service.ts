@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {DbService} from './db.service';
 import {GlobalSettings} from './global-settings';
 import {Observable} from 'rxjs';
+import {shareReplay} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,12 @@ export class GlobalSettingsService {
   public constructor(private db: DbService) {}
 
   public get get$(): Observable<GlobalSettings | null> {
-    return this.db.doc$<GlobalSettings>('global/static');
+    return this.db.doc$<GlobalSettings>('global/static').pipe(
+      shareReplay({
+        bufferSize: 1,
+        refCount: true,
+      })
+    );
   }
 
   public async set(data: Partial<GlobalSettings>): Promise<void> {

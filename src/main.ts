@@ -14,6 +14,8 @@ import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AngularFireAuthGuardModule} from '@angular/fire/compat/auth-guard';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {AppComponent} from './app/app.component';
+import {provideFirebaseApp, initializeApp} from '@angular/fire/app';
+import {provideFirestore, getFirestore} from '@angular/fire/firestore';
 
 if (environment.production) {
   enableProdMode();
@@ -35,8 +37,9 @@ bootstrapApplication(AppComponent, {
       AngularFireAuthGuardModule,
       FontAwesomeModule
     ),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
-    provideAnimations(),
     provideAnimations(),
   ],
 }).catch(err => console.error(err));

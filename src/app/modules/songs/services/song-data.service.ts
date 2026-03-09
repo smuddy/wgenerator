@@ -1,18 +1,25 @@
 import {Injectable} from '@angular/core';
 import {Song} from './song';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {DbService} from '../../../services/db.service';
-import {map} from 'rxjs/operators';
+import {map, shareReplay, startWith} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SongDataService {
-  public list$ = new BehaviorSubject<Song[]>([]);
   private collection = 'songs';
+  public list$: Observable<Song[]> = this.dbService.col$<Song>(this.collection).pipe(
+    startWith([] as Song[]), // immediate empty emit keeps UI responsive while first snapshot arrives
+    shareReplay({
+      bufferSize: 1,
+      refCount: false, // keep the listener alive after first subscription to avoid reloading on navigation
+    })
+  );
 
   public constructor(private dbService: DbService) {
-    this.dbService.col$<Song>(this.collection).subscribe(_ => this.list$.next(_));
+    // Warm the shared stream once at startup to avoid first-navigation delay.
+    // this.list$.subscribe();
   }
 
   // public list$ = (): Observable<Song[]> => this.dbService.col$(this.collection);
