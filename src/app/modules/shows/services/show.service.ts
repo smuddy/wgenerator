@@ -23,6 +23,7 @@ export class ShowService {
   }
 
   public read$ = (showId: string): Observable<Show | null> => this.showDataService.read$(showId);
+  public listPublicSince$ = (lastMonths: number): Observable<Show[]> => this.showDataService.listPublicSince$(lastMonths);
 
   public list$(publishedOnly = false): Observable<Show[]> {
     return this.userService.user$.pipe(

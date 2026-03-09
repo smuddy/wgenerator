@@ -54,6 +54,8 @@ export class FilterComponent {
     activatedRoute.queryParams.subscribe(params => {
       const filterValues = params as FilterValues;
       if (filterValues.time) this.filterFormGroup.controls.time.setValue(+filterValues.time);
+      this.filterFormGroup.controls.owner.setValue(filterValues.owner ?? null, {emitEvent: false});
+      this.filterFormGroup.controls.showType.setValue(filterValues.showType ?? null, {emitEvent: false});
     });
 
     this.filterFormGroup.controls.time.valueChanges.subscribe(_ => void this.filerValueChanged('time', _ as number));
@@ -87,7 +89,7 @@ export class FilterComponent {
 
   private async filerValueChanged<T>(key: string, value: T): Promise<void> {
     const route = this.router.createUrlTree([this.route], {
-      queryParams: {[key]: value},
+      queryParams: {[key]: value || null},
       queryParamsHandling: 'merge',
     });
     await this.router.navigateByUrl(route);

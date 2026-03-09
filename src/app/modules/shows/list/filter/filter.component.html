@@ -14,6 +14,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Ersteller</mat-label>
       <mat-select formControlName="owner">
+        <mat-option [value]="null">Alle</mat-option>
         <mat-option *ngFor="let owner of owners" [value]="owner.key">{{
             owner.value
           }}
@@ -24,6 +25,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Art der Veranstaltung</mat-label>
       <mat-select formControlName="showType">
+        <mat-option [value]="null">Alle</mat-option>
         <mat-optgroup label="öffentlich">
           <mat-option *ngFor="let key of showTypePublic" [value]="key">{{
               key | showType
@@ -41,5 +43,5 @@
 
   </div>
 
-  <i>Anzahl der Suchergebnisse: {{ shows.length }}</i>
+  <i>Anzahl der Suchergebnisse: {{ shows?.length ?? 0 }}</i>
 </div>

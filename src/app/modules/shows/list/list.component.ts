@@ -5,7 +5,7 @@ import {fade} from '../../../animations';
 import {ShowService} from '../services/show.service';
 import {FilterValues} from './filter/filter-values';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {RoleDirective} from '../../../services/user/role.directive';
 import {ListHeaderComponent} from '../../../widget-modules/components/list-header/list-header.component';
 import {AsyncPipe, NgFor, NgIf} from '@angular/common';
@@ -43,18 +43,26 @@ export class ListComponent {
       return filterValues?.showType;
     })
   );
+  public queriedPublicShows$ = this.lastMonths$.pipe(switchMap(lastMonths => this.showService.listPublicSince$(lastMonths)));
 
-  public publicShows$ = combineLatest([this.shows$, this.lastMonths$, this.owner$, this.showType$]).pipe(
-    map(([shows, lastMonths, owner, showType]) =>
-      shows
-        .filter(f => {
-          const d = new Date();
-          d.setMonth(d.getMonth() - lastMonths);
-          return f.published && f.date.toDate() >= d;
-        })
+  public fallbackPublicShows$ = combineLatest([this.shows$, this.lastMonths$]).pipe(
+    map(([shows, lastMonths]) => {
+      const startDate = new Date();
+      startDate.setHours(0, 0, 0, 0);
+      startDate.setDate(startDate.getDate() - lastMonths * 30);
+
+      return shows.filter(show => show.published && !show.archived && show.date.toDate() >= startDate);
+    })
+  );
+
+  public publicShows$ = combineLatest([this.queriedPublicShows$, this.fallbackPublicShows$, this.owner$, this.showType$]).pipe(
+    map(([queriedShows, fallbackShows, owner, showType]) => {
+      const shows = queriedShows.length > 0 || fallbackShows.length === 0 ? queriedShows : fallbackShows;
+
+      return shows
         .filter(show => !owner || show.owner === owner)
-        .filter(show => !showType || show.showType === showType)
-    )
+        .filter(show => !showType || show.showType === showType);
+    })
   );
 
   public constructor(
