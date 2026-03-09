@@ -12,7 +12,7 @@ describe('SongListComponent', () => {
   const songs = [{title: 'title1'}];
 
   const mockSongService = {
-    list: () => of(songs),
+    list$: () => of(songs),
   };
 
   beforeEach(waitForAsync(() => {

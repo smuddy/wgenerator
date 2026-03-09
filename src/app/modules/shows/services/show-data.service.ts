@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {DbService} from '../../../services/db.service';
 import {Show} from './show';
 import {map, shareReplay} from 'rxjs/operators';
-import {orderBy, QueryConstraint, Timestamp, where} from '@angular/fire/firestore';
+import {orderBy, QueryConstraint, Timestamp, where} from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',

@@ -1,4 +1,4 @@
-import {Injectable, inject} from '@angular/core';
+import {EnvironmentInjector, Injectable, inject, runInInjectionContext} from '@angular/core';
 import {Auth, authState, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
 import {BehaviorSubject, firstValueFrom, Observable} from 'rxjs';
 import {filter, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
@@ -25,6 +25,7 @@ export class UserService {
   private router = inject(Router);
   private showDataService = inject(ShowDataService);
   private showSongDataService = inject(ShowSongDataService);
+  private environmentInjector = inject(EnvironmentInjector);
 
   public users$ = this.db.col$<User>('users').pipe(shareReplay({bufferSize: 1, refCount: true}));
   private iUserId$ = new BehaviorSubject<string | null>(null);
@@ -32,7 +33,7 @@ export class UserService {
   private userByIdCache = new Map<string, Observable<User | null>>();
 
   public constructor() {
-    authState(this.auth)
+    this.authState$()
       .pipe(
         filter(auth => !!auth),
         map(auth => auth?.uid ?? ''),
@@ -65,7 +66,7 @@ export class UserService {
   };
 
   public async login(user: string, password: string): Promise<string | null> {
-    const aUser = await signInWithEmailAndPassword(this.auth, user, password);
+    const aUser = await this.runInFirebaseContext(() => signInWithEmailAndPassword(this.auth, user, password));
     if (!aUser.user) return null;
     const dUser = await this.readUser(aUser.user.uid);
     if (!dUser) return null;
@@ -76,12 +77,12 @@ export class UserService {
     return aUser.user.uid;
   }
 
-  public loggedIn$: () => Observable<boolean> = () => authState(this.auth).pipe(map(_ => !!_));
+  public loggedIn$: () => Observable<boolean> = () => this.authState$().pipe(map(_ => !!_));
 
   public list$: () => Observable<User[]> = (): Observable<User[]> => this.users$;
 
   public async logout(): Promise<void> {
-    await signOut(this.auth);
+    await this.runInFirebaseContext(() => signOut(this.auth));
     this.iUser$.next(null);
     this.iUserId$.next(null);
   }
@@ -92,11 +93,11 @@ export class UserService {
 
   public async changePassword(user: string): Promise<void> {
     const url = environment.url;
-    await sendPasswordResetEmail(this.auth, user, {url});
+    await this.runInFirebaseContext(() => sendPasswordResetEmail(this.auth, user, {url}));
   }
 
   public async createNewUser(user: string, name: string, password: string): Promise<void> {
-    const aUser = await createUserWithEmailAndPassword(this.auth, user, password);
+    const aUser = await this.runInFirebaseContext(() => createUserWithEmailAndPassword(this.auth, user, password));
     if (!aUser.user) return;
     const userId = aUser.user.uid;
     await this.db.doc('users/' + userId).set({name, chordMode: 'onlyFirst', songUsage: {}});
@@ -176,6 +177,8 @@ export class UserService {
     return role.split(';').includes('admin');
   }
 
+  private authState$ = () => runInInjectionContext(this.environmentInjector, () => authState(this.auth));
+  private runInFirebaseContext = <T>(factory: () => T): T => runInInjectionContext(this.environmentInjector, factory);
   private readUser$ = (uid: string) => this.db.doc$<User>('users/' + uid);
   private readUser: (uid: string) => Promise<User | null> = (uid: string) => firstValueFrom(this.readUser$(uid));
 }

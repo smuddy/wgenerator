@@ -17,14 +17,15 @@ export class GuestShowService {
       date: show.date,
       songs: songs,
     };
+    let shareId = show.shareId;
 
     if (!show.shareId) {
-      const shareId = await this.guestShowDataService.add(data);
+      shareId = await this.guestShowDataService.add(data);
       await this.showService.update$(show.id, {shareId});
     } else {
       await this.guestShowDataService.update$(show.shareId, data);
     }
 
-    return window.location.protocol + '//' + window.location.host + '/guest/' + show.shareId;
+    return window.location.protocol + '//' + window.location.host + '/guest/' + shareId;
   }
 }

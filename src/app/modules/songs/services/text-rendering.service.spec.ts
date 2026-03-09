@@ -73,7 +73,7 @@ Cool bridge without any chords
     void expect(sections[1].lines[2].type).toBe(LineType.chord);
     void expect(sections[1].lines[2].text).toBe(' a d e f g a h c b');
     void expect(sections[2].lines[0].type).toBe(LineType.chord);
-    void expect(sections[2].lines[0].text).toBe('c c# db c7   cmaj7    c/e');
+    void expect(sections[2].lines[0].text).toBe('c c♯ d♭ c7   cmaj7    c/e');
 
     // c c# db c7   cmaj7    c/e
     void expect(sections[2].lines[0].chords).toEqual([
@@ -93,7 +93,7 @@ g#       F#         E          g#       F#          E
 text`;
     const sections = service.parse(text, null);
     void expect(sections[0].lines[0].type).toBe(LineType.chord);
-    void expect(sections[0].lines[0].text).toBe('g#       F#         E          g#       F#          E');
+    void expect(sections[0].lines[0].text).toBe('g♯       F♯         E          g♯       F♯          E');
     void expect(sections[0].lines[1].type).toBe(LineType.text);
     void expect(sections[0].lines[1].text).toBe('text');
   });

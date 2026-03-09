@@ -11,6 +11,19 @@ type ScaleVariants = [string[], string[]];
   providedIn: 'root',
 })
 export class TransposeService {
+  private readonly enharmonicAliases: Array<[string, string]> = [
+    ['C#', 'Db'],
+    ['D#', 'Eb'],
+    ['F#', 'Gb'],
+    ['G#', 'Ab'],
+    ['A#', 'B'],
+    ['c#', 'db'],
+    ['d#', 'eb'],
+    ['f#', 'gb'],
+    ['g#', 'ab'],
+    ['a#', 'b'],
+  ];
+
   private readonly keyToSemitone: Record<string, number> = {
     C: 0,
     'C#': 1,
@@ -102,6 +115,15 @@ export class TransposeService {
         const source = sourceScale[i];
         const mappedIndex = (i + difference + 12) % 12;
         map[source] = targetScale[mappedIndex];
+      }
+    });
+
+    this.enharmonicAliases.forEach(([left, right]) => {
+      if (map[left] && !map[right]) {
+        map[right] = map[left];
+      }
+      if (map[right] && !map[left]) {
+        map[left] = map[right];
       }
     });
 

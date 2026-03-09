@@ -1,4 +1,4 @@
-import {Component, Input, inject} from '@angular/core';
+import {Component, EnvironmentInjector, Input, inject, runInInjectionContext} from '@angular/core';
 import {File} from '../../services/file';
 import {getDownloadURL, ref, Storage} from '@angular/fire/storage';
 import {from, Observable} from 'rxjs';
@@ -12,13 +12,14 @@ import {AsyncPipe} from '@angular/common';
 })
 export class FileComponent {
   private storage = inject(Storage);
+  private environmentInjector = inject(EnvironmentInjector);
 
   public url$: Observable<string> | null = null;
   public name = '';
 
   @Input()
   public set file(file: File) {
-    this.url$ = from(getDownloadURL(ref(this.storage, file.path + '/' + file.name)));
+    this.url$ = from(runInInjectionContext(this.environmentInjector, () => getDownloadURL(ref(this.storage, file.path + '/' + file.name))));
     this.name = file.name;
   }
 }

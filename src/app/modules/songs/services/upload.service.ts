@@ -1,4 +1,4 @@
-import {Injectable, inject} from '@angular/core';
+import {EnvironmentInjector, Injectable, inject, runInInjectionContext} from '@angular/core';
 import {Upload} from './upload';
 import {FileDataService} from './file-data.service';
 import {ref, Storage, uploadBytesResumable} from '@angular/fire/storage';
@@ -11,14 +11,19 @@ import {FileServer} from './fileServer';
 export class UploadService extends FileBase {
   private fileDataService = inject(FileDataService);
   private storage = inject(Storage);
+  private environmentInjector = inject(EnvironmentInjector);
 
   public pushUpload(songId: string, upload: Upload): void {
     const directory = this.directory(songId);
     const filePath = `${directory}/${upload.file.name}`;
     upload.path = directory;
 
-    const storageRef = ref(this.storage, filePath);
-    const task = uploadBytesResumable(storageRef, upload.file);
+    const {task} = runInInjectionContext(this.environmentInjector, () => {
+      const storageRef = ref(this.storage, filePath);
+      return {
+        task: uploadBytesResumable(storageRef, upload.file),
+      };
+    });
 
     task.on(
       'state_changed',

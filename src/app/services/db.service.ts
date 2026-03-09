@@ -1,4 +1,4 @@
-import {Injectable, inject} from '@angular/core';
+import {EnvironmentInjector, Injectable, inject, runInInjectionContext} from '@angular/core';
 import {
   addDoc,
   collection,
@@ -25,7 +25,8 @@ type DocumentPredicate<T> = string | DbDocument<T>;
 export class DbCollection<T> {
   public constructor(
     private readonly fs: Firestore,
-    private readonly path: string
+    private readonly path: string,
+    private readonly environmentInjector: EnvironmentInjector
   ) {}
 
   public add(data: Partial<T>): Promise<DocumentReference<T>> {
@@ -33,7 +34,7 @@ export class DbCollection<T> {
   }
 
   public valueChanges(options?: {idField?: string}): Observable<T[]> {
-    return collectionData(this.ref, options as {idField?: never}) as Observable<T[]>;
+    return runInInjectionContext(this.environmentInjector, () => collectionData(this.ref, options as {idField?: never}) as Observable<T[]>);
   }
 
   private get ref(): CollectionReference<DocumentData> {
@@ -44,7 +45,8 @@ export class DbCollection<T> {
 export class DbDocument<T> {
   public constructor(
     private readonly fs: Firestore,
-    private readonly path: string
+    private readonly path: string,
+    private readonly environmentInjector: EnvironmentInjector
   ) {}
 
   public set(data: Partial<T>): Promise<void> {
@@ -60,11 +62,14 @@ export class DbDocument<T> {
   }
 
   public collection<U>(subPath: string): DbCollection<U> {
-    return new DbCollection<U>(this.fs, `${this.path}/${subPath}`);
+    return new DbCollection<U>(this.fs, `${this.path}/${subPath}`, this.environmentInjector);
   }
 
   public valueChanges(options?: {idField?: string}): Observable<(NonNullable<T> & {id?: string}) | undefined> {
-    return docData(this.ref as DocumentReference<T>, options as {idField?: never}) as Observable<(NonNullable<T> & {id?: string}) | undefined>;
+    return runInInjectionContext(
+      this.environmentInjector,
+      () => docData(this.ref as DocumentReference<T>, options as {idField?: never}) as Observable<(NonNullable<T> & {id?: string}) | undefined>
+    );
   }
 
   private get ref(): DocumentReference<DocumentData> {
@@ -77,13 +82,14 @@ export class DbDocument<T> {
 })
 export class DbService {
   private fs = inject(Firestore);
+  private environmentInjector = inject(EnvironmentInjector);
 
   public col<T>(ref: CollectionPredicate<T>): DbCollection<T> {
-    return typeof ref === 'string' ? new DbCollection<T>(this.fs, ref) : ref;
+    return typeof ref === 'string' ? new DbCollection<T>(this.fs, ref, this.environmentInjector) : ref;
   }
 
   public doc<T>(ref: DocumentPredicate<T>): DbDocument<T> {
-    return typeof ref === 'string' ? new DbDocument<T>(this.fs, ref) : ref;
+    return typeof ref === 'string' ? new DbDocument<T>(this.fs, ref, this.environmentInjector) : ref;
   }
 
   public doc$<T>(ref: DocumentPredicate<T>): Observable<(NonNullable<T> & {id?: string}) | null> {
@@ -98,6 +104,6 @@ export class DbService {
     }
 
     const q = query(collection(this.fs, ref), ...queryConstraints);
-    return collectionData(q, {idField: 'id'}) as Observable<T[]>;
+    return runInInjectionContext(this.environmentInjector, () => collectionData(q, {idField: 'id'}) as Observable<T[]>);
   }
 }

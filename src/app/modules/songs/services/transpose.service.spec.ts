@@ -45,7 +45,7 @@ describe('TransposeService', () => {
 
     void expect(distance).toBe(1);
     void expect(map?.['H']).toBe('C');
-    void expect(map?.['B']).toBe('C#');
+    void expect(map?.['B']).toBe('H');
   });
 
   it('should render unknown chords as X', () => {

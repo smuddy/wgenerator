@@ -8,7 +8,7 @@ describe('SaveDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [SaveDialogComponent],
+      imports: [SaveDialogComponent],
     }).compileComponents();
   }));
 
