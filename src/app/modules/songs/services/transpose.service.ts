@@ -174,8 +174,10 @@ export class TransposeService {
     // Do not replace this with the original token without explicit product approval.
     const renderedChord = scaleMapping[chord.chord] ?? 'X';
     const renderedSlashChord = chord.slashChord ? (scaleMapping[chord.slashChord] ?? 'X') : '';
+    const prefix = chord.prefix ?? '';
+    const suffix = chord.suffix ?? '';
 
-    return renderedChord + (chord.add ?? '') + (renderedSlashChord ? '/' + renderedSlashChord : '');
+    return prefix + renderedChord + (chord.add ?? '') + (renderedSlashChord ? '/' + renderedSlashChord : '') + suffix;
   }
 
   private getSemitone(key: string): number | undefined {

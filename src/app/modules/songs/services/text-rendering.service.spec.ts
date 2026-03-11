@@ -276,6 +276,39 @@ Text`;
     ]);
   });
 
+  it('should keep parentheses around alternative chord groups', () => {
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
+    const text = `Strophe
+C F G e C  (F G)
+Text`;
+
+    const sections = service.parse(text, null);
+
+    void expect(sections[0].lines[0].type).toBe(LineType.chord);
+    void expect(sections[0].lines[0].text).toBe('C F G e C  (F G)');
+    void expect(sections[0].lines[0].chords).toEqual([
+      {chord: 'C', length: 1, position: 0, add: null, slashChord: null, addDescriptor: null},
+      {chord: 'F', length: 1, position: 2, add: null, slashChord: null, addDescriptor: null},
+      {chord: 'G', length: 1, position: 4, add: null, slashChord: null, addDescriptor: null},
+      {chord: 'e', length: 1, position: 6, add: null, slashChord: null, addDescriptor: null},
+      {chord: 'C', length: 1, position: 8, add: null, slashChord: null, addDescriptor: null},
+      {chord: 'F', length: 2, position: 11, add: null, slashChord: null, addDescriptor: null, prefix: '('},
+      {chord: 'G', length: 2, position: 14, add: null, slashChord: null, addDescriptor: null, suffix: ')'},
+    ]);
+  });
+
+  it('should transpose multiple chords inside a parenthesized group', () => {
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
+    const text = `Strophe
+C F G e C  (F G)
+Text`;
+
+    const sections = service.parse(text, {baseKey: 'C', targetKey: 'D'});
+
+    void expect(sections[0].lines[0].type).toBe(LineType.chord);
+    void expect(sections[0].lines[0].text).toBe('D G A f♯ D  (G A)');
+  });
+
   it('should treat compact prose-like tokens as text when the chord ratio is too low', () => {
     const service: TextRenderingService = TestBed.inject(TextRenderingService);
     const text = `Strophe
@@ -398,5 +431,25 @@ Text`;
     void expect(service.validateChordNotation(text)).toEqual([
       jasmine.objectContaining({lineNumber: 2, token: 'Foo', reason: 'unknown_token', suggestion: null}),
     ]);
+  });
+
+  it('should reject tabs on chord lines', () => {
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
+    const text = 'Strophe\nC\tG\ta\nText';
+
+    void expect(service.validateChordNotation(text)).toContain(
+      jasmine.objectContaining({
+        lineNumber: 2,
+        token: '\t',
+        reason: 'tab_character',
+      })
+    );
+  });
+
+  it('should not flag tabs on non chord lines', () => {
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
+    const text = 'Strophe\nDas\tist normaler Text\nText';
+
+    void expect(service.validateChordNotation(text)).toEqual([]);
   });
 });

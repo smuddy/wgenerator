@@ -8,11 +8,13 @@ import {Chord, ChordAddDescriptor, ChordValidationIssue} from './chord';
 import {Line} from './line';
 
 interface ParsedValidationToken {
+  prefix: string;
   root: string;
   suffix: string;
   slashChord: string | null;
   rootWasAlias: boolean;
   slashWasAlias: boolean;
+  tokenSuffix: string;
 }
 
 interface ChordLineValidationResult {
@@ -225,16 +227,24 @@ export class TextRenderingService {
       return {issues: [], isChordLike: false};
     }
 
+    const issues: ChordValidationIssue[] = [];
+    if (line.includes('\t')) {
+      issues.push(this.createTabCharacterIssue(line, lineNumber));
+    }
+
     return {
-      issues: parsedTokens
-        .map(entry => {
+      issues: [
+        ...issues,
+        ...parsedTokens
+          .map(entry => {
           if (!entry.parsed) {
             return this.createUnknownTokenIssue(line, lineNumber, entry.token);
           }
 
           return this.createValidationIssue(line, lineNumber, entry.token, entry.parsed);
         })
-        .filter((issue): issue is ChordValidationIssue => issue !== null),
+          .filter((issue): issue is ChordValidationIssue => issue !== null),
+      ],
       isChordLike: true,
     };
   }
@@ -244,18 +254,19 @@ export class TextRenderingService {
   }
 
   private parseChordToken(token: string, position: number): Chord | null {
-    const root = this.readChordRoot(token, 0);
+    const decoratedToken = this.splitTokenDecorators(token);
+    const root = this.readChordRoot(decoratedToken.core, 0);
     if (!root) {
       return null;
     }
 
     let cursor = root.length;
-    const suffix = this.readChordSuffix(token, cursor);
+    const suffix = this.readChordSuffix(decoratedToken.core, cursor);
     cursor += suffix.length;
 
     let slashChord: string | null = null;
-    if (token[cursor] === '/') {
-      const slash = this.readChordRoot(token, cursor + 1);
+    if (decoratedToken.core[cursor] === '/') {
+      const slash = this.readChordRoot(decoratedToken.core, cursor + 1);
       if (!slash) {
         return null;
       }
@@ -263,7 +274,7 @@ export class TextRenderingService {
       cursor += 1 + slash.length;
     }
 
-    if (cursor !== token.length) {
+    if (cursor !== decoratedToken.core.length) {
       return null;
     }
 
@@ -274,6 +285,8 @@ export class TextRenderingService {
       slashChord,
       add: suffix || null,
       addDescriptor: this.parseChordAddDescriptor(suffix || null),
+      prefix: decoratedToken.prefix || undefined,
+      suffix: decoratedToken.suffix || undefined,
     };
   }
 
@@ -350,19 +363,20 @@ export class TextRenderingService {
   }
 
   private parseValidationToken(token: string): ParsedValidationToken | null {
-    const root = this.readValidationChordRoot(token, 0);
+    const decoratedToken = this.splitTokenDecorators(token);
+    const root = this.readValidationChordRoot(decoratedToken.core, 0);
     if (!root) {
       return null;
     }
 
     let cursor = root.length;
-    const suffix = this.readValidationChordSuffix(token, cursor);
+    const suffix = this.readValidationChordSuffix(decoratedToken.core, cursor);
     cursor += suffix.length;
 
     let slashChord: string | null = null;
     let slashWasAlias = false;
-    if (token[cursor] === '/') {
-      const slash = this.readValidationChordRoot(token, cursor + 1);
+    if (decoratedToken.core[cursor] === '/') {
+      const slash = this.readValidationChordRoot(decoratedToken.core, cursor + 1);
       if (!slash) {
         return null;
       }
@@ -371,16 +385,18 @@ export class TextRenderingService {
       cursor += 1 + slash.length;
     }
 
-    if (cursor !== token.length) {
+    if (cursor !== decoratedToken.core.length) {
       return null;
     }
 
     return {
+      prefix: decoratedToken.prefix,
       root: root.root,
       suffix,
       slashChord,
       rootWasAlias: root.wasAlias,
       slashWasAlias,
+      tokenSuffix: decoratedToken.suffix,
     };
   }
 
@@ -449,6 +465,17 @@ export class TextRenderingService {
     };
   }
 
+  private createTabCharacterIssue(line: string, lineNumber: number): ChordValidationIssue {
+    return {
+      lineNumber,
+      lineText: line,
+      token: '\t',
+      suggestion: null,
+      reason: 'tab_character',
+      message: 'Tabulatoren sind in Akkordzeilen nicht erlaubt, bitte Leerzeichen verwenden',
+    };
+  }
+
   private getCanonicalChordToken(parsed: ParsedValidationToken): string {
     const descriptor = this.parseChordAddDescriptor(parsed.suffix);
     const normalizedSuffix = this.normalizeSuffix(parsed.suffix);
@@ -468,7 +495,7 @@ export class TextRenderingService {
       ? (this.isMinorRoot(root) ? this.toMinorRoot(parsed.slashChord) : this.toMajorRoot(parsed.slashChord))
       : null;
 
-    return root + suffix + (slashChord ? `/${slashChord}` : '');
+    return parsed.prefix + root + suffix + (slashChord ? `/${slashChord}` : '') + parsed.tokenSuffix;
   }
 
   private normalizeSuffix(suffix: string): string {
@@ -529,6 +556,20 @@ export class TextRenderingService {
 
   private toMajorRoot(root: string): string {
     return root[0].toUpperCase() + root.slice(1);
+  }
+
+  private splitTokenDecorators(token: string): {prefix: string; core: string; suffix: string} {
+    const prefixMatch = token.match(/^\(+/);
+    const suffixMatch = token.match(/\)+$/);
+    const prefix = prefixMatch?.[0] ?? '';
+    const suffix = suffixMatch?.[0] ?? '';
+    const core = token.slice(prefix.length, token.length - suffix.length);
+
+    return {
+      prefix,
+      core,
+      suffix,
+    };
   }
 
   private parseChordAddDescriptor(suffix: string | null): ChordAddDescriptor | null {

@@ -13,7 +13,7 @@ export interface ChordValidationIssue {
   lineText: string;
   token: string;
   suggestion: string | null;
-  reason: 'alias' | 'minor_format' | 'major_format' | 'invalid_suffix' | 'unknown_token';
+  reason: 'alias' | 'minor_format' | 'major_format' | 'invalid_suffix' | 'unknown_token' | 'tab_character';
   message: string;
 }
 
@@ -24,4 +24,6 @@ export interface Chord {
   slashChord: string | null;
   add: string | null;
   addDescriptor?: ChordAddDescriptor | null;
+  prefix?: string;
+  suffix?: string;
 }
