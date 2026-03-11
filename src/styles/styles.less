@@ -37,8 +37,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  overflow: hidden;
+  scroll-behavior: auto;
 }
 
 body {
@@ -46,9 +45,15 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 14px;
   color: var(--text);
+  position: relative;
+}
 
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
   background: linear-gradient(39deg, var(--bg-deep), var(--bg-mid), var(--bg-soft));
-  overflow: auto;
+  z-index: -1;
 }
 
 p {
@@ -101,10 +106,6 @@ body .cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing {
   &:hover {
     opacity: 1;
   }
-}
-
-html, body {
-  height: 100vh;
 }
 
 body {

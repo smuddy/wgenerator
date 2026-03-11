@@ -12,6 +12,6 @@ export class SongListResolver {
   private songService = inject(SongService);
 
   public resolve(): Observable<Song[]> {
-    return this.songService.list$().pipe(take(1));
+    return this.songService.listLoaded$().pipe(take(1));
   }
 }

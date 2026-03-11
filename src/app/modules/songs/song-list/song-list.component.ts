@@ -1,13 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject} from '@angular/core';
-import {SongService} from '../services/song.service';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Song} from '../services/song';
 import {map} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
 import {fade} from '../../../animations';
-import {RouterLink} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {filterSong} from '../../../services/filter.helper';
 import {FilterValues} from './filter/filter-values';
-import {ScrollService} from '../../../services/scroll.service';
 import {faBalanceScaleRight, faCheck, faPencilRuler} from '@fortawesome/free-solid-svg-icons';
 import {TextRenderingService} from '../services/text-rendering.service';
 import {FilterStoreService} from '../../../services/filter-store.service';
@@ -30,16 +28,15 @@ interface SongListItem extends Song {
   animations: [fade],
   imports: [ListHeaderComponent, FilterComponent, CardComponent, RouterLink, RoleDirective, FaIconComponent, AsyncPipe],
 })
-export class SongListComponent implements OnInit, OnDestroy {
-  private songService = inject(SongService);
-  private scrollService = inject(ScrollService);
+export class SongListComponent {
+  private route = inject(ActivatedRoute);
   private textRenderingService = inject(TextRenderingService);
   private filterStore = inject(FilterStoreService);
 
   public anyFilterActive = false;
   public songs$: Observable<SongListItem[]> = combineLatest([
     this.filterStore.songFilter$,
-    this.songService.list$().pipe(map(songs => [...songs].sort((a, b) => a.number - b.number))),
+    this.route.data.pipe(map(data => (data['songs'] as Song[]).slice().sort((a, b) => a.number - b.number))),
   ]).pipe(
     map(([filter, songs]) => {
       this.anyFilterActive = this.checkIfFilterActive(filter);
@@ -55,15 +52,6 @@ export class SongListComponent implements OnInit, OnDestroy {
   public faLegal = faBalanceScaleRight;
   public faDraft = faPencilRuler;
   public faFinal = faCheck;
-
-  public ngOnInit(): void {
-    setTimeout(() => this.scrollService.restoreScrollPositionFor('songlist'), 100);
-    setTimeout(() => this.scrollService.restoreScrollPositionFor('songlist'), 300);
-  }
-
-  public ngOnDestroy(): void {
-    this.scrollService.storeScrollPositionFor('songlist');
-  }
 
   public trackBy = (index: number, show: SongListItem) => show.id;
 

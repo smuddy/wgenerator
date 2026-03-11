@@ -26,6 +26,7 @@ export class SongService {
   public static LEGAL_TYPE: SongLegalType[] = ['open', 'allowed'];
 
   public list$ = (): Observable<Song[]> => this.songDataService.list$; //.pipe(tap(_ => (this.list = _)));
+  public listLoaded$ = (): Observable<Song[]> => this.songDataService.listLoaded$();
   public read$ = (songId: string): Observable<Song | null> => this.songDataService.read$(songId);
   public read = (songId: string): Promise<Song | null> => firstValueFrom(this.read$(songId));
 
