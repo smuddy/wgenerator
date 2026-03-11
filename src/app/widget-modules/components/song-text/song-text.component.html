@@ -28,7 +28,7 @@
               class="line"
               >
               @for (segment of getDisplaySegments(line); track $index) {
-                <span [class.invalid-chord-token]="segment.invalid">{{ segment.text }}</span>
+                <span [class.invalid-chord-token]="segment.invalid" [class.invalid-tab-token]="segment.isTab">{{ segment.text }}</span>
               }
             </div>
           }
@@ -77,7 +77,7 @@
               class="line"
               >
               @for (segment of getDisplaySegments(line, true); track $index) {
-                <span [class.invalid-chord-token]="segment.invalid">{{ segment.text }}</span>
+                <span [class.invalid-chord-token]="segment.invalid" [class.invalid-tab-token]="segment.isTab">{{ segment.text }}</span>
               }
             </div>
           }

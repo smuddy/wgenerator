@@ -3,7 +3,7 @@
     <app-card
       [heading]="song.number + ' - ' + song.title"
       closeLink="../"
-      >
+    >
       <div class="song">
         <div>
           <div *appRole="['leader', 'contributor']" class="detail">
@@ -21,7 +21,7 @@
                 <a
                   href="https://songselect.ccli.com/Songs/{{ song.legalOwnerId }}"
                   target="_blank"
-                  >
+                >
                   CCLI Nummer: {{ song.legalOwnerId }}
                 </a>
               </div>
@@ -48,15 +48,16 @@
             [chordMode]="user.chordMode"
             [showSwitch]="true"
             [text]="song.text"
+            [validateChordNotation]="true"
           ></app-song-text>
         }
         <mat-chip-listbox
           *appRole="['leader', 'contributor']"
           aria-label="Attribute"
-          >
+        >
           @for (flag of getFlags(song.flags); track flag) {
             <mat-chip-option>{{
-              flag
+                flag
               }}
             </mat-chip-option>
           }
@@ -70,10 +71,10 @@
           (click)="onDelete(song.id)"
           *appRole="['admin']"
           [icon]="faDelete"
-          >Löschen
+        >Löschen
         </app-button>
         <app-button *appRole="['contributor']" [icon]="faEdit" routerLink="edit"
-          >Bearbeiten
+        >Bearbeiten
         </app-button>
         <ng-container *appRole="['leader']">
           <app-button [icon]="faFileCirclePlus" [matMenuTriggerFor]="menu">

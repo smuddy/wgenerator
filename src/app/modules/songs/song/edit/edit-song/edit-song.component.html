@@ -73,7 +73,7 @@
       @if (songtextFocus) {
         <div class="song-text-help">
           <h3>Vorschau</h3>
-          <app-song-text [invalidChordIssues]="chordValidationIssues" [text]="form.value.text" chordMode="show"></app-song-text>
+          <app-song-text [text]="form.value.text" [validateChordNotation]="true" chordMode="show"></app-song-text>
           <h3>Hinweise zur Bearbeitung</h3>
           <h4>Aufbau</h4>
           Der Liedtext wird hintereinander weg geschrieben. Dabei werden Strophen,

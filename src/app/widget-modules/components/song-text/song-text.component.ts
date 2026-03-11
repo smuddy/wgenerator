@@ -17,6 +17,7 @@ export type ChordMode = 'show' | 'hide' | 'onlyFirst';
 interface DisplaySegment {
   text: string;
   invalid: boolean;
+  isTab: boolean;
 }
 
 @Component({
@@ -42,6 +43,7 @@ export class SongTextComponent implements OnInit {
   public faLines = faGripLines;
   public offset = 0;
   public iChordMode: ChordMode = 'hide';
+  public showValidationIssues = false;
   private invalidChordIssuesByLine = new Map<number, ChordValidationIssue[]>();
   private iText = '';
   private iTranspose: TransposeMode | null = null;
@@ -64,14 +66,9 @@ export class SongTextComponent implements OnInit {
   }
 
   @Input()
-  public set invalidChordIssues(value: ChordValidationIssue[] | null) {
-    const issuesByLine = new Map<number, ChordValidationIssue[]>();
-    (value ?? []).forEach(issue => {
-      const lineIssues = issuesByLine.get(issue.lineNumber) ?? [];
-      lineIssues.push(issue);
-      issuesByLine.set(issue.lineNumber, lineIssues);
-    });
-    this.invalidChordIssuesByLine = issuesByLine;
+  public set validateChordNotation(value: boolean) {
+    this.showValidationIssues = value;
+    this.updateValidationIssues();
     this.cRef.markForCheck();
   }
 
@@ -129,41 +126,45 @@ export class SongTextComponent implements OnInit {
     const text = trim ? line.text.trim() : this.transform(line.text);
     const lineNumber = line.lineNumber;
     if (!lineNumber) {
-      return [{text, invalid: false}];
+      return [{text, invalid: false, isTab: false}];
     }
 
     const issues = this.invalidChordIssuesByLine.get(lineNumber);
     if (!issues || issues.length === 0) {
-      return [{text, invalid: false}];
+      return [{text, invalid: false, isTab: false}];
     }
 
-    const ranges: Array<{start: number; end: number}> = [];
+    const ranges: Array<{start: number; end: number; isTab: boolean}> = [];
     let searchStart = 0;
     issues.forEach(issue => {
       const index = text.indexOf(issue.token, searchStart);
       if (index === -1) {
         return;
       }
-      ranges.push({start: index, end: index + issue.token.length});
+      ranges.push({start: index, end: index + issue.token.length, isTab: issue.reason === 'tab_character'});
       searchStart = index + issue.token.length;
     });
 
     if (ranges.length === 0) {
-      return [{text, invalid: false}];
+      return [{text, invalid: false, isTab: false}];
     }
 
     const segments: DisplaySegment[] = [];
     let cursor = 0;
     ranges.forEach(range => {
       if (range.start > cursor) {
-        segments.push({text: text.slice(cursor, range.start), invalid: false});
+        segments.push({text: text.slice(cursor, range.start), invalid: false, isTab: false});
       }
-      segments.push({text: text.slice(range.start, range.end), invalid: true});
+      segments.push({
+        text: range.isTab ? '⇥' : text.slice(range.start, range.end),
+        invalid: true,
+        isTab: range.isTab,
+      });
       cursor = range.end;
     });
 
     if (cursor < text.length) {
-      segments.push({text: text.slice(cursor), invalid: false});
+      segments.push({text: text.slice(cursor), invalid: false, isTab: false});
     }
 
     return segments;
@@ -176,6 +177,7 @@ export class SongTextComponent implements OnInit {
   private render() {
     this.offset = 0;
     this.sections = [];
+    this.updateValidationIssues();
     if (this.fullscreen) {
       setTimeout(() => {
         this.sections = this.textRenderingService.parse(this.iText, this.iTranspose, this.showComments);
@@ -185,6 +187,21 @@ export class SongTextComponent implements OnInit {
       this.sections = this.textRenderingService.parse(this.iText, this.iTranspose, this.showComments); //.sort((a, b) => a.type - b.type);
       this.cRef.markForCheck();
     }
+  }
+
+  private updateValidationIssues(): void {
+    if (!this.showValidationIssues) {
+      this.invalidChordIssuesByLine = new Map<number, ChordValidationIssue[]>();
+      return;
+    }
+
+    const issuesByLine = new Map<number, ChordValidationIssue[]>();
+    this.textRenderingService.validateChordNotation(this.iText, this.showComments).forEach(issue => {
+      const lineIssues = issuesByLine.get(issue.lineNumber) ?? [];
+      lineIssues.push(issue);
+      issuesByLine.set(issue.lineNumber, lineIssues);
+    });
+    this.invalidChordIssuesByLine = issuesByLine;
   }
 
   private getNextChordMode(): ChordMode {

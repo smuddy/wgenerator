@@ -7,7 +7,12 @@
       @for (song of songs; track trackBy($index, song)) {
         <div [routerLink]="song.id" class="list-item">
           <div class="number">{{ song.number }}</div>
-          <div>{{ song.title }}</div>
+          <div class="title">
+            <span>{{ song.title }}</span>
+            @if (song.hasChordValidationIssues) {
+              <span class="validation-star" title="Akkord-Validierungsfehler vorhanden">*</span>
+            }
+          </div>
           <div>
             <ng-container *appRole="['contributor']">
               @if (song.status === 'draft') {

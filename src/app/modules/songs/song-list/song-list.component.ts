@@ -9,12 +9,17 @@ import {filterSong} from '../../../services/filter.helper';
 import {FilterValues} from './filter/filter-values';
 import {ScrollService} from '../../../services/scroll.service';
 import {faBalanceScaleRight, faCheck, faPencilRuler} from '@fortawesome/free-solid-svg-icons';
+import {TextRenderingService} from '../services/text-rendering.service';
 import {AsyncPipe} from '@angular/common';
 import {ListHeaderComponent} from '../../../widget-modules/components/list-header/list-header.component';
 import {FilterComponent} from './filter/filter.component';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {RoleDirective} from '../../../services/user/role.directive';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+
+interface SongListItem extends Song {
+  hasChordValidationIssues: boolean;
+}
 
 @Component({
   selector: 'app-songs',
@@ -28,15 +33,22 @@ export class SongListComponent implements OnInit, OnDestroy {
   private songService = inject(SongService);
   private activatedRoute = inject(ActivatedRoute);
   private scrollService = inject(ScrollService);
+  private textRenderingService = inject(TextRenderingService);
 
   public anyFilterActive = false;
-  public songs$: Observable<Song[]> = combineLatest([
+  public songs$: Observable<SongListItem[]> = combineLatest([
     this.activatedRoute.queryParams.pipe(map(_ => _ as FilterValues)),
     this.songService.list$().pipe(map(songs => [...songs].sort((a, b) => a.number - b.number))),
   ]).pipe(
     map(([filter, songs]) => {
       this.anyFilterActive = this.checkIfFilterActive(filter);
-      return songs.filter(song => this.filter(song, filter)).sort((a, b) => a.title?.localeCompare(b.title));
+      return songs
+        .filter(song => this.filter(song, filter))
+        .map(song => ({
+          ...song,
+          hasChordValidationIssues: this.textRenderingService.validateChordNotation(song.text ?? '').length > 0,
+        }))
+        .sort((a, b) => a.title?.localeCompare(b.title));
     })
   );
   public faLegal = faBalanceScaleRight;
@@ -52,7 +64,7 @@ export class SongListComponent implements OnInit, OnDestroy {
     this.scrollService.storeScrollPositionFor('songlist');
   }
 
-  public trackBy = (index: number, show: Song) => show.id;
+  public trackBy = (index: number, show: SongListItem) => show.id;
 
   private filter(song: Song, filter: FilterValues): boolean {
     let baseFilter = filterSong(song, filter.q);

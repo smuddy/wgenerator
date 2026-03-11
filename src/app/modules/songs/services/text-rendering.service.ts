@@ -7,6 +7,48 @@ import {LineType} from './line-type';
 import {Chord, ChordAddDescriptor, ChordValidationIssue} from './chord';
 import {Line} from './line';
 
+const CHORD_ROOT_DEFINITIONS = [
+  {canonical: 'C#', aliases: ['Cis']},
+  {canonical: 'Db', aliases: ['Des']},
+  {canonical: 'D#', aliases: ['Dis']},
+  {canonical: 'Eb', aliases: ['Es']},
+  {canonical: 'F#', aliases: ['Fis']},
+  {canonical: 'Gb', aliases: ['Ges']},
+  {canonical: 'G#', aliases: ['Gis']},
+  {canonical: 'Ab', aliases: ['As']},
+  {canonical: 'A#', aliases: ['Ais']},
+  {canonical: 'C', aliases: []},
+  {canonical: 'D', aliases: []},
+  {canonical: 'E', aliases: []},
+  {canonical: 'F', aliases: []},
+  {canonical: 'G', aliases: []},
+  {canonical: 'A', aliases: []},
+  {canonical: 'B', aliases: ['Hb']},
+  {canonical: 'H', aliases: []},
+  {canonical: 'c#', aliases: ['cis']},
+  {canonical: 'db', aliases: ['des']},
+  {canonical: 'd#', aliases: ['dis']},
+  {canonical: 'eb', aliases: ['es']},
+  {canonical: 'f#', aliases: ['fis']},
+  {canonical: 'gb', aliases: ['ges']},
+  {canonical: 'g#', aliases: ['gis']},
+  {canonical: 'ab', aliases: ['as']},
+  {canonical: 'a#', aliases: ['ais']},
+  {canonical: 'c', aliases: []},
+  {canonical: 'd', aliases: []},
+  {canonical: 'e', aliases: []},
+  {canonical: 'f', aliases: []},
+  {canonical: 'g', aliases: []},
+  {canonical: 'a', aliases: []},
+  {canonical: 'b', aliases: ['hb']},
+  {canonical: 'h', aliases: []},
+] as const;
+
+const CANONICAL_CHORD_ROOTS = CHORD_ROOT_DEFINITIONS.map(entry => entry.canonical);
+const ALTERNATIVE_CHORD_ROOTS = Object.fromEntries(
+  CHORD_ROOT_DEFINITIONS.flatMap(entry => entry.aliases.map(alias => [alias, entry.canonical]))
+) as Record<string, string>;
+
 interface ParsedValidationToken {
   prefix: string;
   root: string;
@@ -18,7 +60,9 @@ interface ParsedValidationToken {
 }
 
 interface ChordLineValidationResult {
+  chords: Chord[];
   issues: ChordValidationIssue[];
+  isStrictChordLine: boolean;
   isChordLike: boolean;
 }
 
@@ -29,66 +73,10 @@ export class TextRenderingService {
   private transposeService = inject(TransposeService);
 
   private readonly regexSection = /^\s*(Strophe|Refrain|Bridge)\b/i;
-  private readonly chordRoots = [
-    'C#',
-    'Db',
-    'D#',
-    'Eb',
-    'F#',
-    'Gb',
-    'G#',
-    'Ab',
-    'A#',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'A',
-    'B',
-    'H',
-    'c#',
-    'db',
-    'd#',
-    'eb',
-    'f#',
-    'gb',
-    'g#',
-    'ab',
-    'a#',
-    'c',
-    'd',
-    'e',
-    'f',
-    'g',
-    'a',
-    'b',
-    'h',
-  ] as const;
+  private readonly chordRoots = CANONICAL_CHORD_ROOTS;
   private readonly suffixKeywords = ['moll', 'verm', 'maj', 'min', 'dur', 'dim', 'aug', 'sus', 'add', 'm'] as const;
   private readonly suffixChars = new Set(['#', 'b', '+', '-', '(', ')']);
-  private readonly alternativeChordRoots: Record<string, string> = {
-    Ais: 'A#',
-    ais: 'a#',
-    As: 'Ab',
-    as: 'ab',
-    Cis: 'C#',
-    cis: 'c#',
-    Des: 'Db',
-    des: 'db',
-    Dis: 'D#',
-    dis: 'd#',
-    Es: 'Eb',
-    es: 'eb',
-    Fis: 'F#',
-    fis: 'f#',
-    Ges: 'Gb',
-    ges: 'gb',
-    Gis: 'G#',
-    gis: 'g#',
-    Hb: 'B',
-    hb: 'b',
-  };
+  private readonly alternativeChordRoots = ALTERNATIVE_CHORD_ROOTS;
 
   public parse(text: string, transpose: TransposeMode | null, withComments = true): Section[] {
     if (!text) {
@@ -153,14 +141,15 @@ export class TextRenderingService {
   private getLineOfLineText(text: string, transpose: TransposeMode | null, lineNumber?: number): Line | null {
     if (!text) return null;
 
-    const chords = this.readChords(text);
-    const validationResult = lineNumber ? this.getChordLineValidationResult(text, lineNumber) : {issues: [], isChordLike: false};
+    const validationResult = lineNumber
+      ? this.getChordLineValidationResult(text, lineNumber)
+      : {chords: [], issues: [], isStrictChordLine: false, isChordLike: false};
     const validationIssues = validationResult.issues;
-    const hasMatches = chords.length > 0;
+    const hasMatches = validationResult.isStrictChordLine;
     const isChordLikeLine = hasMatches || validationResult.isChordLike;
     const type = isChordLikeLine ? LineType.chord : LineType.text;
 
-    const line: Line = {type, text, chords: hasMatches ? chords : null, lineNumber};
+    const line: Line = {type, text, chords: hasMatches ? validationResult.chords : null, lineNumber};
     if (validationIssues.length > 0 || (!hasMatches && isChordLikeLine)) {
       return line;
     }
@@ -189,7 +178,7 @@ export class TextRenderingService {
     return null;
   }
 
-  private readChords(chordLine: string): Chord[] {
+  private getParsedChords(chordLine: string): Chord[] {
     const chords: Chord[] = [];
     const tokens = chordLine.match(/\S+/g) ?? [];
 
@@ -201,14 +190,12 @@ export class TextRenderingService {
       }
     }
 
-    const chordCount = chords.reduce((acc: number, cur: Chord) => acc + cur.length, 0);
-    const lineCount = chordLine.replace(/\s/g, '').length;
-    const isChordLine = chordCount * 1.2 > lineCount;
-    return isChordLine ? chords : [];
+    return chords;
   }
 
   private getChordLineValidationResult(line: string, lineNumber: number): ChordLineValidationResult {
     const tokens = line.match(/\S+/g) ?? [];
+    const chords = this.getParsedChords(line);
     const parsedTokens = tokens
       .map(token => ({
         token,
@@ -217,14 +204,16 @@ export class TextRenderingService {
 
     const recognizedTokens = parsedTokens.filter((entry): entry is {token: string; parsed: ParsedValidationToken} => entry.parsed !== null);
 
+    const strictChordCount = chords.reduce((sum, chord) => sum + chord.length, 0);
     const parsedLength = recognizedTokens.reduce((sum, entry) => sum + entry.token.length, 0);
     const compactLineLength = line.replace(/\s/g, '').length;
+    const isStrictChordLine = compactLineLength > 0 && strictChordCount * 1.2 > compactLineLength;
     const strictlyChordLike = compactLineLength > 0 && parsedLength * 1.2 > compactLineLength;
     const heuristicallyChordLike = tokens.length >= 2 && recognizedTokens.length >= Math.ceil(tokens.length * 0.6);
     const isChordLike = strictlyChordLike || heuristicallyChordLike;
 
     if (!isChordLike) {
-      return {issues: [], isChordLike: false};
+      return {chords, issues: [], isStrictChordLine, isChordLike: false};
     }
 
     const issues: ChordValidationIssue[] = [];
@@ -233,6 +222,7 @@ export class TextRenderingService {
     }
 
     return {
+      chords,
       issues: [
         ...issues,
         ...parsedTokens
@@ -245,6 +235,7 @@ export class TextRenderingService {
         })
           .filter((issue): issue is ChordValidationIssue => issue !== null),
       ],
+      isStrictChordLine,
       isChordLike: true,
     };
   }
@@ -492,7 +483,7 @@ export class TextRenderingService {
     }
 
     const slashChord = parsed.slashChord
-      ? (this.isMinorRoot(root) ? this.toMinorRoot(parsed.slashChord) : this.toMajorRoot(parsed.slashChord))
+      ? this.toMajorRoot(parsed.slashChord)
       : null;
 
     return parsed.prefix + root + suffix + (slashChord ? `/${slashChord}` : '') + parsed.tokenSuffix;
@@ -559,17 +550,87 @@ export class TextRenderingService {
   }
 
   private splitTokenDecorators(token: string): {prefix: string; core: string; suffix: string} {
-    const prefixMatch = token.match(/^\(+/);
-    const suffixMatch = token.match(/\)+$/);
-    const prefix = prefixMatch?.[0] ?? '';
-    const suffix = suffixMatch?.[0] ?? '';
-    const core = token.slice(prefix.length, token.length - suffix.length);
+    let prefix = '';
+    let suffix = '';
+    let core = token;
+
+    while (core.startsWith('(') && !this.isFullyWrappedByOuterParentheses(core)) {
+      const matchingClosingParen = this.findMatchingClosingParen(core, 0);
+      if (matchingClosingParen !== -1) {
+        break;
+      }
+
+      prefix += '(';
+      core = core.slice(1);
+    }
+
+    while (core.endsWith(')') && !this.isFullyWrappedByOuterParentheses(core)) {
+      const matchingOpeningParen = this.findMatchingOpeningParen(core, core.length - 1);
+      if (matchingOpeningParen !== -1) {
+        break;
+      }
+
+      suffix = ')' + suffix;
+      core = core.slice(0, -1);
+    }
+
+    while (this.isFullyWrappedByOuterParentheses(core)) {
+      prefix += '(';
+      suffix = ')' + suffix;
+      core = core.slice(1, -1);
+    }
 
     return {
       prefix,
       core,
       suffix,
     };
+  }
+
+  private isFullyWrappedByOuterParentheses(value: string): boolean {
+    if (!value.startsWith('(') || !value.endsWith(')')) {
+      return false;
+    }
+
+    return this.findMatchingClosingParen(value, 0) === value.length - 1;
+  }
+
+  private findMatchingClosingParen(value: string, start: number): number {
+    let depth = 0;
+    for (let i = start; i < value.length; i++) {
+      if (value[i] === '(') {
+        depth++;
+      } else if (value[i] === ')') {
+        depth--;
+        if (depth === 0) {
+          return i;
+        }
+        if (depth < 0) {
+          return -1;
+        }
+      }
+    }
+
+    return -1;
+  }
+
+  private findMatchingOpeningParen(value: string, end: number): number {
+    let depth = 0;
+    for (let i = end; i >= 0; i--) {
+      if (value[i] === ')') {
+        depth++;
+      } else if (value[i] === '(') {
+        depth--;
+        if (depth === 0) {
+          return i;
+        }
+        if (depth < 0) {
+          return -1;
+        }
+      }
+    }
+
+    return -1;
   }
 
   private parseChordAddDescriptor(suffix: string | null): ChordAddDescriptor | null {
