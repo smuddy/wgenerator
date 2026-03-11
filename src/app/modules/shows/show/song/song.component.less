@@ -1,6 +1,9 @@
 
 .song {
-  min-height: 28px;
+  &:not(.select) {
+    min-height: 28px;
+  }
+
   display: grid;
   grid-template-columns: auto 70px 25px 25px;
   @media screen and (max-width: 860px) {
@@ -16,10 +19,25 @@
   overflow: hidden;
 }
 
+.keys-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.keys-select {
+  height: 0;
+  overflow: hidden;
+  line-height: 0;
+}
+
 .keys {
+  display: flex;
+  align-items: center;
   position: relative;
   margin-right: 10px;
   cursor: pointer;
+  flex-grow: 0;
+  height: 100%;
 
   &:hover {
     color: var(--color-primary);
