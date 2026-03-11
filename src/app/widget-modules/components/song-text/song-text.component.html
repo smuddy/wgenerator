@@ -26,7 +26,10 @@
               [class.comment]="isComment(line.text)"
               [class.disabled]="checkDisabled(i)"
               class="line"
-              >{{ transform(line.text) }}
+              >
+              @for (segment of getDisplaySegments(line); track $index) {
+                <span [class.invalid-chord-token]="segment.invalid">{{ segment.text }}</span>
+              }
             </div>
           }
         </div>
@@ -72,7 +75,10 @@
               [class.chord]="line.type === 0"
               [class.disabled]="checkDisabled(i)"
               class="line"
-              >{{ line.text.trim() }}
+              >
+              @for (segment of getDisplaySegments(line, true); track $index) {
+                <span [class.invalid-chord-token]="segment.invalid">{{ segment.text }}</span>
+              }
             </div>
           }
         </div>

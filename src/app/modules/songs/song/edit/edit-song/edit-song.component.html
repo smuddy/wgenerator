@@ -54,10 +54,26 @@
           matInput
         ></textarea>
       </mat-form-field>
+      @if (chordValidationIssues.length > 0) {
+        <div class="song-text-validation">
+          <h3>Akkordschreibweise korrigieren</h3>
+          @for (issue of chordValidationIssues; track issue.lineNumber + '-' + issue.token) {
+            <div class="issue">
+              <strong>Zeile {{ issue.lineNumber }}:</strong>
+              <span>{{ issue.message }}</span>
+              <code>{{ issue.token }}</code>
+              @if (issue.suggestion) {
+                <span>-></span>
+                <code>{{ issue.suggestion }}</code>
+              }
+            </div>
+          }
+        </div>
+      }
       @if (songtextFocus) {
         <div class="song-text-help">
           <h3>Vorschau</h3>
-          <app-song-text [text]="form.value.text" chordMode="show"></app-song-text>
+          <app-song-text [invalidChordIssues]="chordValidationIssues" [text]="form.value.text" chordMode="show"></app-song-text>
           <h3>Hinweise zur Bearbeitung</h3>
           <h4>Aufbau</h4>
           Der Liedtext wird hintereinander weg geschrieben. Dabei werden Strophen,
@@ -180,7 +196,7 @@
       </div>
     </form>
     <app-button-row>
-      <app-button (click)="onSave()" [icon]="faSave">Speichern</app-button>
+      <app-button (click)="onSave()" [disabled]="form.invalid" [icon]="faSave">Speichern</app-button>
     </app-button-row>
   </app-card>
 }

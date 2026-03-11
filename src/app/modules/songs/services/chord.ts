@@ -8,6 +8,15 @@ export interface ChordAddDescriptor {
   modifiers: string[];
 }
 
+export interface ChordValidationIssue {
+  lineNumber: number;
+  lineText: string;
+  token: string;
+  suggestion: string | null;
+  reason: 'alias' | 'minor_format' | 'major_format' | 'invalid_suffix' | 'unknown_token';
+  message: string;
+}
+
 export interface Chord {
   chord: string;
   length: number;

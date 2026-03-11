@@ -11,5 +11,6 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
   imports: [MatButton, FaIconComponent],
 })
 export class ButtonComponent {
+  @Input() public disabled = false;
   @Input() public icon: IconProp | null = null;
 }

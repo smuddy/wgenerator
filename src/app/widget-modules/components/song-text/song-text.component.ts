@@ -7,11 +7,17 @@ import {SectionType} from '../../../modules/songs/services/section-type';
 import {LineType} from '../../../modules/songs/services/line-type';
 import {Section} from '../../../modules/songs/services/section';
 import {Line} from '../../../modules/songs/services/line';
+import {ChordValidationIssue} from '../../../modules/songs/services/chord';
 
 import {MatIconButton} from '@angular/material/button';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 
 export type ChordMode = 'show' | 'hide' | 'onlyFirst';
+
+interface DisplaySegment {
+  text: string;
+  invalid: boolean;
+}
 
 @Component({
   selector: 'app-song-text',
@@ -36,6 +42,7 @@ export class SongTextComponent implements OnInit {
   public faLines = faGripLines;
   public offset = 0;
   public iChordMode: ChordMode = 'hide';
+  private invalidChordIssuesByLine = new Map<number, ChordValidationIssue[]>();
   private iText = '';
   private iTranspose: TransposeMode | null = null;
 
@@ -54,6 +61,18 @@ export class SongTextComponent implements OnInit {
   public set transpose(value: TransposeMode | null) {
     this.iTranspose = value;
     this.render();
+  }
+
+  @Input()
+  public set invalidChordIssues(value: ChordValidationIssue[] | null) {
+    const issuesByLine = new Map<number, ChordValidationIssue[]>();
+    (value ?? []).forEach(issue => {
+      const lineIssues = issuesByLine.get(issue.lineNumber) ?? [];
+      lineIssues.push(issue);
+      issuesByLine.set(issue.lineNumber, lineIssues);
+    });
+    this.invalidChordIssuesByLine = issuesByLine;
+    this.cRef.markForCheck();
   }
 
   public ngOnInit(): void {
@@ -104,6 +123,50 @@ export class SongTextComponent implements OnInit {
   public transform(text: string): string {
     if (this.isComment(text)) text = text.slice(1);
     return text;
+  }
+
+  public getDisplaySegments(line: Line, trim = false): DisplaySegment[] {
+    const text = trim ? line.text.trim() : this.transform(line.text);
+    const lineNumber = line.lineNumber;
+    if (!lineNumber) {
+      return [{text, invalid: false}];
+    }
+
+    const issues = this.invalidChordIssuesByLine.get(lineNumber);
+    if (!issues || issues.length === 0) {
+      return [{text, invalid: false}];
+    }
+
+    const ranges: Array<{start: number; end: number}> = [];
+    let searchStart = 0;
+    issues.forEach(issue => {
+      const index = text.indexOf(issue.token, searchStart);
+      if (index === -1) {
+        return;
+      }
+      ranges.push({start: index, end: index + issue.token.length});
+      searchStart = index + issue.token.length;
+    });
+
+    if (ranges.length === 0) {
+      return [{text, invalid: false}];
+    }
+
+    const segments: DisplaySegment[] = [];
+    let cursor = 0;
+    ranges.forEach(range => {
+      if (range.start > cursor) {
+        segments.push({text: text.slice(cursor, range.start), invalid: false});
+      }
+      segments.push({text: text.slice(range.start, range.end), invalid: true});
+      cursor = range.end;
+    });
+
+    if (cursor < text.length) {
+      segments.push({text: text.slice(cursor), invalid: false});
+    }
+
+    return segments;
   }
 
   public isComment(text: string) {

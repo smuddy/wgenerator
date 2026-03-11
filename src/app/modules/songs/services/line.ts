@@ -5,4 +5,5 @@ export interface Line {
   type: LineType;
   text: string;
   chords: Chord[] | null;
+  lineNumber?: number;
 }

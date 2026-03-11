@@ -5,12 +5,15 @@ import {ActivatedRoute, Router, RouterStateSnapshot} from '@angular/router';
 import {SongService} from '../../../services/song.service';
 import {EditService} from '../edit.service';
 import {first, map, switchMap} from 'rxjs/operators';
+import {startWith} from 'rxjs';
 import {KEYS} from '../../../services/key.helper';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRow} from '@angular/material/chips';
 import {faExternalLinkAlt, faSave, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import {MatDialog} from '@angular/material/dialog';
 import {SaveDialogComponent} from './save-dialog/save-dialog.component';
+import {TextRenderingService} from '../../../services/text-rendering.service';
+import {ChordValidationIssue} from '../../../services/chord';
 
 import {CardComponent} from '../../../../../widget-modules/components/card/card.component';
 import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
@@ -63,6 +66,7 @@ export class EditSongComponent implements OnInit {
   private songService = inject(SongService);
   private editService = inject(EditService);
   private router = inject(Router);
+  private textRenderingService = inject(TextRenderingService);
   public dialog = inject(MatDialog);
 
   public song: Song | null = null;
@@ -78,6 +82,7 @@ export class EditSongComponent implements OnInit {
   public faSave = faSave;
   public faLink = faExternalLinkAlt;
   public songtextFocus = false;
+  public chordValidationIssues: ChordValidationIssue[] = [];
 
   public ngOnInit(): void {
     this.activatedRoute.params
@@ -92,12 +97,15 @@ export class EditSongComponent implements OnInit {
         if (!song) return;
         this.form = this.editService.createSongForm(song);
         this.form.controls.flags.valueChanges.subscribe(_ => this.onFlagsChanged(_ as string));
+        this.form.controls.text.valueChanges.pipe(startWith(this.form.controls.text.value)).subscribe(text => {
+          this.updateChordValidation(text as string);
+        });
         this.onFlagsChanged(this.form.controls.flags.value as string);
       });
   }
 
   public async onSave(): Promise<void> {
-    if (!this.song) return;
+    if (!this.song || this.form.invalid) return;
     const data = this.form.value as Partial<Song>;
     await this.songService.update$(this.song.id, data);
     this.form.markAsPristine();
@@ -149,8 +157,23 @@ export class EditSongComponent implements OnInit {
     this.flags = flagArray.split(';').filter(_ => !!_);
   }
 
+  private updateChordValidation(text: string): void {
+    const control = this.form.controls.text;
+    this.chordValidationIssues = this.textRenderingService.validateChordNotation(text ?? '');
+
+    const errors = {...(control.errors ?? {})};
+    if (this.chordValidationIssues.length > 0) {
+      errors.chordNotation = this.chordValidationIssues;
+      control.setErrors(errors);
+      return;
+    }
+
+    delete errors.chordNotation;
+    control.setErrors(Object.keys(errors).length > 0 ? errors : null);
+  }
+
   private async onSaveDialogAfterClosed(save: boolean, url: string) {
-    if (save && this.song) {
+    if (save && this.song && !this.form.invalid) {
       const data = this.form.value as Partial<Song>;
       await this.songService.update$(this.song.id, data);
     }

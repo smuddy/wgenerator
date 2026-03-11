@@ -338,4 +338,65 @@ Text`;
     void expect(chords[2].addDescriptor).toEqual(descriptor('sus4', {suspensions: ['4']}));
     void expect(chords[3].addDescriptor).toEqual(descriptor('7-5', {extensions: ['7'], alterations: ['-5']}));
   });
+
+  it('should report non-canonical sharp and flat aliases on chord lines', () => {
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
+    const text = `Strophe
+Fis Hmoll Des/Fis
+Text`;
+
+    void expect(service.validateChordNotation(text)).toEqual([
+      jasmine.objectContaining({lineNumber: 2, token: 'Fis', suggestion: 'F#', reason: 'alias'}),
+      jasmine.objectContaining({lineNumber: 2, token: 'Hmoll', suggestion: 'h', reason: 'minor_format'}),
+      jasmine.objectContaining({lineNumber: 2, token: 'Des/Fis', suggestion: 'Db/F#', reason: 'alias'}),
+    ]);
+  });
+
+  it('should report uppercase minor and lowercase major chord notation', () => {
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
+    const text = `Strophe
+Am Dm7 cdur C
+Text`;
+
+    void expect(service.validateChordNotation(text)).toEqual([
+      jasmine.objectContaining({lineNumber: 2, token: 'Am', suggestion: 'a', reason: 'minor_format'}),
+      jasmine.objectContaining({lineNumber: 2, token: 'Dm7', suggestion: 'd7', reason: 'minor_format'}),
+      jasmine.objectContaining({lineNumber: 2, token: 'cdur', suggestion: 'C', reason: 'major_format'}),
+    ]);
+  });
+
+  it('should ignore prose lines even if they contain note-like words', () => {
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
+    const text = `Strophe
+Heute singt Fis nicht mit
+Text`;
+
+    void expect(service.validateChordNotation(text)).toEqual([]);
+  });
+
+  it('should keep mostly-chord lines with unknown tokens in chord mode', () => {
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
+    const text = `Strophe
+C Es G
+Text`;
+
+    const sections = service.parse(text, null);
+
+    void expect(sections[0].lines[0].type).toBe(LineType.chord);
+    void expect(sections[0].lines[0].text).toBe('C Es G');
+    void expect(service.validateChordNotation(text)).toEqual([
+      jasmine.objectContaining({lineNumber: 2, token: 'Es', reason: 'alias', suggestion: 'Eb'}),
+    ]);
+  });
+
+  it('should flag unknown tokens on mostly chord lines', () => {
+    const service: TextRenderingService = TestBed.inject(TextRenderingService);
+    const text = `Strophe
+C Foo G a
+Text`;
+
+    void expect(service.validateChordNotation(text)).toEqual([
+      jasmine.objectContaining({lineNumber: 2, token: 'Foo', reason: 'unknown_token', suggestion: null}),
+    ]);
+  });
 });
