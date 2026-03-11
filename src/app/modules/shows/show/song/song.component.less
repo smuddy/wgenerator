@@ -5,11 +5,6 @@
   }
 
   display: grid;
-  grid-template-columns: 24px auto 70px 25px 25px;
-  @media screen and (max-width: 860px) {
-    grid-template-columns: 24px auto 70px 45px 45px;
-  }
-  grid-template-areas: "drag title keys edit delete";
 
   & > * {
     display: flex;
@@ -17,6 +12,42 @@
   }
 
   overflow: hidden;
+
+  &.compact-layout {
+    grid-template-columns: 70px auto 25px 25px;
+    grid-template-areas: "keys title edit delete";
+
+    @media screen and (max-width: 860px) {
+      grid-template-columns: 50px auto 45px 45px;
+    }
+
+    &.with-drag {
+      grid-template-columns: 24px 50px auto 25px 25px;
+      grid-template-areas: "drag keys title edit delete";
+
+      @media screen and (max-width: 860px) {
+        grid-template-columns: 24px 50px auto 45px 45px;
+      }
+    }
+  }
+
+  &.show-text-layout {
+    grid-template-columns: auto 50px 25px 25px;
+    grid-template-areas: "title keys edit delete";
+
+    @media screen and (max-width: 860px) {
+      grid-template-columns: auto 50px 45px 45px;
+    }
+
+    &.with-drag {
+      grid-template-columns: 24px auto 50px 25px 25px;
+      grid-template-areas: "drag title keys edit delete";
+
+      @media screen and (max-width: 860px) {
+        grid-template-columns: 24px auto 50px 45px 45px;
+      }
+    }
+  }
 }
 
 .drag-handle,
@@ -73,6 +104,7 @@
   height: 0;
   overflow: hidden;
   line-height: 0;
+  min-width: 80px;
 }
 
 .keys {
