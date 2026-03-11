@@ -5,6 +5,10 @@ import {UserService} from '../../../services/user/user.service';
 import {ShowService} from './show.service';
 import {ShowSongDataService} from './show-song-data.service';
 import {ShowSongService} from './show-song.service';
+import {ShowSong} from './show-song';
+import {Song} from '../../songs/services/song';
+import {Show} from './show';
+import {User} from '../../../services/user/user';
 
 describe('ShowSongService', () => {
   let service: ShowSongService;
@@ -12,13 +16,13 @@ describe('ShowSongService', () => {
   let songDataServiceSpy: jasmine.SpyObj<SongDataService>;
   let userServiceSpy: jasmine.SpyObj<UserService>;
   let showServiceSpy: jasmine.SpyObj<ShowService>;
-  let user$: BehaviorSubject<any>;
-  const song = {id: 'song-1', key: 'G', title: 'Amazing Grace'} as any;
-  const showSong = {id: 'show-song-1', songId: 'song-1'} as any;
-  const show = {id: 'show-1', order: ['show-song-1', 'show-song-2']} as any;
+  let user$: BehaviorSubject<User | null>;
+  const song = {id: 'song-1', key: 'G', title: 'Amazing Grace'} as unknown as Song;
+  const showSong = {id: 'show-song-1', songId: 'song-1'} as unknown as ShowSong;
+  const show = {id: 'show-1', order: ['show-song-1', 'show-song-2']} as unknown as Show;
 
-  beforeEach(() => {
-    user$ = new BehaviorSubject<any>({id: 'user-1', name: 'Benjamin', role: 'editor', chordMode: 'letters', songUsage: {}});
+  beforeEach(async () => {
+    user$ = new BehaviorSubject<User | null>({id: 'user-1', name: 'Benjamin', role: 'editor', chordMode: 'letters', songUsage: {}});
     showSongDataServiceSpy = jasmine.createSpyObj<ShowSongDataService>('ShowSongDataService', ['add', 'read$', 'list$', 'delete', 'update$']);
     songDataServiceSpy = jasmine.createSpyObj<SongDataService>('SongDataService', ['read$']);
     userServiceSpy = jasmine.createSpyObj<UserService>('UserService', ['incSongCount', 'decSongCount'], {
@@ -37,7 +41,7 @@ describe('ShowSongService', () => {
     showServiceSpy.read$.and.returnValue(of(show));
     showServiceSpy.update$.and.resolveTo();
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {provide: ShowSongDataService, useValue: showSongDataServiceSpy},
         {provide: SongDataService, useValue: songDataServiceSpy},

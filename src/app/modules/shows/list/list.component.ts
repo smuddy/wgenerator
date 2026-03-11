@@ -3,7 +3,8 @@ import {combineLatest} from 'rxjs';
 import {Show} from '../services/show';
 import {fade} from '../../../animations';
 import {ShowService} from '../services/show.service';
-import {FilterValues} from './filter/filter-values'import {RouterLink} from '@angular/router';
+import {FilterValues} from './filter/filter-values';
+import {RouterLink} from '@angular/router';
 import {map, switchMap} from 'rxjs/operators';
 import {FilterStoreService} from '../../../services/filter-store.service';
 import {RoleDirective} from '../../../services/user/role.directive';
@@ -48,10 +49,6 @@ export class ListComponent {
   );
 
   public trackBy = (index: number, show: unknown) => (show as Show).id;
-
-  private matchesFilter(show: Show, filter: FilterValues): boolean {
-    return this.matchesTimeFilter(show, filter.time || 1) && (!filter.owner || show.owner === filter.owner) && (!filter.showType || show.showType === filter.showType);
-  }
 
   private matchesPrivateFilter(show: Show, filter: FilterValues): boolean {
     return this.matchesTimeFilter(show, filter.time || 1) && (!filter.showType || show.showType === filter.showType);

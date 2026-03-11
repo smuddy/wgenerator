@@ -13,7 +13,7 @@ describe('UserSongUsageService', () => {
   let showDataServiceSpy: jasmine.SpyObj<ShowDataService>;
   let showSongDataServiceSpy: jasmine.SpyObj<ShowSongDataService>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['doc']);
     sessionSpy = jasmine.createSpyObj<UserSessionService>('UserSessionService', ['update$'], {
       user$: of({id: 'user-1', role: 'admin', songUsage: {}}) as never,
@@ -23,13 +23,18 @@ describe('UserSongUsageService', () => {
     showSongDataServiceSpy = jasmine.createSpyObj<ShowSongDataService>('ShowSongDataService', ['list$']);
 
     sessionSpy.update$.and.resolveTo();
-    showDataServiceSpy.listRaw$.and.returnValue(of([{id: 'show-1', owner: 'user-1'}, {id: 'show-2', owner: 'user-2'}] as never));
+    showDataServiceSpy.listRaw$.and.returnValue(
+      of([
+        {id: 'show-1', owner: 'user-1'},
+        {id: 'show-2', owner: 'user-2'},
+      ] as never)
+    );
     showSongDataServiceSpy.list$.and.callFake((showId: string) =>
       of(showId === 'show-1' ? ([{songId: 'song-1'}, {songId: 'song-1'}, {songId: 'song-2'}] as never) : ([{songId: 'song-3'}] as never))
     );
     dbServiceSpy.doc.and.returnValue({update: jasmine.createSpy('update').and.resolveTo()} as never);
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {provide: DbService, useValue: dbServiceSpy},
         {provide: UserSessionService, useValue: sessionSpy},

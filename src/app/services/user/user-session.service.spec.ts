@@ -10,10 +10,10 @@ describe('UserSessionService', () => {
   let dbServiceSpy: jasmine.SpyObj<DbService>;
   let routerSpy: jasmine.SpyObj<Router>;
   let authStateSubject: BehaviorSubject<unknown>;
-  let createAuthStateSpy: jasmine.Spy;
+  let createAuthStateSpy: jasmine.Spy<() => ReturnType<UserSessionService['createAuthState$']>>;
   let runInFirebaseContextSpy: jasmine.Spy;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     authStateSubject = new BehaviorSubject<unknown>(null);
     dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['col$', 'doc$', 'doc']);
     routerSpy = jasmine.createSpyObj<Router>('Router', ['navigateByUrl']);
@@ -34,9 +34,9 @@ describe('UserSessionService', () => {
     } as never);
     routerSpy.navigateByUrl.and.resolveTo(true);
 
-    createAuthStateSpy = spyOn<any>(UserSessionService.prototype, 'createAuthState$').and.returnValue(authStateSubject.asObservable() as never);
+    createAuthStateSpy = spyOn(UserSessionService.prototype, 'createAuthState$').and.returnValue(authStateSubject.asObservable() as never);
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {provide: DbService, useValue: dbServiceSpy},
         {provide: Router, useValue: routerSpy},
@@ -45,7 +45,7 @@ describe('UserSessionService', () => {
     });
 
     service = TestBed.inject(UserSessionService);
-    runInFirebaseContextSpy = spyOn<any>(service, 'runInFirebaseContext');
+    runInFirebaseContextSpy = spyOn(service as UserSessionService & {runInFirebaseContext: (...args: unknown[]) => Promise<unknown>}, 'runInFirebaseContext');
   });
 
   it('should be created', () => {
@@ -63,9 +63,7 @@ describe('UserSessionService', () => {
   it('should resolve the current user document from auth state', async () => {
     authStateSubject.next({uid: 'user-1'});
 
-    await expectAsync(firstValueFrom(service.user$)).toBeResolvedTo(
-      jasmine.objectContaining({id: 'user-1', name: 'Benjamin'}) as never
-    );
+    await expectAsync(firstValueFrom(service.user$)).toBeResolvedTo(jasmine.objectContaining({id: 'user-1', name: 'Benjamin'}) as never);
   });
 
   it('should cache user lookups by id', async () => {

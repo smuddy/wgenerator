@@ -7,11 +7,11 @@ describe('SongListResolver', () => {
   let resolver: SongListResolver;
   let songServiceSpy: jasmine.SpyObj<SongService>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     songServiceSpy = jasmine.createSpyObj<SongService>('SongService', ['list$']);
     songServiceSpy.list$.and.returnValue(of([{id: 'song-1', title: 'Amazing Grace'}] as never));
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [{provide: SongService, useValue: songServiceSpy}],
     });
 

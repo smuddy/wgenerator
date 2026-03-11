@@ -15,7 +15,7 @@ describe('SongService', () => {
     edits: [],
   } as never;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     songDataServiceSpy = jasmine.createSpyObj<SongDataService>('SongDataService', ['read$', 'update$', 'add', 'delete'], {
       list$: of([song]),
     });
@@ -27,7 +27,7 @@ describe('SongService', () => {
     songDataServiceSpy.delete.and.resolveTo();
     userServiceSpy.currentUser.and.resolveTo({name: 'Benjamin'} as never);
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {provide: SongDataService, useValue: songDataServiceSpy},
         {provide: UserService, useValue: userServiceSpy},

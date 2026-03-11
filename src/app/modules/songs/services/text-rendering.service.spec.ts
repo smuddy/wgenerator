@@ -333,11 +333,18 @@ Text`;
 
       void expect(sections[0].lines[0].text).toBe('Cmaj7(add9)');
       void expect(sections[0].lines[0].chords).toEqual([
-        {chord: 'C', length: 11, position: 0, add: 'maj7(add9)', slashChord: null, addDescriptor: descriptor('maj7(add9)', {
-          quality: 'major',
-          extensions: ['7'],
-          modifiers: ['(add9)'],
-        })},
+        {
+          chord: 'C',
+          length: 11,
+          position: 0,
+          add: 'maj7(add9)',
+          slashChord: null,
+          addDescriptor: descriptor('maj7(add9)', {
+            quality: 'major',
+            extensions: ['7'],
+            modifiers: ['(add9)'],
+          }),
+        },
       ]);
       void expect(service.validateChordNotation(text)).toEqual([]);
     });
@@ -459,9 +466,7 @@ Text`;
 
       void expect(sections[0].lines[0].type).toBe(LineType.chord);
       void expect(sections[0].lines[0].text).toBe('C Es G');
-      void expect(service.validateChordNotation(text)).toEqual([
-        jasmine.objectContaining({lineNumber: 2, token: 'Es', reason: 'alias', suggestion: 'Eb'}),
-      ]);
+      void expect(service.validateChordNotation(text)).toEqual([jasmine.objectContaining({lineNumber: 2, token: 'Es', reason: 'alias', suggestion: 'Eb'})]);
     });
 
     it('should flag unknown tokens on mostly chord lines', () => {
@@ -470,9 +475,7 @@ Text`;
 C Foo G a
 Text`;
 
-      void expect(service.validateChordNotation(text)).toEqual([
-        jasmine.objectContaining({lineNumber: 2, token: 'Foo', reason: 'unknown_token', suggestion: null}),
-      ]);
+      void expect(service.validateChordNotation(text)).toEqual([jasmine.objectContaining({lineNumber: 2, token: 'Foo', reason: 'unknown_token', suggestion: null})]);
     });
 
     it('should reject tabs on chord lines', () => {

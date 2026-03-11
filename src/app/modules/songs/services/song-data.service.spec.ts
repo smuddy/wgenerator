@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 import {firstValueFrom, Subject} from 'rxjs';
-import {skip, take, toArray} from 'rxjs/operators';
+import {take, toArray} from 'rxjs/operators';
 import {DbService} from '../../../services/db.service';
 import {SongDataService} from './song-data.service';
 
@@ -14,7 +14,7 @@ describe('SongDataService', () => {
   let colSpy: jasmine.Spy;
   let dbServiceSpy: jasmine.SpyObj<DbService>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     songs$ = new Subject<Array<{id: string; title: string}>>();
     docUpdateSpy = jasmine.createSpy('update').and.resolveTo();
     docDeleteSpy = jasmine.createSpy('delete').and.resolveTo();
@@ -32,7 +32,7 @@ describe('SongDataService', () => {
     dbServiceSpy.doc.and.callFake(docSpy);
     dbServiceSpy.col.and.callFake(colSpy);
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
     });
 

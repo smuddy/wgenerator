@@ -7,11 +7,11 @@ describe('ConfigService', () => {
   let service: ConfigService;
   let dbServiceSpy: jasmine.SpyObj<DbService>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['doc$']);
     dbServiceSpy.doc$.and.returnValue(of({copyright: 'CCLI'}) as never);
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
     });
 

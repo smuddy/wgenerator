@@ -12,7 +12,7 @@ describe('FileDataService', () => {
   let fileDeleteSpy: jasmine.Spy;
   let dbServiceSpy: jasmine.SpyObj<DbService>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     filesCollectionValueChangesSpy = jasmine.createSpy('valueChanges').and.returnValue(of([{id: 'file-1', name: 'plan.pdf'}]));
     filesCollectionAddSpy = jasmine.createSpy('add').and.resolveTo({id: 'file-2'});
     songDocCollectionSpy = jasmine.createSpy('collection').and.returnValue({
@@ -30,7 +30,7 @@ describe('FileDataService', () => {
     dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['doc']);
     dbServiceSpy.doc.and.callFake(songDocSpy);
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
     });
 

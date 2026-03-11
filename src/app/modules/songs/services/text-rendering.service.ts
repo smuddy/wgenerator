@@ -7,7 +7,12 @@ import {LineType} from './line-type';
 import {Chord, ChordAddDescriptor, ChordValidationIssue} from './chord';
 import {Line} from './line';
 
-const CHORD_ROOT_DEFINITIONS = [
+type ChordRootDefinition = {
+  canonical: string;
+  aliases: string[];
+};
+
+const CHORD_ROOT_DEFINITIONS: readonly ChordRootDefinition[] = [
   {canonical: 'C#', aliases: ['Cis']},
   {canonical: 'Db', aliases: ['Des']},
   {canonical: 'D#', aliases: ['Dis']},
@@ -45,9 +50,12 @@ const CHORD_ROOT_DEFINITIONS = [
 ] as const;
 
 const CANONICAL_CHORD_ROOTS = CHORD_ROOT_DEFINITIONS.map(entry => entry.canonical);
-const ALTERNATIVE_CHORD_ROOTS = Object.fromEntries(
-  CHORD_ROOT_DEFINITIONS.flatMap(entry => entry.aliases.map(alias => [alias, entry.canonical]))
-) as Record<string, string>;
+const ALTERNATIVE_CHORD_ROOTS = CHORD_ROOT_DEFINITIONS.reduce<Record<string, string>>((aliases, entry) => {
+  entry.aliases.forEach(alias => {
+    aliases[alias] = entry.canonical;
+  });
+  return aliases;
+}, {});
 
 interface ParsedValidationToken {
   prefix: string;
@@ -64,6 +72,11 @@ interface ChordLineValidationResult {
   issues: ChordValidationIssue[];
   isStrictChordLine: boolean;
   isChordLike: boolean;
+}
+
+interface ParsedTokenCandidate {
+  token: string;
+  parsed: ParsedValidationToken | null;
 }
 
 @Injectable({
@@ -141,9 +154,7 @@ export class TextRenderingService {
   private getLineOfLineText(text: string, transpose: TransposeMode | null, lineNumber?: number): Line | null {
     if (!text) return null;
 
-    const validationResult = lineNumber
-      ? this.getChordLineValidationResult(text, lineNumber)
-      : {chords: [], issues: [], isStrictChordLine: false, isChordLike: false};
+    const validationResult = lineNumber ? this.getChordLineValidationResult(text, lineNumber) : {chords: [], issues: [], isStrictChordLine: false, isChordLike: false};
     const validationIssues = validationResult.issues;
     const hasMatches = validationResult.isStrictChordLine;
     const isChordLikeLine = hasMatches || validationResult.isChordLike;
@@ -194,13 +205,12 @@ export class TextRenderingService {
   }
 
   private getChordLineValidationResult(line: string, lineNumber: number): ChordLineValidationResult {
-    const tokens = line.match(/\S+/g) ?? [];
+    const tokens: string[] = line.match(/\S+/g) ?? [];
     const chords = this.getParsedChords(line);
-    const parsedTokens = tokens
-      .map(token => ({
-        token,
-        parsed: this.parseValidationToken(token),
-      }));
+    const parsedTokens: ParsedTokenCandidate[] = tokens.map(token => ({
+      token,
+      parsed: this.parseValidationToken(token),
+    }));
 
     const recognizedTokens = parsedTokens.filter((entry): entry is {token: string; parsed: ParsedValidationToken} => entry.parsed !== null);
 
@@ -227,12 +237,12 @@ export class TextRenderingService {
         ...issues,
         ...parsedTokens
           .map(entry => {
-          if (!entry.parsed) {
-            return this.createUnknownTokenIssue(line, lineNumber, entry.token);
-          }
+            if (!entry.parsed) {
+              return this.createUnknownTokenIssue(line, lineNumber, entry.token);
+            }
 
-          return this.createValidationIssue(line, lineNumber, entry.token, entry.parsed);
-        })
+            return this.createValidationIssue(line, lineNumber, entry.token, entry.parsed);
+          })
           .filter((issue): issue is ChordValidationIssue => issue !== null),
       ],
       isStrictChordLine,
@@ -482,9 +492,7 @@ export class TextRenderingService {
       suffix = this.stripLeadingDurMarker(normalizedSuffix);
     }
 
-    const slashChord = parsed.slashChord
-      ? this.toMajorRoot(parsed.slashChord)
-      : null;
+    const slashChord = parsed.slashChord ? this.toMajorRoot(parsed.slashChord) : null;
 
     return parsed.prefix + root + suffix + (slashChord ? `/${slashChord}` : '') + parsed.tokenSuffix;
   }
@@ -671,7 +679,7 @@ export class TextRenderingService {
     };
 
     while (rest.length > 0) {
-      const additionMatch = rest.match(/^add([#b+\-]?\d+)/);
+      const additionMatch = rest.match(/^add([#b+-]?\d+)/);
       if (additionMatch) {
         descriptor.additions.push(additionMatch[1]);
         rest = rest.slice(additionMatch[0].length);
@@ -692,7 +700,7 @@ export class TextRenderingService {
         continue;
       }
 
-      const alterationMatch = rest.match(/^[#b+\-]\d+/);
+      const alterationMatch = rest.match(/^[#b+-]\d+/);
       if (alterationMatch) {
         descriptor.alterations.push(alterationMatch[0]);
         rest = rest.slice(alterationMatch[0].length);

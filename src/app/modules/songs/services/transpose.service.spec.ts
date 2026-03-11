@@ -13,7 +13,6 @@ describe('TransposeService', () => {
   });
 
   it('should create map upwards', () => {
-    const distance = service.getDistance('D', 'G');
     const map = service.getMap('D', 'G');
 
     if (map) {
@@ -22,7 +21,6 @@ describe('TransposeService', () => {
   });
 
   it('should create map downwards', () => {
-    const distance = service.getDistance('G', 'D');
     const map = service.getMap('G', 'D');
 
     if (map) {

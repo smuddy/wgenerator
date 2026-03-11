@@ -8,13 +8,13 @@ describe('GlobalSettingsService', () => {
   let dbServiceSpy: jasmine.SpyObj<DbService>;
   let updateSpy: jasmine.Spy;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     updateSpy = jasmine.createSpy('update').and.resolveTo();
     dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['doc$', 'doc']);
     dbServiceSpy.doc$.and.returnValue(of({churchName: 'ICF'}) as never);
     dbServiceSpy.doc.and.returnValue({update: updateSpy} as never);
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
     });
 

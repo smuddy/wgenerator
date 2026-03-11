@@ -9,7 +9,7 @@ describe('UserService', () => {
   let sessionSpy: jasmine.SpyObj<UserSessionService>;
   let songUsageSpy: jasmine.SpyObj<UserSongUsageService>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     sessionSpy = jasmine.createSpyObj<UserSessionService>(
       'UserSessionService',
       ['currentUser', 'getUserbyId', 'getUserbyId$', 'login', 'loggedIn$', 'list$', 'logout', 'update$', 'changePassword', 'createNewUser'],
@@ -35,7 +35,7 @@ describe('UserService', () => {
     songUsageSpy.decSongCount.and.resolveTo();
     songUsageSpy.rebuildSongUsage.and.resolveTo({usersProcessed: 1, showsProcessed: 2, showSongsProcessed: 3});
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {provide: UserSessionService, useValue: sessionSpy},
         {provide: UserSongUsageService, useValue: songUsageSpy},

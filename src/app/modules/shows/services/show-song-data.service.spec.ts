@@ -12,7 +12,7 @@ describe('ShowSongDataService', () => {
   let colSpy: jasmine.Spy;
   let dbServiceSpy: jasmine.SpyObj<DbService>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     docUpdateSpy = jasmine.createSpy('update').and.resolveTo();
     docDeleteSpy = jasmine.createSpy('delete').and.resolveTo();
     docSpy = jasmine.createSpy('doc').and.returnValue({
@@ -27,7 +27,7 @@ describe('ShowSongDataService', () => {
     dbServiceSpy.doc.and.callFake(docSpy);
     dbServiceSpy.col.and.callFake(colSpy);
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
     });
 

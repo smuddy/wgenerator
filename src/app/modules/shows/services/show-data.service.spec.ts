@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 import {firstValueFrom, of, Subject} from 'rxjs';
-import {skip, take} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
 import {DbService} from '../../../services/db.service';
 import {ShowDataService} from './show-data.service';
 
@@ -13,7 +13,7 @@ describe('ShowDataService', () => {
   let colSpy: jasmine.Spy;
   let dbServiceSpy: jasmine.SpyObj<DbService>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     shows$ = new Subject<Array<{id: string; date: {toMillis: () => number}; archived?: boolean}>>();
     docUpdateSpy = jasmine.createSpy('update').and.resolveTo();
     docSpy = jasmine.createSpy('doc').and.returnValue({update: docUpdateSpy});
@@ -25,7 +25,7 @@ describe('ShowDataService', () => {
     dbServiceSpy.doc.and.callFake(docSpy);
     dbServiceSpy.col.and.callFake(colSpy);
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
     });
 
@@ -76,11 +76,7 @@ describe('ShowDataService', () => {
   });
 
   it('should request only published recent shows and filter archived entries', async () => {
-    const publicShows$ = of([
-      {id: 'show-1', archived: false},
-      {id: 'show-2', archived: true},
-      {id: 'show-3'},
-    ]);
+    const publicShows$ = of([{id: 'show-1', archived: false}, {id: 'show-2', archived: true}, {id: 'show-3'}]);
     dbServiceSpy.col$.and.returnValue(publicShows$ as never);
 
     const result = await firstValueFrom(service.listPublicSince$(3));

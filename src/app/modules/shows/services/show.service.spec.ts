@@ -14,7 +14,7 @@ describe('ShowService', () => {
     {id: 'show-3', owner: 'user-1', published: true, archived: true},
   ] as never;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     user$ = new BehaviorSubject<unknown>({id: 'user-1'});
     showDataServiceSpy = jasmine.createSpyObj<ShowDataService>('ShowDataService', ['read$', 'listPublicSince$', 'update', 'add'], {
       list$: of(shows),
@@ -24,7 +24,7 @@ describe('ShowService', () => {
     showDataServiceSpy.update.and.resolveTo();
     showDataServiceSpy.add.and.resolveTo('new-show-id');
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {provide: ShowDataService, useValue: showDataServiceSpy},
         {provide: UserService, useValue: {user$: user$.asObservable()}},

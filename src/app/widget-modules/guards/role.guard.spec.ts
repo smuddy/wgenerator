@@ -8,11 +8,11 @@ describe('RoleGuard', () => {
   let guard: RoleGuard;
   let routerSpy: jasmine.SpyObj<Router>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     routerSpy = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
     routerSpy.createUrlTree.and.callFake(commands => ({commands}) as never);
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {provide: Router, useValue: routerSpy},
         {provide: UserService, useValue: {user$: of(null)}},
@@ -37,10 +37,10 @@ describe('RoleGuard', () => {
     });
   });
 
-  it('should allow admins regardless of requiredRoles', done => {
+  it('should allow admins regardless of requiredRoles', async done => {
     TestBed.resetTestingModule();
     routerSpy = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {provide: Router, useValue: routerSpy},
         {provide: UserService, useValue: {user$: of({role: 'user;admin'})}},
@@ -54,10 +54,10 @@ describe('RoleGuard', () => {
     });
   });
 
-  it('should allow users with a matching required role', done => {
+  it('should allow users with a matching required role', async done => {
     TestBed.resetTestingModule();
     routerSpy = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {provide: Router, useValue: routerSpy},
         {provide: UserService, useValue: {user$: of({role: 'leader;user'})}},
@@ -71,11 +71,11 @@ describe('RoleGuard', () => {
     });
   });
 
-  it('should redirect users without the required role to their role default route', done => {
+  it('should redirect users without the required role to their role default route', async done => {
     TestBed.resetTestingModule();
     routerSpy = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
     routerSpy.createUrlTree.and.returnValue({redirect: ['presentation']} as never);
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [
         {provide: Router, useValue: routerSpy},
         {provide: UserService, useValue: {user$: of({role: 'presenter'})}},

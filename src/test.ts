@@ -17,6 +17,18 @@ import {environment} from './environments/environment';
 import {DbService} from './app/services/db.service';
 
 type req = {keys: () => {map: (context: req) => void}};
+type TestingModuleDefinition = Parameters<typeof TestBed.configureTestingModule>[0];
+type TestingProviderList = NonNullable<NonNullable<TestingModuleDefinition>['providers']>;
+type CollectionStub = {
+  valueChanges: () => ReturnType<typeof of>;
+  add: () => Promise<{id: string}>;
+};
+type DocumentStub = {
+  set: () => Promise<void>;
+  update: () => Promise<void>;
+  delete: () => Promise<void>;
+  collection: () => CollectionStub;
+};
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
@@ -24,7 +36,7 @@ getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDyn
 const routeParams$ = new BehaviorSubject<Record<string, unknown>>({});
 const queryParams$ = new BehaviorSubject<Record<string, unknown>>({});
 
-const defaultTestingProviders = [
+const defaultTestingProviders: TestingProviderList = [
   provideNoopAnimations(),
   provideNativeDateAdapter(),
   provideRouter([]),
@@ -49,26 +61,29 @@ const defaultTestingProviders = [
     useValue: {
       col$: () => of([]),
       doc$: () => of(null),
-      col: () => ({
+      col: (): CollectionStub => ({
         valueChanges: () => of([]),
-        add: async () => ({id: 'test-id'}),
+        add: () => Promise.resolve({id: 'test-id'}),
       }),
-      doc: () => ({
-        set: async () => void 0,
-        update: async () => void 0,
-        delete: async () => void 0,
-        collection: () => ({
+      doc: (): DocumentStub => ({
+        set: () => Promise.resolve(),
+        update: () => Promise.resolve(),
+        delete: () => Promise.resolve(),
+        collection: (): CollectionStub => ({
           valueChanges: () => of([]),
-          add: async () => ({id: 'test-id'}),
+          add: () => Promise.resolve({id: 'test-id'}),
         }),
       }),
     },
   },
 ];
 
-const originalConfigureTestingModule = TestBed.configureTestingModule.bind(TestBed);
-TestBed.configureTestingModule = ((moduleDef?: Parameters<typeof TestBed.configureTestingModule>[0]) =>
-  originalConfigureTestingModule({
-    ...moduleDef,
-    providers: [...defaultTestingProviders, ...(moduleDef?.providers ?? [])],
-  })) as typeof TestBed.configureTestingModule;
+const originalConfigureTestingModule = TestBed.configureTestingModule.bind(TestBed) as typeof TestBed.configureTestingModule;
+const configureTestingModule: typeof TestBed.configureTestingModule = moduleDef => {
+  const extraProviders: TestingProviderList = moduleDef?.providers ?? [];
+  const mergedModuleDef: TestingModuleDefinition = moduleDef ? {...moduleDef} : {};
+  mergedModuleDef.providers = defaultTestingProviders.concat(extraProviders);
+
+  return originalConfigureTestingModule(mergedModuleDef);
+};
+TestBed.configureTestingModule = configureTestingModule;
