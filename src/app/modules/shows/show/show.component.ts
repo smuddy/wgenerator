@@ -255,6 +255,20 @@ export class ShowComponent implements OnInit, OnDestroy {
     const song = showSongs[i + 1];
     return song?.title ?? '';
   }
+
+  public getSongKeyColumnWidth(show: Show): string {
+    const labels = this.orderedShowSongs(show).map(song => {
+      if (song.keyOriginal && song.keyOriginal !== song.key) {
+        return `${song.keyOriginal} -> ${song.key}`;
+      }
+
+      return song.key ?? '';
+    });
+
+    const longestLabelLength = labels.reduce((max, label) => Math.max(max, label.length), 0);
+    const widthInCh = Math.max(3, longestLabelLength);
+    return `${widthInCh}ch`;
+  }
 }
 
 export interface Swiper {

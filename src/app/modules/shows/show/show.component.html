@@ -31,6 +31,7 @@
       @if (showSongs && !useSwiper) {
         <div (cdkDropListDropped)="drop($event, show)"
           [cdkDropListDisabled]="show.published || showText"
+          [style.--song-key-column-width]="getSongKeyColumnWidth(show)"
           [style.font-size]="textSize + 'em'"
           cdkDropList
           class="song-list">
