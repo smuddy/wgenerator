@@ -8,6 +8,14 @@
     }
     @if (!show.published && !fullscreen) {
       <div class="song">
+        @if (dragHandle && !edit) {
+          <button
+            aria-label="Lied verschieben"
+            cdkDragHandle
+            class="drag-handle"
+            type="button"
+          ></button>
+        }
         <span class="title">{{ iSong.title }}</span>
         @if (!edit) {
           <div class="keys-container">
@@ -30,7 +38,9 @@
       </div>
       @if (!edit) {
         <div aria-hidden="true" class="song select">
-          <span></span>
+          @if (dragHandle) {
+            <span class="drag-handle-placeholder"></span>
+          }
           <span>            <mat-form-field class="keys-select">
               <mat-select #option [formControl]="keyFormControl" tabIndex="-1">
                 @for (key of keys; track key) {

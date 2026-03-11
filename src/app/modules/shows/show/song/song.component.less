@@ -5,11 +5,11 @@
   }
 
   display: grid;
-  grid-template-columns: auto 70px 25px 25px;
+  grid-template-columns: 24px auto 70px 25px 25px;
   @media screen and (max-width: 860px) {
-    grid-template-columns: auto 70px 45px 45px;
+    grid-template-columns: 24px auto 70px 45px 45px;
   }
-  grid-template-areas: "title keys edit delete";
+  grid-template-areas: "drag title keys edit delete";
 
   & > * {
     display: flex;
@@ -17,6 +17,51 @@
   }
 
   overflow: hidden;
+}
+
+.drag-handle,
+.drag-handle-placeholder {
+  grid-area: drag;
+}
+
+.drag-handle {
+  width: 16px;
+  height: 36px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  justify-self: start;
+  position: relative;
+
+  &::before {
+    content: "";
+    width: 10px;
+    height: 18px;
+    display: block;
+    border-radius: 999px;
+    background-image: radial-gradient(circle, var(--text-soft) 1.2px, transparent 1.3px),
+    radial-gradient(circle, var(--text-soft) 1.2px, transparent 1.3px);
+    background-position: 0 0, 6px 0;
+    background-size: 6px 6px;
+    background-repeat: repeat-y;
+    opacity: 0.65;
+    transition: var(--transition);
+  }
+
+  &:hover::before {
+    opacity: 1;
+    background-image: radial-gradient(circle, var(--primary-color) 1.2px, transparent 1.3px),
+    radial-gradient(circle, var(--primary-color) 1.2px, transparent 1.3px);
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.drag-handle-placeholder {
+  width: 16px;
 }
 
 .keys-container {
@@ -59,6 +104,7 @@
 
 .title {
   grid-area: title;
+  min-width: 0;
 
   &.published {
     margin: 10px 0;

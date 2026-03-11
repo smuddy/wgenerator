@@ -31,13 +31,13 @@
       @if (showSongs && !useSwiper) {
         <div (cdkDropListDropped)="drop($event, show)"
           [cdkDropListDisabled]="show.published || showText"
-          [style.cursor]="!(show.published || showText) ? 'drag' : 'inherit'"
           [style.font-size]="textSize + 'em'"
           cdkDropList
           class="song-list">
           @for (song of orderedShowSongs(show); track trackBy(i, song); let i = $index) {
             <div cdkDrag class="song-row">
               <app-song
+                [dragHandle]="!(show.published || showText)"
                 [fullscreen]="useSwiper"
                 [index]="i"
                 [showId]="showId"

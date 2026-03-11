@@ -17,6 +17,7 @@ import {MatInput} from '@angular/material/input';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {ButtonRowComponent} from '../../../../widget-modules/components/button-row/button-row.component';
 import {ButtonComponent} from '../../../../widget-modules/components/button/button.component';
+import {CdkDragHandle} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-song',
@@ -36,6 +37,7 @@ import {ButtonComponent} from '../../../../widget-modules/components/button/butt
     ButtonRowComponent,
     ButtonComponent,
     SongTextComponent,
+    CdkDragHandle,
   ],
 })
 export class SongComponent implements OnInit {
@@ -44,6 +46,7 @@ export class SongComponent implements OnInit {
   @Input() public show: Show | null = null;
   @Input() public showId: string | null = null;
   @Input() public showText: boolean | null = null;
+  @Input() public dragHandle = false;
   @Input() public index = -1;
   @Input() public fullscreen = false;
   public keys: string[] = [];
