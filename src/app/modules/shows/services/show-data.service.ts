@@ -24,12 +24,15 @@ export class ShowDataService {
   public listRaw$ = () => this.dbService.col$<Show>(this.collection);
 
   public listPublicSince$(lastMonths: number): Observable<Show[]> {
-    const startDate = new Date();
-    startDate.setHours(0, 0, 0, 0);
-    startDate.setDate(startDate.getDate() - lastMonths * 30);
-    const startTimestamp = Timestamp.fromDate(startDate);
+    const queryConstraints: QueryConstraint[] = [where('published', '==', true), orderBy('date', 'desc')];
 
-    const queryConstraints: QueryConstraint[] = [where('published', '==', true), where('date', '>=', startTimestamp), orderBy('date', 'desc')];
+    if (lastMonths < 99999) {
+      const startDate = new Date();
+      startDate.setHours(0, 0, 0, 0);
+      startDate.setDate(startDate.getDate() - lastMonths * 30);
+      const startTimestamp = Timestamp.fromDate(startDate);
+      queryConstraints.splice(1, 0, where('date', '>=', startTimestamp));
+    }
 
     return this.dbService.col$<Show>(this.collection, queryConstraints).pipe(
       map(shows => shows.filter(show => !show.archived)),

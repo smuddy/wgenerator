@@ -1,6 +1,5 @@
 import {Component, Input, inject} from '@angular/core';
 import {KeyValue} from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
 import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {FilterValues} from './filter-values';
 import {Show} from '../../services/show';
@@ -9,6 +8,7 @@ import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {combineLatest, Observable, of} from 'rxjs';
 import {dynamicSort, onlyUnique} from '../../../../services/filter.helper';
 import {UserService} from '../../../../services/user/user.service';
+import {FilterStoreService} from '../../../../services/filter-store.service';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatSelect} from '@angular/material/select';
 import {MatOptgroup, MatOption} from '@angular/material/core';
@@ -21,11 +21,10 @@ import {ShowTypePipe} from '../../../../widget-modules/pipes/show-type-translate
   imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatOptgroup, ShowTypePipe],
 })
 export class FilterComponent {
-  private router = inject(Router);
   private showService = inject(ShowService);
   private userService = inject(UserService);
+  private filterStore = inject(FilterStoreService);
 
-  @Input() public route = '/shows/';
   @Input() public shows: Show[] = [];
 
   public showTypePublic = ShowService.SHOW_TYPE_PUBLIC;
@@ -42,7 +41,6 @@ export class FilterComponent {
   public owners: {key: string; value: string}[] = [];
 
   public constructor() {
-    const activatedRoute = inject(ActivatedRoute);
     const fb = inject(UntypedFormBuilder);
 
     this.filterFormGroup = fb.group({
@@ -51,16 +49,20 @@ export class FilterComponent {
       showType: null,
     });
 
-    activatedRoute.queryParams.subscribe(params => {
-      const filterValues = params as FilterValues;
-      if (filterValues.time) this.filterFormGroup.controls.time.setValue(+filterValues.time);
-      this.filterFormGroup.controls.owner.setValue(filterValues.owner ?? null, {emitEvent: false});
-      this.filterFormGroup.controls.showType.setValue(filterValues.showType ?? null, {emitEvent: false});
+    this.filterStore.showFilter$.subscribe(filterValues => {
+      this.filterFormGroup.patchValue(
+        {
+          time: filterValues.time,
+          owner: filterValues.owner || null,
+          showType: filterValues.showType || null,
+        },
+        {emitEvent: false}
+      );
     });
 
-    this.filterFormGroup.controls.time.valueChanges.subscribe(_ => void this.filerValueChanged('time', _ as number));
-    this.filterFormGroup.controls.owner.valueChanges.subscribe(_ => void this.filerValueChanged('owner', _ as string));
-    this.filterFormGroup.controls.showType.valueChanges.subscribe(_ => void this.filerValueChanged('showType', _ as string));
+    this.filterFormGroup.controls.time.valueChanges.subscribe(_ => this.filterValueChanged('time', (_ as number) ?? 1));
+    this.filterFormGroup.controls.owner.valueChanges.subscribe(_ => this.filterValueChanged('owner', (_ as string | null) ?? ''));
+    this.filterFormGroup.controls.showType.valueChanges.subscribe(_ => this.filterValueChanged('showType', (_ as string | null) ?? ''));
 
     this.owners$().subscribe(owners => (this.owners = owners));
   }
@@ -97,12 +99,8 @@ export class FilterComponent {
     );
   };
 
-  private async filerValueChanged<T>(key: string, value: T): Promise<void> {
-    const route = this.router.createUrlTree([this.route], {
-      queryParams: {[key]: value || null},
-      queryParamsHandling: 'merge',
-    });
-    await this.router.navigateByUrl(route);
+  private filterValueChanged<T>(key: keyof FilterValues, value: T): void {
+    this.filterStore.updateShowFilter({[key]: value} as Partial<FilterValues>);
   }
 
   private sameOwners(left: {key: string; value: string}[], right: {key: string; value: string}[]): boolean {

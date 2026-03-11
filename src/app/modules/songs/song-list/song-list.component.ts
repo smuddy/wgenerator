@@ -4,12 +4,13 @@ import {Song} from '../services/song';
 import {map} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
 import {fade} from '../../../animations';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {RouterLink} from '@angular/router';
 import {filterSong} from '../../../services/filter.helper';
 import {FilterValues} from './filter/filter-values';
 import {ScrollService} from '../../../services/scroll.service';
 import {faBalanceScaleRight, faCheck, faPencilRuler} from '@fortawesome/free-solid-svg-icons';
 import {TextRenderingService} from '../services/text-rendering.service';
+import {FilterStoreService} from '../../../services/filter-store.service';
 import {AsyncPipe} from '@angular/common';
 import {ListHeaderComponent} from '../../../widget-modules/components/list-header/list-header.component';
 import {FilterComponent} from './filter/filter.component';
@@ -31,13 +32,13 @@ interface SongListItem extends Song {
 })
 export class SongListComponent implements OnInit, OnDestroy {
   private songService = inject(SongService);
-  private activatedRoute = inject(ActivatedRoute);
   private scrollService = inject(ScrollService);
   private textRenderingService = inject(TextRenderingService);
+  private filterStore = inject(FilterStoreService);
 
   public anyFilterActive = false;
   public songs$: Observable<SongListItem[]> = combineLatest([
-    this.activatedRoute.queryParams.pipe(map(_ => _ as FilterValues)),
+    this.filterStore.songFilter$,
     this.songService.list$().pipe(map(songs => [...songs].sort((a, b) => a.number - b.number))),
   ]).pipe(
     map(([filter, songs]) => {

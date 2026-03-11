@@ -1,7 +1,7 @@
 @if (songs$ | async; as songs) {
   <div>
     <app-list-header [anyFilterActive]="anyFilterActive">
-      <app-filter [songs]="songs" route="songs"></app-filter>
+      <app-filter [songs]="songs"></app-filter>
     </app-list-header>
     <app-card [padding]="false">
       @for (song of songs; track trackBy($index, song)) {
