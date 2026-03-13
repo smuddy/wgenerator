@@ -24,6 +24,12 @@
         "plugin:prettier/recommended"
       ],
       "rules": {
+        "prettier/prettier": [
+          "error",
+          {
+            "endOfLine": "auto"
+          }
+        ],
         "@typescript-eslint/explicit-member-accessibility": "error",
         "@angular-eslint/component-selector": [
           "error",
@@ -53,7 +59,14 @@
       "extends": [
         "plugin:@angular-eslint/template/recommended"
       ],
-      "rules": {}
+      "rules": {
+        "prettier/prettier": [
+          "error",
+          {
+            "endOfLine": "auto"
+          }
+        ]
+      }
     },
     {
       "files": [
