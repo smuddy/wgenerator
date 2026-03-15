@@ -13,7 +13,7 @@
           [padding]="false"
           heading="Meine Veranstaltungen"
           >
-          @for (show of shows | sortBy: 'desc':'date'; track show) {
+          @for (show of shows | sortBy: 'desc':'date'; track trackBy($index, show)) {
             <app-list-item
               [routerLink]="show.id"
               [show]="show"

@@ -1,0 +1,20 @@
+declare module 'qrcode' {
+  export interface QRCodeToDataURLOptions {
+    type?: string;
+    quality?: number;
+    width?: number;
+    height?: number;
+    color?: {
+      dark?: string;
+      light?: string;
+    };
+  }
+
+  export function toDataURL(text: string, options?: QRCodeToDataURLOptions): Promise<string>;
+
+  const QRCode: {
+    toDataURL: typeof toDataURL;
+  };
+
+  export default QRCode;
+}

@@ -22,7 +22,7 @@ describe('ShowSongService', () => {
   const show = {id: 'show-1', order: ['show-song-1', 'show-song-2']} as unknown as Show;
 
   beforeEach(async () => {
-    user$ = new BehaviorSubject<User | null>({id: 'user-1', name: 'Benjamin', role: 'editor', chordMode: 'letters', songUsage: {}});
+    user$ = new BehaviorSubject<User | null>({id: 'user-1', name: 'Benjamin', role: 'editor', chordMode: 'onlyFirst', songUsage: {}});
     showSongDataServiceSpy = jasmine.createSpyObj<ShowSongDataService>('ShowSongDataService', ['add', 'read$', 'list$', 'delete', 'update$']);
     songDataServiceSpy = jasmine.createSpyObj<SongDataService>('SongDataService', ['read$']);
     userServiceSpy = jasmine.createSpyObj<UserService>('UserService', ['incSongCount', 'decSongCount'], {
@@ -66,7 +66,7 @@ describe('ShowSongService', () => {
       songId: 'song-1',
       key: 'G',
       keyOriginal: 'G',
-      chordMode: 'letters',
+      chordMode: 'onlyFirst',
       addedLive: true,
     });
   });
@@ -103,7 +103,7 @@ describe('ShowSongService', () => {
     await service.delete$('show-1', 'show-song-1', 0);
 
     expect(showSongDataServiceSpy.delete).toHaveBeenCalledWith('show-1', 'show-song-1');
-    expect(showServiceSpy.update$).toHaveBeenCalledWith('show-1', {order: ['show-song-2']});
+    expect(showServiceSpy.update$).toHaveBeenCalledWith('show-1', jasmine.objectContaining({order: ['show-song-2']}));
     expect(userServiceSpy.decSongCount).toHaveBeenCalledWith('song-1');
   });
 

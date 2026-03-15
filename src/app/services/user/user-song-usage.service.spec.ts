@@ -25,8 +25,8 @@ describe('UserSongUsageService', () => {
     sessionSpy.update$.and.resolveTo();
     showDataServiceSpy.listRaw$.and.returnValue(
       of([
-        {id: 'show-1', owner: 'user-1'},
-        {id: 'show-2', owner: 'user-2'},
+        {id: 'show-1', owner: 'user-1', archived: false},
+        {id: 'show-2', owner: 'user-2', archived: true},
       ] as never)
     );
     showSongDataServiceSpy.list$.and.callFake((showId: string) =>
@@ -66,11 +66,11 @@ describe('UserSongUsageService', () => {
     await expectAsync(service.rebuildSongUsage()).toBeResolvedTo({
       usersProcessed: 2,
       showsProcessed: 2,
-      showSongsProcessed: 4,
+      showSongsProcessed: 3,
     });
 
     expect(sessionSpy.update$).toHaveBeenCalledWith('user-1', {songUsage: {'song-1': 2, 'song-2': 1}});
-    expect(sessionSpy.update$).toHaveBeenCalledWith('user-2', {songUsage: {'song-3': 1}});
+    expect(sessionSpy.update$).toHaveBeenCalledWith('user-2', {songUsage: {}});
   });
 
   it('should reject song usage rebuilds for non-admin users', async () => {

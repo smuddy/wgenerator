@@ -40,6 +40,10 @@ export class UserSongUsageService {
 
     let showSongsProcessed = 0;
     for (const show of shows) {
+      if (show.archived) {
+        continue;
+      }
+
       const ownerId = show.owner;
       if (!ownerId) {
         continue;

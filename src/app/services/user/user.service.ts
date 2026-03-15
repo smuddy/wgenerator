@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {User} from './user';
 import {SongUsageMigrationResult, UserSongUsageService} from './user-song-usage.service';
 import {UserSessionService} from './user-session.service';
+import {MigrationProgress, ShowSongIndexMigrationResult, ShowSongIndexService} from '../../modules/shows/services/show-song-index.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ import {UserSessionService} from './user-session.service';
 export class UserService {
   private session = inject(UserSessionService);
   private songUsage = inject(UserSongUsageService);
+  private showSongIndex = inject(ShowSongIndexService);
 
   public users$ = this.session.users$;
 
@@ -34,4 +36,6 @@ export class UserService {
   public incSongCount = (songId: string): Promise<void | null> => this.songUsage.incSongCount(songId);
   public decSongCount = (songId: string): Promise<void | null> => this.songUsage.decSongCount(songId);
   public rebuildSongUsage = (): Promise<SongUsageMigrationResult> => this.songUsage.rebuildSongUsage();
+  public rebuildShowSongIds = (onProgress?: (progress: MigrationProgress) => void): Promise<ShowSongIndexMigrationResult> =>
+    this.showSongIndex.rebuildShowSongIds(onProgress);
 }

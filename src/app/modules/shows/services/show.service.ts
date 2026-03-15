@@ -39,6 +39,7 @@ export class ShowService {
       ...data,
       owner: user.id,
       order: [],
+      songIds: [],
       public: ShowService.SHOW_TYPE_PUBLIC.indexOf(data.showType) !== -1,
     };
     return await this.showDataService.add(calculatedData);

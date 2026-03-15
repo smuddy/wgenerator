@@ -30,7 +30,7 @@ export class DbCollection<T> {
   ) {}
 
   public add(data: Partial<T>): Promise<DocumentReference<T>> {
-    return addDoc(this.ref as CollectionReference<T>, data as WithFieldValue<T>);
+    return runInInjectionContext(this.environmentInjector, () => addDoc(this.ref as CollectionReference<T>, data as WithFieldValue<T>));
   }
 
   public valueChanges(options?: {idField?: string}): Observable<T[]> {
@@ -38,7 +38,7 @@ export class DbCollection<T> {
   }
 
   private get ref(): CollectionReference<DocumentData> {
-    return collection(this.fs, this.path);
+    return runInInjectionContext(this.environmentInjector, () => collection(this.fs, this.path));
   }
 }
 
@@ -50,15 +50,15 @@ export class DbDocument<T> {
   ) {}
 
   public set(data: Partial<T>): Promise<void> {
-    return setDoc(this.ref as DocumentReference<T>, data as WithFieldValue<T>);
+    return runInInjectionContext(this.environmentInjector, () => setDoc(this.ref as DocumentReference<T>, data as WithFieldValue<T>));
   }
 
   public update(data: Partial<T>): Promise<void> {
-    return updateDoc(this.ref, data as Partial<DocumentData>);
+    return runInInjectionContext(this.environmentInjector, () => updateDoc(this.ref, data as Partial<DocumentData>));
   }
 
   public delete(): Promise<void> {
-    return deleteDoc(this.ref);
+    return runInInjectionContext(this.environmentInjector, () => deleteDoc(this.ref));
   }
 
   public collection<U>(subPath: string): DbCollection<U> {
@@ -73,7 +73,7 @@ export class DbDocument<T> {
   }
 
   private get ref(): DocumentReference<DocumentData> {
-    return doc(this.fs, this.path);
+    return runInInjectionContext(this.environmentInjector, () => doc(this.fs, this.path));
   }
 }
 
@@ -103,7 +103,9 @@ export class DbService {
       return this.col(ref).valueChanges({idField: 'id'});
     }
 
-    const q = query(collection(this.fs, ref), ...queryConstraints);
-    return runInInjectionContext(this.environmentInjector, () => collectionData(q, {idField: 'id'}) as Observable<T[]>);
+    return runInInjectionContext(this.environmentInjector, () => {
+      const q = query(collection(this.fs, ref), ...queryConstraints);
+      return collectionData(q, {idField: 'id'}) as Observable<T[]>;
+    });
   }
 }

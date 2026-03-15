@@ -16,9 +16,11 @@ describe('ShowService', () => {
 
   beforeEach(async () => {
     user$ = new BehaviorSubject<unknown>({id: 'user-1'});
-    showDataServiceSpy = jasmine.createSpyObj<ShowDataService>('ShowDataService', ['read$', 'listPublicSince$', 'update', 'add'], {
-      list$: of(shows),
-    });
+    showDataServiceSpy = jasmine.createSpyObj<ShowDataService>(
+      'ShowDataService',
+      ['read$', 'listPublicSince$', 'update', 'add'],
+      {list$: of(shows) as unknown as ShowDataService['list$']}
+    );
     showDataServiceSpy.read$.and.returnValue(of(shows[0]));
     showDataServiceSpy.listPublicSince$.and.returnValue(of([shows[1]]));
     showDataServiceSpy.update.and.resolveTo();
@@ -97,6 +99,7 @@ describe('ShowService', () => {
         showType: type,
         owner: 'user-1',
         order: [],
+        songIds: [],
         public: true,
       });
     });
@@ -111,6 +114,7 @@ describe('ShowService', () => {
         showType: type,
         owner: 'user-1',
         order: [],
+        songIds: [],
         public: false,
       });
     });

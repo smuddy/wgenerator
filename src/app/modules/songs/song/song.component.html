@@ -40,7 +40,12 @@
             @if (song.origin) {
               <div>Quelle: {{ song.origin }}</div>
             }
-            <div>Wie oft verwendet: {{ songCount$ | async }}</div>
+            <div
+              [matTooltip]="songUsageTooltip$ | async"
+              matTooltipPosition="above"
+            >
+              Wie oft verwendet: {{ songCount$ | async }}
+            </div>
           </div>
         </div>
         @if (user$ | async; as user) {
@@ -81,7 +86,7 @@
             Zu Veranstaltung hinzufügen
           </app-button>
           <mat-menu #menu="matMenu">
-            @for (show of privateShows$|async; track show) {
+            @for (show of privateShows$|async; track show.id) {
               <app-button (click)="addSongToShow(show, song)">
                 {{ show.date.toDate() | date: "dd.MM.yyyy" }} {{ show.showType | showType }}
               </app-button>

@@ -6,7 +6,7 @@
         <mat-option>
           <ngx-mat-select-search [formControl]="filteredSongsControl"></ngx-mat-select-search>
         </mat-option>
-        @for (song of filteredSongs(); track song) {
+        @for (song of filteredSongs(); track song.id) {
           <mat-option [value]="song.id">{{ song.title }}</mat-option>
         }
       </mat-select>

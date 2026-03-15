@@ -25,6 +25,7 @@ import {SongTypePipe} from '../../../widget-modules/pipes/song-type-translater/s
 import {LegalOwnerPipe} from '../../../widget-modules/pipes/legal-owner-translator/legal-owner.pipe';
 import {StatusPipe} from '../../../widget-modules/pipes/status-translater/status.pipe';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-song',
@@ -48,6 +49,7 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
     LegalOwnerPipe,
     StatusPipe,
     ShowTypePipe,
+    MatTooltip,
   ],
 })
 export class SongComponent implements OnInit {
@@ -63,10 +65,14 @@ export class SongComponent implements OnInit {
   public files$: Observable<File[] | null> | null = null;
   public user$: Observable<User | null> | null = null;
   public songCount$: Observable<number> | null = null;
+  public songUsageShows$: Observable<Show[]> | null = null;
+  public songUsageTooltip$: Observable<string> | null = null;
   public faEdit = faEdit;
   public faDelete = faTrash;
   public faFileCirclePlus = faFileCirclePlus;
   public privateShows$ = this.showService.list$().pipe(map(show => show.filter(_ => !_.published).sort((a, b) => b.date.toMillis() - a.date.toMillis())));
+  private dateFormatter = new Intl.DateTimeFormat('de-DE', {day: '2-digit', month: '2-digit', year: 'numeric'});
+  private showTypePipe = new ShowTypePipe();
 
   public constructor() {
     const userService = this.userService;
@@ -97,6 +103,33 @@ export class SongComponent implements OnInit {
         return user?.songUsage?.[song.id] ?? 0;
       }),
       distinctUntilChanged()
+    );
+
+    this.songUsageShows$ = combineLatest([this.userService.user$, this.showService.list$(), song$]).pipe(
+      map(([user, shows, song]) => {
+        if (!user || !song) {
+          return [];
+        }
+
+        return shows
+          .filter(show => show.owner === user.id)
+          .filter(show => (show.songIds ?? []).includes(song.id))
+          .sort((a, b) => b.date.toMillis() - a.date.toMillis());
+      })
+    );
+
+    this.songUsageTooltip$ = combineLatest([this.songCount$, this.songUsageShows$]).pipe(
+      map(([count, shows]) => {
+        if (count === 0) {
+          return 'Noch in keiner Show verwendet.';
+        }
+
+        if (shows.length === 0) {
+          return 'Verwendungen vorhanden, aber Show-Zuordnung noch nicht indexiert.';
+        }
+
+        return shows.map(show => `${this.dateFormatter.format(show.date.toDate())} - ${this.showTypePipe.transform(show.showType)}`).join('\n');
+      })
     );
   }
 

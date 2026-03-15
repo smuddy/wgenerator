@@ -49,6 +49,7 @@ import {OwnerDirective} from '../../../services/user/owner.directive';
 import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 import {MatMenu, MatMenuTrigger} from '@angular/material/menu';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {UserService} from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-show',
@@ -88,6 +89,7 @@ export class ShowComponent implements OnInit, OnDestroy {
   private docxService = inject(DocxService);
   private router = inject(Router);
   private cRef = inject(ChangeDetectorRef);
+  private userService = inject(UserService);
   public dialog = inject(MatDialog);
   private guestShowService = inject(GuestShowService);
 
@@ -171,14 +173,14 @@ export class ShowComponent implements OnInit, OnDestroy {
   }
 
   public onArchive(archived: boolean): void {
-    if (!archived && this.showId != null) void this.showService.update$(this.showId, {archived});
+    if (!archived && this.showId != null) void this.setArchiveState(false);
     else {
       const dialogRef = this.dialog.open(ArchiveDialogComponent, {
         width: '350px',
       });
 
       dialogRef.afterClosed().pipe(take(1)).subscribe((archive: boolean) => {
-        if (archive && this.showId != null) void this.showService.update$(this.showId, {archived});
+        if (archive && this.showId != null) void this.setArchiveState(true);
       });
     }
   }
@@ -273,6 +275,20 @@ export class ShowComponent implements OnInit, OnDestroy {
     const longestLabelLength = labels.reduce((max, label) => Math.max(max, label.length), 0);
     const widthInCh = Math.max(3, longestLabelLength);
     return `${widthInCh}ch`;
+  }
+
+  private async setArchiveState(archived: boolean): Promise<void> {
+    if (!this.showId) {
+      return;
+    }
+
+    const updates: Array<Promise<void | null>> = [this.showService.update$(this.showId, {archived})];
+
+    (this.showSongs ?? []).forEach(showSong => {
+      updates.push(archived ? this.userService.decSongCount(showSong.songId) : this.userService.incSongCount(showSong.songId));
+    });
+
+    await Promise.all(updates);
   }
 }
 

@@ -3,11 +3,13 @@ import {of} from 'rxjs';
 import {UserService} from './user.service';
 import {UserSessionService} from './user-session.service';
 import {UserSongUsageService} from './user-song-usage.service';
+import {ShowSongIndexService} from '../../modules/shows/services/show-song-index.service';
 
 describe('UserService', () => {
   let service: UserService;
   let sessionSpy: jasmine.SpyObj<UserSessionService>;
   let songUsageSpy: jasmine.SpyObj<UserSongUsageService>;
+  let showSongIndexSpy: jasmine.SpyObj<ShowSongIndexService>;
 
   beforeEach(async () => {
     sessionSpy = jasmine.createSpyObj<UserSessionService>(
@@ -20,6 +22,7 @@ describe('UserService', () => {
       }
     );
     songUsageSpy = jasmine.createSpyObj<UserSongUsageService>('UserSongUsageService', ['incSongCount', 'decSongCount', 'rebuildSongUsage']);
+    showSongIndexSpy = jasmine.createSpyObj<ShowSongIndexService>('ShowSongIndexService', ['rebuildShowSongIds']);
 
     sessionSpy.currentUser.and.resolveTo({id: 'user-1'} as never);
     sessionSpy.getUserbyId.and.resolveTo({id: 'user-2'} as never);
@@ -34,11 +37,13 @@ describe('UserService', () => {
     songUsageSpy.incSongCount.and.resolveTo();
     songUsageSpy.decSongCount.and.resolveTo();
     songUsageSpy.rebuildSongUsage.and.resolveTo({usersProcessed: 1, showsProcessed: 2, showSongsProcessed: 3});
+    showSongIndexSpy.rebuildShowSongIds.and.resolveTo({showsProcessed: 2, showSongsProcessed: 3});
 
     await TestBed.configureTestingModule({
       providers: [
         {provide: UserSessionService, useValue: sessionSpy},
         {provide: UserSongUsageService, useValue: songUsageSpy},
+        {provide: ShowSongIndexService, useValue: showSongIndexSpy},
       ],
     });
 
@@ -100,9 +105,11 @@ describe('UserService', () => {
     await service.incSongCount('song-1');
     await service.decSongCount('song-2');
     await expectAsync(service.rebuildSongUsage()).toBeResolvedTo({usersProcessed: 1, showsProcessed: 2, showSongsProcessed: 3});
+    await expectAsync(service.rebuildShowSongIds()).toBeResolvedTo({showsProcessed: 2, showSongsProcessed: 3});
 
     expect(songUsageSpy.incSongCount).toHaveBeenCalledWith('song-1');
     expect(songUsageSpy.decSongCount).toHaveBeenCalledWith('song-2');
     expect(songUsageSpy.rebuildSongUsage).toHaveBeenCalled();
+    expect(showSongIndexSpy.rebuildShowSongIds).toHaveBeenCalled();
   });
 });

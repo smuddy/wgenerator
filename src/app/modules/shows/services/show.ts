@@ -7,6 +7,7 @@ export interface Show {
   showType: string;
   date: Timestamp;
   owner: string;
+  songIds?: string[];
   public: boolean;
   reported: boolean;
   published: boolean;
