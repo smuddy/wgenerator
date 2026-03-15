@@ -10,6 +10,11 @@ describe('ListComponent', () => {
   let fixture: ComponentFixture<ListComponent>;
   let shows$: BehaviorSubject<unknown[]>;
   let user$: BehaviorSubject<unknown>;
+  const createShow = (overrides: Record<string, unknown>) => ({
+    archived: false,
+    date: {toDate: () => new Date('2026-03-01')},
+    ...overrides,
+  });
 
   beforeEach(async () => {
     shows$ = new BehaviorSubject<unknown[]>([]);
@@ -29,6 +34,8 @@ describe('ListComponent', () => {
           provide: UserService,
           useValue: {
             user$: user$.asObservable(),
+            loggedIn$: () => of(true),
+            getUserbyId$: () => of({name: 'Benjamin'}),
           },
         },
         FilterStoreService,
@@ -45,10 +52,10 @@ describe('ListComponent', () => {
 
   it('should list own drafts and pending published shows in my shows', done => {
     shows$.next([
-      {id: 'draft-own', owner: 'user-1', published: false, reportedType: null},
-      {id: 'pending-own', owner: 'user-1', published: true, reportedType: 'pending'},
-      {id: 'reported-own', owner: 'user-1', published: true, reportedType: 'reported'},
-      {id: 'draft-other', owner: 'user-2', published: false, reportedType: null},
+      createShow({id: 'draft-own', owner: 'user-1', published: false, reportedType: null}),
+      createShow({id: 'pending-own', owner: 'user-1', published: true, reportedType: 'pending', date: {toDate: () => new Date('2026-03-02')}}),
+      createShow({id: 'reported-own', owner: 'user-1', published: true, reportedType: 'reported', date: {toDate: () => new Date('2026-03-03')}}),
+      createShow({id: 'draft-other', owner: 'user-2', published: false, reportedType: null, date: {toDate: () => new Date('2026-03-04')}}),
     ] as never);
 
     component.privateShows$.subscribe(shows => {
@@ -61,8 +68,8 @@ describe('ListComponent', () => {
     const filterStore = TestBed.inject(FilterStoreService);
     filterStore.updateShowFilter({time: 0, showType: 'service-worship'});
     shows$.next([
-      {id: 'older-draft', owner: 'user-1', published: false, reportedType: null, showType: 'misc-private'},
-      {id: 'pending-own', owner: 'user-1', published: true, reportedType: 'pending', showType: 'home-group'},
+      createShow({id: 'older-draft', owner: 'user-1', published: false, reportedType: null, showType: 'misc-private', date: {toDate: () => new Date('2025-01-01')}}),
+      createShow({id: 'pending-own', owner: 'user-1', published: true, reportedType: 'pending', showType: 'home-group', date: {toDate: () => new Date('2026-03-05')}}),
     ] as never);
 
     component.privateShows$.subscribe(shows => {

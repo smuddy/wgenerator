@@ -6,6 +6,7 @@ import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from '@angul
 import {provideNoopAnimations} from '@angular/platform-browser/animations';
 import {ActivatedRoute, provideRouter} from '@angular/router';
 import {BehaviorSubject, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {provideFirebaseApp, initializeApp} from '@angular/fire/app';
@@ -20,7 +21,7 @@ type req = {keys: () => {map: (context: req) => void}};
 type TestingModuleDefinition = Parameters<typeof TestBed.configureTestingModule>[0];
 type TestingProviderList = NonNullable<NonNullable<TestingModuleDefinition>['providers']>;
 type CollectionStub = {
-  valueChanges: () => ReturnType<typeof of>;
+  valueChanges: () => Observable<unknown[]>;
   add: () => Promise<{id: string}>;
 };
 type DocumentStub = {

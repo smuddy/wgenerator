@@ -22,6 +22,7 @@ describe('SongComponent', () => {
     const fileDataServiceSpy = jasmine.createSpyObj<FileDataService>('FileDataService', ['read$']);
     const userServiceSpy = jasmine.createSpyObj<UserService>('UserService', ['incSongCount', 'decSongCount'], {
       user$: of({id: 'user-1', name: 'Benjamin', role: 'leader', chordMode: 'onlyFirst', songUsage: {'4711': 2}}),
+      userId$: of('user-1'),
     });
     const showServiceSpy = jasmine.createSpyObj<ShowService>('ShowService', ['list$', 'update$']);
     const showSongServiceSpy = jasmine.createSpyObj<ShowSongService>('ShowSongService', ['new$']);
@@ -29,6 +30,8 @@ describe('SongComponent', () => {
     songServiceSpy.read$.and.returnValue(of({id: '4711', title: 'Test Song', number: '1', text: '', showType: '', flags: ''} as never));
     fileDataServiceSpy.read$.and.returnValue(of([]));
     showServiceSpy.list$.and.returnValue(of([]));
+    userServiceSpy.loggedIn$ = jasmine.createSpy('loggedIn$').and.returnValue(of(true));
+    userServiceSpy.getUserbyId$ = jasmine.createSpy('getUserbyId$').and.returnValue(of({name: 'Benjamin'}));
 
     void TestBed.configureTestingModule({
       imports: [SongComponent],

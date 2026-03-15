@@ -21,8 +21,8 @@ describe('DocxService', () => {
 
   it('should not try to save a document when the required data cannot be prepared', async () => {
     const serviceInternals = service as DocxServiceInternals;
-    const prepareDataSpy = spyOn(serviceInternals, 'prepareData').and.resolveTo(null);
-    const saveAsSpy = spyOn(serviceInternals, 'saveAs');
+    const prepareDataSpy = spyOn<any>(serviceInternals, 'prepareData').and.resolveTo(null);
+    const saveAsSpy = spyOn<any>(serviceInternals, 'saveAs');
 
     await service.create('show-1');
 
@@ -33,7 +33,7 @@ describe('DocxService', () => {
   it('should build and save a docx file when all data is available', async () => {
     const blob = new Blob(['docx']);
     const serviceInternals = service as DocxServiceInternals;
-    const prepareDataSpy = spyOn(serviceInternals, 'prepareData').and.resolveTo({
+    const prepareDataSpy = spyOn<any>(serviceInternals, 'prepareData').and.resolveTo({
       show: {
         showType: 'service-worship',
         date: {toDate: () => new Date('2026-03-10T00:00:00Z')},
@@ -42,8 +42,8 @@ describe('DocxService', () => {
       user: {name: 'Benjamin'},
       config: {ccliLicenseId: '12345'},
     });
-    const prepareNewDocumentSpy = spyOn(serviceInternals, 'prepareNewDocument').and.returnValue({doc: true});
-    const saveAsSpy = spyOn(serviceInternals, 'saveAs');
+    const prepareNewDocumentSpy = spyOn<any>(serviceInternals, 'prepareNewDocument').and.returnValue({doc: true});
+    const saveAsSpy = spyOn<any>(serviceInternals, 'saveAs');
     spyOn(Packer, 'toBlob').and.resolveTo(blob);
 
     await service.create('show-1', {copyright: true});

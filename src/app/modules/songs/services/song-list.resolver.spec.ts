@@ -8,8 +8,8 @@ describe('SongListResolver', () => {
   let songServiceSpy: jasmine.SpyObj<SongService>;
 
   beforeEach(async () => {
-    songServiceSpy = jasmine.createSpyObj<SongService>('SongService', ['list$']);
-    songServiceSpy.list$.and.returnValue(of([{id: 'song-1', title: 'Amazing Grace'}] as never));
+    songServiceSpy = jasmine.createSpyObj<SongService>('SongService', ['listLoaded$']);
+    songServiceSpy.listLoaded$.and.returnValue(of([{id: 'song-1', title: 'Amazing Grace'}]) as never);
 
     await TestBed.configureTestingModule({
       providers: [{provide: SongService, useValue: songServiceSpy}],
@@ -24,7 +24,7 @@ describe('SongListResolver', () => {
 
   it('should resolve the first emitted song list from the service', done => {
     resolver.resolve().subscribe(songs => {
-      expect(songServiceSpy.list$).toHaveBeenCalled();
+      expect(songServiceSpy.listLoaded$).toHaveBeenCalled();
       expect(songs).toEqual([{id: 'song-1', title: 'Amazing Grace'}] as never);
       done();
     });

@@ -32,15 +32,15 @@ describe('RoleGuard', () => {
 
   it('should deny access when there is no current user', done => {
     guard.canActivate({data: {requiredRoles: ['leader']}} as never).subscribe(result => {
-      expect(result).toBeFalse();
+      expect(result).toEqual({commands: ['brand', 'new-user']} as never);
       done();
     });
   });
 
-  it('should allow admins regardless of requiredRoles', async done => {
+  it('should allow admins regardless of requiredRoles', done => {
     TestBed.resetTestingModule();
     routerSpy = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
-    await TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       providers: [
         {provide: Router, useValue: routerSpy},
         {provide: UserService, useValue: {user$: of({role: 'user;admin'})}},
@@ -54,10 +54,10 @@ describe('RoleGuard', () => {
     });
   });
 
-  it('should allow users with a matching required role', async done => {
+  it('should allow users with a matching required role', done => {
     TestBed.resetTestingModule();
     routerSpy = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
-    await TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       providers: [
         {provide: Router, useValue: routerSpy},
         {provide: UserService, useValue: {user$: of({role: 'leader;user'})}},
@@ -71,11 +71,11 @@ describe('RoleGuard', () => {
     });
   });
 
-  it('should redirect users without the required role to their role default route', async done => {
+  it('should redirect users without the required role to their role default route', done => {
     TestBed.resetTestingModule();
     routerSpy = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
     routerSpy.createUrlTree.and.returnValue({redirect: ['presentation']} as never);
-    await TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       providers: [
         {provide: Router, useValue: routerSpy},
         {provide: UserService, useValue: {user$: of({role: 'presenter'})}},

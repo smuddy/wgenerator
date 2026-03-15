@@ -12,17 +12,18 @@ describe('EditComponent', () => {
   let showServiceSpy: jasmine.SpyObj<ShowService>;
   let showDataServiceStub: Pick<ShowDataService, 'list$'>;
   let routerSpy: jasmine.SpyObj<Router>;
+  const createDate = (isoDate: string) => ({toDate: () => new Date(isoDate)});
 
   beforeEach(async () => {
     showServiceSpy = jasmine.createSpyObj<ShowService>('ShowService', ['read$', 'update$']);
-    showDataServiceStub = {list$: of([] as never)};
+    showDataServiceStub = {list$: of([]) as ShowDataService['list$']};
     routerSpy = jasmine.createSpyObj<Router>('Router', ['navigateByUrl']);
 
     showServiceSpy.read$.and.returnValue(
       of({
         id: 'show-1',
         showType: 'service-worship',
-        date: {toDate: () => new Date('2026-03-10T00:00:00Z')},
+        date: createDate('2026-03-10T00:00:00Z'),
       } as never)
     );
     showServiceSpy.update$.and.resolveTo();

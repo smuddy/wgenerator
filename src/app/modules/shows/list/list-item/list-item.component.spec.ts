@@ -17,6 +17,7 @@ describe('ListItemComponent', () => {
             user$: new BehaviorSubject<unknown>({id: 'user-1'}).asObservable(),
             userId$: new BehaviorSubject<string | null>('user-1').asObservable(),
             loggedIn$: () => of(true),
+            getUserbyId$: () => of({name: 'Benjamin'}),
           },
         },
       ],

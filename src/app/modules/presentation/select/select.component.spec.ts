@@ -11,6 +11,7 @@ describe('SelectComponent', () => {
   let showServiceSpy: jasmine.SpyObj<ShowService>;
   let globalSettingsServiceSpy: jasmine.SpyObj<GlobalSettingsService>;
   let routerSpy: jasmine.SpyObj<Router>;
+  const createShow = (id: string, isoDate: string) => ({id, date: {toDate: () => new Date(isoDate)}});
 
   beforeEach(async () => {
     showServiceSpy = jasmine.createSpyObj<ShowService>('ShowService', ['list$', 'update$']);
@@ -19,10 +20,10 @@ describe('SelectComponent', () => {
 
     showServiceSpy.list$.and.returnValue(
       of([
-        {id: 'older', date: {toDate: () => new Date('2025-12-15T00:00:00Z')}},
-        {id: 'recent-a', date: {toDate: () => new Date('2026-03-01T00:00:00Z')}},
-        {id: 'recent-b', date: {toDate: () => new Date('2026-02-20T00:00:00Z')}},
-      ] as never)
+        createShow('older', '2025-12-15T00:00:00Z'),
+        createShow('recent-a', '2026-03-01T00:00:00Z'),
+        createShow('recent-b', '2026-02-20T00:00:00Z'),
+      ]) as never
     );
     showServiceSpy.update$.and.resolveTo();
     globalSettingsServiceSpy.set.and.resolveTo();

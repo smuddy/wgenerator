@@ -39,10 +39,11 @@ describe('UploadService', () => {
         success();
       },
     };
-    const uploadSpy = spyOn(service as UploadServiceInternals, 'startUpload').and.returnValue(task);
+    const uploadSpy = spyOn<any>(service as UploadServiceInternals, 'startUpload').and.returnValue(task);
     const upload = new Upload(new File(['content'], 'test.pdf', {type: 'application/pdf'}));
 
-    await service.pushUpload('song-1', upload);
+    service.pushUpload('song-1', upload);
+    await Promise.resolve();
 
     expect(uploadSpy).toHaveBeenCalledWith('/attachments/song-1/test.pdf', upload.file);
     expect(upload.progress).toBe(50);

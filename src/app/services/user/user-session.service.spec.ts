@@ -10,7 +10,7 @@ describe('UserSessionService', () => {
   let dbServiceSpy: jasmine.SpyObj<DbService>;
   let routerSpy: jasmine.SpyObj<Router>;
   let authStateSubject: BehaviorSubject<unknown>;
-  let createAuthStateSpy: jasmine.Spy<() => ReturnType<UserSessionService['createAuthState$']>>;
+  let createAuthStateSpy: jasmine.Spy;
   let runInFirebaseContextSpy: jasmine.Spy;
 
   beforeEach(async () => {
@@ -34,7 +34,7 @@ describe('UserSessionService', () => {
     } as never);
     routerSpy.navigateByUrl.and.resolveTo(true);
 
-    createAuthStateSpy = spyOn(UserSessionService.prototype, 'createAuthState$').and.returnValue(authStateSubject.asObservable() as never);
+    createAuthStateSpy = spyOn<any>(UserSessionService.prototype, 'createAuthState$').and.returnValue(authStateSubject.asObservable() as never);
 
     await TestBed.configureTestingModule({
       providers: [

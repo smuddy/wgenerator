@@ -27,10 +27,10 @@ describe('UserSongUsageService', () => {
       of([
         {id: 'show-1', owner: 'user-1', archived: false},
         {id: 'show-2', owner: 'user-2', archived: true},
-      ] as never)
+      ]) as never
     );
     showSongDataServiceSpy.list$.and.callFake((showId: string) =>
-      of(showId === 'show-1' ? ([{songId: 'song-1'}, {songId: 'song-1'}, {songId: 'song-2'}] as never) : ([{songId: 'song-3'}] as never))
+      (of(showId === 'show-1' ? [{songId: 'song-1'}, {songId: 'song-1'}, {songId: 'song-2'}] : [{songId: 'song-3'}]) as never)
     );
     dbServiceSpy.doc.and.returnValue({update: jasmine.createSpy('update').and.resolveTo()} as never);
 
