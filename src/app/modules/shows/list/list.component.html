@@ -16,6 +16,8 @@
           @for (show of shows | sortBy: 'desc':'date'; track trackBy($index, show)) {
             <app-list-item
               [routerLink]="show.id"
+              [showStatusBadge]="show.published ? 'nicht gemeldet' : 'unveröffentlicht'"
+              [showStatusBadgeType]="show.published ? 'error' : 'none'"
               [show]="show"
             ></app-list-item>
           }

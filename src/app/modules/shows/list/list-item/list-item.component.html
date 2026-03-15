@@ -5,5 +5,10 @@
       <app-user-name [userId]="show.owner"></app-user-name>
     </div>
     <div>{{ show.showType | showType }}</div>
+    <div>
+      @if (showStatusBadge) {
+        <app-badge [type]="showStatusBadgeType">{{ showStatusBadge }}</app-badge>
+      }
+    </div>
   </div>
 }

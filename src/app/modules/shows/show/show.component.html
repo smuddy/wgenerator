@@ -8,8 +8,14 @@
     }} - {{ getStatus(show) }}"
       >
       @if (!useSwiper) {
-        <p>{{ show.public ? 'öffentliche' : 'geschlossene' }} Veranstaltung von
+        <p class="show-meta">{{ show.public ? 'öffentliche' : 'geschlossene' }} Veranstaltung von
           <app-user-name [userId]="show.owner"></app-user-name>
+          <ng-container *appOwner="show.owner">
+            <app-badge [type]="getPublishedBadgeType(show)">{{ show.published | publishedType }}</app-badge>
+            @if (show.reportedType) {
+              <app-badge [type]="getReportedTypeBadgeType(show)">{{ show.reportedType | reportedType }}</app-badge>
+            }
+          </ng-container>
         </p>
       }
       <div class="head">
@@ -98,18 +104,23 @@
                 </app-button>
               }
               @if (!show.published) {
-                <app-button (click)="onPublish(true)" [icon]="faPublish">
+                <app-button (click)="onPublish(show, true)" [icon]="faPublish">
                   Veröffentlichen
                 </app-button>
               }
               @if (show.published) {
-                <app-button (click)="onPublish(false)" [icon]="faUnpublish">
+                <app-button (click)="onPublish(show, false)" [icon]="faUnpublish">
                   Veröffentlichung zurückziehen
                 </app-button>
               }
               @if (show.published) {
                 <app-button (click)="onShare(show)" [icon]="faShare">
                   Teilen
+                </app-button>
+              }
+              @if (show.published && show.reportedType === 'pending') {
+                <app-button (click)="onReport(show)" [icon]="faReport">
+                  Melden
                 </app-button>
               }
               @if (!show.published) {

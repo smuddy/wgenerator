@@ -14,6 +14,7 @@ import {
   faArrowUpRightFromSquare,
   faBox,
   faBoxOpen,
+  faCheck,
   faChevronRight,
   faFileDownload,
   faLock,
@@ -50,6 +51,10 @@ import {ButtonComponent} from '../../../widget-modules/components/button/button.
 import {MatMenu, MatMenuTrigger} from '@angular/material/menu';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {UserService} from '../../../services/user/user.service';
+import {ReportedTypePipe} from '../../../widget-modules/pipes/reported-type-translator/reported-type.pipe';
+import {BadgeComponent, BadgeType} from '../../../widget-modules/components/badge/badge.component';
+import {ReportDialogComponent, ReportDialogSong} from '../dialog/report-dialog/report-dialog.component';
+import {PublishedTypePipe} from '../../../widget-modules/pipes/published-type-translator/published-type.pipe';
 
 @Component({
   selector: 'app-show',
@@ -79,6 +84,9 @@ import {UserService} from '../../../services/user/user.service';
     AsyncPipe,
     DatePipe,
     ShowTypePipe,
+    ReportedTypePipe,
+    PublishedTypePipe,
+    BadgeComponent,
   ],
 })
 export class ShowComponent implements OnInit, OnDestroy {
@@ -101,6 +109,7 @@ export class ShowComponent implements OnInit, OnDestroy {
 
   public faBox = faBox;
   public faBoxOpen = faBoxOpen;
+  public faReport = faCheck;
   public faPublish = faUnlock;
   public faUnpublish = faLock;
   public faShare = faArrowUpRightFromSquare;
@@ -185,8 +194,24 @@ export class ShowComponent implements OnInit, OnDestroy {
     }
   }
 
-  public async onPublish(published: boolean): Promise<void> {
-    if (this.showId != null) await this.showService.update$(this.showId, {published});
+  public async onPublish(show: Show, published: boolean): Promise<void> {
+    if (!show.id) {
+      return;
+    }
+
+    if (!published) {
+      await this.showService.update$(show.id, {published: false, reportedType: null});
+      return;
+    }
+
+    if (!show.public) {
+      await this.showService.update$(show.id, {published: true, reportedType: 'not-required'});
+      return;
+    }
+
+    const showSongs = this.showSongs ?? (await this.showSongService.list(show.id));
+    const reportedType = showSongs.some(song => song.legalOwner === 'CCLI' && !!song.legalOwnerId) ? 'pending' : 'not-required';
+    await this.showService.update$(show.id, {published: true, reportedType});
   }
 
   public onShare = async (show: Show): Promise<void> => {
@@ -194,14 +219,67 @@ export class ShowComponent implements OnInit, OnDestroy {
     this.dialog.open(ShareDialogComponent, {data: {url, show}});
   };
 
+  public onReport(show: Show): void {
+    const songs = this.getReportableSongs(show);
+    if (songs.length === 0) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ReportDialogComponent, {
+      width: '640px',
+      data: {songs},
+    });
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe((reported: boolean) => {
+      if (reported) {
+        void this.showService.update$(show.id, {reportedType: 'reported'});
+      }
+    });
+  }
+
   public getStatus(show: Show): string {
     if (show.published) {
       return 'veröffentlicht';
     }
-    if (show.reported) {
+    if (show.reportedType === 'reported') {
       return 'gemeldet';
     }
     return 'entwurf';
+  }
+
+  public getReportedTypeBadgeType(show: Show): BadgeType {
+    switch (show.reportedType) {
+      case 'pending':
+        return 'error';
+      case 'reported':
+        return 'ok';
+      case 'not-required':
+        return 'none';
+      default:
+        return 'none';
+    }
+  }
+
+  public getPublishedBadgeType(show: Show): BadgeType {
+    return show.published ? 'ok' : 'none';
+  }
+
+  private getReportableSongs(show: Show): ReportDialogSong[] {
+    const uniqueSongs = new Map<string, ReportDialogSong>();
+
+    this.orderedShowSongs(show)
+      .filter(song => song.legalOwner === 'CCLI' && !!song.legalOwnerId)
+      .forEach(song => {
+        const key = song.songId || `${song.title}:${song.legalOwnerId}`;
+        if (!uniqueSongs.has(key)) {
+          uniqueSongs.set(key, {
+            title: song.title,
+            ccliNumber: song.legalOwnerId,
+          });
+        }
+      });
+
+    return Array.from(uniqueSongs.values());
   }
 
   public async onDownload(): Promise<void> {

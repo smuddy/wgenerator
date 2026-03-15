@@ -1,0 +1,74 @@
+.song-list {
+  width: 100%;
+}
+
+.list-head,
+.list-item {
+  display: grid;
+  grid-template-columns: auto 180px;
+  gap: 0;
+  align-items: center;
+
+  border-bottom: 1px solid var(--overlay)
+}
+
+.list-head {
+  padding: 3px 10px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.list-item {
+  padding: 3px 10px;
+  transition: var(--transition);
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--divider)
+  }
+}
+
+.list-head > div,
+.list-item > div {
+  display: flex;
+  align-items: center;
+}
+
+.number-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.report-link {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.opened-check {
+  color: var(--success);
+  font-size: 0.85rem;
+}
+
+@media screen and (max-width: 640px) {
+  .list-head,
+  .list-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .list-head {
+    display: none;
+  }
+
+  .list-item {
+    padding: 10px 16px;
+  }
+
+  .number-cell {
+    justify-content: flex-start;
+  }
+}

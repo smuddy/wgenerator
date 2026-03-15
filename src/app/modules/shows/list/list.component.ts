@@ -14,6 +14,7 @@ import {FilterComponent} from './filter/filter.component';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {ListItemComponent} from './list-item/list-item.component';
 import {SortByPipe} from '../../../widget-modules/pipes/sort-by/sort-by.pipe';
+import {UserService} from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-list',
@@ -25,14 +26,19 @@ import {SortByPipe} from '../../../widget-modules/pipes/sort-by/sort-by.pipe';
 export class ListComponent {
   private showService = inject(ShowService);
   private filterStore = inject(FilterStoreService);
+  private userService = inject(UserService);
 
   public filter$ = this.filterStore.showFilter$;
   public lastMonths$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.time || 1));
   public owner$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.owner));
   public showType$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.showType));
   public shows$ = this.showService.list$();
-  public privateShows$ = combineLatest([this.shows$, this.filter$]).pipe(
-    map(([shows, filter]) => shows.filter(show => !show.published).filter(show => this.matchesPrivateFilter(show, filter)))
+  public privateShows$ = combineLatest([this.shows$, this.userService.user$]).pipe(
+    map(([shows, user]) =>
+      shows
+        .filter(show => show.owner === user?.id)
+        .filter(show => !show.published || show.reportedType === 'pending')
+    )
   );
   public queriedPublicShows$ = this.lastMonths$.pipe(switchMap(lastMonths => this.showService.listPublicSince$(lastMonths)));
   public fallbackPublicShows$ = combineLatest([this.shows$, this.lastMonths$]).pipe(
@@ -49,10 +55,6 @@ export class ListComponent {
   );
 
   public trackBy = (index: number, show: unknown) => (show as Show).id;
-
-  private matchesPrivateFilter(show: Show, filter: FilterValues): boolean {
-    return this.matchesTimeFilter(show, filter.time || 1) && (!filter.showType || show.showType === filter.showType);
-  }
 
   private matchesTimeFilter(show: Show, lastMonths: number): boolean {
     const startDate = new Date();
