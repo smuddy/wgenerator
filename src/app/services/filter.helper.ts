@@ -16,17 +16,17 @@ function normalize(input: string): string {
 
 export const onlyUnique = <T>(value: T, index: number, array: T[]) => array.indexOf(value) === index;
 
-export function dynamicSort(property: string) {
+export function dynamicSort<T extends Record<string, string | number>>(property: keyof T | `-${string & keyof T}`) {
   let sortOrder = 1;
-  if (property[0] === '-') {
+  let resolvedProperty = property as string;
+  if (resolvedProperty[0] === '-') {
     sortOrder = -1;
-    property = property.substr(1);
+    resolvedProperty = resolvedProperty.slice(1);
   }
-  return function (a: unknown, b: unknown) {
-    /* next line works with strings and numbers,
-     * and you may want to customize it to your needs
-     */
-    const result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+  return function (a: T, b: T): number {
+    const left = a[resolvedProperty as keyof T];
+    const right = b[resolvedProperty as keyof T];
+    const result = left < right ? -1 : left > right ? 1 : 0;
     return result * sortOrder;
   };
 }

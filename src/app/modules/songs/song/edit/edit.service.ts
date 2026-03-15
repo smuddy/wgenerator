@@ -1,30 +1,48 @@
 import {Injectable} from '@angular/core';
 import {Song} from '../../services/song';
-import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
+
+export type SongFormGroup = FormGroup<{
+  text: FormControl<string>;
+  title: FormControl<string>;
+  comment: FormControl<string>;
+  flags: FormControl<string>;
+  key: FormControl<string>;
+  tempo: FormControl<number>;
+  type: FormControl<Song['type']>;
+  status: FormControl<Song['status']>;
+  legalType: FormControl<Song['legalType']>;
+  legalOwner: FormControl<Song['legalOwner']>;
+  legalOwnerId: FormControl<string>;
+  artist: FormControl<string>;
+  label: FormControl<string>;
+  termsOfUse: FormControl<string>;
+  origin: FormControl<string>;
+}>;
 
 @Injectable({
   providedIn: 'root',
 })
 export class EditService {
-  public createSongForm(song: Song): UntypedFormGroup {
-    return new UntypedFormGroup({
-      text: new UntypedFormControl(song.text),
-      title: new UntypedFormControl(song.title),
-      comment: new UntypedFormControl(song.comment),
-      flags: new UntypedFormControl(song.flags),
-      key: new UntypedFormControl(song.key),
-      tempo: new UntypedFormControl(song.tempo),
-      type: new UntypedFormControl(song.type),
-      status: new UntypedFormControl(song.status ?? 'draft'),
+  public createSongForm(song: Song): SongFormGroup {
+    return new FormGroup({
+      text: new FormControl(song.text, {nonNullable: true}),
+      title: new FormControl(song.title, {nonNullable: true}),
+      comment: new FormControl(song.comment, {nonNullable: true}),
+      flags: new FormControl(song.flags, {nonNullable: true}),
+      key: new FormControl(song.key, {nonNullable: true}),
+      tempo: new FormControl(song.tempo, {nonNullable: true}),
+      type: new FormControl(song.type, {nonNullable: true}),
+      status: new FormControl(song.status ?? 'draft', {nonNullable: true}),
 
-      legalType: new UntypedFormControl(song.legalType),
-      legalOwner: new UntypedFormControl(song.legalOwner),
-      legalOwnerId: new UntypedFormControl(song.legalOwnerId),
+      legalType: new FormControl(song.legalType, {nonNullable: true}),
+      legalOwner: new FormControl(song.legalOwner, {nonNullable: true}),
+      legalOwnerId: new FormControl(song.legalOwnerId, {nonNullable: true}),
 
-      artist: new UntypedFormControl(song.artist),
-      label: new UntypedFormControl(song.label),
-      termsOfUse: new UntypedFormControl(song.termsOfUse),
-      origin: new UntypedFormControl(song.origin),
+      artist: new FormControl(song.artist, {nonNullable: true}),
+      label: new FormControl(song.label, {nonNullable: true}),
+      termsOfUse: new FormControl(song.termsOfUse, {nonNullable: true}),
+      origin: new FormControl(song.origin, {nonNullable: true}),
     });
   }
 }

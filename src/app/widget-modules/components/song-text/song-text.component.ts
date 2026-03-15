@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren, inject} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren, inject} from '@angular/core';
 import {TextRenderingService} from '../../../modules/songs/services/text-rendering.service';
 import {faGripLines} from '@fortawesome/free-solid-svg-icons';
 import {songSwitch} from './animation';
@@ -27,7 +27,7 @@ interface DisplaySegment {
   animations: [songSwitch],
   imports: [MatIconButton, FaIconComponent],
 })
-export class SongTextComponent implements OnInit {
+export class SongTextComponent implements OnInit, OnDestroy {
   private textRenderingService = inject(TextRenderingService);
   private elRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private cRef = inject(ChangeDetectorRef);
@@ -47,6 +47,7 @@ export class SongTextComponent implements OnInit {
   private invalidChordIssuesByLine = new Map<number, ChordValidationIssue[]>();
   private iText = '';
   private iTranspose: TransposeMode | null = null;
+  private offsetIntervalId: ReturnType<typeof setInterval> | null = null;
 
   @Input()
   public set chordMode(value: ChordMode) {
@@ -73,7 +74,7 @@ export class SongTextComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    setInterval(() => {
+    this.offsetIntervalId = setInterval(() => {
       if (!this.fullscreen || this.index === -1 || !this.viewSections?.toArray()[this.index]) {
         this.offset = 0;
         this.cRef.markForCheck();
@@ -82,6 +83,12 @@ export class SongTextComponent implements OnInit {
       this.offset = -this.viewSections?.toArray()[this.index].nativeElement.offsetTop;
       this.cRef.markForCheck();
     }, 100);
+  }
+
+  public ngOnDestroy(): void {
+    if (this.offsetIntervalId) {
+      clearInterval(this.offsetIntervalId);
+    }
   }
 
   public getLines(section: Section): Line[] {

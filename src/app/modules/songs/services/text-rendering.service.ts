@@ -96,10 +96,11 @@ export class TextRenderingService {
       return [];
     }
 
-    const indices = {
+    const indices: Record<SectionType, number> = {
       [SectionType.Bridge]: 0,
       [SectionType.Chorus]: 0,
       [SectionType.Verse]: 0,
+      [SectionType.Comment]: 0,
     };
     const sections: Section[] = [];
 

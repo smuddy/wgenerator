@@ -1,9 +1,10 @@
-import {Component, OnInit, inject} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Song} from '../../../services/song';
-import {ReactiveFormsModule, UntypedFormGroup} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterStateSnapshot} from '@angular/router';
 import {SongService} from '../../../services/song.service';
-import {EditService} from '../edit.service';
+import {EditService, SongFormGroup} from '../edit.service';
 import {first, map, switchMap} from 'rxjs/operators';
 import {startWith} from 'rxjs';
 import {KEYS} from '../../../services/key.helper';
@@ -62,15 +63,9 @@ import {StatusPipe} from '../../../../../widget-modules/pipes/status-translater/
   ],
 })
 export class EditSongComponent implements OnInit {
-  private activatedRoute = inject(ActivatedRoute);
-  private songService = inject(SongService);
-  private editService = inject(EditService);
-  private router = inject(Router);
-  private textRenderingService = inject(TextRenderingService);
   public dialog = inject(MatDialog);
-
   public song: Song | null = null;
-  public form: UntypedFormGroup = new UntypedFormGroup({});
+  public form = {} as SongFormGroup;
   public keys = KEYS;
   public types = SongService.TYPES;
   public status = SongService.STATUS;
@@ -83,6 +78,12 @@ export class EditSongComponent implements OnInit {
   public faLink = faExternalLinkAlt;
   public songtextFocus = false;
   public chordValidationIssues: ChordValidationIssue[] = [];
+  private activatedRoute = inject(ActivatedRoute);
+  private songService = inject(SongService);
+  private editService = inject(EditService);
+  private router = inject(Router);
+  private textRenderingService = inject(TextRenderingService);
+  private destroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
     this.activatedRoute.params
@@ -90,23 +91,24 @@ export class EditSongComponent implements OnInit {
         map(param => param as {songId: string}),
         map(param => param.songId),
         switchMap(songId => this.songService.read$(songId)),
-        first()
+        first(),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(song => {
         this.song = song;
         if (!song) return;
         this.form = this.editService.createSongForm(song);
-        this.form.controls.flags.valueChanges.subscribe(_ => this.onFlagsChanged(_ as string));
-        this.form.controls.text.valueChanges.pipe(startWith(this.form.controls.text.value)).subscribe(text => {
-          this.updateChordValidation(text as string);
+        this.form.controls.flags.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.onFlagsChanged(value));
+        this.form.controls.text.valueChanges.pipe(startWith(this.form.controls.text.value), takeUntilDestroyed(this.destroyRef)).subscribe(text => {
+          this.updateChordValidation(text);
         });
-        this.onFlagsChanged(this.form.controls.flags.value as string);
+        this.onFlagsChanged(this.form.controls.flags.value);
       });
   }
 
   public async onSave(): Promise<void> {
     if (!this.song || this.form.invalid) return;
-    const data = this.form.value as Partial<Song>;
+    const data = this.form.getRawValue() as Partial<Song>;
     await this.songService.update$(this.song.id, data);
     this.form.markAsPristine();
     await this.router.navigateByUrl('songs/' + this.song.id);
@@ -121,7 +123,6 @@ export class EditSongComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
       const flags = [...this.flags, value.trim()];
       this.form.controls.flags.setValue(flags.join(';'));
@@ -174,7 +175,7 @@ export class EditSongComponent implements OnInit {
 
   private async onSaveDialogAfterClosed(save: boolean, url: string) {
     if (save && this.song && !this.form.invalid) {
-      const data = this.form.value as Partial<Song>;
+      const data = this.form.getRawValue() as Partial<Song>;
       await this.songService.update$(this.song.id, data);
     }
 

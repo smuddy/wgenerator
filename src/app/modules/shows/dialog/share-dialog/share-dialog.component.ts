@@ -19,7 +19,7 @@ export interface ShareDialogData {
 export class ShareDialogComponent {
   public data = inject<ShareDialogData>(MAT_DIALOG_DATA);
 
-  public qrCode: string;
+  public qrCode = '';
 
   public constructor() {
     const data = this.data;
@@ -35,10 +35,10 @@ export class ShareDialogComponent {
         light: '#ffffff',
       },
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-return
-    }).then(_ => (this.qrCode = _));
+    }).then((qrCode: string) => (this.qrCode = qrCode));
   }
 
-  public async share() {
+  public async share(): Promise<void> {
     if (navigator.clipboard) await navigator.clipboard.writeText(this.data.url);
 
     if (navigator.share)

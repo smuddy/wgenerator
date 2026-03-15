@@ -1,8 +1,9 @@
-import {Component, Input, OnInit, ViewChild, inject} from '@angular/core';
+import {Component, DestroyRef, Input, OnInit, ViewChild, inject} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ShowSongService} from '../../services/show-song.service';
 import {ShowSong} from '../../services/show-song';
 import {getScale} from '../../../songs/services/key.helper';
-import {ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ChordMode, SongTextComponent} from '../../../../widget-modules/components/song-text/song-text.component';
 import {Show} from '../../services/show';
 import {faEraser, faPenToSquare, faSave, faTrash} from '@fortawesome/free-solid-svg-icons';
@@ -42,6 +43,7 @@ import {CdkDragHandle} from '@angular/cdk/drag-drop';
 })
 export class SongComponent implements OnInit {
   private showSongService = inject(ShowSongService);
+  private destroyRef = inject(DestroyRef);
 
   @Input() public show: Show | null = null;
   @Input() public showId: string | null = null;
@@ -54,11 +56,11 @@ export class SongComponent implements OnInit {
   public faEdit = faPenToSquare;
   public faSave = faSave;
   public faEraser = faEraser;
-  public keyFormControl: UntypedFormControl = new UntypedFormControl();
+  public keyFormControl = new FormControl<string>('', {nonNullable: true});
   public iSong: ShowSong | null = null;
   public edit = false;
-  public editSongControl = new UntypedFormControl();
-  @ViewChild('option') private keyOptions: MatSelect;
+  public editSongControl = new FormControl<string | null>(null);
+  @ViewChild('option') private keyOptions!: MatSelect;
 
   @Input()
   public set showSong(song: ShowSong) {
@@ -68,8 +70,8 @@ export class SongComponent implements OnInit {
 
   public ngOnInit(): void {
     if (!this.iSong) return;
-    this.keyFormControl = new UntypedFormControl(this.iSong.key);
-    this.keyFormControl.valueChanges.subscribe((value: string) => {
+    this.keyFormControl = new FormControl<string>(this.iSong.key, {nonNullable: true});
+    this.keyFormControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => {
       if (!this.showId || !this.iSong) return;
       void this.showSongService.update$(this.showId, this.iSong.id, {key: value});
     });

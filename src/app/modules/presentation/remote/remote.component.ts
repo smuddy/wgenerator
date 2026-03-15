@@ -120,9 +120,11 @@ export class RemoteComponent implements OnDestroy {
       });
 
     this.presentationDynamicCaptionChanged$
-      .pipe(debounceTime(1000))
+      .pipe(debounceTime(1000), takeUntil(this.destroy$))
       .subscribe(_ => void this.showService.update$(_.showId, {presentationDynamicCaption: _.presentationDynamicCaption}));
-    this.presentationDynamicTextChanged$.pipe(debounceTime(1000)).subscribe(_ => void this.showService.update$(_.showId, {presentationDynamicText: _.presentationDynamicText}));
+    this.presentationDynamicTextChanged$
+      .pipe(debounceTime(1000), takeUntil(this.destroy$))
+      .subscribe(_ => void this.showService.update$(_.showId, {presentationDynamicText: _.presentationDynamicText}));
   }
 
   public trackBy(index: number, item: PresentationSong): string {

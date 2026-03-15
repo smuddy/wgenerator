@@ -1,5 +1,5 @@
 import {Component, OnInit, inject} from '@angular/core';
-import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
 import {faWindowRestore} from '@fortawesome/free-solid-svg-icons';
@@ -21,8 +21,8 @@ export class PasswordComponent implements OnInit {
   public userService = inject(UserService);
   private router = inject(Router);
 
-  public form: UntypedFormGroup = new UntypedFormGroup({
-    user: new UntypedFormControl(null, [Validators.required, Validators.email]),
+  public form = new FormGroup({
+    user: new FormControl<string>('', {nonNullable: true, validators: [Validators.required, Validators.email]}),
   });
 
   public errorMessage = '';
@@ -36,12 +36,19 @@ export class PasswordComponent implements OnInit {
     this.form.updateValueAndValidity();
     if (this.form.valid) {
       try {
-        const value = this.form.value as {user: string};
-        await this.userService.changePassword(value.user);
+        await this.userService.changePassword(this.form.controls.user.value);
         await this.router.navigateByUrl('/user/password-send');
-      } catch ({code}) {
-        this.errorMessage = code as string;
+      } catch (error) {
+        this.errorMessage = this.errorCode(error);
       }
     }
+  }
+
+  private errorCode(error: unknown): string {
+    if (typeof error === 'object' && error !== null && 'code' in error && typeof error.code === 'string') {
+      return error.code;
+    }
+
+    return 'unknown_error';
   }
 }

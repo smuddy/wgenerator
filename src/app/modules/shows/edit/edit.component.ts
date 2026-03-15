@@ -87,10 +87,15 @@ export class EditComponent implements OnInit {
       return;
     }
 
-    await this.showService.update$(this.form.value.id, {
-      date: Timestamp.fromDate(this.form.value.date),
-      showType: this.form.value.showType,
+    const {id, date, showType} = this.form.getRawValue();
+    if (!id || !date || !showType) {
+      return;
+    }
+
+    await this.showService.update$(id, {
+      date: Timestamp.fromDate(date),
+      showType,
     } as Partial<Show>);
-    await this.router.navigateByUrl(`/shows/${this.form.value.id ?? ''}`);
+    await this.router.navigateByUrl(`/shows/${id}`);
   }
 }

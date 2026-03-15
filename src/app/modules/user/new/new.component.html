@@ -11,6 +11,9 @@
     <mat-label>Passwort</mat-label>
     <input formControlName="password" matInput type="password" />
   </mat-form-field>
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage | authMessage }}</p>
+  }
 
   <app-button-row>
     <app-button (click)="onCreate()" [icon]="faNewUser"

@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit, inject} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
-import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {DestroyRef} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SongService} from '../../services/song.service';
 import {Song} from '../../services/song';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
 import {take} from 'rxjs/operators';
 import {CardComponent} from '../../../../widget-modules/components/card/card.component';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
@@ -18,39 +19,34 @@ import {ButtonComponent} from '../../../../widget-modules/components/button/butt
   styleUrls: ['./new.component.less'],
   imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent],
 })
-export class NewComponent implements OnInit, OnDestroy {
+export class NewComponent implements OnInit {
   private songService = inject(SongService);
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   public faSave = faSave;
-  public form: UntypedFormGroup = new UntypedFormGroup({
-    number: new UntypedFormControl(null, Validators.required),
-    title: new UntypedFormControl(null, Validators.required),
+  public form = new FormGroup({
+    number: new FormControl<number | null>(null, Validators.required),
+    title: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
   });
-  private subs: Subscription[] = [];
 
   public ngOnInit(): void {
     this.form.reset();
 
-    this.subs.push(
-      this.songService
-        .list$()
-        .pipe(take(1))
-        .subscribe(songs => {
-          const freeSongnumber = this.getFreeSongNumber(songs);
-          this.form.controls.number.setValue(freeSongnumber);
-        })
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.subs.forEach(_ => _.unsubscribe());
+    this.songService
+      .list$()
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe(songs => {
+        const freeSongnumber = this.getFreeSongNumber(songs);
+        this.form.controls.number.setValue(freeSongnumber);
+      });
   }
 
   public async onSave(): Promise<void> {
-    const value = this.form.value as {number: number; title: string};
-    const songNumber = value.number;
-    const title = value.title;
+    const {number: songNumber, title} = this.form.getRawValue();
+    if (songNumber == null) {
+      return;
+    }
     const newSongId = await this.songService.new(songNumber, title);
     await this.router.navigateByUrl('/songs/' + newSongId + '/edit');
   }

@@ -1,6 +1,7 @@
-import {Component, Input, inject} from '@angular/core';
+import {Component, DestroyRef, Input, inject} from '@angular/core';
 import {KeyValue} from '@angular/common';
-import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {FilterValues} from './filter-values';
 import {Show} from '../../services/show';
 import {ShowService} from '../../services/show.service';
@@ -24,13 +25,18 @@ export class FilterComponent {
   private showService = inject(ShowService);
   private userService = inject(UserService);
   private filterStore = inject(FilterStoreService);
+  private destroyRef = inject(DestroyRef);
 
   @Input() public shows: Show[] = [];
 
   public showTypePublic = ShowService.SHOW_TYPE_PUBLIC;
   public showTypePrivate = ShowService.SHOW_TYPE_PRIVATE;
 
-  public filterFormGroup: UntypedFormGroup;
+  public filterFormGroup: FormGroup<{
+    time: FormControl<number>;
+    owner: FormControl<string | null>;
+    showType: FormControl<string | null>;
+  }>;
   public times: KeyValue<number, string>[] = [
     {key: 1, value: 'letzter Monat'},
     {key: 3, value: 'letztes Quartal'},
@@ -41,15 +47,15 @@ export class FilterComponent {
   public owners: {key: string; value: string}[] = [];
 
   public constructor() {
-    const fb = inject(UntypedFormBuilder);
+    const fb = inject(FormBuilder);
 
     this.filterFormGroup = fb.group({
-      time: 1,
-      owner: null,
-      showType: null,
+      time: fb.nonNullable.control(1),
+      owner: fb.control<string | null>(null),
+      showType: fb.control<string | null>(null),
     });
 
-    this.filterStore.showFilter$.subscribe(filterValues => {
+    this.filterStore.showFilter$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(filterValues => {
       this.filterFormGroup.patchValue(
         {
           time: filterValues.time,
@@ -60,11 +66,13 @@ export class FilterComponent {
       );
     });
 
-    this.filterFormGroup.controls.time.valueChanges.subscribe(_ => this.filterValueChanged('time', (_ as number) ?? 1));
-    this.filterFormGroup.controls.owner.valueChanges.subscribe(_ => this.filterValueChanged('owner', (_ as string | null) ?? ''));
-    this.filterFormGroup.controls.showType.valueChanges.subscribe(_ => this.filterValueChanged('showType', (_ as string | null) ?? ''));
+    this.filterFormGroup.controls.time.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('time', value));
+    this.filterFormGroup.controls.owner.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('owner', value ?? ''));
+    this.filterFormGroup.controls.showType.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('showType', value ?? ''));
 
-    this.owners$().subscribe(owners => (this.owners = owners));
+    this.owners$()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(owners => (this.owners = owners));
   }
 
   public owners$ = (): Observable<{key: string; value: string}[]> => {
@@ -85,17 +93,15 @@ export class FilterComponent {
             this.userService.getUserbyId$(ownerId).pipe(
               map(user => ({
                 key: ownerId,
-                value: user?.name,
+                value: user?.name ?? ownerId,
               }))
             )
           )
         );
       }),
-      map(owners => {
-        return owners.sort(dynamicSort('value'));
-      }),
+      map(owners => owners.sort(dynamicSort<{key: string; value: string}>('value'))),
       distinctUntilChanged((left, right) => this.sameOwners(left, right)),
-      map(_ => _ as {key: string; value: string}[])
+      map(owners => owners as {key: string; value: string}[])
     );
   };
 

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, inject} from '@angular/core';
-import {ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {filterSong} from '../../../services/filter.helper';
 import {MatFormField, MatLabel, MatOption, MatSelect, MatSelectChange} from '@angular/material/select';
 import {Song} from '../../../modules/songs/services/song';
@@ -25,7 +25,7 @@ export class AddSongComponent {
   @Input() public showSongs: ShowSong[] | null = null;
   @Input() public show: Show | null = null;
   @Input() public addedLive = false;
-  public filteredSongsControl = new UntypedFormControl();
+  public filteredSongsControl = new FormControl<string>('', {nonNullable: true});
 
   public filteredSongs(): Song[] {
     if (!this.songs) return [];
@@ -44,7 +44,7 @@ export class AddSongComponent {
         return 0;
       });
 
-    const filterValue = this.filteredSongsControl.value as string;
+    const filterValue = this.filteredSongsControl.value;
     return filterValue ? songs.filter(_ => filterSong(_, filterValue)) : songs;
   }
 

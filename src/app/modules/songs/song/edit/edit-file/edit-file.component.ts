@@ -1,4 +1,5 @@
-import {Component, inject} from '@angular/core';
+import {Component, DestroyRef, inject} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Upload} from '../../../services/upload';
 import {UploadService} from '../../../services/upload.service';
 import {ActivatedRoute} from '@angular/router';
@@ -22,6 +23,7 @@ export class EditFileComponent {
   private activatedRoute = inject(ActivatedRoute);
   private uploadService = inject(UploadService);
   private fileService = inject(FileDataService);
+  private destroyRef = inject(DestroyRef);
 
   public selectedFiles: FileList | null = null;
   public currentUpload: Upload | null = null;
@@ -32,7 +34,8 @@ export class EditFileComponent {
     this.activatedRoute.params
       .pipe(
         map(param => param as {songId: string}),
-        map(param => param.songId)
+        map(param => param.songId),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(songId => {
         this.songId = songId;

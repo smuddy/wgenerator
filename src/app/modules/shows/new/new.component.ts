@@ -3,7 +3,7 @@ import {ShowDataService} from '../services/show-data.service';
 import {Observable} from 'rxjs';
 import {Show} from '../services/show';
 import {ShowService} from '../services/show.service';
-import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
@@ -46,9 +46,9 @@ export class NewComponent implements OnInit {
   public shows$: Observable<Show[]>;
   public showTypePublic = ShowService.SHOW_TYPE_PUBLIC;
   public showTypePrivate = ShowService.SHOW_TYPE_PRIVATE;
-  public form: UntypedFormGroup = new UntypedFormGroup({
-    date: new UntypedFormControl(null, Validators.required),
-    showType: new UntypedFormControl(null, Validators.required),
+  public form = new FormGroup({
+    date: new FormControl<Date | null>(null, Validators.required),
+    showType: new FormControl<string | null>(null, Validators.required),
   });
   public faSave = faSave;
 
@@ -68,7 +68,11 @@ export class NewComponent implements OnInit {
       return;
     }
 
-    const id = await this.showService.new$(this.form.value as Partial<Show>);
+    const {date, showType} = this.form.getRawValue();
+    const id = await this.showService.new$({
+      date,
+      showType,
+    } as unknown as Partial<Show>);
     await this.router.navigateByUrl(`/shows/${id ?? ''}`);
   }
 }

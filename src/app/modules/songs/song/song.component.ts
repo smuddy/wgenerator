@@ -75,11 +75,12 @@ export class SongComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.song$ = this.activatedRoute.params.pipe(
+    const song$ = this.activatedRoute.params.pipe(
       map(param => param as {songId: string}),
       map(param => param.songId),
       switchMap(songId => this.songService.read$(songId))
     );
+    this.song$ = song$;
 
     this.files$ = this.activatedRoute.params.pipe(
       map(param => param as {songId: string}),
@@ -87,7 +88,7 @@ export class SongComponent implements OnInit {
       switchMap(songId => this.fileService.read$(songId))
     );
 
-    this.songCount$ = combineLatest([this.user$, this.song$]).pipe(
+    this.songCount$ = combineLatest([this.userService.user$, song$]).pipe(
       map(([user, song]) => {
         if (!song) {
           return 0;
@@ -111,10 +112,9 @@ export class SongComponent implements OnInit {
     await this.router.navigateByUrl('/songs');
   }
 
-  public async addSongToShow(show: Show, song: Song) {
-    if (!show) return;
-    const newId = await this.showSongService.new$(show?.id, song.id, false);
-    await this.showService.update$(show?.id, {order: [...show.order, newId ?? '']});
+  public async addSongToShow(show: Show, song: Song): Promise<void> {
+    const newId = await this.showSongService.new$(show.id, song.id, false);
+    await this.showService.update$(show.id, {order: [...show.order, newId ?? '']});
     await this.router.navigateByUrl('/shows/' + show.id);
   }
 }

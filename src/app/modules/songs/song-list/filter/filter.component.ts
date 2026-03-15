@@ -1,5 +1,6 @@
-import {Component, Input, inject} from '@angular/core';
-import {ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
+import {Component, DestroyRef, Input, inject} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {SongService} from '../../services/song.service';
 import {FilterValues} from './filter-values';
 import {Song} from '../../services/song';
@@ -22,17 +23,24 @@ import {SongTypePipe} from '../../../../widget-modules/pipes/song-type-translate
 })
 export class FilterComponent {
   private filterStore = inject(FilterStoreService);
+  private destroyRef = inject(DestroyRef);
 
-  public filterFormGroup: UntypedFormGroup;
+  public filterFormGroup: FormGroup<{
+    q: FormControl<string>;
+    type: FormControl<string>;
+    key: FormControl<string>;
+    legalType: FormControl<string>;
+    flag: FormControl<string>;
+  }>;
   @Input() public songs: Song[] = [];
   public types = SongService.TYPES;
   public legalType = SongService.LEGAL_TYPE;
   public keys = KEYS;
 
   public constructor() {
-    const fb = inject(UntypedFormBuilder);
+    const fb = inject(FormBuilder);
 
-    this.filterFormGroup = fb.group({
+    this.filterFormGroup = fb.nonNullable.group({
       q: '',
       type: '',
       key: '',
@@ -40,15 +48,15 @@ export class FilterComponent {
       flag: '',
     });
 
-    this.filterStore.songFilter$.subscribe(filterValues => {
+    this.filterStore.songFilter$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(filterValues => {
       this.filterFormGroup.patchValue(filterValues, {emitEvent: false});
     });
 
-    this.filterFormGroup.controls.q.valueChanges.subscribe(_ => this.filterValueChanged('q', (_ as string) ?? ''));
-    this.filterFormGroup.controls.key.valueChanges.subscribe(_ => this.filterValueChanged('key', (_ as string) ?? ''));
-    this.filterFormGroup.controls.type.valueChanges.subscribe(_ => this.filterValueChanged('type', (_ as string) ?? ''));
-    this.filterFormGroup.controls.legalType.valueChanges.subscribe(_ => this.filterValueChanged('legalType', (_ as string) ?? ''));
-    this.filterFormGroup.controls.flag.valueChanges.subscribe(_ => this.filterValueChanged('flag', (_ as string) ?? ''));
+    this.filterFormGroup.controls.q.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('q', value));
+    this.filterFormGroup.controls.key.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('key', value));
+    this.filterFormGroup.controls.type.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('type', value));
+    this.filterFormGroup.controls.legalType.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('legalType', value));
+    this.filterFormGroup.controls.flag.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('flag', value));
   }
 
   public getFlags(): string[] {

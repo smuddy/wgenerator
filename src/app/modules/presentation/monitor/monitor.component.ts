@@ -43,6 +43,7 @@ export class MonitorComponent implements OnInit, OnDestroy {
   public config$: Observable<Config | null>;
   public presentationBackground: PresentationBackground = 'none';
   private destroy$ = new Subject<void>();
+  private songSwitchTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
   public constructor() {
     const configService = this.configService;
@@ -97,7 +98,10 @@ export class MonitorComponent implements OnInit, OnDestroy {
           if (this.songId !== presentationSongId) {
             this.songId = 'empty';
           }
-          setTimeout(() => {
+          if (this.songSwitchTimeoutId) {
+            clearTimeout(this.songSwitchTimeoutId);
+          }
+          this.songSwitchTimeoutId = setTimeout(() => {
             this.songId = presentationSongId;
             this.cRef.markForCheck();
           }, 600);
@@ -113,6 +117,9 @@ export class MonitorComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    if (this.songSwitchTimeoutId) {
+      clearTimeout(this.songSwitchTimeoutId);
+    }
     this.destroy$.next();
     this.destroy$.complete();
   }

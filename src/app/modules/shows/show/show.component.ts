@@ -3,6 +3,7 @@ import {filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowService} from '../services/show.service';
 import {Observable, of, Subscription} from 'rxjs';
+import {take} from 'rxjs/operators';
 import {Show} from '../services/show';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
@@ -112,12 +113,13 @@ export class ShowComponent implements OnInit, OnDestroy {
   public faRestore = faMinimize;
   public faMaximize = faMaximize;
   public faNextSong = faChevronRight;
-  public currentTime: Date;
+  public currentTime!: Date;
   private subs: Subscription[] = [];
+  private clockIntervalId: ReturnType<typeof setInterval> | null = null;
 
   public ngOnInit(): void {
     this.currentTime = new Date();
-    setInterval(() => {
+    this.clockIntervalId = setInterval(() => {
       this.currentTime = new Date();
     }, 10000);
     this.show$ = this.activatedRoute.params.pipe(
@@ -155,6 +157,9 @@ export class ShowComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subs.forEach(_ => _.unsubscribe());
+    if (this.clockIntervalId) {
+      clearInterval(this.clockIntervalId);
+    }
   }
 
   public onZoomIn() {
@@ -172,7 +177,7 @@ export class ShowComponent implements OnInit, OnDestroy {
         width: '350px',
       });
 
-      dialogRef.afterClosed().subscribe((archive: boolean) => {
+      dialogRef.afterClosed().pipe(take(1)).subscribe((archive: boolean) => {
         if (archive && this.showId != null) void this.showService.update$(this.showId, {archived});
       });
     }

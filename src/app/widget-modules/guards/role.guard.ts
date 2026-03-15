@@ -2,7 +2,7 @@ import {Injectable, inject} from '@angular/core';
 import {ActivatedRouteSnapshot, Router, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserService} from '../../services/user/user.service';
-import {map} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +18,11 @@ export class RoleGuard {
     }
 
     return this.userService.user$.pipe(
+      take(1),
       map(user => {
-        if (!user) return false;
+        if (!user) {
+          return this.router.createUrlTree(['brand', 'new-user']);
+        }
         const roles = user.role?.split(';') ?? [];
         if (roles.indexOf('admin') !== -1) {
           return true;

@@ -13,6 +13,8 @@ export class SectionTypePipe implements PipeTransform {
         return 'Refrain';
       case SectionType.Bridge:
         return 'Bridge';
+      case SectionType.Comment:
+        return 'Kommentar';
     }
   }
 }

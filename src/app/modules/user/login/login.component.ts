@@ -1,5 +1,5 @@
 import {Component, OnInit, inject} from '@angular/core';
-import {ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
 import {faSignInAlt, faUserPlus} from '@fortawesome/free-solid-svg-icons';
@@ -20,9 +20,9 @@ export class LoginComponent implements OnInit {
   private userService = inject(UserService);
   private router = inject(Router);
 
-  public form: UntypedFormGroup = new UntypedFormGroup({
-    user: new UntypedFormControl(null, [Validators.required, Validators.email]),
-    pass: new UntypedFormControl(null, [Validators.required]),
+  public form = new FormGroup({
+    user: new FormControl<string>('', {nonNullable: true, validators: [Validators.required, Validators.email]}),
+    pass: new FormControl<string>('', {nonNullable: true, validators: [Validators.required]}),
   });
   public errorMessage = '';
   public faSignIn = faSignInAlt;
@@ -36,12 +36,19 @@ export class LoginComponent implements OnInit {
     this.form.updateValueAndValidity();
     if (this.form.valid) {
       try {
-        const value = this.form.value as {user: string; pass: string};
-        await this.userService.login(value.user, value.pass);
+        await this.userService.login(this.form.controls.user.value, this.form.controls.pass.value);
         await this.router.navigateByUrl('/');
-      } catch ({code}) {
-        this.errorMessage = code as string;
+      } catch (error) {
+        this.errorMessage = this.errorCode(error);
       }
     }
+  }
+
+  private errorCode(error: unknown): string {
+    if (typeof error === 'object' && error !== null && 'code' in error && typeof error.code === 'string') {
+      return error.code;
+    }
+
+    return 'unknown_error';
   }
 }
