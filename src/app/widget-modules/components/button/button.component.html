@@ -1,10 +1,8 @@
 <button [disabled]="disabled" mat-button>
   @if (icon) {
-    <span
-      ><fa-icon [icon]="icon"></fa-icon><span class="content">&nbsp;</span></span
-      >
-    }
-    <span class="button-content">
-      <ng-content></ng-content>
-    </span>
-  </button>
+  <span><fa-icon [icon]="icon"></fa-icon><span class="content">&nbsp;</span></span>
+  }
+  <span class="button-content">
+    <ng-content></ng-content>
+  </span>
+</button>

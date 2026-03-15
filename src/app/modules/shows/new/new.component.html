@@ -6,18 +6,12 @@
         <mat-select formControlName="showType">
           <mat-optgroup label="öffentlich">
             @for (key of showTypePublic; track key) {
-              <mat-option [value]="key">{{
-                key | showType
-                }}
-              </mat-option>
+            <mat-option [value]="key">{{ key | showType }} </mat-option>
             }
           </mat-optgroup>
           <mat-optgroup label="privat">
             @for (key of showTypePrivate; track key) {
-              <mat-option [value]="key">{{
-                key | showType
-                }}
-              </mat-option>
+            <mat-option [value]="key">{{ key | showType }} </mat-option>
             }
           </mat-optgroup>
         </mat-select>

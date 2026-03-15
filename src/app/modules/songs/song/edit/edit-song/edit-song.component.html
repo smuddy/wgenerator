@@ -1,202 +1,173 @@
 @if (song) {
-  <app-card [heading]="song.number + ' bearbeiten'" closeLink="../">
-    <form [formGroup]="form" class="form">
+<app-card [heading]="song.number + ' bearbeiten'" closeLink="../">
+  <form [formGroup]="form" class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Titel</mat-label>
+      <input formControlName="title" matInput />
+    </mat-form-field>
+    <div class="fourth">
       <mat-form-field appearance="outline">
-        <mat-label>Titel</mat-label>
-        <input formControlName="title" matInput />
-      </mat-form-field>
-      <div class="fourth">
-        <mat-form-field appearance="outline">
-          <mat-label>Typ</mat-label>
-          <mat-select formControlName="type">
-            @for (type of types; track type) {
-              <mat-option [value]="type">{{
-                type | songType
-                }}
-              </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Tonart</mat-label>
-          <mat-select formControlName="key">
-            @for (key of keys; track key) {
-              <mat-option [value]="key">{{
-                key | key
-                }}
-              </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Tempo</mat-label>
-          <input formControlName="tempo" matInput />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Status</mat-label>
-          <mat-select formControlName="status">
-            @for (status of status; track status) {
-              <mat-option [value]="status">{{
-                status | status
-                }}
-              </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <mat-form-field appearance="outline">
-        <mat-label>Songtext</mat-label>
-        <textarea
-          (focus)="songtextFocus = true"
-          (focusout)="songtextFocus = false"
-          [cdkTextareaAutosize]="true"
-          formControlName="text"
-          matInput
-        ></textarea>
-      </mat-form-field>
-      @if (chordValidationIssues.length > 0) {
-        <div class="song-text-validation">
-          <h3>Akkordschreibweise korrigieren</h3>
-          @for (issue of chordValidationIssues; track issue.lineNumber + '-' + issue.token) {
-            <div class="issue">
-              <strong>Zeile {{ issue.lineNumber }}:</strong>
-              <span>{{ issue.message }}</span>
-              <code>{{ issue.token }}</code>
-              @if (issue.suggestion) {
-                <span>-></span>
-                <code>{{ issue.suggestion }}</code>
-              }
-            </div>
+        <mat-label>Typ</mat-label>
+        <mat-select formControlName="type">
+          @for (type of types; track type) {
+          <mat-option [value]="type">{{ type | songType }} </mat-option>
           }
-        </div>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Tonart</mat-label>
+        <mat-select formControlName="key">
+          @for (key of keys; track key) {
+          <mat-option [value]="key">{{ key | key }} </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Tempo</mat-label>
+        <input formControlName="tempo" matInput />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          @for (status of status; track status) {
+          <mat-option [value]="status">{{ status | status }} </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Songtext</mat-label>
+      <textarea (focus)="songtextFocus = true" (focusout)="songtextFocus = false" [cdkTextareaAutosize]="true" formControlName="text" matInput></textarea>
+    </mat-form-field>
+    @if (chordValidationIssues.length > 0) {
+    <div class="song-text-validation">
+      <h3>Akkordschreibweise korrigieren</h3>
+      @for (issue of chordValidationIssues; track issue.lineNumber + '-' + issue.token) {
+      <div class="issue">
+        <strong>Zeile {{ issue.lineNumber }}:</strong>
+        <span>{{ issue.message }}</span>
+        <code>{{ issue.token }}</code>
+        @if (issue.suggestion) {
+        <span>-></span>
+        <code>{{ issue.suggestion }}</code>
+        }
+      </div>
       }
-      @if (songtextFocus) {
-        <div class="song-text-help">
-          <h3>Vorschau</h3>
-          <app-song-text [text]="form.value.text" [validateChordNotation]="true" chordMode="show"></app-song-text>
-          <h3>Hinweise zur Bearbeitung</h3>
-          <h4>Aufbau</h4>
-          Der Liedtext wird hintereinander weg geschrieben. Dabei werden Strophen,
-          Refrain und Bridge jeweils durch eine zusätzliche Zeile Markiert. z.B.
-          <pre>
+    </div>
+    } @if (songtextFocus) {
+    <div class="song-text-help">
+      <h3>Vorschau</h3>
+      <app-song-text [text]="form.value.text" [validateChordNotation]="true" chordMode="show"></app-song-text>
+      <h3>Hinweise zur Bearbeitung</h3>
+      <h4>Aufbau</h4>
+      Der Liedtext wird hintereinander weg geschrieben. Dabei werden Strophen, Refrain und Bridge jeweils durch eine zusätzliche Zeile Markiert. z.B.
+      <pre>
             Strophe
             Text der ersten Strophe
             Strophe
             Text der zweiten Strophe
             Refrain
             Und hier der Refrain
-          </pre>
-          <h3>Akkorde</h3>
-          Die Akktorde werden jeweils in der Zeile über dem jeweiligen Liedtext
-          geschrieben. Sie werden jeweils durch Leerzeichen an die entsprechende
-          Position gebracht. Bitte keine Tabulatoren verwenden! Folgende
-          Schreibweisen sind erlaubt:
-          <pre>
+          </pre
+      >
+      <h3>Akkorde</h3>
+      Die Akktorde werden jeweils in der Zeile über dem jeweiligen Liedtext geschrieben. Sie werden jeweils durch Leerzeichen an die entsprechende Position gebracht. Bitte keine
+      Tabulatoren verwenden! Folgende Schreibweisen sind erlaubt:
+      <pre>
             Dur: C  D  E
             Moll: c  d  e
             Kreuz/B-Tonarten: C#  f#  Eb  (Hb muss als B angegeben werden)
             Basstöne: C/E  D/C
             Obertöne: c7  E9  f#maj7
-          </pre>
-          Beispiel:
-          <pre>
+          </pre
+      >
+      Beispiel:
+      <pre>
             Strophe
             e            C/E        H7    a     D    C/E   H7/E
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
             F#        B      Eb      Cmaj7    C9                   e
             sed diam nonumy eirmod tempor invidunt ut labore et dolore
-          </pre>
-        </div>
-      }
+          </pre
+      >
+    </div>
+    }
+    <mat-form-field appearance="outline">
+      <mat-label>Kommentar</mat-label>
+      <textarea [cdkTextareaAutosize]="true" formControlName="comment" matInput></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-chip-grid #chipList>
+        @for (flag of flags; track flag) {
+        <mat-chip-row (removed)="removeFlag(flag)" [removable]="true">
+          {{ flag }}&nbsp;
+          <fa-icon (click)="removeFlag(flag)" [icon]="faRemove"></fa-icon>
+        </mat-chip-row>
+        }
+        <input
+          (matChipInputTokenEnd)="addFlag($event)"
+          [matChipInputAddOnBlur]="true"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          placeholder="Attribute"
+        />
+      </mat-chip-grid>
+    </mat-form-field>
+    <div class="half">
       <mat-form-field appearance="outline">
-        <mat-label>Kommentar</mat-label>
-        <textarea
-          [cdkTextareaAutosize]="true"
-          formControlName="comment"
-          matInput
-        ></textarea>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-chip-grid #chipList>
-          @for (flag of flags; track flag) {
-            <mat-chip-row
-              (removed)="removeFlag(flag)"
-              [removable]="true"
-              >
-              {{ flag }}&nbsp;
-              <fa-icon (click)="removeFlag(flag)" [icon]="faRemove"></fa-icon>
-            </mat-chip-row>
+        <mat-label>Rechtlicher Status</mat-label>
+        <mat-select formControlName="legalType">
+          @for (key of legalType; track key) {
+          <mat-option [value]="key">{{ key | legalType }} </mat-option>
           }
-          <input
-            (matChipInputTokenEnd)="addFlag($event)"
-            [matChipInputAddOnBlur]="true"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            placeholder="Attribute"
-            />
-        </mat-chip-grid>
+        </mat-select>
       </mat-form-field>
-      <div class="half">
-        <mat-form-field appearance="outline">
-          <mat-label>Rechtlicher Status</mat-label>
-          <mat-select formControlName="legalType">
-            @for (key of legalType; track key) {
-              <mat-option [value]="key">{{
-                key | legalType
-                }}
-              </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Rechteinhaber</mat-label>
-          <mat-select formControlName="legalOwner">
-            @for (key of legalOwner; track key) {
-              <mat-option [value]="key">{{
-                key | legalOwner
-                }}
-              </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Rechteinhaber ID (z.B. CCLI Liednummer)</mat-label>
-          <input formControlName="legalOwnerId" matInput />
-          @if (form.value.legalOwner === 'CCLI') {
-            <a
-              class="link-ccli"
-              href="https://songselect.ccli.com/Songs/{{ form.value.legalOwnerId }}"
-              matSuffix
+      <mat-form-field appearance="outline">
+        <mat-label>Rechteinhaber</mat-label>
+        <mat-select formControlName="legalOwner">
+          @for (key of legalOwner; track key) {
+          <mat-option [value]="key">{{ key | legalOwner }} </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Rechteinhaber ID (z.B. CCLI Liednummer)</mat-label>
+        <input formControlName="legalOwnerId" matInput />
+        @if (form.value.legalOwner === 'CCLI') {
+        <a
+          class="link-ccli"
+          href="https://songselect.ccli.com/Songs/{{ form.value.legalOwnerId }}"
+          matSuffix
           matTooltip="CCLI Link: https://songselect.ccli.com/Songs/{{
             form.value.legalOwnerId
           }}"
-              matTooltipPosition="before"
-              target="_blank"
-              >
-              <fa-icon [icon]="faLink"></fa-icon>
-            </a>
-          }
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Künstler</mat-label>
-          <input formControlName="artist" matInput />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Verlag / Copyright</mat-label>
-          <input formControlName="label" matInput />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Nutzungsbedingungen</mat-label>
-          <input formControlName="termsOfUse" matInput />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>abweichende Quelle</mat-label>
-          <input formControlName="origin" matInput />
-        </mat-form-field>
-      </div>
-    </form>
-    <app-button-row>
-      <app-button (click)="onSave()" [disabled]="form.invalid" [icon]="faSave">Speichern</app-button>
-    </app-button-row>
-  </app-card>
+          matTooltipPosition="before"
+          target="_blank"
+        >
+          <fa-icon [icon]="faLink"></fa-icon>
+        </a>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Künstler</mat-label>
+        <input formControlName="artist" matInput />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Verlag / Copyright</mat-label>
+        <input formControlName="label" matInput />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nutzungsbedingungen</mat-label>
+        <input formControlName="termsOfUse" matInput />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>abweichende Quelle</mat-label>
+        <input formControlName="origin" matInput />
+      </mat-form-field>
+    </div>
+  </form>
+  <app-button-row>
+    <app-button (click)="onSave()" [disabled]="form.invalid" [icon]="faSave">Speichern</app-button>
+  </app-button-row>
+</app-card>
 }

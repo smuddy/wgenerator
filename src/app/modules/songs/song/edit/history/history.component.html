@@ -1,10 +1,10 @@
 @if (song && song.edits) {
-  <app-card heading="letzte Änderungen">
-    @for (edit of song.edits; track edit.username + '-' + edit.timestamp.toMillis()) {
-      <div class="list">
-        <div>{{ edit.username }}</div>
-        <div>{{ edit.timestamp.toDate() | date: "dd.MM.yyyy" }}</div>
-      </div>
-    }
-  </app-card>
+<app-card heading="letzte Änderungen">
+  @for (edit of song.edits; track edit.username + '-' + edit.timestamp.toMillis()) {
+  <div class="list">
+    <div>{{ edit.username }}</div>
+    <div>{{ edit.timestamp.toDate() | date: "dd.MM.yyyy" }}</div>
+  </div>
+  }
+</app-card>
 }

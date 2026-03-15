@@ -1,113 +1,81 @@
 @if (iSong && iSong && show) {
-  <div>
-    @if (show.published || fullscreen) {
-      <div class="title published">
-        <div class="key">{{ iSong.key }}</div>
-        <div>{{ iSong.title }}</div>
+<div>
+  @if (show.published || fullscreen) {
+  <div class="title published">
+    <div class="key">{{ iSong.key }}</div>
+    <div>{{ iSong.title }}</div>
+  </div>
+  } @if (!show.published && !fullscreen) {
+  <div class="song" [class.show-text-layout]="!!showText" [class.compact-layout]="!showText" [class.with-drag]="dragHandle && !edit">
+    @if (dragHandle && !edit) {
+    <button aria-label="Lied verschieben" cdkDragHandle class="drag-handle" type="button"></button>
+    }
+    <span class="title">{{ iSong.title }}</span>
+    @if (!edit) {
+    <div class="keys-container">
+      <div (click)="openKeySelect()" class="keys">
+        @if (iSong.keyOriginal !== iSong.key) {
+        <span>{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span>
+        }
+        <span>{{ iSong.key }}</span>
       </div>
-    }
-    @if (!show.published && !fullscreen) {
-      <div
-        class="song"
-        [class.show-text-layout]="!!showText"
-        [class.compact-layout]="!showText"
-        [class.with-drag]="dragHandle && !edit"
-      >
-        @if (dragHandle && !edit) {
-          <button
-            aria-label="Lied verschieben"
-            cdkDragHandle
-            class="drag-handle"
-            type="button"
-          ></button>
-        }
-        <span class="title">{{ iSong.title }}</span>
-        @if (!edit) {
-          <div class="keys-container">
-            <div (click)="openKeySelect()" class="keys">
-              @if (iSong.keyOriginal !== iSong.key) {
-                <span>{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span>
-              }
-              <span>{{ iSong.key }}</span>
-            </div>
-          </div>
-        }
-        @if (!edit) {
-          <app-menu-button (click)="onEdit()" [icon]="faEdit" class="btn-edit btn-icon"
-                           matTooltip="Lied für diese Veranstaltung bearbeiten"></app-menu-button>
-        }
-        @if (!edit) {
-          <app-menu-button (click)="onDelete()" [icon]="faDelete" class="btn-delete btn-icon"
-                           matTooltip="Lied aus Veranstaltung entfernen"></app-menu-button>
-        }
-      </div>
-      @if (!edit) {
-        <div
-          aria-hidden="true"
-          class="song select"
-          [class.show-text-layout]="!!showText"
-          [class.compact-layout]="!showText"
-          [class.with-drag]="dragHandle"
-        >
-          @if (dragHandle) {
-            <span class="drag-handle-placeholder"></span>
-          }
-          @if (!showText) {
-            <span class="keys">
-              <mat-form-field class="keys-select">
-                <mat-select #option [formControl]="keyFormControl" tabIndex="-1">
-                  @for (key of keys; track key) {
-                    <mat-option [value]="key">{{ key }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-            </span>
-            <span class="title"></span>
-          } @else {
-            <span class="title"></span>
-            <span class="keys">
-              <mat-form-field class="keys-select">
-                <mat-select #option [formControl]="keyFormControl" tabIndex="-1">
-                  @for (key of keys; track key) {
-                    <mat-option [value]="key">{{ key }}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
-            </span>
-          }
-          <span class="btn-edit"></span>
-          <span class="btn-delete"></span>
-        </div>
-      }
-    }
-    @if (edit) {
-      <mat-form-field appearance="outline">
-        <mat-label>Songtext</mat-label>
-        <textarea [cdkTextareaAutosize]="true"
-                  [formControl]="editSongControl"
-                  class="edit"
-                  matInput
-                  matTooltip="Tonart ändern"
-        ></textarea>
-      </mat-form-field>
-    }
-    @if (edit) {
-      <div>Es wird nur der Liedtext für dieser Veranstaltung geändert.</div>
-    }
-    @if (edit) {
-      <app-button-row>
-        <app-button (click)="onSave()" [icon]="faSave">Speichern</app-button>
-        <app-button (click)="onDiscard()" [icon]="faEraser">Verwerfen</app-button>
-      </app-button-row>
-    }
-    @if (!edit && (showText)) {
-      <app-song-text
-        (chordModeChanged)="onChordModeChanged($event)"
-        [chordMode]="iSong.chordMode"
-        [showSwitch]="!show.published"
-        [text]="iSong.text"
-        [transpose]="{ baseKey: iSong.keyOriginal, targetKey: iSong.key }"
-      ></app-song-text>
+    </div>
+    } @if (!edit) {
+    <app-menu-button (click)="onEdit()" [icon]="faEdit" class="btn-edit btn-icon" matTooltip="Lied für diese Veranstaltung bearbeiten"></app-menu-button>
+    } @if (!edit) {
+    <app-menu-button (click)="onDelete()" [icon]="faDelete" class="btn-delete btn-icon" matTooltip="Lied aus Veranstaltung entfernen"></app-menu-button>
     }
   </div>
+  @if (!edit) {
+  <div aria-hidden="true" class="song select" [class.show-text-layout]="!!showText" [class.compact-layout]="!showText" [class.with-drag]="dragHandle">
+    @if (dragHandle) {
+    <span class="drag-handle-placeholder"></span>
+    } @if (!showText) {
+    <span class="keys">
+      <mat-form-field class="keys-select">
+        <mat-select #option [formControl]="keyFormControl" tabIndex="-1">
+          @for (key of keys; track key) {
+          <mat-option [value]="key">{{ key }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </span>
+    <span class="title"></span>
+    } @else {
+    <span class="title"></span>
+    <span class="keys">
+      <mat-form-field class="keys-select">
+        <mat-select #option [formControl]="keyFormControl" tabIndex="-1">
+          @for (key of keys; track key) {
+          <mat-option [value]="key">{{ key }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </span>
+    }
+    <span class="btn-edit"></span>
+    <span class="btn-delete"></span>
+  </div>
+  } } @if (edit) {
+  <mat-form-field appearance="outline">
+    <mat-label>Songtext</mat-label>
+    <textarea [cdkTextareaAutosize]="true" [formControl]="editSongControl" class="edit" matInput matTooltip="Tonart ändern"></textarea>
+  </mat-form-field>
+  } @if (edit) {
+  <div>Es wird nur der Liedtext für dieser Veranstaltung geändert.</div>
+  } @if (edit) {
+  <app-button-row>
+    <app-button (click)="onSave()" [icon]="faSave">Speichern</app-button>
+    <app-button (click)="onDiscard()" [icon]="faEraser">Verwerfen</app-button>
+  </app-button-row>
+  } @if (!edit && (showText)) {
+  <app-song-text
+    (chordModeChanged)="onChordModeChanged($event)"
+    [chordMode]="iSong.chordMode"
+    [showSwitch]="!show.published"
+    [text]="iSong.text"
+    [transpose]="{ baseKey: iSong.keyOriginal, targetKey: iSong.key }"
+  ></app-song-text>
+  }
+</div>
 }

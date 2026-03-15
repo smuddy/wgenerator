@@ -1,89 +1,49 @@
 @if (sections && !fullscreen) {
-  <div
-    (click)="onClick()"
-    [class.chords]="iChordMode !== 'hide'"
-    class="song-text"
-    >
-    @if (showSwitch) {
-      <button
-        (click)="onChordClick()"
-        class="menu"
-        mat-icon-button
-        >
-        <fa-icon [icon]="faLines"></fa-icon>
-      </button>
-    }
-    <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
-      @for (section of sections; track section.type + '-' + section.number + '-' + $index; let i = $index) {
-        <div
-          #section
-          [class.chorus]="section.type === 1"
-          class="section"
-          >
-          @for (line of getLines(section); track (line.lineNumber ?? $index) + '-' + line.type + '-' + $index) {
-            <div
-              [class.chord]="line.type === 0"
-              [class.comment]="isComment(line.text)"
-              [class.disabled]="checkDisabled(i)"
-              class="line"
-              >
-              @for (segment of getDisplaySegments(line); track $index) {
-                <span [class.invalid-chord-token]="segment.invalid" [class.invalid-tab-token]="segment.isTab">{{ segment.text }}</span>
-              }
-            </div>
-          }
-        </div>
-      }
-      @if (sections.length===0) {
-        <div class="error">
-          Es wurden keine Liedabschnitte gefunden! Bitte mindestens einen Abschnitt festlegen!
-        </div>
+<div (click)="onClick()" [class.chords]="iChordMode !== 'hide'" class="song-text">
+  @if (showSwitch) {
+  <button (click)="onChordClick()" class="menu" mat-icon-button>
+    <fa-icon [icon]="faLines"></fa-icon>
+  </button>
+  }
+  <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
+    @for (section of sections; track section.type + '-' + section.number + '-' + $index; let i = $index) {
+    <div #section [class.chorus]="section.type === 1" class="section">
+      @for (line of getLines(section); track (line.lineNumber ?? $index) + '-' + line.type + '-' + $index) {
+      <div [class.chord]="line.type === 0" [class.comment]="isComment(line.text)" [class.disabled]="checkDisabled(i)" class="line">
+        @for (segment of getDisplaySegments(line); track $index) {
+        <span [class.invalid-chord-token]="segment.invalid" [class.invalid-tab-token]="segment.isTab">{{ segment.text }}</span>
+        }
+      </div>
       }
     </div>
-    <ng-content></ng-content>
-  </div>
-}
-
-@if (sections && fullscreen) {
-  <div
-    (click)="onClick()"
-    [@songSwitch]="sections"
-    [class.chords]="iChordMode !== 'hide'"
-    class="song-text"
-    >
-    @if (showSwitch) {
-      <button
-        (click)="onChordClick()"
-        class="menu"
-        mat-icon-button
-        >
-        <fa-icon [icon]="faLines"></fa-icon>
-      </button>
+    } @if (sections.length===0) {
+    <div class="error">Es wurden keine Liedabschnitte gefunden! Bitte mindestens einen Abschnitt festlegen!</div>
     }
-    <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
-      @if (header) {
-        <h1>{{ header }}</h1>
-      }
-      @for (section of sections; track section.type + '-' + section.number + '-' + $index; let i = $index) {
-        <div
-          #section
-          [class.chorus]="section.type === 1"
-          class="section"
-          >
-          @for (line of getLines(section); track (line.lineNumber ?? $index) + '-' + line.type + '-' + $index) {
-            <div
-              [class.chord]="line.type === 0"
-              [class.disabled]="checkDisabled(i)"
-              class="line"
-              >
-              @for (segment of getDisplaySegments(line, true); track $index) {
-                <span [class.invalid-chord-token]="segment.invalid" [class.invalid-tab-token]="segment.isTab">{{ segment.text }}</span>
-              }
-            </div>
-          }
-        </div>
+  </div>
+  <ng-content></ng-content>
+</div>
+} @if (sections && fullscreen) {
+<div (click)="onClick()" [@songSwitch]="sections" [class.chords]="iChordMode !== 'hide'" class="song-text">
+  @if (showSwitch) {
+  <button (click)="onChordClick()" class="menu" mat-icon-button>
+    <fa-icon [icon]="faLines"></fa-icon>
+  </button>
+  }
+  <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
+    @if (header) {
+    <h1>{{ header }}</h1>
+    } @for (section of sections; track section.type + '-' + section.number + '-' + $index; let i = $index) {
+    <div #section [class.chorus]="section.type === 1" class="section">
+      @for (line of getLines(section); track (line.lineNumber ?? $index) + '-' + line.type + '-' + $index) {
+      <div [class.chord]="line.type === 0" [class.disabled]="checkDisabled(i)" class="line">
+        @for (segment of getDisplaySegments(line, true); track $index) {
+        <span [class.invalid-chord-token]="segment.invalid" [class.invalid-tab-token]="segment.isTab">{{ segment.text }}</span>
+        }
+      </div>
       }
     </div>
-    <ng-content></ng-content>
+    }
   </div>
+  <ng-content></ng-content>
+</div>
 }

@@ -78,7 +78,7 @@ const defaultTestingProviders: TestingProviderList = [
   },
 ];
 
-const originalConfigureTestingModule = TestBed.configureTestingModule.bind(TestBed) as typeof TestBed.configureTestingModule;
+const originalConfigureTestingModule = TestBed.configureTestingModule.bind(TestBed);
 const configureTestingModule: typeof TestBed.configureTestingModule = moduleDef => {
   const extraProviders: TestingProviderList = moduleDef?.providers ?? [];
   const mergedModuleDef: TestingModuleDefinition = moduleDef ? {...moduleDef} : {};

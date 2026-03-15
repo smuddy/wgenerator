@@ -36,6 +36,5 @@ export class UserService {
   public incSongCount = (songId: string): Promise<void | null> => this.songUsage.incSongCount(songId);
   public decSongCount = (songId: string): Promise<void | null> => this.songUsage.decSongCount(songId);
   public rebuildSongUsage = (): Promise<SongUsageMigrationResult> => this.songUsage.rebuildSongUsage();
-  public rebuildShowSongIds = (onProgress?: (progress: MigrationProgress) => void): Promise<ShowSongIndexMigrationResult> =>
-    this.showSongIndex.rebuildShowSongIds(onProgress);
+  public rebuildShowSongIds = (onProgress?: (progress: MigrationProgress) => void): Promise<ShowSongIndexMigrationResult> => this.showSongIndex.rebuildShowSongIds(onProgress);
 }

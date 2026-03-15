@@ -25,7 +25,7 @@ export class ShareDialogComponent {
     const data = this.data;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-    QRCode.toDataURL(data.url, {
+    void QRCode.toDataURL(data.url, {
       type: 'image/jpeg',
       quality: 0.92,
       width: 1280,

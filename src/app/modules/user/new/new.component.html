@@ -12,12 +12,10 @@
     <input formControlName="password" matInput type="password" />
   </mat-form-field>
   @if (errorMessage) {
-    <p class="error">{{ errorMessage | authMessage }}</p>
+  <p class="error">{{ errorMessage | authMessage }}</p>
   }
 
   <app-button-row>
-    <app-button (click)="onCreate()" [icon]="faNewUser"
-    >Benutzer anlegen
-    </app-button>
+    <app-button (click)="onCreate()" [icon]="faNewUser">Benutzer anlegen </app-button>
   </app-button-row>
 </app-card>

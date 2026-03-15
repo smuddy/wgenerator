@@ -1,27 +1,17 @@
-@if (song) {
-  @if (song.artist) {
-    <p>{{ song.artist }}</p>
+@if (song) { @if (song.artist) {
+<p>{{ song.artist }}</p>
+} @if (song.label) {
+<p>{{ song.label }}</p>
+} @if (song.termsOfUse) {
+<p class="terms-of-use">{{ song.termsOfUse }}</p>
+} @if (song.origin) {
+<p>{{ song.origin }}</p>
+} @if (song.legalOwnerId) {
+<div>
+  @if (song.legalOwner === 'CCLI' && config) {
+  <p>CCLI-Liednummer {{ song.legalOwnerId }}, CCLI-Lizenznummer {{ config.ccliLicenseId }}</p>
+  } @if (song.legalOwner !== 'CCLI') {
+  <p>Liednummer {{ song.legalOwnerId }}</p>
   }
-  @if (song.label) {
-    <p>{{ song.label }}</p>
-  }
-  @if (song.termsOfUse) {
-    <p class="terms-of-use">{{ song.termsOfUse }}</p>
-  }
-  @if (song.origin) {
-    <p>{{ song.origin }}</p>
-  }
-  @if (song.legalOwnerId) {
-    <div>
-      @if (song.legalOwner === 'CCLI' && config) {
-        <p>
-          CCLI-Liednummer {{ song.legalOwnerId }}, CCLI-Lizenznummer
-          {{ config.ccliLicenseId }}
-        </p>
-      }
-      @if (song.legalOwner !== 'CCLI') {
-        <p>Liednummer {{ song.legalOwnerId }}</p>
-      }
-    </div>
-  }
-}
+</div>
+} }

@@ -53,13 +53,10 @@ bootstrapApplication(AppComponent, {
       rebuildShowSongIds: async () => {
         console.info('[wgeneratorAdmin] rebuildShowSongIds started');
         const result = await userService.rebuildShowSongIds(progress => {
-          console.info(
-            `[wgeneratorAdmin] rebuildShowSongIds ${progress.processed}/${progress.total} shows processed`,
-            {
-              showId: progress.showId,
-              showSongsProcessed: progress.showSongsProcessed,
-            }
-          );
+          console.info(`[wgeneratorAdmin] rebuildShowSongIds ${progress.processed}/${progress.total} shows processed`, {
+            showId: progress.showId,
+            showSongsProcessed: progress.showSongsProcessed,
+          });
         });
         console.info('[wgeneratorAdmin] rebuildShowSongIds finished', result);
         return result;

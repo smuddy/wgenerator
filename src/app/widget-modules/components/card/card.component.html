@@ -1,18 +1,12 @@
 <div [class.fullscreen]="fullscreen" [class.padding]="padding" class="card">
   @if (closeLink && !fullscreen) {
-    <button
-      [routerLink]="closeLink"
-      class="btn-close"
-      mat-icon-button
-      >
-      <fa-icon [icon]="closeIcon"></fa-icon>
-    </button>
-  }
-  @if (heading && !fullscreen) {
-    <div class="heading">{{ heading }}</div>
-  }
-  @if (subheading && !fullscreen) {
-    <div class="subheading">{{ subheading }}</div>
+  <button [routerLink]="closeLink" class="btn-close" mat-icon-button>
+    <fa-icon [icon]="closeIcon"></fa-icon>
+  </button>
+  } @if (heading && !fullscreen) {
+  <div class="heading">{{ heading }}</div>
+  } @if (subheading && !fullscreen) {
+  <div class="subheading">{{ subheading }}</div>
   }
   <ng-content></ng-content>
 </div>

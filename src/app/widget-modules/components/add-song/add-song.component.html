@@ -1,15 +1,15 @@
 @if (songs) {
-  <div class="add-row">
-    <mat-form-field appearance="outline">
-      <mat-label>Lied hinzufügen...</mat-label>
-      <mat-select (selectionChange)="onAddSongSelectionChanged($event)">
-        <mat-option>
-          <ngx-mat-select-search [formControl]="filteredSongsControl"></ngx-mat-select-search>
-        </mat-option>
-        @for (song of filteredSongs(); track song.id) {
-          <mat-option [value]="song.id">{{ song.title }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </div>
+<div class="add-row">
+  <mat-form-field appearance="outline">
+    <mat-label>Lied hinzufügen...</mat-label>
+    <mat-select (selectionChange)="onAddSongSelectionChanged($event)">
+      <mat-option>
+        <ngx-mat-select-search [formControl]="filteredSongsControl"></ngx-mat-select-search>
+      </mat-option>
+      @for (song of filteredSongs(); track song.id) {
+      <mat-option [value]="song.id">{{ song.title }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>
 }

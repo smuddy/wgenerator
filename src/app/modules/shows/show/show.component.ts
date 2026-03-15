@@ -188,9 +188,12 @@ export class ShowComponent implements OnInit, OnDestroy {
         width: '350px',
       });
 
-      dialogRef.afterClosed().pipe(take(1)).subscribe((archive: boolean) => {
-        if (archive && this.showId != null) void this.setArchiveState(true);
-      });
+      dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((archive: boolean) => {
+          if (archive && this.showId != null) void this.setArchiveState(true);
+        });
     }
   }
 
@@ -230,11 +233,14 @@ export class ShowComponent implements OnInit, OnDestroy {
       data: {songs},
     });
 
-    dialogRef.afterClosed().pipe(take(1)).subscribe((reported: boolean) => {
-      if (reported) {
-        void this.showService.update$(show.id, {reportedType: 'reported'});
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((reported: boolean) => {
+        if (reported) {
+          void this.showService.update$(show.id, {reportedType: 'reported'});
+        }
+      });
   }
 
   public getStatus(show: Show): string {

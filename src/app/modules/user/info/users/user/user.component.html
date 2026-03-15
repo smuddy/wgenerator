@@ -1,37 +1,28 @@
 @if (edit) {
-  <div class="users">
-    <mat-form-field appearance="outline">
-      <mat-label>Name</mat-label>
-      <input (change)="onNameChanged(id, $event)" [ngModel]="name" matInput />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Rolle</mat-label>
-      <mat-select
-        (ngModelChange)="onRoleChanged(id, $event)"
-        [ngModel]="roles"
-        multiple
-        >
-        @for (role of ROLE_TYPES; track role) {
-          <mat-option [value]="role">{{
-            role | role
-            }}
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <button (click)="edit = false" mat-icon-button>
-      <fa-icon [icon]="faClose"></fa-icon>
-    </button>
-  </div>
+<div class="users">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input (change)="onNameChanged(id, $event)" [ngModel]="name" matInput />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Rolle</mat-label>
+    <mat-select (ngModelChange)="onRoleChanged(id, $event)" [ngModel]="roles" multiple>
+      @for (role of ROLE_TYPES; track role) {
+      <mat-option [value]="role">{{ role | role }} </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <button (click)="edit = false" mat-icon-button>
+    <fa-icon [icon]="faClose"></fa-icon>
+  </button>
+</div>
+} @if (!edit) {
+<div (click)="edit = true" class="users list-item">
+  <span>{{ name }}</span>
+  <span
+    >@for (role of roles; track role) {
+    <span>{{ role | role }}, </span>
+    }</span
+  >
+</div>
 }
-
-@if (!edit) {
-  <div (click)="edit = true" class="users list-item">
-    <span>{{ name }}</span>
-    <span
-      >@for (role of roles; track role) {
-      <span>{{ role | role }}, </span>
-      }</span
-      >
-    </div>
-  }

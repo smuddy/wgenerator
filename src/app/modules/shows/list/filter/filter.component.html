@@ -1,14 +1,10 @@
 <div [formGroup]="filterFormGroup">
-
   <div class="third">
     <mat-form-field appearance="outline">
       <mat-label>Zeitraum</mat-label>
       <mat-select formControlName="time">
         @for (time of times; track time) {
-          <mat-option [value]="time.key">{{
-            time.value
-            }}
-          </mat-option>
+        <mat-option [value]="time.key">{{ time.value }} </mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -18,10 +14,7 @@
       <mat-select formControlName="owner">
         <mat-option value="">Alle</mat-option>
         @for (owner of owners; track owner) {
-          <mat-option [value]="owner.key">{{
-            owner.value
-            }}
-          </mat-option>
+        <mat-option [value]="owner.key">{{ owner.value }} </mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -32,23 +25,16 @@
         <mat-option value="">Alle</mat-option>
         <mat-optgroup label="öffentlich">
           @for (key of showTypePublic; track key) {
-            <mat-option [value]="key">{{
-              key | showType
-              }}
-            </mat-option>
+          <mat-option [value]="key">{{ key | showType }} </mat-option>
           }
         </mat-optgroup>
         <mat-optgroup label="privat">
           @for (key of showTypePrivate; track key) {
-            <mat-option [value]="key">{{
-              key | showType
-              }}
-            </mat-option>
+          <mat-option [value]="key">{{ key | showType }} </mat-option>
           }
         </mat-optgroup>
       </mat-select>
     </mat-form-field>
-
   </div>
 
   <i>Anzahl der Suchergebnisse: {{ shows?.length ?? 0 }}</i>

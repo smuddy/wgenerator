@@ -10,10 +10,7 @@
       <mat-select formControlName="type">
         <mat-option [value]="null">- kein Filter -</mat-option>
         @for (type of types; track type) {
-          <mat-option [value]="type">{{
-            type | songType
-            }}
-          </mat-option>
+        <mat-option [value]="type">{{ type | songType }} </mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -23,10 +20,7 @@
       <mat-select formControlName="key">
         <mat-option [value]="null">- kein Filter -</mat-option>
         @for (key of keys; track key) {
-          <mat-option [value]="key">{{
-            key | key
-            }}
-          </mat-option>
+        <mat-option [value]="key">{{ key | key }} </mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -36,10 +30,7 @@
       <mat-select formControlName="legalType">
         <mat-option [value]="null">- kein Filter -</mat-option>
         @for (key of legalType; track key) {
-          <mat-option [value]="key">{{
-            key | legalType
-            }}
-          </mat-option>
+        <mat-option [value]="key">{{ key | legalType }} </mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -49,10 +40,7 @@
       <mat-select formControlName="flag">
         <mat-option [value]="null">- kein Filter -</mat-option>
         @for (flag of getFlags(); track flag) {
-          <mat-option [value]="flag">{{
-            flag
-            }}
-          </mat-option>
+        <mat-option [value]="flag">{{ flag }} </mat-option>
         }
       </mat-select>
     </mat-form-field>

@@ -1,33 +1,25 @@
 <app-card heading="Angehängte Dateien">
   @if (currentUpload) {
-    <div>
-      <div class="progress">
-        <div
-          [ngStyle]="{ width: currentUpload?.progress + '%' }"
-          class="progress-bar progress-bar-animated"
-        ></div>
-      </div>
-      Progress: {{ currentUpload?.name }} | {{ currentUpload?.progress }}%
-      Complete
+  <div>
+    <div class="progress">
+      <div [ngStyle]="{ width: currentUpload?.progress + '%' }" class="progress-bar progress-bar-animated"></div>
     </div>
+    Progress: {{ currentUpload?.name }} | {{ currentUpload?.progress }}% Complete
+  </div>
   }
   <div class="upload">
     <label>
       <input (change)="detectFiles($event)" type="file" />
     </label>
 
-    <button
-      (click)="uploadSingle()"
-      [disabled]="!selectedFiles"
-      mat-icon-button
-      >
+    <button (click)="uploadSingle()" [disabled]="!selectedFiles" mat-icon-button>
       <mat-icon>cloud_upload</mat-icon>
     </button>
   </div>
 
   @for (file of files$ | async; track file.id) {
-    <p>
-      <app-file [file]="file" [songId]="songId"></app-file>
-    </p>
+  <p>
+    <app-file [file]="file" [songId]="songId"></app-file>
+  </p>
   }
 </app-card>

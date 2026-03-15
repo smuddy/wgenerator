@@ -34,11 +34,7 @@ export class ListComponent {
   public showType$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.showType));
   public shows$ = this.showService.list$();
   public privateShows$ = combineLatest([this.shows$, this.userService.user$]).pipe(
-    map(([shows, user]) =>
-      shows
-        .filter(show => show.owner === user?.id)
-        .filter(show => !show.published || show.reportedType === 'pending')
-    )
+    map(([shows, user]) => shows.filter(show => show.owner === user?.id).filter(show => !show.published || show.reportedType === 'pending'))
   );
   public queriedPublicShows$ = this.lastMonths$.pipe(switchMap(lastMonths => this.showService.listPublicSince$(lastMonths)));
   public fallbackPublicShows$ = combineLatest([this.shows$, this.lastMonths$]).pipe(
