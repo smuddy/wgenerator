@@ -2,7 +2,7 @@ import {EnvironmentInjector, Injectable, inject, runInInjectionContext} from '@a
 import {Auth, authState, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut} from '@angular/fire/auth';
 import {User as AuthUser} from 'firebase/auth';
 import {firstValueFrom, Observable, of} from 'rxjs';
-import {map, shareReplay, switchMap} from 'rxjs/operators';
+import {filter, map, shareReplay, switchMap, take} from 'rxjs/operators';
 import {DbService} from '../db.service';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
@@ -59,6 +59,7 @@ export class UserSessionService {
     const dUser = await this.readUser(aUser.user.uid);
     if (!dUser) return null;
     await this.initSongUsage(dUser);
+    await this.awaitAuthenticatedUser(aUser.user.uid);
 
     return aUser.user.uid;
   }
@@ -88,6 +89,15 @@ export class UserSessionService {
   private async initSongUsage(user: User) {
     if (user.songUsage) return;
     await this.update$(user.id, {songUsage: {}});
+  }
+
+  private async awaitAuthenticatedUser(uid: string): Promise<void> {
+    await firstValueFrom(
+      this.user$.pipe(
+        filter((user): user is User => !!user && user.id === uid),
+        take(1)
+      )
+    );
   }
 
   private runInFirebaseContext = <T>(factory: () => T): T => runInInjectionContext(this.environmentInjector, factory);

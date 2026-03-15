@@ -89,4 +89,42 @@ describe('RoleGuard', () => {
       done();
     });
   });
+
+  it('should redirect members to shows instead of new-user', done => {
+    TestBed.resetTestingModule();
+    routerSpy = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
+    routerSpy.createUrlTree.and.returnValue({redirect: ['shows']} as never);
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: Router, useValue: routerSpy},
+        {provide: UserService, useValue: {user$: of({role: 'member'})}},
+      ],
+    });
+    guard = TestBed.inject(RoleGuard);
+
+    guard.canActivate({data: {requiredRoles: ['user']}} as never).subscribe(result => {
+      expect(routerSpy.createUrlTree).toHaveBeenCalledWith(['shows']);
+      expect(result).toEqual({redirect: ['shows']} as never);
+      done();
+    });
+  });
+
+  it('should choose a matching default route from all assigned roles', done => {
+    TestBed.resetTestingModule();
+    routerSpy = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
+    routerSpy.createUrlTree.and.callFake(commands => ({redirect: commands}) as never);
+    TestBed.configureTestingModule({
+      providers: [
+        {provide: Router, useValue: routerSpy},
+        {provide: UserService, useValue: {user$: of({role: ' none ; leader '})}},
+      ],
+    });
+    guard = TestBed.inject(RoleGuard);
+
+    guard.canActivate({data: {requiredRoles: ['presenter']}} as never).subscribe(result => {
+      expect(routerSpy.createUrlTree).toHaveBeenCalledWith(['shows']);
+      expect(result).toEqual({redirect: ['shows']} as never);
+      done();
+    });
+  });
 });

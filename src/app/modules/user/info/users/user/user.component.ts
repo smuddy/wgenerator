@@ -1,7 +1,7 @@
 import {Component, Input, inject} from '@angular/core';
 import {User} from '../../../../../services/user/user';
 import {UserService} from '../../../../../services/user/user.service';
-import {ROLE_TYPES} from '../../../../../services/user/roles';
+import {ROLE_TYPES, roles} from '../../../../../services/user/roles';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 
 import {MatFormField, MatLabel} from '@angular/material/form-field';
@@ -24,7 +24,7 @@ export class UserComponent {
 
   public id = '';
   public name = '';
-  public roles: string[] = [];
+  public roles: roles[] = [];
   public ROLE_TYPES = ROLE_TYPES;
   public edit = false;
   public faClose = faTimes;
@@ -36,7 +36,7 @@ export class UserComponent {
     this.roles = this.getRoleArray(value.role);
   }
 
-  public async onRoleChanged(id: string, roles: string[]): Promise<void> {
+  public async onRoleChanged(id: string, roles: roles[]): Promise<void> {
     const role = roles.join(';');
     await this.userService.update$(id, {role});
   }
@@ -46,7 +46,7 @@ export class UserComponent {
     await this.userService.update$(id, {name: target.value});
   }
 
-  public getRoleArray(role: string): string[] {
-    return role ? role.split(';') : [];
+  public getRoleArray(role: string): roles[] {
+    return (role ? role.split(';') : []) as roles[];
   }
 }

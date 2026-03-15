@@ -85,11 +85,29 @@ describe('UserSessionService', () => {
     const updateSpy = jasmine.createSpy('update').and.resolveTo();
     dbServiceSpy.doc.and.returnValue({update: updateSpy} as never);
     runInFirebaseContextSpy.and.resolveTo({user: {uid: 'user-1'}});
+    authStateSubject.next({uid: 'user-1'});
 
     await expectAsync(service.login('mail', 'secret')).toBeResolvedTo('user-1');
 
     expect(runInFirebaseContextSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith({songUsage: {}});
+  });
+
+  it('should wait for auth state propagation before resolving login', async () => {
+    runInFirebaseContextSpy.and.resolveTo({user: {uid: 'user-1'}});
+
+    let resolved = false;
+    const loginPromise = service.login('mail', 'secret').then(result => {
+      resolved = true;
+      return result;
+    });
+
+    await Promise.resolve();
+    expect(resolved).toBeFalse();
+
+    authStateSubject.next({uid: 'user-1'});
+
+    await expectAsync(loginPromise).toBeResolvedTo('user-1');
   });
 
   it('should delegate logout and password reset to AngularFire auth APIs', async () => {

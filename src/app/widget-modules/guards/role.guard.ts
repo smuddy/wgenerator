@@ -3,6 +3,7 @@ import {ActivatedRouteSnapshot, Router, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserService} from '../../services/user/user.service';
 import {map, take} from 'rxjs/operators';
+import {roles} from '../../services/user/roles';
 
 @Injectable({
   providedIn: 'root',
@@ -23,30 +24,45 @@ export class RoleGuard {
         if (!user) {
           return this.router.createUrlTree(['brand', 'new-user']);
         }
-        const roles = user.role?.split(';') ?? [];
-        if (roles.indexOf('admin') !== -1) {
+        const userRoles = this.parseRoles(user.role);
+        if (userRoles.includes('admin')) {
           return true;
         }
-        const allowed = roles.some(s => requiredRoles.indexOf(s) !== -1);
+        const allowed = userRoles.some(role => requiredRoles.includes(role));
 
-        return allowed || this.router.createUrlTree(this.defaultRoute(roles));
+        return allowed || this.router.createUrlTree(this.defaultRoute(userRoles));
       })
     );
   }
 
-  private defaultRoute(roles: string[]): string[] {
-    if (!roles || roles.length === 0) {
+  private defaultRoute(userRoles: roles[]): string[] {
+    if (userRoles.length === 0) {
       return ['brand', 'new-user'];
     }
-    switch (roles[0]) {
-      case 'user':
-        return ['songs'];
-      case 'presenter':
-        return ['presentation'];
-      case 'leader':
-        return ['shows'];
+
+    if (userRoles.includes('user') || userRoles.includes('contributor')) {
+      return ['songs'];
     }
 
-    return ['brand', 'new-user'];
+    if (userRoles.includes('leader') || userRoles.includes('member')) {
+      return ['shows'];
+    }
+
+    if (userRoles.includes('presenter')) {
+      return ['presentation'];
+    }
+
+    return ['user', 'info'];
+  }
+
+  private parseRoles(role: string | null | undefined): roles[] {
+    if (!role) {
+      return [];
+    }
+
+    return role
+      .split(';')
+      .map(value => value.trim())
+      .filter((value): value is roles => value.length > 0 && value !== 'none');
   }
 }
