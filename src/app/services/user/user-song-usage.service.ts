@@ -1,7 +1,7 @@
 import {Injectable, inject} from '@angular/core';
 import {firstValueFrom} from 'rxjs';
 import {take} from 'rxjs/operators';
-import {increment} from '@angular/fire/firestore';
+import {increment} from 'firebase/firestore';
 import {DbService} from '../db.service';
 import {ShowDataService} from '../../modules/shows/services/show-data.service';
 import {ShowSongDataService} from '../../modules/shows/services/show-song-data.service';

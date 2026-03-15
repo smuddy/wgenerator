@@ -99,7 +99,7 @@
   @if (files$ | async; as files) {
     @if (files.length > 0) {
       <app-card heading="Anhänge">
-        @for (file of files$ | async; track file) {
+        @for (file of files$ | async; track file.id) {
           <p>
             <app-file [file]="file"></app-file>
           </p>

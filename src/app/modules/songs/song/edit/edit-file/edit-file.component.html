@@ -25,7 +25,7 @@
     </button>
   </div>
 
-  @for (file of files$ | async; track file) {
+  @for (file of files$ | async; track file.id) {
     <p>
       <app-file [file]="file" [songId]="songId"></app-file>
     </p>

@@ -5,7 +5,7 @@ import {ShowSong} from './show-song';
 import {SongDataService} from '../../songs/services/song-data.service';
 import {UserService} from '../../../services/user/user.service';
 import {ShowService} from './show.service';
-import {arrayRemove, arrayUnion} from '@angular/fire/firestore';
+import {arrayRemove, arrayUnion} from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',

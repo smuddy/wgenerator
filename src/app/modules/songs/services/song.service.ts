@@ -3,7 +3,7 @@ import {firstValueFrom, Observable} from 'rxjs';
 import {Song} from './song';
 import {SongDataService} from './song-data.service';
 import {UserService} from '../../../services/user/user.service';
-import {Timestamp} from '@angular/fire/firestore';
+import {Timestamp} from 'firebase/firestore';
 
 // declare let importCCLI: any;
 

@@ -1,5 +1,5 @@
 <app-card heading="registrierte Benutzer">
-  @for (user of users$ | async | sortBy: 'asc':'name'; track user) {
+  @for (user of users$ | async | sortBy: 'asc':'name'; track user.id) {
     <app-user [user]="user"></app-user>
   }
 </app-card>

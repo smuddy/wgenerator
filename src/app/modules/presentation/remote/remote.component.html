@@ -37,7 +37,7 @@
             }
             @if (show) {
               <div class="song-parts">
-                @for (section of song.sections; track section; let i = $index) {
+                @for (section of song.sections; track section.type + '-' + section.number + '-' + $index; let i = $index) {
                   <div
                     (click)="onSectionClick(song.id, i, show.id)"
             [class.active]="

@@ -14,13 +14,13 @@
       </button>
     }
     <div [class.offset]="fullscreen" [style.top.px]="offset + 50">
-      @for (section of sections; track section; let i = $index) {
+      @for (section of sections; track section.type + '-' + section.number + '-' + $index; let i = $index) {
         <div
           #section
           [class.chorus]="section.type === 1"
           class="section"
           >
-          @for (line of getLines(section); track line) {
+          @for (line of getLines(section); track (line.lineNumber ?? $index) + '-' + line.type + '-' + $index) {
             <div
               [class.chord]="line.type === 0"
               [class.comment]="isComment(line.text)"
@@ -64,13 +64,13 @@
       @if (header) {
         <h1>{{ header }}</h1>
       }
-      @for (section of sections; track section; let i = $index) {
+      @for (section of sections; track section.type + '-' + section.number + '-' + $index; let i = $index) {
         <div
           #section
           [class.chorus]="section.type === 1"
           class="section"
           >
-          @for (line of getLines(section); track line) {
+          @for (line of getLines(section); track (line.lineNumber ?? $index) + '-' + line.type + '-' + $index) {
             <div
               [class.chord]="line.type === 0"
               [class.disabled]="checkDisabled(i)"

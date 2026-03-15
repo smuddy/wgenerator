@@ -7,7 +7,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {ActivatedRoute, Router} from '@angular/router';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
 import {map, switchMap} from 'rxjs/operators';
-import {Timestamp} from '@angular/fire/firestore';
+import {Timestamp} from 'firebase/firestore';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatSelect} from '@angular/material/select';
