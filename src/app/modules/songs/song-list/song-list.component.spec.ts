@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {SongListComponent} from './song-list.component';
 import {of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
@@ -12,8 +12,8 @@ describe('SongListComponent', () => {
 
   const songs = [{id: 'song-1', title: 'title1', number: 1, text: '', flags: ''}];
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [SongListComponent],
       providers: [
         {provide: ActivatedRoute, useValue: {data: of({songs})}},
@@ -22,7 +22,7 @@ describe('SongListComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SongListComponent);

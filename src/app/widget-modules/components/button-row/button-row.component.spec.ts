@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ButtonRowComponent} from './button-row.component';
 
@@ -6,11 +6,11 @@ describe('ButtonRowComponent', () => {
   let component: ButtonRowComponent;
   let fixture: ComponentFixture<ButtonRowComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [ButtonRowComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ButtonRowComponent);

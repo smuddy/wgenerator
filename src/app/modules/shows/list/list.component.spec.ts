@@ -1,5 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {BehaviorSubject, of} from 'rxjs';
+import {BehaviorSubject, firstValueFrom, of} from 'rxjs';
 import {skip, take} from 'rxjs/operators';
 import {ListComponent} from './list.component';
 import {ShowService} from '../services/show.service';
@@ -51,7 +51,7 @@ describe('ListComponent', () => {
     void expect(component).toBeTruthy();
   });
 
-  it('should list own drafts and pending published shows in my shows', done => {
+  it('should list own drafts and pending published shows in my shows', async () => {
     shows$.next([
       createShow({id: 'draft-own', owner: 'user-1', published: false, reportedType: null}),
       createShow({id: 'pending-own', owner: 'user-1', published: true, reportedType: 'pending', date: {toDate: () => new Date('2026-03-02')}}),
@@ -59,13 +59,11 @@ describe('ListComponent', () => {
       createShow({id: 'draft-other', owner: 'user-2', published: false, reportedType: null, date: {toDate: () => new Date('2026-03-04')}}),
     ] as never);
 
-    component.privateShows$.subscribe(shows => {
-      expect(shows.map(show => show.id)).toEqual(['pending-own', 'draft-own']);
-      done();
-    });
+    const shows = await firstValueFrom(component.privateShows$);
+    expect(shows.map(show => show.id)).toEqual(['pending-own', 'draft-own']);
   });
 
-  it('should ignore show filters for my shows', done => {
+  it('should ignore show filters for my shows', async () => {
     const filterStore = TestBed.inject(FilterStoreService);
     filterStore.updateShowFilter({time: 0, showType: 'service-worship'});
     shows$.next([
@@ -73,32 +71,27 @@ describe('ListComponent', () => {
       createShow({id: 'pending-own', owner: 'user-1', published: true, reportedType: 'pending', showType: 'home-group', date: {toDate: () => new Date('2026-03-05')}}),
     ] as never);
 
-    component.privateShows$.subscribe(shows => {
-      expect(shows.map(show => show.id)).toEqual(['pending-own', 'older-draft']);
-      done();
-    });
+    const shows = await firstValueFrom(component.privateShows$);
+    expect(shows.map(show => show.id)).toEqual(['pending-own', 'older-draft']);
   });
 
-  it('should hide archived own shows until archived filter is enabled', done => {
+  it('should hide archived own shows until archived filter is enabled', async () => {
     const filterStore = TestBed.inject(FilterStoreService);
     shows$.next([
       createShow({id: 'draft-own', owner: 'user-1', published: false, reportedType: null, date: {toDate: () => new Date('2026-03-02')}}),
       createShow({id: 'archived-own', owner: 'user-1', published: true, archived: true, reportedType: 'reported', date: {toDate: () => new Date('2026-03-03')}}),
     ] as never);
 
-    component.privateShows$.pipe(take(1)).subscribe(shows => {
-      expect(shows.map(show => show.id)).toEqual(['draft-own']);
+    const initialShows = await firstValueFrom(component.privateShows$.pipe(take(1)));
+    expect(initialShows.map(show => show.id)).toEqual(['draft-own']);
 
-      component.privateShows$.pipe(skip(1), take(1)).subscribe(updatedShows => {
-        expect(updatedShows.map(show => show.id)).toEqual(['archived-own', 'draft-own']);
-        done();
-      });
-
-      filterStore.updateShowFilter({archived: true});
-    });
+    const updatedShowsPromise = firstValueFrom(component.privateShows$.pipe(skip(1), take(1)));
+    filterStore.updateShowFilter({archived: true});
+    const updatedShows = await updatedShowsPromise;
+    expect(updatedShows.map(show => show.id)).toEqual(['archived-own', 'draft-own']);
   });
 
-  it('should sort public shows by date descending', done => {
+  it('should sort public shows by date descending', async () => {
     const filterStore = TestBed.inject(FilterStoreService);
     filterStore.updateShowFilter({time: 99999});
     shows$.next([
@@ -107,9 +100,7 @@ describe('ListComponent', () => {
       createShow({id: 'mid-public', owner: 'user-4', published: true, archived: false, date: {toDate: () => new Date('2026-02-05')}}),
     ] as never);
 
-    component.publicShows$.pipe(take(1)).subscribe(shows => {
-      expect(shows.map(show => show.id)).toEqual(['new-public', 'mid-public', 'old-public']);
-      done();
-    });
+    const shows = await firstValueFrom(component.publicShows$.pipe(take(1)));
+    expect(shows.map(show => show.id)).toEqual(['new-public', 'mid-public', 'old-public']);
   });
 });

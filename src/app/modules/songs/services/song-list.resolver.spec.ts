@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing';
-import {of} from 'rxjs';
+import {firstValueFrom, of} from 'rxjs';
 import {SongService} from './song.service';
 import {SongListResolver} from './song-list.resolver';
 
@@ -22,11 +22,8 @@ describe('SongListResolver', () => {
     expect(resolver).toBeTruthy();
   });
 
-  it('should resolve the first emitted song list from the service', done => {
-    resolver.resolve().subscribe(songs => {
-      expect(songServiceSpy.listLoaded$).toHaveBeenCalled();
-      expect(songs).toEqual([{id: 'song-1', title: 'Amazing Grace'}] as never);
-      done();
-    });
+  it('should resolve the first emitted song list from the service', async () => {
+    await expectAsync(firstValueFrom(resolver.resolve())).toBeResolvedTo([{id: 'song-1', title: 'Amazing Grace'}] as never);
+    expect(songServiceSpy.listLoaded$).toHaveBeenCalled();
   });
 });

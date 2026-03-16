@@ -7,8 +7,8 @@ import {Line} from './line';
 describe('TransposeService', () => {
   let service: TransposeService;
 
-  beforeEach(() => {
-    void TestBed.configureTestingModule({});
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({});
     service = TestBed.inject(TransposeService);
   });
 

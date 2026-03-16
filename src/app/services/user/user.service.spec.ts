@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing';
-import {of} from 'rxjs';
+import {firstValueFrom, of} from 'rxjs';
 import {UserService} from './user.service';
 import {UserSessionService} from './user-session.service';
 import {UserSongUsageService} from './user-song-usage.service';
@@ -54,17 +54,10 @@ describe('UserService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should expose the session streams directly', done => {
-    service.userId$.subscribe(userId => {
-      expect(userId).toBe('user-1');
-      service.user$.subscribe(user => {
-        expect(user).toEqual({id: 'user-1'} as never);
-        service.users$.subscribe(users => {
-          expect(users).toEqual([{id: 'user-1'}] as never);
-          done();
-        });
-      });
-    });
+  it('should expose the session streams directly', async () => {
+    await expectAsync(firstValueFrom(service.userId$)).toBeResolvedTo('user-1');
+    await expectAsync(firstValueFrom(service.user$)).toBeResolvedTo({id: 'user-1'} as never);
+    await expectAsync(firstValueFrom(service.users$)).toBeResolvedTo([{id: 'user-1'}] as never);
   });
 
   it('should delegate session operations to UserSessionService', async () => {
@@ -85,20 +78,13 @@ describe('UserService', () => {
     expect(sessionSpy.createNewUser).toHaveBeenCalledWith('mail', 'Benjamin', 'secret');
   });
 
-  it('should delegate user lookup and loggedIn/list streams to UserSessionService', done => {
-    service.getUserbyId$('user-2').subscribe(user => {
-      expect(user).toEqual({id: 'user-2'} as never);
-      service.loggedIn$().subscribe(loggedIn => {
-        expect(loggedIn).toBeTrue();
-        service.list$().subscribe(users => {
-          expect(users).toEqual([{id: 'user-1'}] as never);
-          expect(sessionSpy.getUserbyId$).toHaveBeenCalledWith('user-2');
-          expect(sessionSpy.loggedIn$).toHaveBeenCalled();
-          expect(sessionSpy.list$).toHaveBeenCalled();
-          done();
-        });
-      });
-    });
+  it('should delegate user lookup and loggedIn/list streams to UserSessionService', async () => {
+    await expectAsync(firstValueFrom(service.getUserbyId$('user-2'))).toBeResolvedTo({id: 'user-2'} as never);
+    await expectAsync(firstValueFrom(service.loggedIn$())).toBeResolvedTo(true);
+    await expectAsync(firstValueFrom(service.list$())).toBeResolvedTo([{id: 'user-1'}] as never);
+    expect(sessionSpy.getUserbyId$).toHaveBeenCalledWith('user-2');
+    expect(sessionSpy.loggedIn$).toHaveBeenCalled();
+    expect(sessionSpy.list$).toHaveBeenCalled();
   });
 
   it('should delegate song usage operations to UserSongUsageService', async () => {

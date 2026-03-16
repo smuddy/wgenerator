@@ -5,8 +5,8 @@ import {ScrollService} from './scroll.service';
 describe('ScrollService', () => {
   let service: ScrollService;
 
-  beforeEach(() => {
-    void TestBed.configureTestingModule({});
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({});
     service = TestBed.inject(ScrollService);
   });
 

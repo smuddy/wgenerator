@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing';
-import {of} from 'rxjs';
+import {firstValueFrom, of} from 'rxjs';
 import {SongDataService} from './song-data.service';
 import {SongService} from './song.service';
 import {UserService} from '../../../services/user/user.service';
@@ -41,11 +41,8 @@ describe('SongService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should list songs from the data service', done => {
-    service.list$().subscribe(songs => {
-      expect(songs).toEqual([song]);
-      done();
-    });
+  it('should list songs from the data service', async () => {
+    await expectAsync(firstValueFrom(service.list$())).toBeResolvedTo([song]);
   });
 
   it('should delegate reads to the data service', async () => {

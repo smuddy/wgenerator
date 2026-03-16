@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {Router} from '@angular/router';
-import {of} from 'rxjs';
+import {firstValueFrom, of} from 'rxjs';
 import {GlobalSettingsService} from '../../../services/global-settings.service';
 import {ShowService} from '../../shows/services/show.service';
 import {SelectComponent} from './select.component';
@@ -52,12 +52,11 @@ describe('SelectComponent', () => {
     expect(component.visible).toBeTrue();
   });
 
-  it('should expose recent shows sorted descending by date', done => {
-    component.shows$.subscribe(shows => {
-      expect(showServiceSpy.list$).toHaveBeenCalledWith(true);
-      expect(shows.map(show => show.id)).toEqual(['recent-a', 'recent-b']);
-      done();
-    });
+  it('should expose recent shows sorted descending by date', async () => {
+    const shows = await firstValueFrom(component.shows$);
+
+    expect(showServiceSpy.list$).toHaveBeenCalledWith(true);
+    expect(shows.map(show => show.id)).toEqual(['recent-a', 'recent-b']);
   });
 
   it('should persist the selected show, trigger presentation reset and navigate', async () => {

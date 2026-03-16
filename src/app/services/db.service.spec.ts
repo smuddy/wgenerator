@@ -4,12 +4,11 @@ import {Firestore} from '@angular/fire/firestore';
 import {DbService} from './db.service';
 
 describe('DbService', () => {
-  beforeEach(
-    () =>
-      void TestBed.configureTestingModule({
-        providers: [{provide: Firestore, useValue: {}}],
-      })
-  );
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      providers: [{provide: Firestore, useValue: {}}],
+    });
+  });
 
   it('should be created', () => {
     const service: DbService = TestBed.inject(DbService);

@@ -5,8 +5,8 @@ import {PresentationService} from './presentation.service';
 describe('PresentationService', () => {
   let service: PresentationService;
 
-  beforeEach(() => {
-    void TestBed.configureTestingModule({});
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({});
     service = TestBed.inject(PresentationService);
   });
 

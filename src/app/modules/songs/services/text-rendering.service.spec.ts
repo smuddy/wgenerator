@@ -38,7 +38,7 @@ Bridge
 Cool bridge without any chords
 `;
 
-  beforeEach(() => void TestBed.configureTestingModule({}));
+  beforeEach(async () => await TestBed.configureTestingModule({}));
 
   it('should be created', () => {
     const service: TextRenderingService = TestBed.inject(TextRenderingService);
@@ -478,13 +478,13 @@ Text`;
       const service: TextRenderingService = TestBed.inject(TextRenderingService);
       const text = 'Strophe\nC\tG\ta\nText';
 
-      void expect(service.validateChordNotation(text)).toContain(
+      void expect(service.validateChordNotation(text)).toEqual(expect.arrayContaining([
         jasmine.objectContaining({
           lineNumber: 2,
           token: '\t',
           reason: 'tab_character',
-        })
-      );
+        }),
+      ]));
     });
 
     it('should not flag tabs on non chord lines', () => {

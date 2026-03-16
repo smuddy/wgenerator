@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing';
-import {of} from 'rxjs';
+import {firstValueFrom, of} from 'rxjs';
 import {DbService} from './db.service';
 import {GlobalSettingsService} from './global-settings.service';
 
@@ -30,11 +30,8 @@ describe('GlobalSettingsService', () => {
     expect(dbServiceSpy.doc$).toHaveBeenCalledWith('global/static');
   });
 
-  it('should expose the shared settings stream via the getter', done => {
-    service.get$.subscribe(settings => {
-      expect(settings).toEqual({churchName: 'ICF'} as never);
-      done();
-    });
+  it('should expose the shared settings stream via the getter', async () => {
+    await expectAsync(firstValueFrom(service.get$)).toBeResolvedTo({churchName: 'ICF'} as never);
   });
 
   it('should update the static global settings document', async () => {

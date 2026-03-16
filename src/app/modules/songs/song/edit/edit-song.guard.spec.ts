@@ -4,8 +4,8 @@ import {EditSongGuard} from './edit-song.guard';
 describe('EditSongGuard', () => {
   let guard: EditSongGuard;
 
-  beforeEach(() => {
-    void TestBed.configureTestingModule({});
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({});
     guard = TestBed.inject(EditSongGuard);
   });
 

@@ -1,5 +1,5 @@
-import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
-import {of} from 'rxjs';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {firstValueFrom, of} from 'rxjs';
 import {UserService} from '../user.service';
 import {UserNameComponent} from './user-name.component';
 
@@ -8,15 +8,15 @@ describe('UserNameComponent', () => {
   let fixture: ComponentFixture<UserNameComponent>;
   let userServiceSpy: jasmine.SpyObj<UserService>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     userServiceSpy = jasmine.createSpyObj<UserService>('UserService', ['getUserbyId$']);
     userServiceSpy.getUserbyId$.and.returnValue(of({name: 'Benjamin'} as never));
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [UserNameComponent],
       providers: [{provide: UserService, useValue: userServiceSpy}],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserNameComponent);
@@ -28,24 +28,18 @@ describe('UserNameComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should resolve the user name when the userId input changes', done => {
+  it('should resolve the user name when the userId input changes', async () => {
     component.userId = 'user-1';
 
-    component.name$?.subscribe(name => {
-      expect(userServiceSpy.getUserbyId$).toHaveBeenCalledWith('user-1');
-      expect(name).toBe('Benjamin');
-      done();
-    });
+    expect(userServiceSpy.getUserbyId$).toHaveBeenCalledWith('user-1');
+    await expectAsync(firstValueFrom(component.name$!)).toBeResolvedTo('Benjamin');
   });
 
-  it('should map missing users to null names', done => {
+  it('should map missing users to null names', async () => {
     userServiceSpy.getUserbyId$.and.returnValue(of(null));
 
     component.userId = 'missing-user';
 
-    component.name$?.subscribe(name => {
-      expect(name).toBeNull();
-      done();
-    });
+    await expectAsync(firstValueFrom(component.name$!)).toBeResolvedTo(null);
   });
 });

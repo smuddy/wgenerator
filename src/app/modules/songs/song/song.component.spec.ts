@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SongComponent} from './song.component';
 import {of} from 'rxjs';
@@ -17,7 +17,7 @@ describe('SongComponent', () => {
     params: of({songId: '4711'}),
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const songServiceSpy = jasmine.createSpyObj<SongService>('SongService', ['read$']);
     const fileDataServiceSpy = jasmine.createSpyObj<FileDataService>('FileDataService', ['read$']);
     const userServiceSpy = jasmine.createSpyObj<UserService>('UserService', ['incSongCount', 'decSongCount'], {
@@ -33,7 +33,7 @@ describe('SongComponent', () => {
     userServiceSpy.loggedIn$ = jasmine.createSpy('loggedIn$').and.returnValue(of(true));
     userServiceSpy.getUserbyId$ = jasmine.createSpy('getUserbyId$').and.returnValue(of({name: 'Benjamin'}));
 
-    void TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [SongComponent],
       providers: [
         {provide: ActivatedRoute, useValue: mockActivatedRoute},
@@ -44,7 +44,7 @@ describe('SongComponent', () => {
         {provide: ShowSongService, useValue: showSongServiceSpy},
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SongComponent);

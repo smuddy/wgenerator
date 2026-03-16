@@ -4,8 +4,8 @@ import {EditService} from './edit.service';
 describe('EditService', () => {
   let service: EditService;
 
-  beforeEach(() => {
-    void TestBed.configureTestingModule({});
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({});
     service = TestBed.inject(EditService);
   });
 

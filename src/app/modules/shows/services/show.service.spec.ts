@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing';
-import {BehaviorSubject, of} from 'rxjs';
+import {BehaviorSubject, firstValueFrom, of} from 'rxjs';
 import {ShowDataService} from './show-data.service';
 import {ShowService} from './show.service';
 import {UserService} from '../../../services/user/user.service';
@@ -40,53 +40,39 @@ describe('ShowService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should list published shows and own drafts, but exclude archived ones', done => {
-    service.list$().subscribe(result => {
-      expect(result.map(show => show.id)).toEqual(['show-1', 'show-2']);
-      done();
-    });
+  it('should list published shows and own drafts, but exclude archived ones', async () => {
+    const result = await firstValueFrom(service.list$());
+    expect(result.map(show => show.id)).toEqual(['show-1', 'show-2']);
   });
 
-  it('should filter out private drafts when publishedOnly is true', done => {
-    service.list$(true).subscribe(result => {
-      expect(result.map(show => show.id)).toEqual(['show-2']);
-      done();
-    });
+  it('should filter out private drafts when publishedOnly is true', async () => {
+    const result = await firstValueFrom(service.list$(true));
+    expect(result.map(show => show.id)).toEqual(['show-2']);
   });
 
-  it('should include own archived shows when requested', done => {
-    service.list$(false, true).subscribe(result => {
-      expect(result.map(show => show.id)).toEqual(['show-1', 'show-2', 'show-3']);
-      done();
-    });
+  it('should include own archived shows when requested', async () => {
+    const result = await firstValueFrom(service.list$(false, true));
+    expect(result.map(show => show.id)).toEqual(['show-1', 'show-2', 'show-3']);
   });
 
-  it('should not include archived shows from other users when requested', done => {
+  it('should not include archived shows from other users when requested', async () => {
     shows$.next([
       ...(shows as unknown as unknown[]),
       {id: 'show-4', owner: 'other-user', published: true, archived: true},
     ]);
 
-    service.list$(false, true).subscribe(result => {
-      expect(result.map(show => show.id)).toEqual(['show-1', 'show-2', 'show-3']);
-      done();
-    });
+    const result = await firstValueFrom(service.list$(false, true));
+    expect(result.map(show => show.id)).toEqual(['show-1', 'show-2', 'show-3']);
   });
 
-  it('should delegate public listing to the data service', done => {
-    service.listPublicSince$(6).subscribe(result => {
-      expect(result).toEqual([shows[1]]);
-      expect(showDataServiceSpy.listPublicSince$).toHaveBeenCalledWith(6);
-      done();
-    });
+  it('should delegate public listing to the data service', async () => {
+    await expectAsync(firstValueFrom(service.listPublicSince$(6))).toBeResolvedTo([shows[1]]);
+    expect(showDataServiceSpy.listPublicSince$).toHaveBeenCalledWith(6);
   });
 
-  it('should delegate reads to the data service', done => {
-    service.read$('show-1').subscribe(result => {
-      expect(result).toEqual(shows[0]);
-      expect(showDataServiceSpy.read$).toHaveBeenCalledWith('show-1');
-      done();
-    });
+  it('should delegate reads to the data service', async () => {
+    await expectAsync(firstValueFrom(service.read$('show-1'))).toBeResolvedTo(shows[0]);
+    expect(showDataServiceSpy.read$).toHaveBeenCalledWith('show-1');
   });
 
   it('should delegate updates to the data service', async () => {

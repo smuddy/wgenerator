@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing';
-import {of} from 'rxjs';
+import {firstValueFrom, of} from 'rxjs';
 import {DbService} from './db.service';
 import {ConfigService} from './config.service';
 
@@ -27,11 +27,8 @@ describe('ConfigService', () => {
     expect(dbServiceSpy.doc$).toHaveBeenCalledWith('global/config');
   });
 
-  it('should expose the shared config stream via get$', done => {
-    service.get$().subscribe(config => {
-      expect(config).toEqual({copyright: 'CCLI'} as never);
-      done();
-    });
+  it('should expose the shared config stream via get$', async () => {
+    await expectAsync(firstValueFrom(service.get$())).toBeResolvedTo({copyright: 'CCLI'} as never);
   });
 
   it('should resolve the current config via get()', async () => {
