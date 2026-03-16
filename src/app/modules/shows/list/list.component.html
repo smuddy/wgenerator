@@ -1,31 +1,42 @@
-<div>
-  <!--  <app-list-header *appRole="['leader']"></app-list-header>-->
-  <app-list-header *appRole="['leader']">
-    @if (shows$ | async; as shows) {
-    <app-filter [shows]="publicShows$ | async"></app-filter>
-    }
-  </app-list-header>
-
-  <ng-container *appRole="['leader']">
-    @if (privateShows$ | async; as shows) { @if (shows.length > 0) {
+@if (showSidebar$ | async) {
+<app-sidebar>
+  <div class="sidebar-content" sidebar>
+    <app-filter [shows]="(publicShows$ | async) ?? []"></app-filter>
+  </div>
+  <div content>
+    @if (privateShows$ | async; as privateShows) {
     <app-card [padding]="false" heading="Meine Veranstaltungen">
-      @for (show of shows | sortBy: 'desc':'date'; track trackBy($index, show)) {
+      @for (show of privateShows; track trackBy($index, show)) {
       <app-list-item
         [routerLink]="show.id"
-        [showStatusBadge]="show.published ? 'nicht gemeldet' : 'unveröffentlicht'"
-        [showStatusBadgeType]="show.published ? 'error' : 'none'"
+        [showStatusBadgeType]="show.archived ? 'warn' : show.published ? 'error' : 'none'"
+        [showStatusBadge]="show.archived ? 'archiviert' : show.published ? 'nicht gemeldet' : 'unveröffentlicht'"
         [show]="show"
       ></app-list-item>
       }
+      <div *appRole="['leader']" class="list-action">
+        <app-button [fullWidth]="true" [icon]="faNewShow" routerLink="new">Neue Veranstaltung anlegen </app-button>
+      </div>
+    </app-card>
+    }
+
+    @if (publicShows$ | async; as shows) { @if (shows.length > 0) {
+    <app-card [padding]="false" heading="Veröffentlichte Veranstaltungen">
+      @for (show of shows; track trackBy($index, show)) {
+      <app-list-item [routerLink]="show.id" [show]="show"></app-list-item>
+      }
     </app-card>
     } }
-  </ng-container>
-
+  </div>
+</app-sidebar>
+} @else {
+<div>
   @if (publicShows$ | async; as shows) { @if (shows.length > 0) {
   <app-card [padding]="false" heading="Veröffentlichte Veranstaltungen">
-    @for (show of shows | sortBy: 'desc':'date'; track trackBy($index, show)) {
+    @for (show of shows; track trackBy($index, show)) {
     <app-list-item [routerLink]="show.id" [show]="show"></app-list-item>
     }
   </app-card>
   } }
 </div>
+}

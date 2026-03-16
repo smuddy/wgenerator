@@ -1,4 +1,4 @@
-import {Component, DestroyRef, Input, inject} from '@angular/core';
+import {Component, DestroyRef, inject, Input} from '@angular/core';
 import {KeyValue} from '@angular/common';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
@@ -14,28 +14,23 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatSelect} from '@angular/material/select';
 import {MatOptgroup, MatOption} from '@angular/material/core';
 import {ShowTypePipe} from '../../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {MatCheckbox} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.less'],
-  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatOptgroup, ShowTypePipe],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatOptgroup, ShowTypePipe, MatCheckbox],
 })
 export class FilterComponent {
-  private showService = inject(ShowService);
-  private userService = inject(UserService);
-  private filterStore = inject(FilterStoreService);
-  private destroyRef = inject(DestroyRef);
-
   @Input() public shows: Show[] = [];
-
   public showTypePublic = ShowService.SHOW_TYPE_PUBLIC;
   public showTypePrivate = ShowService.SHOW_TYPE_PRIVATE;
-
   public filterFormGroup: FormGroup<{
     time: FormControl<number>;
     owner: FormControl<string | null>;
     showType: FormControl<string | null>;
+    archived: FormControl<boolean>;
   }>;
   public times: KeyValue<number, string>[] = [
     {key: 1, value: 'letzter Monat'},
@@ -43,8 +38,11 @@ export class FilterComponent {
     {key: 12, value: 'letztes Jahr'},
     {key: 99999, value: 'alle'},
   ];
-
   public owners: {key: string; value: string}[] = [];
+  private showService = inject(ShowService);
+  private userService = inject(UserService);
+  private filterStore = inject(FilterStoreService);
+  private destroyRef = inject(DestroyRef);
 
   public constructor() {
     const fb = inject(FormBuilder);
@@ -53,6 +51,7 @@ export class FilterComponent {
       time: fb.nonNullable.control(1),
       owner: fb.control<string | null>(null),
       showType: fb.control<string | null>(null),
+      archived: fb.nonNullable.control(false),
     });
 
     this.filterStore.showFilter$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(filterValues => {
@@ -61,6 +60,7 @@ export class FilterComponent {
           time: filterValues.time,
           owner: filterValues.owner || null,
           showType: filterValues.showType || null,
+          archived: !!filterValues.archived,
         },
         {emitEvent: false}
       );
@@ -69,6 +69,7 @@ export class FilterComponent {
     this.filterFormGroup.controls.time.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('time', value));
     this.filterFormGroup.controls.owner.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('owner', value ?? ''));
     this.filterFormGroup.controls.showType.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('showType', value ?? ''));
+    this.filterFormGroup.controls.archived.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('archived', value));
 
     this.owners$()
       .pipe(takeUntilDestroyed(this.destroyRef))

@@ -1,6 +1,20 @@
+:host {
+  display: inline-flex;
+}
+
+:host(.full-width) {
+  display: flex;
+  width: 100%;
+}
+
 button {
   color: var(--text);
   transition: var(--transition);
+
+  :host(.full-width) & {
+    width: 100%;
+    justify-content: center;
+  }
 
   &:hover {
     color: var(--primary-active);

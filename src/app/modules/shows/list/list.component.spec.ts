@@ -1,5 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {BehaviorSubject, of} from 'rxjs';
+import {skip, take} from 'rxjs/operators';
 import {ListComponent} from './list.component';
 import {ShowService} from '../services/show.service';
 import {UserService} from '../../../services/user/user.service';
@@ -59,7 +60,7 @@ describe('ListComponent', () => {
     ] as never);
 
     component.privateShows$.subscribe(shows => {
-      expect(shows.map(show => show.id)).toEqual(['draft-own', 'pending-own']);
+      expect(shows.map(show => show.id)).toEqual(['pending-own', 'draft-own']);
       done();
     });
   });
@@ -73,7 +74,41 @@ describe('ListComponent', () => {
     ] as never);
 
     component.privateShows$.subscribe(shows => {
-      expect(shows.map(show => show.id)).toEqual(['older-draft', 'pending-own']);
+      expect(shows.map(show => show.id)).toEqual(['pending-own', 'older-draft']);
+      done();
+    });
+  });
+
+  it('should hide archived own shows until archived filter is enabled', done => {
+    const filterStore = TestBed.inject(FilterStoreService);
+    shows$.next([
+      createShow({id: 'draft-own', owner: 'user-1', published: false, reportedType: null, date: {toDate: () => new Date('2026-03-02')}}),
+      createShow({id: 'archived-own', owner: 'user-1', published: true, archived: true, reportedType: 'reported', date: {toDate: () => new Date('2026-03-03')}}),
+    ] as never);
+
+    component.privateShows$.pipe(take(1)).subscribe(shows => {
+      expect(shows.map(show => show.id)).toEqual(['draft-own']);
+
+      component.privateShows$.pipe(skip(1), take(1)).subscribe(updatedShows => {
+        expect(updatedShows.map(show => show.id)).toEqual(['archived-own', 'draft-own']);
+        done();
+      });
+
+      filterStore.updateShowFilter({archived: true});
+    });
+  });
+
+  it('should sort public shows by date descending', done => {
+    const filterStore = TestBed.inject(FilterStoreService);
+    filterStore.updateShowFilter({time: 99999});
+    shows$.next([
+      createShow({id: 'old-public', owner: 'user-2', published: true, archived: false, date: {toDate: () => new Date('2026-01-01')}}),
+      createShow({id: 'new-public', owner: 'user-3', published: true, archived: false, date: {toDate: () => new Date('2026-03-10')}}),
+      createShow({id: 'mid-public', owner: 'user-4', published: true, archived: false, date: {toDate: () => new Date('2026-02-05')}}),
+    ] as never);
+
+    component.publicShows$.pipe(take(1)).subscribe(shows => {
+      expect(shows.map(show => show.id)).toEqual(['new-public', 'mid-public', 'old-public']);
       done();
     });
   });

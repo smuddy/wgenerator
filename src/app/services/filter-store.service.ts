@@ -15,6 +15,7 @@ const DEFAULT_SHOW_FILTER: ShowFilterValues = {
   time: 1,
   owner: '',
   showType: '',
+  archived: false,
 };
 
 @Injectable({

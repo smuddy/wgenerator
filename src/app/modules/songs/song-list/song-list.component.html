@@ -2,9 +2,6 @@
 <app-sidebar>
   <div sidebar class="sidebar-content">
     <app-filter [songs]="songs"></app-filter>
-    <div class="sidebar-actions">
-      <app-button [icon]="faNewSong" routerLink="new">Neuen Song anlegen</app-button>
-    </div>
   </div>
   <div content>
     <app-card [padding]="false">
@@ -42,6 +39,9 @@
         <div>{{ song.key }}</div>
       </div>
       }
+      <div *appRole="['contributor']" class="list-action">
+        <app-button [fullWidth]="true" [icon]="faNewSong" routerLink="new">Neuen Song anlegen</app-button>
+      </div>
     </app-card>
   </div>
 </app-sidebar>

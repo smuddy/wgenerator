@@ -9,8 +9,12 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.less'],
   imports: [MatButton, FaIconComponent],
+  host: {
+    '[class.full-width]': 'fullWidth',
+  },
 })
 export class ButtonComponent {
   @Input() public disabled = false;
+  @Input() public fullWidth = false;
   @Input() public icon: IconProp | null = null;
 }

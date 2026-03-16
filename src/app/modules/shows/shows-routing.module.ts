@@ -4,6 +4,7 @@ import {NewComponent} from './new/new.component';
 import {ListComponent} from './list/list.component';
 import {ShowComponent} from './show/show.component';
 import {EditComponent} from './edit/edit.component';
+import {RoleGuard} from '../../widget-modules/guards/role.guard';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'new',
     component: NewComponent,
+    canActivate: [RoleGuard],
+    data: {
+      requiredRoles: ['leader'],
+    },
   },
   {
     path: ':showId/edit',

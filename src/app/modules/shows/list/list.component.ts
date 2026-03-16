@@ -7,23 +7,25 @@ import {FilterValues} from './filter/filter-values';
 import {RouterLink} from '@angular/router';
 import {map, switchMap} from 'rxjs/operators';
 import {FilterStoreService} from '../../../services/filter-store.service';
-import {RoleDirective} from '../../../services/user/role.directive';
-import {ListHeaderComponent} from '../../../widget-modules/components/list-header/list-header.component';
 import {AsyncPipe} from '@angular/common';
 import {FilterComponent} from './filter/filter.component';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {ListItemComponent} from './list-item/list-item.component';
-import {SortByPipe} from '../../../widget-modules/pipes/sort-by/sort-by.pipe';
 import {UserService} from '../../../services/user/user.service';
+import {SidebarComponent} from '../../../widget-modules/components/sidebar/sidebar.component';
+import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
+import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {RoleDirective} from '../../../services/user/role.directive';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.less'],
   animations: [fade],
-  imports: [RoleDirective, ListHeaderComponent, FilterComponent, CardComponent, ListItemComponent, RouterLink, AsyncPipe, SortByPipe],
+  imports: [FilterComponent, CardComponent, ListItemComponent, RouterLink, AsyncPipe, SidebarComponent, ButtonComponent, RoleDirective],
 })
 export class ListComponent {
+  public faNewShow = faPlus;
   private showService = inject(ShowService);
   private filterStore = inject(FilterStoreService);
   private userService = inject(UserService);
@@ -32,9 +34,24 @@ export class ListComponent {
   public lastMonths$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.time || 1));
   public owner$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.owner));
   public showType$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.showType));
+  public archived$ = this.filter$.pipe(map((filterValues: FilterValues) => !!filterValues.archived));
   public shows$ = this.showService.list$();
-  public privateShows$ = combineLatest([this.shows$, this.userService.user$]).pipe(
-    map(([shows, user]) => shows.filter(show => show.owner === user?.id).filter(show => !show.published || show.reportedType === 'pending'))
+  public ownShows$ = this.showService.list$(false, true);
+  public privateShows$ = combineLatest([this.ownShows$, this.userService.user$, this.archived$]).pipe(
+    map(([shows, user, showArchived]) =>
+      shows.filter(show => {
+        if (show.owner !== user?.id) {
+          return false;
+        }
+
+        if (show.archived) {
+          return showArchived;
+        }
+
+        return !show.published || show.reportedType === 'pending';
+      })
+    ),
+    map(shows => this.sortShowsByDateDesc(shows))
   );
   public queriedPublicShows$ = this.lastMonths$.pipe(switchMap(lastMonths => this.showService.listPublicSince$(lastMonths)));
   public fallbackPublicShows$ = combineLatest([this.shows$, this.lastMonths$]).pipe(
@@ -46,9 +63,10 @@ export class ListComponent {
     map(([queriedShows, fallbackShows, owner, showType]) => {
       const shows = queriedShows.length > 0 || fallbackShows.length === 0 ? queriedShows : fallbackShows;
 
-      return shows.filter(show => !owner || show.owner === owner).filter(show => !showType || show.showType === showType);
+      return this.sortShowsByDateDesc(shows.filter(show => !owner || show.owner === owner).filter(show => !showType || show.showType === showType));
     })
   );
+  public showSidebar$ = this.userService.user$.pipe(map(user => this.hasSidebarAccess(user?.role)));
 
   public trackBy = (index: number, show: unknown) => (show as Show).id;
 
@@ -57,5 +75,18 @@ export class ListComponent {
     startDate.setHours(0, 0, 0, 0);
     startDate.setDate(startDate.getDate() - lastMonths * 30);
     return show.date.toDate() >= startDate;
+  }
+
+  private sortShowsByDateDesc(shows: Show[]): Show[] {
+    return [...shows].sort((left, right) => right.date.toDate().getTime() - left.date.toDate().getTime());
+  }
+
+  private hasSidebarAccess(role: string | null | undefined): boolean {
+    if (!role) {
+      return false;
+    }
+
+    const roles = role.split(';').map(item => item.trim());
+    return roles.includes('admin') || roles.includes('leader');
   }
 }

@@ -20,13 +20,17 @@ export class ShowService {
   public read$ = (showId: string): Observable<Show | null> => this.showDataService.read$(showId);
   public listPublicSince$ = (lastMonths: number): Observable<Show[]> => this.showDataService.listPublicSince$(lastMonths);
 
-  public list$(publishedOnly = false): Observable<Show[]> {
+  public list$(publishedOnly = false, includeOwnArchived = false): Observable<Show[]> {
     return this.userService.user$.pipe(
       switchMap(
         () => this.showDataService.list$,
         (user: User | null, shows: Show[]) => ({user, shows})
       ),
-      map(s => s.shows.filter(show => !show.archived).filter(show => show.published || (show.owner === s.user?.id && !publishedOnly)))
+      map(s =>
+        s.shows
+          .filter(show => !show.archived || (includeOwnArchived && show.owner === s.user?.id))
+          .filter(show => show.published || (show.owner === s.user?.id && !publishedOnly))
+      )
     );
   }
 

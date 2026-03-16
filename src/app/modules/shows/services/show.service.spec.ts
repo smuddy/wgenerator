@@ -8,6 +8,7 @@ describe('ShowService', () => {
   let service: ShowService;
   let showDataServiceSpy: jasmine.SpyObj<ShowDataService>;
   let user$: BehaviorSubject<unknown>;
+  let shows$: BehaviorSubject<unknown[]>;
   const shows = [
     {id: 'show-1', owner: 'user-1', published: false, archived: false},
     {id: 'show-2', owner: 'other-user', published: true, archived: false},
@@ -16,8 +17,9 @@ describe('ShowService', () => {
 
   beforeEach(async () => {
     user$ = new BehaviorSubject<unknown>({id: 'user-1'});
+    shows$ = new BehaviorSubject<unknown[]>(shows as unknown[]);
     showDataServiceSpy = jasmine.createSpyObj<ShowDataService>('ShowDataService', ['read$', 'listPublicSince$', 'update', 'add'], {
-      list$: of(shows) as unknown as ShowDataService['list$'],
+      list$: shows$.asObservable() as unknown as ShowDataService['list$'],
     });
     showDataServiceSpy.read$.and.returnValue(of(shows[0]));
     showDataServiceSpy.listPublicSince$.and.returnValue(of([shows[1]]));
@@ -48,6 +50,25 @@ describe('ShowService', () => {
   it('should filter out private drafts when publishedOnly is true', done => {
     service.list$(true).subscribe(result => {
       expect(result.map(show => show.id)).toEqual(['show-2']);
+      done();
+    });
+  });
+
+  it('should include own archived shows when requested', done => {
+    service.list$(false, true).subscribe(result => {
+      expect(result.map(show => show.id)).toEqual(['show-1', 'show-2', 'show-3']);
+      done();
+    });
+  });
+
+  it('should not include archived shows from other users when requested', done => {
+    shows$.next([
+      ...(shows as unknown as unknown[]),
+      {id: 'show-4', owner: 'other-user', published: true, archived: true},
+    ]);
+
+    service.list$(false, true).subscribe(result => {
+      expect(result.map(show => show.id)).toEqual(['show-1', 'show-2', 'show-3']);
       done();
     });
   });

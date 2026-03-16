@@ -6,6 +6,7 @@ import {EditComponent} from './song/edit/edit.component';
 import {NewComponent} from './song/new/new.component';
 import {EditSongGuard} from './song/edit/edit-song.guard';
 import {SongListResolver} from './services/song-list.resolver';
+import {RoleGuard} from '../../widget-modules/guards/role.guard';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'new',
     component: NewComponent,
+    canActivate: [RoleGuard],
+    data: {
+      requiredRoles: ['contributor'],
+    },
   },
   {
     path: ':songId/edit',
