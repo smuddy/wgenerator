@@ -3,18 +3,17 @@ a {
   display: block;
   height: 50px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 500;
   text-decoration: none;
+  letter-spacing: 1.1px;
   padding: 15px;
   box-sizing: border-box;
   background: transparent;
-  transition: var(--transition);
+  transition: var(--transition-fast);
   border-color: transparent;
 
   fa-icon {
     display: inline-block;
-    transform: scale(1);
-    transition: var(--transition);
   }
 
   @media screen and (max-width: 860px) {
@@ -28,18 +27,11 @@ a {
     color: var(--primary-hover);
     border-bottom: 5px solid var(--hover-background);
 
-    fa-icon {
-      transform: scale(1.2);
-    }
   }
 
   &.active {
     border-bottom: 5px solid var(--primary-color);
     opacity: 1;
     color: var(--text-inverse);
-
-    fa-icon {
-      transform: scale(1.3);
-    }
   }
 }
