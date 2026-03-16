@@ -7,11 +7,9 @@ import {ActivatedRoute, provideRouter} from '@angular/router';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {provideNativeDateAdapter} from '@angular/material/core';
-import {getApp, getApps, initializeApp, provideFirebaseApp} from '@angular/fire/app';
-import {getAuth, provideAuth} from '@angular/fire/auth';
-import {initializeFirestore, provideFirestore} from '@angular/fire/firestore';
-import {getStorage, provideStorage} from '@angular/fire/storage';
-import {environment} from './environments/environment';
+import {Auth} from '@angular/fire/auth';
+import {Firestore} from '@angular/fire/firestore';
+import {Storage} from '@angular/fire/storage';
 import {DbService} from './app/services/db.service';
 
 type TestingModuleDefinition = Parameters<typeof TestBed.configureTestingModule>[0];
@@ -43,16 +41,14 @@ type MockFunction = ReturnType<typeof vi.fn> & {
 
 const routeParams$ = new BehaviorSubject<Record<string, unknown>>({});
 const queryParams$ = new BehaviorSubject<Record<string, unknown>>({});
-const defaultFirebaseApp = getApps().length > 0 ? getApp() : initializeApp(environment.firebase);
 
 const defaultTestingProviders: TestingProviderList = [
   provideNoopAnimations(),
   provideNativeDateAdapter(),
   provideRouter([]),
-  provideFirebaseApp(() => defaultFirebaseApp),
-  provideAuth(() => getAuth(defaultFirebaseApp)),
-  provideFirestore(() => initializeFirestore(defaultFirebaseApp, {})),
-  provideStorage(() => getStorage(defaultFirebaseApp)),
+  {provide: Auth, useValue: {}},
+  {provide: Firestore, useValue: {}},
+  {provide: Storage, useValue: {}},
   {
     provide: ActivatedRoute,
     useValue: {

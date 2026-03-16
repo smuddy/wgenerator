@@ -1,4 +1,4 @@
-import {enableProdMode, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
+import {enableProdMode, importProvidersFrom, inject, provideZoneChangeDetection} from '@angular/core';
 
 import {environment} from './environments/environment';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
@@ -8,10 +8,14 @@ import {AppRoutingModule} from './app/app-routing.module';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {AppComponent} from './app/app.component';
-import {getApp, initializeApp, provideFirebaseApp} from '@angular/fire/app';
-import {initializeFirestore, persistentLocalCache, persistentMultipleTabManager, provideFirestore} from '@angular/fire/firestore';
-import {getAuth, provideAuth} from '@angular/fire/auth';
-import {getStorage, provideStorage} from '@angular/fire/storage';
+import {FirebaseApp, provideFirebaseApp} from '@angular/fire/app';
+import {provideFirestore} from '@angular/fire/firestore';
+import {provideAuth} from '@angular/fire/auth';
+import {provideStorage} from '@angular/fire/storage';
+import {initializeApp} from 'firebase/app';
+import {getAuth} from 'firebase/auth';
+import {getStorage} from 'firebase/storage';
+import {initializeFirestore, persistentLocalCache, persistentMultipleTabManager} from 'firebase/firestore';
 import {UserService} from './app/services/user/user.service';
 
 declare global {
@@ -39,9 +43,13 @@ bootstrapApplication(AppComponent, {
       FontAwesomeModule
     ),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => initializeFirestore(getApp(), {localCache: persistentLocalCache({tabManager: persistentMultipleTabManager()})})),
-    provideStorage(() => getStorage()),
+    provideAuth(() => getAuth(inject(FirebaseApp))),
+    provideFirestore(() =>
+      initializeFirestore(inject(FirebaseApp), {
+        localCache: persistentLocalCache({tabManager: persistentMultipleTabManager()}),
+      })
+    ),
+    provideStorage(() => getStorage(inject(FirebaseApp))),
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
     provideAnimations(),
   ],
