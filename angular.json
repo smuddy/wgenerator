@@ -51,7 +51,7 @@
               "docx",
               "qrcode"
             ]
-},
+          },
           "configurations": {
             "production": {
               "fileReplacements": [
@@ -64,7 +64,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "10MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -82,7 +82,7 @@
           },
           "defaultConfiguration": "production"
         },
-   "serve": {
+        "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
@@ -99,5 +99,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -1,43 +1,48 @@
 @if (songs$ | async; as songs) {
-<div>
-  <app-list-header [anyFilterActive]="anyFilterActive">
+<app-sidebar>
+  <div sidebar class="sidebar-content">
     <app-filter [songs]="songs"></app-filter>
-  </app-list-header>
-  <app-card [padding]="false">
-    @for (song of songs; track trackBy($index, song)) {
-    <div [routerLink]="song.id" class="list-item">
-      <div class="number">{{ song.number }}</div>
-      <div class="title">
-        <span>{{ song.title }}</span>
-        @if (song.hasChordValidationIssues) {
-        <span class="validation-star" title="Akkord-Validierungsfehler vorhanden">*</span>
-        }
-      </div>
-      <div>
-        <ng-container *appRole="['contributor']">
-          @if (song.status === 'draft') {
+    <div class="sidebar-actions">
+      <app-button [icon]="faNewSong" routerLink="new">Neuen Song anlegen</app-button>
+    </div>
+  </div>
+  <div content>
+    <app-card [padding]="false">
+      @for (song of songs; track trackBy($index, song)) {
+      <div [routerLink]="song.id" class="list-item">
+        <div class="number">{{ song.number }}</div>
+        <div class="title">
+          <span>{{ song.title }}</span>
+          @if (song.hasChordValidationIssues) {
+          <span class="validation-star" title="Akkord-Validierungsfehler vorhanden">*</span>
+          }
+        </div>
+        <div>
+          <ng-container *appRole="['contributor']">
+            @if (song.status === 'draft') {
+            <div class="warning">
+              <fa-icon [icon]="faDraft"></fa-icon>
+            </div>
+            } @if (song.status === 'set') {
+            <div class="neutral">
+              <fa-icon [icon]="faDraft"></fa-icon>
+            </div>
+            } @if (song.status === 'final') {
+            <div class="success">
+              <fa-icon [icon]="faFinal"></fa-icon>
+            </div>
+            }
+          </ng-container>
+          @if (song.legalType === 'open') {
           <div class="warning">
-            <fa-icon [icon]="faDraft"></fa-icon>
-          </div>
-          } @if (song.status === 'set') {
-          <div class="neutral">
-            <fa-icon [icon]="faDraft"></fa-icon>
-          </div>
-          } @if (song.status === 'final') {
-          <div class="success">
-            <fa-icon [icon]="faFinal"></fa-icon>
+            <fa-icon [icon]="faLegal"></fa-icon>
           </div>
           }
-        </ng-container>
-        @if (song.legalType === 'open') {
-        <div class="warning">
-          <fa-icon [icon]="faLegal"></fa-icon>
         </div>
-        }
+        <div>{{ song.key }}</div>
       </div>
-      <div>{{ song.key }}</div>
-    </div>
-    }
-  </app-card>
-</div>
+      }
+    </app-card>
+  </div>
+</app-sidebar>
 }

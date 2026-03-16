@@ -10,11 +10,15 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  color: var(--primary-hover);
-
 }
 
-.filter-active {
-  color: var(--danger);
+.header .mat-mdc-icon-button {
+  --icon-button-color: var(--primary-hover);
+  --icon-button-hover-color: var(--primary-active);
+}
+
+.header .mat-mdc-icon-button.filter-active {
+  --icon-button-color: var(--danger);
+  --icon-button-hover-color: var(--danger);
   cursor: not-allowed;
 }

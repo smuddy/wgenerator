@@ -1,5 +1,48 @@
+:host {
+  --sidebar-width: 300px;
+  --sidebar-toggle-size: 48px;
+  --sidebar-toggle-offset: 12px;
+  display: grid;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  align-items: start;
+  box-sizing: border-box;
+  transition: grid-template-columns 200ms ease;
+}
+
+:host.collapsed {
+  grid-template-columns: 0 minmax(0, 1fr);
+}
+
+.sidebar-toggle {
+  --icon-button-color: var(--primary-hover);
+  --icon-button-hover-color: var(--primary-active);
+  position: fixed;
+  top: calc(50px + var(--sidebar-toggle-offset));
+  left: var(--sidebar-toggle-offset);
+  z-index: 11;
+  color: var(--icon-button-color);
+  background: transparent;
+  box-shadow: none;
+}
+
+:host.collapsed .sidebar-toggle {
+  --icon-button-color: var(--text-inverse);
+  --icon-button-hover-color: var(--text-inverse);
+}
+
+.sidebar-toggle fa-icon {
+  color: inherit;
+}
+
+.sidebar-toggle:hover {
+  color: var(--icon-button-hover-color);
+}
+
 aside {
-  width: 200px;
+  width: var(--sidebar-width);
   height: calc(100vh - 50px);
 
   position: fixed;
@@ -8,4 +51,28 @@ aside {
   bottom: 0;
 
   background: var(--surface);
+  box-shadow: var(--shadow-card-2);
+  overflow: hidden;
+  transform: translateX(0);
+  transition: transform 200ms ease;
+}
+
+aside.collapsed {
+  transform: translateX(calc(-1 * var(--sidebar-width)));
+}
+
+.sidebar-toggle-placeholder {
+  height: calc(var(--sidebar-toggle-size) + var(--sidebar-toggle-offset));
+  flex: 0 0 auto;
+}
+
+.sidebar-body {
+  height: calc(100% - var(--sidebar-toggle-size) - var(--sidebar-toggle-offset));
+}
+
+.content {
+  grid-column: 2;
+  min-width: 0;
+  width: 100%;
+  padding: 0;
 }

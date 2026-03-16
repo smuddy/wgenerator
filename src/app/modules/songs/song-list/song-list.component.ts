@@ -6,15 +6,16 @@ import {fade} from '../../../animations';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {filterSong} from '../../../services/filter.helper';
 import {FilterValues} from './filter/filter-values';
-import {faBalanceScaleRight, faCheck, faPencilRuler} from '@fortawesome/free-solid-svg-icons';
+import {faBalanceScaleRight, faCheck, faPencilRuler, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {TextRenderingService} from '../services/text-rendering.service';
 import {FilterStoreService} from '../../../services/filter-store.service';
 import {AsyncPipe} from '@angular/common';
-import {ListHeaderComponent} from '../../../widget-modules/components/list-header/list-header.component';
 import {FilterComponent} from './filter/filter.component';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {RoleDirective} from '../../../services/user/role.directive';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {SidebarComponent} from '../../../widget-modules/components/sidebar/sidebar.component';
+import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 
 interface SongListItem extends Song {
   hasChordValidationIssues: boolean;
@@ -26,20 +27,21 @@ interface SongListItem extends Song {
   styleUrls: ['./song-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fade],
-  imports: [ListHeaderComponent, FilterComponent, CardComponent, RouterLink, RoleDirective, FaIconComponent, AsyncPipe],
+  imports: [FilterComponent, CardComponent, RouterLink, RoleDirective, FaIconComponent, AsyncPipe, SidebarComponent, ButtonComponent],
 })
 export class SongListComponent {
+  public faLegal = faBalanceScaleRight;
+  public faDraft = faPencilRuler;
+  public faFinal = faCheck;
+  public faNewSong = faPlus;
   private route = inject(ActivatedRoute);
   private textRenderingService = inject(TextRenderingService);
   private filterStore = inject(FilterStoreService);
-
-  public anyFilterActive = false;
   public songs$: Observable<SongListItem[]> = combineLatest([
     this.filterStore.songFilter$,
     this.route.data.pipe(map(data => (data['songs'] as Song[]).slice().sort((a, b) => a.number - b.number))),
   ]).pipe(
     map(([filter, songs]) => {
-      this.anyFilterActive = this.checkIfFilterActive(filter);
       return songs
         .filter(song => this.filter(song, filter))
         .map(song => ({
@@ -49,9 +51,6 @@ export class SongListComponent {
         .sort((a, b) => a.title?.localeCompare(b.title));
     })
   );
-  public faLegal = faBalanceScaleRight;
-  public faDraft = faPencilRuler;
-  public faFinal = faCheck;
 
   public trackBy = (index: number, show: SongListItem) => show.id;
 
@@ -63,10 +62,6 @@ export class SongListComponent {
     baseFilter = baseFilter && (!filter.flag || this.checkFlag(filter.flag, song.flags));
 
     return baseFilter;
-  }
-
-  private checkIfFilterActive(filter: FilterValues): boolean {
-    return !!filter.q || !!filter.type || !!filter.key || !!filter.legalType || !!filter.flag;
   }
 
   private checkFlag(flag: string, flags: string) {

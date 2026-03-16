@@ -20,6 +20,7 @@ export class ListHeaderComponent {
   public filterVisible = false;
   @Output() public filterVisibleChanged = new EventEmitter<boolean>();
   @Input() public anyFilterActive = false;
+  @Input() public showFilterButton = true;
 
   public onFilterClick(): void {
     this.filterVisible = !this.filterVisible || this.anyFilterActive;

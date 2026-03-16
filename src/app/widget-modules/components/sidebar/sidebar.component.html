@@ -1,1 +1,12 @@
-<aside></aside>
+<button class="sidebar-toggle" (click)="toggle()" [attr.aria-expanded]="!collapsed" aria-label="Sidebar umschalten" mat-icon-button type="button">
+  <fa-icon [icon]="collapsed ? closedIcon : openIcon"></fa-icon>
+</button>
+<aside [class.collapsed]="collapsed">
+  <div class="sidebar-toggle-placeholder" aria-hidden="true"></div>
+  <div class="sidebar-body">
+    <ng-content select="[sidebar]"></ng-content>
+  </div>
+</aside>
+<div class="content">
+  <ng-content select="[content]"></ng-content>
+</div>

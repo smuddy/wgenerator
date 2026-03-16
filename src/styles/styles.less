@@ -34,6 +34,10 @@
   --focus-ring: 0 0 0 2px rgba(111, 143, 149, 0.28);
   --transition: all 300ms ease-in-out;
   --transition-fast: all 150ms ease-in-out;
+  --icon-button-color: var(--primary-color);
+  --icon-button-hover-color: var(--primary-active);
+  --icon-button-opacity: 1;
+  --icon-button-hover-opacity: 1;
 
 
   --mat-dialog-supporting-text-color: var(--text);
@@ -78,11 +82,11 @@ a {
 }
 
 .mat-mdc-icon-button {
-  color: var(--primary-color) !important;
+  color: var(--icon-button-color, var(--primary-color));
   transition: var(--transition);
 
   &:hover {
-    color: var(--primary-active) !important;
+    color: var(--icon-button-hover-color, var(--primary-active));
   }
 }
 
@@ -103,11 +107,11 @@ body .cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing {
 }
 
 .btn-icon {
-  opacity: 0.2;
+  opacity: var(--icon-button-opacity);
   transition: var(--transition);
 
   &:hover {
-    opacity: 1;
+    opacity: var(--icon-button-hover-opacity);
   }
 }
 
@@ -126,6 +130,5 @@ body {
     opacity: 0;
   }
 
-  --mat-form-field-container-text-line-height: 16px;
-  --mat-form-field-container-text-size: 16px;
+
 }
