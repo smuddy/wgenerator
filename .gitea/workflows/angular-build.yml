@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: runner
+    container:
+      image: node:20-bullseye
 
     steps:
       - name: Checkout
