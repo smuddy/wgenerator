@@ -1,9 +1,8 @@
-import {ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, OnDestroy, OnInit, inject} from '@angular/core';
-import {filter, map, shareReplay, switchMap, tap} from 'rxjs/operators';
+import {ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, inject, OnDestroy, OnInit} from '@angular/core';
+import {filter, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowService} from '../services/show.service';
 import {Observable, of, Subscription} from 'rxjs';
-import {take} from 'rxjs/operators';
 import {Show} from '../services/show';
 import {SongService} from '../../songs/services/song.service';
 import {Song} from '../../songs/services/song';
@@ -14,8 +13,8 @@ import {
   faArrowUpRightFromSquare,
   faBox,
   faBoxOpen,
-  faCheck,
   faChevronRight,
+  faCompactDisc,
   faFileDownload,
   faLock,
   faMagnifyingGlassMinus,
@@ -90,26 +89,15 @@ import {PublishedTypePipe} from '../../../widget-modules/pipes/published-type-tr
   ],
 })
 export class ShowComponent implements OnInit, OnDestroy {
-  private activatedRoute = inject(ActivatedRoute);
-  private showService = inject(ShowService);
-  private songService = inject(SongService);
-  private showSongService = inject(ShowSongService);
-  private docxService = inject(DocxService);
-  private router = inject(Router);
-  private cRef = inject(ChangeDetectorRef);
-  private userService = inject(UserService);
   public dialog = inject(MatDialog);
-  private guestShowService = inject(GuestShowService);
-
   public show$: Observable<Show | null> | null = null;
   public songs$: Observable<Song[] | null> | null = null;
   public showSongs: ShowSong[] | null = null;
   public showId: string | null = null;
   public showText = false;
-
   public faBox = faBox;
   public faBoxOpen = faBoxOpen;
-  public faReport = faCheck;
+  public faReport = faCompactDisc;
   public faPublish = faUnlock;
   public faUnpublish = faLock;
   public faShare = faArrowUpRightFromSquare;
@@ -125,6 +113,15 @@ export class ShowComponent implements OnInit, OnDestroy {
   public faMaximize = faMaximize;
   public faNextSong = faChevronRight;
   public currentTime!: Date;
+  private activatedRoute = inject(ActivatedRoute);
+  private showService = inject(ShowService);
+  private songService = inject(SongService);
+  private showSongService = inject(ShowSongService);
+  private docxService = inject(DocxService);
+  private router = inject(Router);
+  private cRef = inject(ChangeDetectorRef);
+  private userService = inject(UserService);
+  private guestShowService = inject(GuestShowService);
   private subs: Subscription[] = [];
   private clockIntervalId: ReturnType<typeof setInterval> | null = null;
 
@@ -270,24 +267,6 @@ export class ShowComponent implements OnInit, OnDestroy {
     return show.published ? 'ok' : 'none';
   }
 
-  private getReportableSongs(show: Show): ReportDialogSong[] {
-    const uniqueSongs = new Map<string, ReportDialogSong>();
-
-    this.orderedShowSongs(show)
-      .filter(song => song.legalOwner === 'CCLI' && !!song.legalOwnerId)
-      .forEach(song => {
-        const key = song.songId || `${song.title}:${song.legalOwnerId}`;
-        if (!uniqueSongs.has(key)) {
-          uniqueSongs.set(key, {
-            title: song.title,
-            ccliNumber: song.legalOwnerId,
-          });
-        }
-      });
-
-    return Array.from(uniqueSongs.values());
-  }
-
   public async onDownload(): Promise<void> {
     if (this.showId != null) await this.docxService.create(this.showId);
   }
@@ -359,6 +338,24 @@ export class ShowComponent implements OnInit, OnDestroy {
     const longestLabelLength = labels.reduce((max, label) => Math.max(max, label.length), 0);
     const widthInCh = Math.max(3, longestLabelLength);
     return `${widthInCh}ch`;
+  }
+
+  private getReportableSongs(show: Show): ReportDialogSong[] {
+    const uniqueSongs = new Map<string, ReportDialogSong>();
+
+    this.orderedShowSongs(show)
+      .filter(song => song.legalOwner === 'CCLI' && !!song.legalOwnerId)
+      .forEach(song => {
+        const key = song.songId || `${song.title}:${song.legalOwnerId}`;
+        if (!uniqueSongs.has(key)) {
+          uniqueSongs.set(key, {
+            title: song.title,
+            ccliNumber: song.legalOwnerId,
+          });
+        }
+      });
+
+    return Array.from(uniqueSongs.values());
   }
 
   private async setArchiveState(archived: boolean): Promise<void> {
