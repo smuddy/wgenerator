@@ -27,9 +27,7 @@ export class ShowService {
         (user: User | null, shows: Show[]) => ({user, shows})
       ),
       map(s =>
-        s.shows
-          .filter(show => !show.archived || (includeOwnArchived && show.owner === s.user?.id))
-          .filter(show => show.published || (show.owner === s.user?.id && !publishedOnly))
+        s.shows.filter(show => !show.archived || (includeOwnArchived && show.owner === s.user?.id)).filter(show => show.published || (show.owner === s.user?.id && !publishedOnly))
       )
     );
   }

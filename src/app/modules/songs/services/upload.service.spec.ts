@@ -39,7 +39,7 @@ describe('UploadService', () => {
         success();
       },
     };
-    const uploadSpy = spyOn<any>(service as UploadServiceInternals, 'startUpload').and.returnValue(task);
+    const uploadSpy = spyOn(service as UploadServiceInternals, 'startUpload').and.returnValue(task);
     const upload = new Upload(new File(['content'], 'test.pdf', {type: 'application/pdf'}));
 
     service.pushUpload('song-1', upload);

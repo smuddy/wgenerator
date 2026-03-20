@@ -5,6 +5,9 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 describe('ShareDialogComponent', () => {
   let component: ShareDialogComponent;
   let fixture: ComponentFixture<ShareDialogComponent>;
+  type ShareDialogComponentInternals = ShareDialogComponent & {
+    generateQrCode: () => Promise<string>;
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -25,7 +28,7 @@ describe('ShareDialogComponent', () => {
 
     fixture = TestBed.createComponent(ShareDialogComponent);
     component = fixture.componentInstance;
-    spyOn<any>(component, 'generateQrCode').and.resolveTo('data:image/jpeg;base64,test');
+    spyOn(component as ShareDialogComponentInternals, 'generateQrCode').and.resolveTo('data:image/jpeg;base64,test');
     fixture.detectChanges();
   });
 

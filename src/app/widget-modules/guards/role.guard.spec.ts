@@ -31,9 +31,7 @@ describe('RoleGuard', () => {
   });
 
   it('should deny access when there is no current user', async () => {
-    await expectAsync(firstValueFrom(guard.canActivate({data: {requiredRoles: ['leader']}} as never))).toBeResolvedTo(
-      {commands: ['brand', 'new-user']} as never
-    );
+    await expectAsync(firstValueFrom(guard.canActivate({data: {requiredRoles: ['leader']}} as never))).toBeResolvedTo({commands: ['brand', 'new-user']} as never);
   });
 
   it('should allow admins regardless of requiredRoles', async () => {

@@ -125,7 +125,8 @@ function decorateMock<T extends ReturnType<typeof vi.fn>>(mock: T): T & MockFunc
     configurable: true,
     get: () => ({
       argsFor(index: number) {
-        return decorated.mock.calls[index] ?? [];
+        const calls = decorated.mock.calls as unknown[][];
+        return calls[index] ?? [];
       },
       mostRecent() {
         const args = decorated.mock.lastCall ?? [];
@@ -146,11 +147,7 @@ function createSpy(name?: string): MockFunction {
   return spy;
 }
 
-function createSpyObj<T>(
-  baseName: string,
-  methodNames: string[] | Record<string, unknown>,
-  propertyValues?: Record<string, unknown>
-): T {
+function createSpyObj<T>(baseName: string, methodNames: string[] | Record<string, unknown>, propertyValues?: Record<string, unknown>): T {
   const result: Record<string, unknown> = {};
   const methods = Array.isArray(methodNames) ? methodNames : Object.keys(methodNames);
 

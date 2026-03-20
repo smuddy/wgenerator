@@ -56,10 +56,7 @@ describe('ShowService', () => {
   });
 
   it('should not include archived shows from other users when requested', async () => {
-    shows$.next([
-      ...(shows as unknown as unknown[]),
-      {id: 'show-4', owner: 'other-user', published: true, archived: true},
-    ]);
+    shows$.next([...(shows as unknown as unknown[]), {id: 'show-4', owner: 'other-user', published: true, archived: true}]);
 
     const result = await firstValueFrom(service.list$(false, true));
     expect(result.map(show => show.id)).toEqual(['show-1', 'show-2', 'show-3']);

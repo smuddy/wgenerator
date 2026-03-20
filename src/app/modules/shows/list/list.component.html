@@ -18,9 +18,7 @@
         <app-button [fullWidth]="true" [icon]="faNewShow" routerLink="new">Neue Veranstaltung anlegen </app-button>
       </div>
     </app-card>
-    }
-
-    @if (publicShows$ | async; as shows) { @if (shows.length > 0) {
+    } @if (publicShows$ | async; as shows) { @if (shows.length > 0) {
     <app-card [padding]="false" heading="Veröffentlichte Veranstaltungen">
       @for (show of shows; track trackBy($index, show)) {
       <app-list-item [routerLink]="show.id" [show]="show"></app-list-item>

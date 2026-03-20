@@ -74,8 +74,8 @@ export class GuestComponent {
     }
 
     if (typeof value === 'object' && value !== null) {
-      if ('toDate' in value && typeof value.toDate === 'function') {
-        return value.toDate() as Date;
+      if (this.hasToDate(value)) {
+        return value.toDate();
       }
 
       if ('seconds' in value && typeof value.seconds === 'number') {
@@ -90,6 +90,10 @@ export class GuestComponent {
 
     return null;
   }
+
+  private hasToDate(value: object): value is FirestoreDateLike {
+    return 'toDate' in value && typeof value.toDate === 'function';
+  }
 }
 
 interface GuestShowView extends Omit<GuestShow, 'date' | 'updatedAt'> {
@@ -97,8 +101,8 @@ interface GuestShowView extends Omit<GuestShow, 'date' | 'updatedAt'> {
   updatedAt: Date | null;
 }
 
-type GuestShowState =
-  | {status: 'loading'}
-  | {status: 'not-found'}
-  | {status: 'error'; message: string}
-  | {status: 'loaded'; show: GuestShowView};
+type GuestShowState = {status: 'loading'} | {status: 'not-found'} | {status: 'error'; message: string} | {status: 'loaded'; show: GuestShowView};
+
+type FirestoreDateLike = {
+  toDate: () => Date;
+};

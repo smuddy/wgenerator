@@ -478,13 +478,15 @@ Text`;
       const service: TextRenderingService = TestBed.inject(TextRenderingService);
       const text = 'Strophe\nC\tG\ta\nText';
 
-      void expect(service.validateChordNotation(text)).toEqual(expect.arrayContaining([
-        jasmine.objectContaining({
-          lineNumber: 2,
-          token: '\t',
-          reason: 'tab_character',
-        }),
-      ]));
+      void expect(service.validateChordNotation(text)).toEqual(
+        expect.arrayContaining([
+          jasmine.objectContaining({
+            lineNumber: 2,
+            token: '\t',
+            reason: 'tab_character',
+          }),
+        ])
+      );
     });
 
     it('should not flag tabs on non chord lines', () => {

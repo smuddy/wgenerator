@@ -3,7 +3,7 @@ import {roles} from '../../../services/user/roles';
 
 @Pipe({name: 'role'})
 export class RolePipe implements PipeTransform {
-  public transform(role: roles | string): string {
+  public transform(role: roles): string {
     switch (role) {
       case 'contributor':
         return 'Mitarbeiter';

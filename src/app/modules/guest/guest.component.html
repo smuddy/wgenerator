@@ -1,5 +1,4 @@
-@if (showState$ | async; as state) {
-@if (state.status === 'loaded') {
+@if (showState$ | async; as state) { @if (state.status === 'loaded') {
 <div class="page">
   <div class="title">
     <div class="left">{{ state.show.showType | showType }}</div>
@@ -22,16 +21,9 @@
   </div>
 </div>
 } @else if (state.status === 'loading') {
-<div class="empty-state">
-  Gastansicht wird geladen.
-</div>
+<div class="empty-state">Gastansicht wird geladen.</div>
 } @else if (state.status === 'not-found') {
-<div class="empty-state">
-  Für diesen Link wurde keine Gastansicht gefunden.
-</div>
+<div class="empty-state">Für diesen Link wurde keine Gastansicht gefunden.</div>
 } @else {
-<div class="empty-state">
-  {{ state.message }}
-</div>
-}
-}
+<div class="empty-state">{{ state.message }}</div>
+} }

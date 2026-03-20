@@ -13,7 +13,7 @@
     <span class="title">{{ iSong.title }}</span>
     @if (!edit) {
     <div class="keys-container">
-      <div (click)="openKeySelect()" class="keys">
+      <div (click)="openKeySelect()" (keydown.enter)="openKeySelect()" (keydown.space)="openKeySelect()" class="keys" role="button" tabindex="0">
         @if (iSong.keyOriginal !== iSong.key) {
         <span>{{ iSong.keyOriginal }}&nbsp;→&nbsp;</span>
         }

@@ -17,7 +17,7 @@
   </button>
 </div>
 } @if (!edit) {
-<div (click)="edit = true" class="users list-item">
+<div (click)="edit = true" (keydown.enter)="edit = true" (keydown.space)="edit = true" class="users list-item" role="button" tabindex="0">
   <span>{{ name }}</span>
   <span
     >@for (role of roles; track role) {

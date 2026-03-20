@@ -34,7 +34,9 @@ describe('UserSessionService', () => {
     } as never);
     routerSpy.navigateByUrl.and.resolveTo(true);
 
-    createAuthStateSpy = spyOn<any>(UserSessionService.prototype, 'createAuthState$').and.returnValue(authStateSubject.asObservable() as never);
+    createAuthStateSpy = spyOn(UserSessionService.prototype as UserSessionService & {createAuthState$: () => unknown}, 'createAuthState$').and.returnValue(
+      authStateSubject.asObservable() as never
+    );
 
     await TestBed.configureTestingModule({
       providers: [

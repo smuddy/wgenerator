@@ -1,86 +1,33 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
-      "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
-        "createDefaultProgram": true
-      },
-      "extends": [
-        "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates",
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:prettier/recommended"
-      ],
+      "files": ["*.ts"],
+      "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:@angular-eslint/recommended", "plugin:@angular-eslint/template/process-inline-templates"],
       "rules": {
-        "prettier/prettier": [
-          "error",
-          {
-            "endOfLine": "auto"
-          }
-        ],
-        "@typescript-eslint/explicit-member-accessibility": "error",
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "prefix": "app",
-            "style": "kebab-case",
-            "type": "element"
-          }
-        ],
-        "@typescript-eslint/unbound-method": [
-          "off"
-        ],
         "@angular-eslint/directive-selector": [
           "error",
           {
+            "type": "attribute",
             "prefix": "app",
-            "style": "camelCase",
-            "type": "attribute"
+            "style": "camelCase"
           }
-        ]
-      }
-    },
-    {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
-      "rules": {
-        "prettier/prettier": [
+        ],
+        "@angular-eslint/component-selector": [
           "error",
           {
-            "endOfLine": "auto"
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
           }
         ]
       }
     },
     {
-      "files": [
-        "*.spec.ts"
-      ],
-      "rules": {
-        "@typescript-eslint/await-thenable": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-floating-promises": "off",
-        "@typescript-eslint/no-unsafe-argument": "off",
-        "@typescript-eslint/no-unsafe-assignment": "off",
-        "@typescript-eslint/no-unsafe-call": "off",
-        "@typescript-eslint/no-unsafe-member-access": "off",
-        "@typescript-eslint/no-unsafe-return": "off"
-      }
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended", "plugin:@angular-eslint/template/accessibility"],
+      "rules": {}
     }
   ]
 }

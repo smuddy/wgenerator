@@ -29,9 +29,7 @@ export class FilterComponent {
       this.filterStore.updateSongFilter({q: this.value});
     });
 
-    this.valueChanged$
-      .pipe(debounceTime(100), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
-      .subscribe(text => void this.applyValueChange(text));
+    this.valueChanged$.pipe(debounceTime(100), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef)).subscribe(text => void this.applyValueChange(text));
   }
 
   public valueChange(text: string): void {

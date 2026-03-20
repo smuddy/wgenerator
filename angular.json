@@ -22,9 +22,7 @@
               "base": "dist/wgenerator"
             },
             "index": "src/index.html",
-            "polyfills": [
-              "src/polyfills.ts"
-            ],
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
             "assets": [
@@ -40,17 +38,9 @@
               "src/assets",
               "src/manifest.webmanifest"
             ],
-            "styles": [
-              "src/custom-theme.scss",
-              "src/styles/styles.less",
-              "src/styles/shadow.less"
-            ],
+            "styles": ["src/custom-theme.scss", "src/styles/styles.less", "src/styles/shadow.less"],
             "scripts": [],
-            "allowedCommonJsDependencies": [
-              "lodash",
-              "docx",
-              "qrcode"
-            ]
+            "allowedCommonJsDependencies": ["lodash", "docx", "qrcode"]
           },
           "configurations": {
             "production": {
@@ -99,10 +89,14 @@
           "options": {
             "runner": "vitest",
             "tsConfig": "tsconfig.spec.json",
-            "setupFiles": [
-              "src/test-vitest.ts"
-            ],
+            "setupFiles": ["src/test-vitest.ts"],
             "runnerConfig": true
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }

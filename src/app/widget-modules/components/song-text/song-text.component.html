@@ -1,5 +1,13 @@
 @if (sections && !fullscreen) {
-<div (click)="onClick()" [class.chords]="iChordMode !== 'hide'" class="song-text">
+<div
+  (click)="onClick()"
+  (keydown.enter)="onClick()"
+  (keydown.space)="onClick()"
+  [class.chords]="iChordMode !== 'hide'"
+  class="song-text"
+  role="button"
+  tabindex="0"
+>
   @if (showSwitch) {
   <button (click)="onChordClick()" class="menu" mat-icon-button>
     <fa-icon [icon]="faLines"></fa-icon>
@@ -23,7 +31,16 @@
   <ng-content></ng-content>
 </div>
 } @if (sections && fullscreen) {
-<div (click)="onClick()" [@songSwitch]="sections" [class.chords]="iChordMode !== 'hide'" class="song-text">
+<div
+  (click)="onClick()"
+  (keydown.enter)="onClick()"
+  (keydown.space)="onClick()"
+  [@songSwitch]="sections"
+  [class.chords]="iChordMode !== 'hide'"
+  class="song-text"
+  role="button"
+  tabindex="0"
+>
   @if (showSwitch) {
   <button (click)="onChordClick()" class="menu" mat-icon-button>
     <fa-icon [icon]="faLines"></fa-icon>

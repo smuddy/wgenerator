@@ -56,7 +56,7 @@ export class AddSongComponent {
           return 1;
         }
         return 0;
-    });
+      });
 
     const filterValue = this.debouncedFilterValue;
     return filterValue ? searchSongs(songs, filterValue) : songs;

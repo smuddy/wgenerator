@@ -30,7 +30,7 @@ describe('FileService', () => {
   });
 
   it('should resolve download urls via AngularFire storage helpers', async () => {
-    const resolveSpy = spyOn<any>(service as FileServiceInternals, 'resolveDownloadUrl').and.resolveTo('https://cdn.example/file.pdf');
+    const resolveSpy = spyOn(service as FileServiceInternals, 'resolveDownloadUrl').and.resolveTo('https://cdn.example/file.pdf');
 
     await expectAsync(service.getDownloadUrl('songs/song-1/file.pdf').toPromise()).toBeResolvedTo('https://cdn.example/file.pdf');
 
@@ -38,7 +38,7 @@ describe('FileService', () => {
   });
 
   it('should delete the file from storage and metadata from firestore', async () => {
-    const deleteFromStorageSpy = spyOn<any>(service as FileServiceInternals, 'deleteFromStorage').and.resolveTo();
+    const deleteFromStorageSpy = spyOn(service as FileServiceInternals, 'deleteFromStorage').and.resolveTo();
 
     await service.delete('songs/song-1/file.pdf', 'song-1', 'file-1');
 

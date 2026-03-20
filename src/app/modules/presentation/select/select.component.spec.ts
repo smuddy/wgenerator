@@ -19,11 +19,7 @@ describe('SelectComponent', () => {
     routerSpy = jasmine.createSpyObj<Router>('Router', ['navigateByUrl']);
 
     showServiceSpy.list$.and.returnValue(
-      of([
-        createShow('older', '2025-12-15T00:00:00Z'),
-        createShow('recent-a', '2026-03-01T00:00:00Z'),
-        createShow('recent-b', '2026-02-20T00:00:00Z'),
-      ]) as never
+      of([createShow('older', '2025-12-15T00:00:00Z'), createShow('recent-a', '2026-03-01T00:00:00Z'), createShow('recent-b', '2026-02-20T00:00:00Z')]) as never
     );
     showServiceSpy.update$.and.resolveTo();
     globalSettingsServiceSpy.set.and.resolveTo();

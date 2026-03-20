@@ -48,14 +48,14 @@ export function createSongSearchComparator(filterValue: string): (a: Song, b: So
 }
 
 type SearchAnalysis = {
-  compact: string,
-  tokens: string[],
+  compact: string;
+  tokens: string[];
 };
 
 type SearchableSong = {
-  text?: SearchAnalysis,
-  title?: SearchAnalysis,
-  artist?: SearchAnalysis,
+  text?: SearchAnalysis;
+  title?: SearchAnalysis;
+  artist?: SearchAnalysis;
 };
 
 const searchableSongCache = new WeakMap<Song, SearchableSong>();
