@@ -1,16 +1,49 @@
 import {Song} from '../modules/songs/services/song';
 
 export function filterSong(song: Song, filterValue: string): boolean {
-  return createSongFilter(filterValue)(song);
+  return scoreSongMatch(song, filterValue) > 0;
 }
 
 export function createSongFilter(filterValue: string): (song: Song) => boolean {
-  if (!filterValue) return () => true;
+  const scorer = createSongScorer(filterValue);
+  return (song: Song) => scorer(song) > 0;
+}
+
+export function searchSongs<T extends Song>(songs: T[], filterValue: string): T[] {
+  const matchesSongFilter = createSongFilter(filterValue);
+  const compareSongs = createSongSearchComparator(filterValue);
+  return songs.filter(matchesSongFilter).sort(compareSongs);
+}
+
+export function scoreSongMatch(song: Song, filterValue: string): number {
+  return createSongScorer(filterValue)(song);
+}
+
+export function createSongScorer(filterValue: string): (song: Song) => number {
+  if (!filterValue) return () => 1;
 
   const filter = analyzeSearchText(filterValue);
   return (song: Song) => {
     const searchableSong = getSearchableSong(song);
-    return matchesAnalysis(searchableSong.text, filter) || matchesAnalysis(searchableSong.title, filter) || matchesAnalysis(searchableSong.artist, filter);
+    const titleScore = scoreAnalysis(searchableSong.title, filter, 1000);
+    const artistScore = scoreAnalysis(searchableSong.artist, filter, 700);
+    const textScore = scoreAnalysis(searchableSong.text, filter, 400);
+    return Math.max(titleScore, artistScore, textScore);
+  };
+}
+
+export function createSongSearchComparator(filterValue: string): (a: Song, b: Song) => number {
+  const scoreSong = createSongScorer(filterValue);
+  return (a: Song, b: Song) => {
+    if (filterValue) {
+      const scoreDiff = scoreSong(b) - scoreSong(a);
+      if (scoreDiff !== 0) return scoreDiff;
+    }
+
+    const titleCompare = (a.title ?? '').localeCompare(b.title ?? '');
+    if (titleCompare !== 0) return titleCompare;
+
+    return a.number - b.number;
   };
 }
 
@@ -27,10 +60,19 @@ type SearchableSong = {
 
 const searchableSongCache = new WeakMap<Song, SearchableSong>();
 
-function matchesAnalysis(haystack: SearchAnalysis | undefined, filter: SearchAnalysis): boolean {
-  if (!haystack) return false;
+function scoreAnalysis(haystack: SearchAnalysis | undefined, filter: SearchAnalysis, fieldWeight: number): number {
+  if (!haystack || !filter.compact) return 0;
 
-  return haystack.compact.includes(filter.compact) || matchesTokenSequence(haystack.tokens, filter.tokens);
+  const compactIndex = haystack.compact.indexOf(filter.compact);
+  const tokenIndex = findTokenSequenceIndex(haystack.tokens, filter.tokens);
+
+  if (compactIndex === -1 && tokenIndex === -1) return 0;
+
+  if (haystack.compact === filter.compact) return fieldWeight + 500;
+  if (tokenIndex === 0) return fieldWeight + 350;
+  if (compactIndex === 0) return fieldWeight + 250;
+  if (tokenIndex !== -1) return fieldWeight + 150;
+  return fieldWeight + 50;
 }
 
 function analyzeSearchText(input: string): SearchAnalysis {
@@ -41,15 +83,15 @@ function analyzeSearchText(input: string): SearchAnalysis {
   };
 }
 
-function matchesTokenSequence(haystackTokens: string[], needleTokens: string[]): boolean {
-  if (needleTokens.length === 0 || haystackTokens.length < needleTokens.length) return false;
+function findTokenSequenceIndex(haystackTokens: string[], needleTokens: string[]): number {
+  if (needleTokens.length === 0 || haystackTokens.length < needleTokens.length) return -1;
 
   for (let start = 0; start <= haystackTokens.length - needleTokens.length; start++) {
     const matches = needleTokens.every((needleToken, index) => haystackTokens[start + index] === needleToken);
-    if (matches) return true;
+    if (matches) return start;
   }
 
-  return false;
+  return -1;
 }
 
 function tokenizeForSearch(input: string): string[] {

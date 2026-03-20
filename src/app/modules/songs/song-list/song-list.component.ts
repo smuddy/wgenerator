@@ -4,7 +4,7 @@ import {map} from 'rxjs/operators';
 import {combineLatest, Observable} from 'rxjs';
 import {fade} from '../../../animations';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {createSongFilter} from '../../../services/filter.helper';
+import {searchSongs} from '../../../services/filter.helper';
 import {FilterValues} from './filter/filter-values';
 import {faBalanceScaleRight, faCheck, faPencilRuler, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {TextRenderingService} from '../services/text-rendering.service';
@@ -42,22 +42,19 @@ export class SongListComponent {
     this.route.data.pipe(map(data => (data['songs'] as Song[]).slice().sort((a, b) => a.number - b.number))),
   ]).pipe(
     map(([filter, songs]) => {
-      const matchesSongFilter = createSongFilter(filter.q);
-      return songs
-        .filter(song => this.filter(song, filter, matchesSongFilter))
+      return searchSongs(songs, filter.q)
+        .filter(song => this.filter(song, filter))
         .map(song => ({
           ...song,
           hasChordValidationIssues: this.textRenderingService.validateChordNotation(song.text ?? '').length > 0,
-        }))
-        .sort((a, b) => a.title?.localeCompare(b.title));
+        }));
     })
   );
 
   public trackBy = (index: number, show: SongListItem) => show.id;
 
-  private filter(song: Song, filter: FilterValues, matchesSongFilter: (song: Song) => boolean): boolean {
-    let baseFilter = matchesSongFilter(song);
-    baseFilter = baseFilter && (!filter.type || filter.type === song.type);
+  private filter(song: Song, filter: FilterValues): boolean {
+    let baseFilter = !filter.type || filter.type === song.type;
     baseFilter = baseFilter && (!filter.key || filter.key === song.key);
     baseFilter = baseFilter && (!filter.legalType || filter.legalType === song.legalType);
     baseFilter = baseFilter && (!filter.flag || this.checkFlag(filter.flag, song.flags));

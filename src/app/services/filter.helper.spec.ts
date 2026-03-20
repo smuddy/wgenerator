@@ -1,5 +1,5 @@
 import {Song} from '../modules/songs/services/song';
-import {filterSong} from './filter.helper';
+import {createSongScorer, filterSong} from './filter.helper';
 
 describe('Filter Helper', () => {
   const song: Song = {
@@ -86,5 +86,13 @@ describe('Filter Helper', () => {
 
   it('should not find unrelated shortened wording', () => {
     void expect(filterSong({...song, title: 'Heilig Geist'}, 'Heiliger Geist')).toBe(false);
+  });
+
+  it('should rank exact title matches above text matches', () => {
+    const scoreSong = createSongScorer('Heiliger Geist');
+    const titleMatch = scoreSong({...song, title: 'Heiliger Geist', text: 'anderer Text'});
+    const textMatch = scoreSong({...song, title: 'anderer Titel', text: 'Komm Heiliger Geist in diese Stadt'});
+
+    void expect(titleMatch).toBeGreaterThan(textMatch);
   });
 });

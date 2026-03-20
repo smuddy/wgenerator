@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, Input, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {createSongFilter} from '../../../services/filter.helper';
+import {searchSongs} from '../../../services/filter.helper';
 import {MatFormField, MatLabel, MatOption, MatSelect, MatSelectChange} from '@angular/material/select';
 import {Song} from '../../../modules/songs/services/song';
 import {ShowSong} from '../../../modules/shows/services/show-song';
@@ -56,10 +56,10 @@ export class AddSongComponent {
           return 1;
         }
         return 0;
-      });
+    });
 
     const filterValue = this.debouncedFilterValue;
-    return filterValue ? songs.filter(createSongFilter(filterValue)) : songs;
+    return filterValue ? searchSongs(songs, filterValue) : songs;
   }
 
   public async onAddSongSelectionChanged(event: MatSelectChange): Promise<void> {
