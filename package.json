@@ -6,6 +6,7 @@
     "build": "ng build --configuration production",
     "build:dev": "ng build --configuration development",
     "deploy": "ng build --configuration production && firebase deploy",
+    "deploy-beta": "ng b && firebase hosting:channel:deploy beta",
     "test": "ng test",
     "lint": "ng lint --fix",
     "update": "ng update @angular/cdk @angular/cli @angular/core @angular/material && ncu -u && npm i && npm fix"

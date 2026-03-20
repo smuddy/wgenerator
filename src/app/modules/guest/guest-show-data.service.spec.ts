@@ -1,4 +1,5 @@
 import {TestBed} from '@angular/core/testing';
+import {Firestore} from '@angular/fire/firestore';
 import {of} from 'rxjs';
 import {DbService} from 'src/app/services/db.service';
 import {GuestShowDataService} from './guest-show-data.service';
@@ -11,6 +12,7 @@ describe('GuestShowDataService', () => {
   let colAddSpy: jasmine.Spy<() => Promise<{id: string}>>;
   let colSpy: jasmine.Spy;
   let dbServiceSpy: jasmine.SpyObj<DbService>;
+  let firestoreStub: Firestore;
 
   beforeEach(async () => {
     docUpdateSpy = jasmine.createSpy('update').and.resolveTo();
@@ -26,9 +28,13 @@ describe('GuestShowDataService', () => {
     dbServiceSpy.doc$.and.returnValue(of({id: 'guest-1'}) as never);
     dbServiceSpy.doc.and.callFake(docSpy);
     dbServiceSpy.col.and.callFake(colSpy);
+    firestoreStub = {} as Firestore;
 
     await TestBed.configureTestingModule({
-      providers: [{provide: DbService, useValue: dbServiceSpy}],
+      providers: [
+        {provide: DbService, useValue: dbServiceSpy},
+        {provide: Firestore, useValue: firestoreStub},
+      ],
     });
 
     service = TestBed.inject(GuestShowDataService);

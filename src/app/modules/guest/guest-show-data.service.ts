@@ -1,4 +1,5 @@
-import {Injectable, inject} from '@angular/core';
+import {EnvironmentInjector, Injectable, inject, runInInjectionContext} from '@angular/core';
+import {doc, Firestore, getDoc} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import {shareReplay} from 'rxjs/operators';
 import {DbService} from 'src/app/services/db.service';
@@ -9,6 +10,8 @@ import {GuestShow} from './guest-show';
 })
 export class GuestShowDataService {
   private dbService = inject(DbService);
+  private firestore = inject(Firestore);
+  private environmentInjector = inject(EnvironmentInjector);
 
   private collection = 'guest';
   public list$: Observable<GuestShow[]> = this.dbService.col$<GuestShow>(this.collection).pipe(
@@ -19,6 +22,18 @@ export class GuestShowDataService {
   );
 
   public read$: (id: string) => Observable<GuestShow | null> = (id: string): Observable<GuestShow | null> => this.dbService.doc$(`${this.collection}/${id}`);
+  public read: (id: string) => Promise<GuestShow | null> = async (id: string): Promise<GuestShow | null> => {
+    const snapshot = await runInInjectionContext(this.environmentInjector, () => getDoc(doc(this.firestore, `${this.collection}/${id}`)));
+
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    return {
+      id: snapshot.id,
+      ...(snapshot.data() as Omit<GuestShow, 'id'>),
+    };
+  };
   public update$: (id: string, data: Partial<GuestShow>) => Promise<void> = async (id: string, data: Partial<GuestShow>): Promise<void> =>
     await this.dbService.doc(this.collection + '/' + id).update(data);
   public add: (data: Partial<GuestShow>) => Promise<string> = async (data: Partial<GuestShow>): Promise<string> => (await this.dbService.col(this.collection).add(data)).id;

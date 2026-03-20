@@ -38,11 +38,15 @@ describe('GuestShowService', () => {
 
     await expectAsync(service.share(show, songs)).toBeResolvedTo(expectedUrl);
 
-    expect(guestShowDataServiceSpy.add).toHaveBeenCalledWith({
-      showType: 'service-worship',
-      date: show.date,
-      songs,
-    });
+    const [addPayload] = guestShowDataServiceSpy.add.calls.mostRecent().args as [Record<string, unknown>];
+    expect(addPayload).toEqual(
+      jasmine.objectContaining({
+        showType: 'service-worship',
+        date: show.date,
+        songs,
+      })
+    );
+    expect(addPayload['updatedAt']).toEqual(jasmine.any(Date));
     expect(showServiceSpy.update$).toHaveBeenCalledWith('show-1', {shareId: 'share-1'});
   });
 
@@ -53,11 +57,16 @@ describe('GuestShowService', () => {
 
     await expectAsync(service.share(show, songs)).toBeResolvedTo(expectedUrl);
 
-    expect(guestShowDataServiceSpy.update$).toHaveBeenCalledWith('share-9', {
-      showType: 'service-worship',
-      date: show.date,
-      songs,
-    });
+    const [shareId, updatePayload] = guestShowDataServiceSpy.update$.calls.mostRecent().args as [string, Record<string, unknown>];
+    expect(shareId).toBe('share-9');
+    expect(updatePayload).toEqual(
+      jasmine.objectContaining({
+        showType: 'service-worship',
+        date: show.date,
+        songs,
+      })
+    );
+    expect(updatePayload['updatedAt']).toEqual(jasmine.any(Date));
     expect(guestShowDataServiceSpy.add).not.toHaveBeenCalled();
     expect(showServiceSpy.update$).not.toHaveBeenCalled();
   });

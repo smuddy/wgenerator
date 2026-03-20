@@ -5,5 +5,6 @@ export interface GuestShow {
   id: string;
   showType: string;
   date: Timestamp;
+  updatedAt?: Timestamp | Date;
   songs: Song[];
 }

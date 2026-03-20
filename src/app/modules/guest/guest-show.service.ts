@@ -15,6 +15,7 @@ export class GuestShowService {
     const data = {
       showType: show.showType,
       date: show.date,
+      updatedAt: new Date(),
       songs: songs,
     };
     let shareId = show.shareId;

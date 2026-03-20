@@ -11,7 +11,7 @@ export class ShowTypePipe implements PipeTransform {
       case 'service-praise':
         return 'Gottesdienst Lobpreis';
       case 'home-group-big':
-        return 'großer Hauskreis';
+        return 'Großer Hauskreis';
       case 'home-group':
         return 'Hauskreis';
       case 'prayer-group':
@@ -21,9 +21,9 @@ export class ShowTypePipe implements PipeTransform {
       case 'kids-group':
         return 'Kinderkreis';
       case 'misc-public':
-        return 'sonstige öffentliche Veranstaltung';
+        return 'Sonstige öffentliche Veranstaltung';
       case 'misc-private':
-        return 'sonstige private Veranstaltung';
+        return 'Sonstige private Veranstaltung';
     }
 
     return 'unbekannter Veranstaltungstyp';

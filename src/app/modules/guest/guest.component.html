@@ -1,12 +1,13 @@
-@if (show$|async; as show) {
+@if (showState$ | async; as state) {
+@if (state.status === 'loaded') {
 <div class="page">
   <div class="title">
-    <div class="left">{{ show.showType|showType }}</div>
-    <div class="right">{{ show.date.toDate() | date: 'dd.MM.yyyy' }}</div>
+    <div class="left">{{ state.show.showType | showType }}</div>
+    <div class="right">{{ state.show.date | date: 'dd.MM.yyyy' }}</div>
   </div>
   <div class="view">
     <swiper-container scrollbar="true">
-      @for (song of show.songs; track trackBy(i, song); let i = $index) {
+      @for (song of state.show.songs; track song.id) {
       <swiper-slide class="song-swipe">
         <div class="song-title">{{ song.title }}</div>
         <div class="legal">
@@ -20,4 +21,17 @@
     </swiper-container>
   </div>
 </div>
+} @else if (state.status === 'loading') {
+<div class="empty-state">
+  Gastansicht wird geladen.
+</div>
+} @else if (state.status === 'not-found') {
+<div class="empty-state">
+  Für diesen Link wurde keine Gastansicht gefunden.
+</div>
+} @else {
+<div class="empty-state">
+  {{ state.message }}
+</div>
+}
 }
