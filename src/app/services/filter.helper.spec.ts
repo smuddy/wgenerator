@@ -63,4 +63,28 @@ describe('Filter Helper', () => {
   it('should find apostroph invariant', () => {
     void expect(filterSong(song, 'eeff')).toBe(true);
   });
+
+  it('should find contracted title when searching full adjective', () => {
+    void expect(filterSong({...song, title: "Heil'ger Geist"}, 'Heiliger Geist')).toBe(true);
+  });
+
+  it('should find shortened title without apostrophe when searching full adjective', () => {
+    void expect(filterSong({...song, title: 'Heilger Geist'}, 'Heiliger Geist')).toBe(true);
+  });
+
+  it('should find full adjective when searching shortened title', () => {
+    void expect(filterSong({...song, title: 'Heiliger Geist'}, 'Heilger Geist')).toBe(true);
+  });
+
+  it('should find contracted accusative form when searching full wording', () => {
+    void expect(filterSong({...song, text: "Komm, du ew'gen Geist"}, 'ewigen Geist')).toBe(true);
+  });
+
+  it('should find full wording when searching contracted accusative form', () => {
+    void expect(filterSong({...song, text: 'Komm, du ewigen Geist'}, "ew'gen Geist")).toBe(true);
+  });
+
+  it('should not find unrelated shortened wording', () => {
+    void expect(filterSong({...song, title: 'Heilig Geist'}, 'Heiliger Geist')).toBe(false);
+  });
 });

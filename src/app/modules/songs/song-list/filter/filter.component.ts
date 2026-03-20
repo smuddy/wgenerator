@@ -1,6 +1,7 @@
 import {Component, DestroyRef, Input, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 import {SongService} from '../../services/song.service';
 import {FilterValues} from './filter-values';
 import {Song} from '../../services/song';
@@ -52,7 +53,9 @@ export class FilterComponent {
       this.filterFormGroup.patchValue(filterValues, {emitEvent: false});
     });
 
-    this.filterFormGroup.controls.q.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('q', value));
+    this.filterFormGroup.controls.q.valueChanges
+      .pipe(debounceTime(100), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(value => this.filterValueChanged('q', value));
     this.filterFormGroup.controls.key.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('key', value));
     this.filterFormGroup.controls.type.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('type', value));
     this.filterFormGroup.controls.legalType.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value => this.filterValueChanged('legalType', value));

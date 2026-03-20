@@ -1,6 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input, inject} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, Input, inject} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {filterSong} from '../../../services/filter.helper';
+import {createSongFilter} from '../../../services/filter.helper';
 import {MatFormField, MatLabel, MatOption, MatSelect, MatSelectChange} from '@angular/material/select';
 import {Song} from '../../../modules/songs/services/song';
 import {ShowSong} from '../../../modules/shows/services/show-song';
@@ -9,6 +10,7 @@ import {Show} from '../../../modules/shows/services/show';
 import {ShowService} from '../../../modules/shows/services/show.service';
 
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
+import {debounceTime, distinctUntilChanged, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-song',
@@ -20,12 +22,24 @@ import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 export class AddSongComponent {
   private showSongService = inject(ShowSongService);
   private showService = inject(ShowService);
+  private destroyRef = inject(DestroyRef);
+  private cRef = inject(ChangeDetectorRef);
 
   @Input() public songs: Song[] | null = null;
   @Input() public showSongs: ShowSong[] | null = null;
   @Input() public show: Show | null = null;
   @Input() public addedLive = false;
   public filteredSongsControl = new FormControl<string>('', {nonNullable: true});
+  public debouncedFilterValue = '';
+
+  public constructor() {
+    this.filteredSongsControl.valueChanges
+      .pipe(startWith(this.filteredSongsControl.value), debounceTime(100), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
+      .subscribe(value => {
+        this.debouncedFilterValue = value;
+        this.cRef.markForCheck();
+      });
+  }
 
   public filteredSongs(): Song[] {
     if (!this.songs) return [];
@@ -44,8 +58,8 @@ export class AddSongComponent {
         return 0;
       });
 
-    const filterValue = this.filteredSongsControl.value;
-    return filterValue ? songs.filter(_ => filterSong(_, filterValue)) : songs;
+    const filterValue = this.debouncedFilterValue;
+    return filterValue ? songs.filter(createSongFilter(filterValue)) : songs;
   }
 
   public async onAddSongSelectionChanged(event: MatSelectChange): Promise<void> {

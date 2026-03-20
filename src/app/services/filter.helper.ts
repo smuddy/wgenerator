@@ -1,17 +1,83 @@
 import {Song} from '../modules/songs/services/song';
 
 export function filterSong(song: Song, filterValue: string): boolean {
-  if (!filterValue) return true;
-
-  const textMatch = !!song.text && normalize(song.text)?.indexOf(normalize(filterValue)) !== -1;
-  const titleMatch = !!song.title && normalize(song.title)?.indexOf(normalize(filterValue)) !== -1;
-  const artistMatch = !!song.title && normalize(song.artist)?.indexOf(normalize(filterValue)) !== -1;
-
-  return textMatch || titleMatch || artistMatch;
+  return createSongFilter(filterValue)(song);
 }
 
-function normalize(input: string): string {
-  return input?.toLowerCase().replace(/[\s?!.,']/g, '');
+export function createSongFilter(filterValue: string): (song: Song) => boolean {
+  if (!filterValue) return () => true;
+
+  const filter = analyzeSearchText(filterValue);
+  return (song: Song) => {
+    const searchableSong = getSearchableSong(song);
+    return matchesAnalysis(searchableSong.text, filter) || matchesAnalysis(searchableSong.title, filter) || matchesAnalysis(searchableSong.artist, filter);
+  };
+}
+
+type SearchAnalysis = {
+  compact: string,
+  tokens: string[],
+};
+
+type SearchableSong = {
+  text?: SearchAnalysis,
+  title?: SearchAnalysis,
+  artist?: SearchAnalysis,
+};
+
+const searchableSongCache = new WeakMap<Song, SearchableSong>();
+
+function matchesAnalysis(haystack: SearchAnalysis | undefined, filter: SearchAnalysis): boolean {
+  if (!haystack) return false;
+
+  return haystack.compact.includes(filter.compact) || matchesTokenSequence(haystack.tokens, filter.tokens);
+}
+
+function analyzeSearchText(input: string): SearchAnalysis {
+  const tokens = tokenizeForSearch(input);
+  return {
+    compact: tokens.join(''),
+    tokens,
+  };
+}
+
+function matchesTokenSequence(haystackTokens: string[], needleTokens: string[]): boolean {
+  if (needleTokens.length === 0 || haystackTokens.length < needleTokens.length) return false;
+
+  for (let start = 0; start <= haystackTokens.length - needleTokens.length; start++) {
+    const matches = needleTokens.every((needleToken, index) => haystackTokens[start + index] === needleToken);
+    if (matches) return true;
+  }
+
+  return false;
+}
+
+function tokenizeForSearch(input: string): string[] {
+  return input
+    .normalize('NFKD')
+    .toLowerCase()
+    .replace(/\p{M}/gu, '')
+    .split(/[^\p{L}\p{N}']+/gu)
+    .map(normalizeTokenForSearch)
+    .filter(token => !!token);
+}
+
+function normalizeTokenForSearch(token: string): string {
+  const cleaned = token.replace(/'/g, '');
+  return cleaned.replace(/ig(e|em|en|er|es)?$/u, 'g$1');
+}
+
+function getSearchableSong(song: Song): SearchableSong {
+  const cached = searchableSongCache.get(song);
+  if (cached) return cached;
+
+  const searchableSong: SearchableSong = {
+    text: song.text ? analyzeSearchText(song.text) : undefined,
+    title: song.title ? analyzeSearchText(song.title) : undefined,
+    artist: song.artist ? analyzeSearchText(song.artist) : undefined,
+  };
+  searchableSongCache.set(song, searchableSong);
+  return searchableSong;
 }
 
 export const onlyUnique = <T>(value: T, index: number, array: T[]) => array.indexOf(value) === index;
