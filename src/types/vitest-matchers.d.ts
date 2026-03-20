@@ -1,7 +1,8 @@
 import 'vitest';
 
 declare module 'vitest' {
-  interface Assertion<T = unknown> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  interface Assertion<T = any> {
     toBeTrue(): T;
     toBeFalse(): T;
   }
