@@ -19,4 +19,14 @@ describe('SidebarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should toggle and close the sidebar', () => {
+    expect(component.collapsed).toBeTrue();
+
+    component.toggle();
+    expect(component.collapsed).toBeFalse();
+
+    component.close();
+    expect(component.collapsed).toBeTrue();
+  });
 });

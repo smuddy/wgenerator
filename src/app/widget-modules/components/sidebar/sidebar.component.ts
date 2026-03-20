@@ -20,4 +20,8 @@ export class SidebarComponent {
   public toggle(): void {
     this.collapsed = !this.collapsed;
   }
+
+  public close(): void {
+    this.collapsed = true;
+  }
 }
