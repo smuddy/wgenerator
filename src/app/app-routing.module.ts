@@ -1,5 +1,9 @@
 import {NgModule} from '@angular/core';
-import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+import {FirebaseApp} from '@angular/fire/app';
+import {provideStorage} from '@angular/fire/storage';
+import {inject} from '@angular/core';
+import {getStorage} from 'firebase/storage';
 import {RoleGuard} from './widget-modules/guards/role.guard';
 import {AuthGuard} from './widget-modules/guards/auth.guard';
 
@@ -12,6 +16,7 @@ const routes: Routes = [
   {
     path: 'songs',
     loadChildren: () => import('./modules/songs/songs.module').then(m => m.SongsModule),
+    providers: [provideStorage(() => getStorage(inject(FirebaseApp)))],
     canActivate: [AuthGuard, RoleGuard],
     data: {
       requiredRoles: ['user'],
@@ -50,7 +55,6 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      preloadingStrategy: PreloadAllModules,
       scrollPositionRestoration: 'enabled',
       // relativeLinkResolution: 'legacy',
     }),

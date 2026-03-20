@@ -3,9 +3,7 @@ import {deleteObject, getDownloadURL, ref, Storage} from '@angular/fire/storage'
 import {from, Observable} from 'rxjs';
 import {FileDataService} from './file-data.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class FileService {
   private storage = inject(Storage);
   private fileDataService = inject(FileDataService);

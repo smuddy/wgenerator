@@ -6,15 +6,12 @@ import {bootstrapApplication, BrowserModule} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app/app-routing.module';
 import {ServiceWorkerModule} from '@angular/service-worker';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {AppComponent} from './app/app.component';
 import {FirebaseApp, provideFirebaseApp} from '@angular/fire/app';
 import {provideFirestore} from '@angular/fire/firestore';
 import {provideAuth} from '@angular/fire/auth';
-import {provideStorage} from '@angular/fire/storage';
 import {initializeApp} from 'firebase/app';
 import {getAuth} from 'firebase/auth';
-import {getStorage} from 'firebase/storage';
 import {initializeFirestore, persistentLocalCache, persistentMultipleTabManager} from 'firebase/firestore';
 import {UserService} from './app/services/user/user.service';
 
@@ -39,8 +36,7 @@ bootstrapApplication(AppComponent, {
       AppRoutingModule,
       ServiceWorkerModule.register('ngsw-worker.js', {
         enabled: environment.production,
-      }),
-      FontAwesomeModule
+      })
     ),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth(inject(FirebaseApp))),
@@ -49,7 +45,6 @@ bootstrapApplication(AppComponent, {
         localCache: persistentLocalCache({tabManager: persistentMultipleTabManager()}),
       })
     ),
-    provideStorage(() => getStorage(inject(FirebaseApp))),
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
     provideAnimations(),
   ],

@@ -54,6 +54,7 @@ import {ReportedTypePipe} from '../../../widget-modules/pipes/reported-type-tran
 import {BadgeComponent, BadgeType} from '../../../widget-modules/components/badge/badge.component';
 import {ReportDialogComponent, ReportDialogSong} from '../dialog/report-dialog/report-dialog.component';
 import {PublishedTypePipe} from '../../../widget-modules/pipes/published-type-translator/published-type.pipe';
+import {ensureSwiperElement} from '../../../services/swiper-element';
 
 @Component({
   selector: 'app-show',
@@ -126,6 +127,7 @@ export class ShowComponent implements OnInit, OnDestroy {
   private clockIntervalId: ReturnType<typeof setInterval> | null = null;
 
   public ngOnInit(): void {
+    void ensureSwiperElement();
     this.currentTime = new Date();
     this.clockIntervalId = setInterval(() => {
       this.currentTime = new Date();

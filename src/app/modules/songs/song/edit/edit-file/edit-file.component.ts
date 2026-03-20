@@ -18,6 +18,7 @@ import {FileComponent} from './file/file.component';
   templateUrl: './edit-file.component.html',
   styleUrls: ['./edit-file.component.less'],
   imports: [CardComponent, NgStyle, MatIconButton, MatIcon, FileComponent, AsyncPipe],
+  providers: [UploadService],
 })
 export class EditFileComponent {
   private activatedRoute = inject(ActivatedRoute);

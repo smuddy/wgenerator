@@ -5,9 +5,7 @@ import {ref, Storage, uploadBytesResumable} from '@angular/fire/storage';
 import {FileBase} from './fileBase';
 import {FileServer} from './fileServer';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class UploadService extends FileBase {
   private fileDataService = inject(FileDataService);
   private storage = inject(Storage);

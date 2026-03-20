@@ -8,6 +8,7 @@ import {SongTextComponent} from '../../widget-modules/components/song-text/song-
 import {ShowTypePipe} from '../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {concat, from, Observable, of} from 'rxjs';
 import {GuestShow} from './guest-show';
+import {ensureSwiperElement} from '../../services/swiper-element';
 
 @Component({
   selector: 'app-guest',
@@ -19,6 +20,10 @@ import {GuestShow} from './guest-show';
 export class GuestComponent {
   private currentRoute = inject(ActivatedRoute);
   private service = inject(GuestShowDataService);
+
+  public constructor() {
+    void ensureSwiperElement();
+  }
 
   public showState$: Observable<GuestShowState> = this.currentRoute.params.pipe(
     map(param => param.id as string),

@@ -12,6 +12,7 @@ import {AsyncPipe} from '@angular/common';
   templateUrl: './file.component.html',
   styleUrls: ['./file.component.less'],
   imports: [MatIconButton, FaIconComponent, AsyncPipe],
+  providers: [FileService],
 })
 export class FileComponent {
   private fileService = inject(FileService);

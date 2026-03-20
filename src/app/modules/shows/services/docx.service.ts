@@ -1,5 +1,4 @@
 import {Injectable, inject} from '@angular/core';
-import {Document, HeadingLevel, ISectionOptions, Packer, Paragraph} from 'docx';
 import {ShowService} from './show.service';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {ShowSongService} from './show-song.service';
@@ -16,6 +15,11 @@ import {Section} from '../../songs/services/section';
 import {LineType} from '../../songs/services/line-type';
 import {Line} from '../../songs/services/line';
 import {firstValueFrom} from 'rxjs';
+
+type DocxModule = typeof import('docx');
+type DocxDocument = import('docx').Document;
+type DocxParagraph = import('docx').Paragraph;
+type DocxSectionOptions = import('docx').ISectionOptions;
 
 export interface DownloadOptions {
   copyright?: boolean;
@@ -35,13 +39,14 @@ export class DocxService {
   public async create(showId: string, options: DownloadOptions = {}): Promise<void> {
     const data = await this.prepareData(showId);
     if (!data) return;
+    const docx = await this.loadDocx();
     const {show, songs, user, config} = data;
     const type = new ShowTypePipe().transform(show.showType);
     const title = `${type} ${show.date.toDate().toLocaleDateString()}`;
 
-    const paragraphs = [...this.renderTitle(title), ...this.renderSongs(songs, options, config)];
+    const paragraphs = [...this.renderTitle(docx, title), ...this.renderSongs(docx, songs, options, config)];
 
-    const sections: ISectionOptions[] = [
+    const sections: DocxSectionOptions[] = [
       {
         properties: {
           page: {
@@ -51,16 +56,16 @@ export class DocxService {
         children: paragraphs,
       },
     ];
-    const document = this.prepareNewDocument(type, user.name, options, sections);
+    const document = this.prepareNewDocument(docx, type, user.name, options, sections);
 
-    const blob = await Packer.toBlob(document);
+    const blob = await docx.Packer.toBlob(document);
 
     // saveAs from FileSaver will download the file
     this.saveAs(blob, `${title}.docx`);
   }
 
-  private prepareNewDocument(type: string, name: string, options: DownloadOptions, sections: ISectionOptions[]): Document {
-    return new Document({
+  private prepareNewDocument(docx: DocxModule, type: string, name: string, options: DownloadOptions, sections: DocxSectionOptions[]): DocxDocument {
+    return new docx.Document({
       creator: name,
       title: type,
       description: '... mit Beschreibung',
@@ -91,32 +96,33 @@ export class DocxService {
   }
 
   private renderSongs(
+    docx: DocxModule,
     songs: {
       showSong: ShowSong;
       sections: Section[];
     }[],
     options: DownloadOptions,
     config: Config
-  ): Paragraph[] {
-    return songs.reduce((p: Paragraph[], song) => [...p, ...this.renderSong(song.showSong, song.showSong, song.sections, options, config)], []);
+  ): DocxParagraph[] {
+    return songs.reduce((p: DocxParagraph[], song) => [...p, ...this.renderSong(docx, song.showSong, song.showSong, song.sections, options, config)], []);
   }
 
-  private renderSong(showSong: ShowSong, song: Song, sections: Section[], options: DownloadOptions, config: Config): Paragraph[] {
-    const songTitle = this.renderSongTitle(song);
-    const copyright = this.renderCopyright(song, options, config);
-    const songText = this.renderSongText(sections, options?.chordMode ?? showSong.chordMode);
+  private renderSong(docx: DocxModule, showSong: ShowSong, song: Song, sections: Section[], options: DownloadOptions, config: Config): DocxParagraph[] {
+    const songTitle = this.renderSongTitle(docx, song);
+    const copyright = this.renderCopyright(docx, song, options, config);
+    const songText = this.renderSongText(docx, sections, options?.chordMode ?? showSong.chordMode);
 
     return copyright ? [songTitle, copyright, ...songText] : [songTitle, ...songText];
   }
 
-  private renderSongText(sections: Section[], chordMode: ChordMode): Paragraph[] {
-    return sections.reduce((p: Paragraph[], section) => [...p, ...this.renderSection(section, chordMode)], []);
+  private renderSongText(docx: DocxModule, sections: Section[], chordMode: ChordMode): DocxParagraph[] {
+    return sections.reduce((p: DocxParagraph[], section) => [...p, ...this.renderSection(docx, section, chordMode)], []);
   }
 
-  private renderSongTitle(song: Song): Paragraph {
-    return new Paragraph({
+  private renderSongTitle(docx: DocxModule, song: Song): DocxParagraph {
+    return new docx.Paragraph({
       text: song.title,
-      heading: HeadingLevel.HEADING_2,
+      heading: docx.HeadingLevel.HEADING_2,
       thematicBreak: true,
       spacing: {
         before: 200,
@@ -124,7 +130,7 @@ export class DocxService {
     });
   }
 
-  private renderCopyright(song: Song, options: DownloadOptions, config: Config): Paragraph | null {
+  private renderCopyright(docx: DocxModule, song: Song, options: DownloadOptions, config: Config): DocxParagraph | null {
     if (!options?.copyright) {
       return null;
     }
@@ -135,13 +141,13 @@ export class DocxService {
     const origin = song.origin ? song.origin + ', ' : '';
     const licence = song.legalOwner === 'CCLI' ? 'CCLI-Liednummer: ' + song.legalOwnerId + ', CCLI-Lizenz: ' + config.ccliLicenseId : 'CCLI-Liednummer: ' + song.legalOwnerId;
 
-    return new Paragraph({
+    return new docx.Paragraph({
       text: artist + label + termsOfUse + origin + licence,
       style: 'licence',
     });
   }
 
-  private renderSection(section: Section, chordMode: ChordMode): Paragraph[] {
+  private renderSection(docx: DocxModule, section: Section, chordMode: ChordMode): DocxParagraph[] {
     return section.lines
       .filter(line => {
         if (line.type === LineType.text) {
@@ -156,22 +162,22 @@ export class DocxService {
             return section.number === 0;
         }
       })
-      .map((line, i) => this.renderLine(line, i === 0));
+      .map((line, i) => this.renderLine(docx, line, i === 0));
   }
 
-  private renderLine(line: Line, isFirstLine: boolean): Paragraph {
+  private renderLine(docx: DocxModule, line: Line, isFirstLine: boolean): DocxParagraph {
     const spacing = isFirstLine ? {before: 200} : {};
-    return new Paragraph({
+    return new docx.Paragraph({
       text: line.text,
       style: 'songtext',
       spacing,
     });
   }
 
-  private renderTitle(type: string): Paragraph[] {
-    const songTitle = new Paragraph({
+  private renderTitle(docx: DocxModule, type: string): DocxParagraph[] {
+    const songTitle = new docx.Paragraph({
       text: type,
-      heading: HeadingLevel.HEADING_1,
+      heading: docx.HeadingLevel.HEADING_1,
       thematicBreak: true,
     });
 
@@ -231,5 +237,9 @@ export class DocxService {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     }, 1000);
+  }
+
+  private loadDocx(): Promise<DocxModule> {
+    return import('docx');
   }
 }
