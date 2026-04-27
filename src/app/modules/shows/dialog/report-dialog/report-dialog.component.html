@@ -1,5 +1,6 @@
 <div mat-dialog-content>
-  <p>Bitte melde die in dieser Veranstaltung verwendeten CCLI-Titel. Die Meldung ist Teil der CCLI-Lizenz und sorgt dafür, dass Songwriter und Verlage korrekt vergütet werden.</p>
+  <p>Bitte melde die in dieser Veranstaltung verwendeten CCLI-Titel. Die Meldung ist Teil der CCLI-Lizenz und sorgt
+    dafür, dass Songwriter und Verlage korrekt vergütet werden.</p>
   <p>
     Die Meldung erfolgt über
     <a [href]="reportingUrl" rel="noreferrer" target="_blank">{{ reportingUrl }}</a>.
@@ -12,29 +13,29 @@
     </div>
 
     @for (song of data.songs; track song.title + song.ccliNumber) {
-    <div class="list-item">
-      <div>{{ song.title }}</div>
-      <div class="number-cell">
-        <span>{{ song.ccliNumber }}</span>
-        <a
-          (click)="markOpened(song.ccliNumber)"
-          [attr.aria-label]="'CCLI-Titel melden: ' + song.title"
-          [href]="getSongReportingUrl(song.ccliNumber)"
-          rel="noreferrer"
-          target="_blank"
-          class="btn-icon report-link"
-        >
-          <fa-icon [icon]="faOpen"></fa-icon>
-        </a>
-        @if (wasOpened(song.ccliNumber)) {
-        <fa-icon [icon]="faCheck" class="opened-check"></fa-icon>
-        }
+      <div class="list-item">
+        <div>{{ song.title }}</div>
+        <div class="number-cell">
+          <span>{{ song.ccliNumber }}</span>
+          <a
+            (click)="markOpened(song.ccliNumber)"
+            [attr.aria-label]="'CCLI-Titel melden: ' + song.title"
+            [href]="getSongReportingUrl(song.ccliNumber)"
+            rel="noreferrer"
+            target="_blank"
+            class="btn-icon report-link"
+          >
+            <fa-icon [icon]="faOpen"></fa-icon>
+          </a>
+          @if (wasOpened(song.ccliNumber)) {
+            <fa-icon [icon]="faCheck" class="opened-check"></fa-icon>
+          }
+        </div>
       </div>
-    </div>
     }
   </div>
 </div>
-<div mat-dialog-actions>
-  <button [mat-dialog-close]="false" mat-button>Abbrechen</button>
-  <button [mat-dialog-close]="true" cdkFocusInitial mat-button>Alle CCLI-Titel wurden gemeldet</button>
-</div>
+<app-button-row>
+  <app-button (click)="dialogRef.close(false)" [icon]="faClose">Abbrechen</app-button>
+  <app-button (click)="dialogRef.close(true)" [icon]="faReport">Alle CCLI-Titel wurden gemeldet</app-button>
+</app-button-row>

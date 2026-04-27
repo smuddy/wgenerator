@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
-import {MatButton} from '@angular/material/button';
 
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 
@@ -8,7 +7,7 @@ import {FaIconComponent} from '@fortawesome/angular-fontawesome';
   selector: 'app-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.less'],
-  imports: [MatButton, FaIconComponent],
+  imports: [FaIconComponent],
   host: {
     '[class.full-width]': 'fullWidth',
   },

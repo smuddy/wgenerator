@@ -8,8 +8,16 @@
 }
 
 button {
-  color: var(--text);
+  display: flex;
+  color: var(--primary-color);
   transition: var(--transition);
+  border-radius: 4px;
+  font-size: 1rem;
+  background: var(--surface-strong);
+
+  border: 1px solid var(--primary-color);
+  padding: var(--gap-s);
+  cursor: pointer;
 
   :host(.full-width) & {
     width: 100%;
@@ -18,18 +26,19 @@ button {
 
   &:hover {
     color: var(--primary-active);
+    background: var(--surface-subtle);
   }
 
   @media screen and (max-width: 860px) {
-    font-size: 30px;
+    font-size: 1.2rem;
+    width: 100%;
+    justify-content: center;
+    .button-content {
+      flex-grow: 1;
+    }
   }
 }
 
-.button-content {
-  @media screen and (max-width: 860px) {
-    display: none ;
-  }
-}
 
 fa-icon {
   width: 20px;

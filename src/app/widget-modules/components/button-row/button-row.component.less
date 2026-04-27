@@ -1,6 +1,11 @@
 .row {
   display: flex;
   flex-direction: row-reverse;
+  @media screen and (max-width: 860px) {
+    flex-direction: column-reverse;
+  }
+  gap: var(--gap-m);
   width: 100%;
   flex-wrap: wrap;
+  padding-top: var(--gap-l);
 }
