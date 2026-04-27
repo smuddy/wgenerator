@@ -101,10 +101,8 @@
         </div>
         @if (show) {
           <div class="div-bottom">
-            <button class="btn-start-presentation" mat-button routerLink="/presentation/monitor">
-              <fa-icon [icon]="faDesktop"></fa-icon>
-              Präsentation starten
-            </button>
+            <app-button [icon]="faDesktop" routerLink="/presentation/monitor">Präsentation starten</app-button>
+
             <mat-form-field appearance="outline">
               <mat-label>Hintergrund</mat-label>
               <mat-select (ngModelChange)="onBackground($event, show.id)" [ngModel]="show.presentationBackground">

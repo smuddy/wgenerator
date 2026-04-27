@@ -17,9 +17,7 @@ import {CardComponent} from '../../../widget-modules/components/card/card.compon
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
-import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
 import {MatSlider, MatSliderThumb} from '@angular/material/slider';
@@ -27,6 +25,7 @@ import {AddSongComponent} from '../../../widget-modules/components/add-song/add-
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {SectionTypePipe} from '../../../widget-modules/pipes/section-type-translator/section-type.pipe';
 import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
+import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 
 export interface PresentationSong {
   id: string;
@@ -47,9 +46,7 @@ export interface PresentationSong {
     MatInput,
     ReactiveFormsModule,
     FormsModule,
-    MatButton,
     RouterLink,
-    FaIconComponent,
     MatSelect,
     MatOption,
     MatSlider,
@@ -60,6 +57,7 @@ export interface PresentationSong {
     ShowTypePipe,
     SectionTypePipe,
     PageFrameComponent,
+    ButtonComponent,
   ],
 })
 export class RemoteComponent implements OnDestroy {

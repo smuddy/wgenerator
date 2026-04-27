@@ -9,10 +9,11 @@
           @if (shows.length > 0) {
             <div class="list">
               @for (show of shows; track show.id) {
-                <button (click)="selectShow(show)" mat-stroked-button>
+                <app-button (click)="selectShow(show)" class="full-width">
                   <app-user-name [userId]="show.owner"></app-user-name>
                   , {{ show.showType | showType }}, {{ show.date.toDate() | date: "dd.MM.yyyy" }}
-                </button>
+                </app-button>
+
               }
             </div>
           }

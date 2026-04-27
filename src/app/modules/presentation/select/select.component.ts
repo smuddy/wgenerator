@@ -7,17 +7,17 @@ import {Router} from '@angular/router';
 import {fade} from '../../../animations';
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
-import {MatButton} from '@angular/material/button';
 import {UserNameComponent} from '../../../services/user/user-name/user-name.component';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
+import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.less'],
   animations: [fade],
-  imports: [CardComponent, MatButton, UserNameComponent, AsyncPipe, DatePipe, ShowTypePipe, PageFrameComponent],
+  imports: [CardComponent, UserNameComponent, AsyncPipe, DatePipe, ShowTypePipe, PageFrameComponent, ButtonComponent],
 })
 export class SelectComponent implements OnInit {
   private showService = inject(ShowService);
