@@ -1,6 +1,5 @@
-import {Component, OnInit, inject} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {faSave} from '@fortawesome/free-solid-svg-icons';
-import {DestroyRef} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SongService} from '../../services/song.service';
@@ -12,12 +11,13 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {ButtonRowComponent} from '../../../../widget-modules/components/button-row/button-row.component';
 import {ButtonComponent} from '../../../../widget-modules/components/button/button.component';
+import {PageFrameComponent} from '../../../../widget-modules/components/sidebar/page-frame.component';
 
 @Component({
   selector: 'app-new',
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.less'],
-  imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent],
+  imports: [CardComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, ButtonRowComponent, ButtonComponent, PageFrameComponent],
 })
 export class NewComponent implements OnInit {
   private songService = inject(SongService);

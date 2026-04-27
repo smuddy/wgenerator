@@ -1,110 +1,127 @@
-@if (show$ | async; as show) {
-<div>
-  <app-card
-    [fullscreen]="useSwiper"
-    closeLink="../"
-    heading="{{ show.showType | showType }}, {{
+<app-page-frame title="Veranstaltungen" [withMenu]="false">
+  @if (show$ | async; as show) {
+    <div content>
+      <app-card
+        [fullscreen]="useSwiper"
+        closeLink="../"
+        heading="{{ show.showType | showType }}, {{
       show.date.toDate() | date: 'dd.MM.yyyy'
     }} - {{ getStatus(show) }}"
-  >
-    @if (!useSwiper) {
-    <p class="show-meta">
-      {{ show.public ? 'öffentliche' : 'geschlossene' }} Veranstaltung von
-      <app-user-name [userId]="show.owner"></app-user-name>
-      <ng-container *appOwner="show.owner">
-        <app-badge [type]="getPublishedBadgeType(show)">{{ show.published | publishedType }}</app-badge>
-        @if (show.reportedType) {
-        <app-badge [type]="getReportedTypeBadgeType(show)">{{ show.reportedType | reportedType }}</app-badge>
-        }
-      </ng-container>
-    </p>
-    }
-    <div class="head">
-      <div>
+      >
         @if (!useSwiper) {
-        <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
+          <p class="show-meta">
+            {{ show.public ? 'öffentliche' : 'geschlossene' }} Veranstaltung von
+            <app-user-name [userId]="show.owner"></app-user-name>
+            <ng-container *appOwner="show.owner">
+              <app-badge [type]="getPublishedBadgeType(show)">{{ show.published | publishedType }}</app-badge>
+              @if (show.reportedType) {
+                <app-badge [type]="getReportedTypeBadgeType(show)">{{ show.reportedType | reportedType }}</app-badge>
+              }
+            </ng-container>
+          </p>
         }
-      </div>
-      <div [class.floating]="useSwiper">
-        <app-menu-button (click)="onZoomOut()" @fade [icon]="faZoomOut" class="btn-delete btn-icon" matTooltip="Verkleinern"></app-menu-button>
-        <app-menu-button (click)="onZoomIn()" @fade [icon]="faZoomIn" class="btn-delete btn-icon" matTooltip="Vergrößern"></app-menu-button>
-        <app-menu-button
-          (click)="useSwiper=!useSwiper;fullscreen(useSwiper)"
-          @fade
-          [icon]="useSwiper ? faRestore : faMaximize"
-          class="btn-delete btn-icon"
-          matTooltip="Vollbild"
-        ></app-menu-button>
-      </div>
-    </div>
-    @if (showSongs && !useSwiper) {
-    <div
-      (cdkDropListDropped)="drop($event, show)"
-      [cdkDropListDisabled]="show.published || showText"
-      [style.--song-key-column-width]="getSongKeyColumnWidth(show)"
-      [style.font-size]="textSize + 'em'"
-      cdkDropList
-      class="song-list"
-    >
-      @for (song of orderedShowSongs(show); track trackBy(i, song); let i = $index) {
-      <div cdkDrag class="song-row">
-        <app-song
-          [dragHandle]="!(show.published || showText)"
-          [fullscreen]="useSwiper"
-          [index]="i"
-          [showId]="showId"
-          [showSong]="song"
-          [showText]="showText"
-          [show]="show"
-        ></app-song>
-      </div>
-      }
-    </div>
-    } @if (useSwiper) {
-    <swiper-container scrollbar="true">
-      @for (song of orderedShowSongs(show); track trackBy(i, song); let i = $index) {
-      <swiper-slide [style.font-size]="textSize + 'em'" class="song-swipe">
-        <app-song [fullscreen]="true" [index]="i" [showId]="showId" [showSong]="song" [showText]="true" [show]="show"></app-song>
-        <div class="time">{{ currentTime | date: 'HH:mm' }}</div>
-        @if (getNextSong(orderedShowSongs(show), i); as next) {
-        <div class="next-song">
-          {{ next }}
-          <fa-icon [icon]="faNextSong"></fa-icon>
+        <div class="head">
+          <div>
+            @if (!useSwiper) {
+              <mat-checkbox [(ngModel)]="showText">Text anzeigen</mat-checkbox>
+            }
+          </div>
+          <div [class.floating]="useSwiper">
+            <app-menu-button (click)="onZoomOut()" @fade [icon]="faZoomOut" class="btn-delete btn-icon"
+                             matTooltip="Verkleinern"></app-menu-button>
+            <app-menu-button (click)="onZoomIn()" @fade [icon]="faZoomIn" class="btn-delete btn-icon"
+                             matTooltip="Vergrößern"></app-menu-button>
+            <app-menu-button
+              (click)="useSwiper=!useSwiper;fullscreen(useSwiper)"
+              @fade
+              [icon]="useSwiper ? faRestore : faMaximize"
+              class="btn-delete btn-icon"
+              matTooltip="Vollbild"
+            ></app-menu-button>
+          </div>
         </div>
+        @if (showSongs && !useSwiper) {
+          <div
+            (cdkDropListDropped)="drop($event, show)"
+            [cdkDropListDisabled]="show.published || showText"
+            [style.--song-key-column-width]="getSongKeyColumnWidth(show)"
+            [style.font-size]="textSize + 'em'"
+            cdkDropList
+            class="song-list"
+          >
+            @for (song of orderedShowSongs(show); track trackBy(i, song); let i = $index) {
+              <div cdkDrag class="song-row">
+                <app-song
+                  [dragHandle]="!(show.published || showText)"
+                  [fullscreen]="useSwiper"
+                  [index]="i"
+                  [showId]="showId"
+                  [showSong]="song"
+                  [showText]="showText"
+                  [show]="show"
+                ></app-song>
+              </div>
+            }
+          </div>
         }
-      </swiper-slide>
-      }
-    </swiper-container>
-    } @if (songs$ | async; as songs) { @if (songs && !show.published && !useSwiper) {
-    <app-add-song [showSongs]="showSongs" [show]="show" [songs]="songs"></app-add-song>
-    } } @if (!useSwiper) {
-    <app-button-row>
-      <ng-container *appRole="['leader']">
-        <ng-container *appOwner="show.owner">
-          @if (!show.archived) {
-          <app-button (click)="onArchive(true)" [icon]="faBox"> Archivieren</app-button>
-          } @if (show.archived) {
-          <app-button (click)="onArchive(false)" [icon]="faBoxOpen"> Wiederherstellen</app-button>
-          } @if (!show.published) {
-          <app-button (click)="onPublish(show, true)" [icon]="faPublish"> Veröffentlichen</app-button>
-          } @if (show.published) {
-          <app-button (click)="onPublish(show, false)" [icon]="faUnpublish"> Veröffentlichung zurückziehen </app-button>
-          } @if (show.published) {
-          <app-button (click)="onShare(show)" [icon]="faShare"> Teilen</app-button>
-          } @if (show.published && show.reportedType === 'pending') {
-          <app-button (click)="onReport(show)" [icon]="faReport"> CCLI</app-button>
-          } @if (!show.published) {
-          <app-button (click)="onChange(show.id)" [icon]="faSliders"> Ändern</app-button>
+        @if (useSwiper) {
+          <swiper-container scrollbar="true">
+            @for (song of orderedShowSongs(show); track trackBy(i, song); let i = $index) {
+              <swiper-slide [style.font-size]="textSize + 'em'" class="song-swipe">
+                <app-song [fullscreen]="true" [index]="i" [showId]="showId" [showSong]="song" [showText]="true"
+                          [show]="show"></app-song>
+                <div class="time">{{ currentTime | date: 'HH:mm' }}</div>
+                @if (getNextSong(orderedShowSongs(show), i); as next) {
+                  <div class="next-song">
+                    {{ next }}
+                    <fa-icon [icon]="faNextSong"></fa-icon>
+                  </div>
+                }
+              </swiper-slide>
+            }
+          </swiper-container>
+        }
+        @if (songs$ | async; as songs) {
+          @if (songs && !show.published && !useSwiper) {
+            <app-add-song [showSongs]="showSongs" [show]="show" [songs]="songs"></app-add-song>
           }
-        </ng-container>
-      </ng-container>
-      <app-button [icon]="faDownload" [matMenuTriggerFor]="menu"> Herunterladen</app-button>
-      <mat-menu #menu="matMenu">
-        <app-button (click)="onDownload()" [icon]="faUser"> Ablauf für Lobpreisgruppe</app-button>
-        <app-button (click)="onDownloadHandout()" [icon]="faUsers"> Handout mit Copyright Infos</app-button>
-      </mat-menu>
-    </app-button-row>
-    }
-  </app-card>
-</div>
-}
+        }
+        @if (!useSwiper) {
+          <app-button-row>
+            <ng-container *appRole="['leader']">
+              <ng-container *appOwner="show.owner">
+                @if (!show.archived) {
+                  <app-button (click)="onArchive(true)" [icon]="faBox"> Archivieren</app-button>
+                }
+                @if (show.archived) {
+                  <app-button (click)="onArchive(false)" [icon]="faBoxOpen"> Wiederherstellen</app-button>
+                }
+                @if (!show.published) {
+                  <app-button (click)="onPublish(show, true)" [icon]="faPublish"> Veröffentlichen</app-button>
+                }
+                @if (show.published) {
+                  <app-button (click)="onPublish(show, false)" [icon]="faUnpublish"> Veröffentlichung zurückziehen
+                  </app-button>
+                }
+                @if (show.published) {
+                  <app-button (click)="onShare(show)" [icon]="faShare"> Teilen</app-button>
+                }
+                @if (show.published && show.reportedType === 'pending') {
+                  <app-button (click)="onReport(show)" [icon]="faReport"> CCLI</app-button>
+                }
+                @if (!show.published) {
+                  <app-button (click)="onChange(show.id)" [icon]="faSliders"> Ändern</app-button>
+                }
+              </ng-container>
+            </ng-container>
+            <app-button [icon]="faDownload" [matMenuTriggerFor]="menu"> Herunterladen</app-button>
+            <mat-menu #menu="matMenu">
+              <app-button (click)="onDownload()" [icon]="faUser"> Ablauf für Lobpreisgruppe</app-button>
+              <app-button (click)="onDownloadHandout()" [icon]="faUsers"> Handout mit Copyright Infos</app-button>
+            </mat-menu>
+          </app-button-row>
+        }
+      </app-card>
+    </div>
+  }
+</app-page-frame>

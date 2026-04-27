@@ -1,119 +1,130 @@
-@if (show) {
-<app-card [closeIcon]="faIcon" [heading]="show.showType | showType" [subheading]="show.date.toDate() | date:'dd.MM.yyyy'" closeLink="/presentation/select">
-  @if (!progress) {
-  <div class="song">
-    @if (show) {
-    <div class="song-parts">
-      <div
-        (click)="onSectionClick('title', -1, show.id)"
-        (keydown.enter)="onSectionClick('title', -1, show.id)"
-        (keydown.space)="onSectionClick('title', -1, show.id)"
-        [class.active]="show.presentationSongId === 'title'"
-        class="song-part"
-        role="button"
-        tabindex="0"
-      >
-        <div class="head">Veranstaltung</div>
-      </div>
-      <div
-        (click)="onSectionClick('empty', -1, show.id)"
-        (keydown.enter)="onSectionClick('empty', -1, show.id)"
-        (keydown.space)="onSectionClick('empty', -1, show.id)"
-        [class.active]="show.presentationSongId === 'empty'"
-        class="song-part"
-        role="button"
-        tabindex="0"
-      >
-        <div class="head">Leer</div>
-      </div>
-    </div>
-    }
-  </div>
-  @for (song of presentationSongs; track trackBy($index, song)) {
-  <div class="song">
-    @if (show) {
-    <div [class.active]="show.presentationSongId === song.id" class="title song-part">
-      <div
-        (click)="onSectionClick(song.id, -1, show.id)"
-        (keydown.enter)="onSectionClick(song.id, -1, show.id)"
-        (keydown.space)="onSectionClick(song.id, -1, show.id)"
-        class="head"
-        role="button"
-        tabindex="0"
-      >
-        {{ song.title }}
-      </div>
-    </div>
-    } @if (show) {
-    <div class="song-parts">
-      @for (section of song.sections; track section.type + '-' + section.number + '-' + $index; let i = $index) {
-      <div
-        (click)="onSectionClick(song.id, i, show.id)"
-        (keydown.enter)="onSectionClick(song.id, i, show.id)"
-        (keydown.space)="onSectionClick(song.id, i, show.id)"
-        [class.active]="
+<app-page-frame title="Präsentation" [withMenu]="false">
+  @if (show) {
+    <app-card [closeIcon]="faIcon"
+              [heading]="show.showType | showType"
+              [subheading]="show.date.toDate() | date:'dd.MM.yyyy'"
+              closeLink="/presentation/select"
+              content>
+      @if (!progress) {
+        <div class="song">
+          @if (show) {
+            <div class="song-parts">
+              <div
+                (click)="onSectionClick('title', -1, show.id)"
+                (keydown.enter)="onSectionClick('title', -1, show.id)"
+                (keydown.space)="onSectionClick('title', -1, show.id)"
+                [class.active]="show.presentationSongId === 'title'"
+                class="song-part"
+                role="button"
+                tabindex="0"
+              >
+                <div class="head">Veranstaltung</div>
+              </div>
+              <div
+                (click)="onSectionClick('empty', -1, show.id)"
+                (keydown.enter)="onSectionClick('empty', -1, show.id)"
+                (keydown.space)="onSectionClick('empty', -1, show.id)"
+                [class.active]="show.presentationSongId === 'empty'"
+                class="song-part"
+                role="button"
+                tabindex="0"
+              >
+                <div class="head">Leer</div>
+              </div>
+            </div>
+          }
+        </div>
+        @for (song of presentationSongs; track trackBy($index, song)) {
+          <div class="song">
+            @if (show) {
+              <div [class.active]="show.presentationSongId === song.id" class="title song-part">
+                <div
+                  (click)="onSectionClick(song.id, -1, show.id)"
+                  (keydown.enter)="onSectionClick(song.id, -1, show.id)"
+                  (keydown.space)="onSectionClick(song.id, -1, show.id)"
+                  class="head"
+                  role="button"
+                  tabindex="0"
+                >
+                  {{ song.title }}
+                </div>
+              </div>
+            }
+            @if (show) {
+              <div class="song-parts">
+                @for (section of song.sections; track section.type + '-' + section.number + '-' + $index; let i = $index) {
+                  <div
+                    (click)="onSectionClick(song.id, i, show.id)"
+                    (keydown.enter)="onSectionClick(song.id, i, show.id)"
+                    (keydown.space)="onSectionClick(song.id, i, show.id)"
+                    [class.active]="
               show.presentationSongId === song.id &&
               show.presentationSection === i
             "
-        class="song-part"
-        role="button"
-        tabindex="0"
-      >
-        <div class="head">{{ section.type | sectionType }} {{ section.number + 1 }}</div>
-        <div class="fragment">{{ getFirstLine(section) }}</div>
-      </div>
+                    class="song-part"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <div class="head">{{ section.type | sectionType }} {{ section.number + 1 }}</div>
+                    <div class="fragment">{{ getFirstLine(section) }}</div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+        <div class="song">
+          @if (show) {
+            <div [class.active]="show.presentationSongId === 'dynamicText'" class="title song-part">
+              <div
+                (click)="onSectionClick('dynamicText', -1, show.id)"
+                (keydown.enter)="onSectionClick('dynamicText', -1, show.id)"
+                (keydown.space)="onSectionClick('dynamicText', -1, show.id)"
+                class="head"
+                role="button"
+                tabindex="0"
+              >
+                Freier Text
+              </div>
+            </div>
+          }
+          <mat-form-field appearance="outline">
+            <mat-label>Überschrift</mat-label>
+            <input (ngModelChange)="onDynamicCaption($event, show.id)" [ngModel]="show.presentationDynamicCaption"
+                   autocomplete="off" id="dynamic-caption" matInput type="text" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Text</mat-label>
+            <textarea (ngModelChange)="onDynamicText($event, show.id)" [ngModel]="show.presentationDynamicText"
+                      autocomplete="off" id="dynamic-text" matInput></textarea>
+          </mat-form-field>
+        </div>
+        @if (show) {
+          <div class="div-bottom">
+            <button class="btn-start-presentation" mat-button routerLink="/presentation/monitor">
+              <fa-icon [icon]="faDesktop"></fa-icon>
+              Präsentation starten
+            </button>
+            <mat-form-field appearance="outline">
+              <mat-label>Hintergrund</mat-label>
+              <mat-select (ngModelChange)="onBackground($event, show.id)" [ngModel]="show.presentationBackground">
+                <mat-option value="none">kein Hintergrund</mat-option>
+                <mat-option value="blue">Sternenhimmel</mat-option>
+                <mat-option value="green">Blätter</mat-option>
+                <mat-option value="leder">Leder</mat-option>
+                <mat-option value="praise">Lobpreis</mat-option>
+                <mat-option value="bible">Bibel</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-slider #slider [max]="100" [min]="10" [step]="2" class="zoom-slider" color="primary" ngDefaultControl
+            ><input (ngModelChange)="onZoom($event, show.id)" [ngModel]="show.presentationZoom" matSliderThumb />
+            </mat-slider>
+          </div>
+        }
+        @if (show) {
+          <app-add-song [addedLive]="true" [showSongs]="showSongs" [show]="show" [songs]="songs$|async"></app-add-song>
+        }
       }
-    </div>
-    }
-  </div>
+    </app-card>
   }
-  <div class="song">
-    @if (show) {
-    <div [class.active]="show.presentationSongId === 'dynamicText'" class="title song-part">
-      <div
-        (click)="onSectionClick('dynamicText', -1, show.id)"
-        (keydown.enter)="onSectionClick('dynamicText', -1, show.id)"
-        (keydown.space)="onSectionClick('dynamicText', -1, show.id)"
-        class="head"
-        role="button"
-        tabindex="0"
-      >
-        Freier Text
-      </div>
-    </div>
-    }
-    <mat-form-field appearance="outline">
-      <mat-label>Überschrift</mat-label>
-      <input (ngModelChange)="onDynamicCaption($event, show.id)" [ngModel]="show.presentationDynamicCaption" autocomplete="off" id="dynamic-caption" matInput type="text" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Text</mat-label>
-      <textarea (ngModelChange)="onDynamicText($event, show.id)" [ngModel]="show.presentationDynamicText" autocomplete="off" id="dynamic-text" matInput></textarea>
-    </mat-form-field>
-  </div>
-  @if (show) {
-  <div class="div-bottom">
-    <button class="btn-start-presentation" mat-button routerLink="/presentation/monitor">
-      <fa-icon [icon]="faDesktop"></fa-icon>
-      Präsentation starten
-    </button>
-    <mat-form-field appearance="outline">
-      <mat-label>Hintergrund</mat-label>
-      <mat-select (ngModelChange)="onBackground($event, show.id)" [ngModel]="show.presentationBackground">
-        <mat-option value="none">kein Hintergrund</mat-option>
-        <mat-option value="blue">Sternenhimmel</mat-option>
-        <mat-option value="green">Blätter</mat-option>
-        <mat-option value="leder">Leder</mat-option>
-        <mat-option value="praise">Lobpreis</mat-option>
-        <mat-option value="bible">Bibel</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-slider #slider [max]="100" [min]="10" [step]="2" class="zoom-slider" color="primary" ngDefaultControl
-      ><input (ngModelChange)="onZoom($event, show.id)" [ngModel]="show.presentationZoom" matSliderThumb />
-    </mat-slider>
-  </div>
-  } @if (show) {
-  <app-add-song [addedLive]="true" [showSongs]="showSongs" [show]="show" [songs]="songs$|async"></app-add-song>
-  } }
-</app-card>
-}
+</app-page-frame>

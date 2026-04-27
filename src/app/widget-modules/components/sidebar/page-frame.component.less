@@ -19,20 +19,20 @@
 
 .sidebar-toggle {
   --icon-button-color: var(--primary-hover);
-  --icon-button-hover-color: var(--primary-active);
+  --icon-button-hover-color: var(--primary);
   position: fixed;
   top: calc(50px + var(--sidebar-toggle-offset));
   left: var(--sidebar-toggle-offset);
   z-index: 11;
   color: var(--icon-button-color);
-  background: var(--surface-strong);
   box-shadow: none;
   border-radius: 999px;
+  transition: all 150ms ease-in-out;
 }
 
 :host.collapsed .sidebar-toggle {
-  --icon-button-color: var(--text);
-  --icon-button-hover-color: var(--primary-active);
+  --icon-button-color: var(--surface);
+  --icon-button-hover-color: var(--surface-subtle);
 }
 
 .sidebar-toggle fa-icon {
@@ -92,7 +92,7 @@ aside.collapsed {
 
   .sidebar-toggle {
     top: calc(50px + 8px);
-    left: 12px;
+    left: 5px;
     right: auto;
     z-index: 13;
   }
@@ -121,6 +121,32 @@ aside.collapsed {
   .content {
     grid-column: auto;
     width: 100%;
-    padding-top: calc(var(--sidebar-toggle-size) + 6px);
+  }
+}
+
+.header {
+  @media screen and (max-width: 860px) {
+    height: 50px;
+  }
+}
+
+.title {
+  color: var(--surface);
+  font-size: 30px;
+  text-transform: uppercase;
+  text-align: right;
+  opacity: 0.5;
+  text-shadow: var(--shadow-card-3);
+
+  position: fixed;
+  right: 10px;
+  top: 61px;
+
+  transition: all 150ms ease-in-out;
+
+  @media screen and (min-width: 888px) {
+    transform-origin: top right;
+    transform: rotate(90deg) translateX(100%) translateX(10px);
+    text-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px rgba(0, 0, 0, 0.23);
   }
 }

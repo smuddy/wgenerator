@@ -1,4 +1,4 @@
-import {Component, OnInit, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {ShowService} from '../../shows/services/show.service';
 import {Show} from '../../shows/services/show';
@@ -10,13 +10,14 @@ import {CardComponent} from '../../../widget-modules/components/card/card.compon
 import {MatButton} from '@angular/material/button';
 import {UserNameComponent} from '../../../services/user/user-name/user-name.component';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
 
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.less'],
   animations: [fade],
-  imports: [CardComponent, MatButton, UserNameComponent, AsyncPipe, DatePipe, ShowTypePipe],
+  imports: [CardComponent, MatButton, UserNameComponent, AsyncPipe, DatePipe, ShowTypePipe, PageFrameComponent],
 })
 export class SelectComponent implements OnInit {
   private showService = inject(ShowService);

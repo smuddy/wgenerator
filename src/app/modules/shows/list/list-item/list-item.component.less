@@ -2,6 +2,15 @@
   padding: 5px 20px;
   display: grid;
   grid-template-columns: 100px 150px auto 160px;
+  grid-template-areas: "date user show-type badge";
+
+  @media screen and (max-width: 860px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: "date user badge" ". show-type badge";
+    row-gap: 3px;
+  }
+
   min-height: 21px;
 
   & > div {
@@ -15,6 +24,23 @@
   &:hover {
     background: var(--hover-background);
     color: var(--text);
+  }
+
+  .date {
+    grid-area: date;
+  }
+
+  .user {
+    grid-area: user;
+  }
+
+  .show-type {
+    grid-area: show-type;
+  }
+
+  .badge {
+    grid-area: badge;
+    justify-content: end;
   }
 }
 

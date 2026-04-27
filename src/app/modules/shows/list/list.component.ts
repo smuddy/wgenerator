@@ -12,7 +12,7 @@ import {FilterComponent} from './filter/filter.component';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {ListItemComponent} from './list-item/list-item.component';
 import {UserService} from '../../../services/user/user.service';
-import {SidebarComponent} from '../../../widget-modules/components/sidebar/sidebar.component';
+import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
 import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {RoleDirective} from '../../../services/user/role.directive';
@@ -22,21 +22,33 @@ import {RoleDirective} from '../../../services/user/role.directive';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.less'],
   animations: [fade],
-  imports: [FilterComponent, CardComponent, ListItemComponent, RouterLink, AsyncPipe, SidebarComponent, ButtonComponent, RoleDirective],
+  imports: [FilterComponent, CardComponent, ListItemComponent, RouterLink, AsyncPipe, PageFrameComponent, ButtonComponent, RoleDirective],
 })
 export class ListComponent {
   public faNewShow = faPlus;
-  private showService = inject(ShowService);
   private filterStore = inject(FilterStoreService);
-  private userService = inject(UserService);
-
   public filter$ = this.filterStore.showFilter$;
   public lastMonths$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.time || 1));
   public owner$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.owner));
   public showType$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.showType));
   public archived$ = this.filter$.pipe(map((filterValues: FilterValues) => !!filterValues.archived));
+  private showService = inject(ShowService);
   public shows$ = this.showService.list$();
+  public fallbackPublicShows$ = combineLatest([this.shows$, this.lastMonths$]).pipe(
+    map(([shows, lastMonths]) => {
+      return shows.filter(show => show.published && !show.archived).filter(show => this.matchesTimeFilter(show, lastMonths));
+    }),
+  );
   public ownShows$ = this.showService.list$(false, true);
+  public queriedPublicShows$ = this.lastMonths$.pipe(switchMap(lastMonths => this.showService.listPublicSince$(lastMonths)));
+  public publicShows$ = combineLatest([this.queriedPublicShows$, this.fallbackPublicShows$, this.owner$, this.showType$]).pipe(
+    map(([queriedShows, fallbackShows, owner, showType]) => {
+      const shows = queriedShows.length > 0 || fallbackShows.length === 0 ? queriedShows : fallbackShows;
+
+      return this.sortShowsByDateDesc(shows.filter(show => !owner || show.owner === owner).filter(show => !showType || show.showType === showType));
+    }),
+  );
+  private userService = inject(UserService);
   public privateShows$ = combineLatest([this.ownShows$, this.userService.user$, this.archived$]).pipe(
     map(([shows, user, showArchived]) =>
       shows.filter(show => {
@@ -49,22 +61,9 @@ export class ListComponent {
         }
 
         return !show.published || show.reportedType === 'pending';
-      })
+      }),
     ),
-    map(shows => this.sortShowsByDateDesc(shows))
-  );
-  public queriedPublicShows$ = this.lastMonths$.pipe(switchMap(lastMonths => this.showService.listPublicSince$(lastMonths)));
-  public fallbackPublicShows$ = combineLatest([this.shows$, this.lastMonths$]).pipe(
-    map(([shows, lastMonths]) => {
-      return shows.filter(show => show.published && !show.archived).filter(show => this.matchesTimeFilter(show, lastMonths));
-    })
-  );
-  public publicShows$ = combineLatest([this.queriedPublicShows$, this.fallbackPublicShows$, this.owner$, this.showType$]).pipe(
-    map(([queriedShows, fallbackShows, owner, showType]) => {
-      const shows = queriedShows.length > 0 || fallbackShows.length === 0 ? queriedShows : fallbackShows;
-
-      return this.sortShowsByDateDesc(shows.filter(show => !owner || show.owner === owner).filter(show => !showType || show.showType === showType));
-    })
+    map(shows => this.sortShowsByDateDesc(shows)),
   );
   public showSidebar$ = this.userService.user$.pipe(map(user => this.hasSidebarAccess(user?.role)));
 

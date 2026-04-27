@@ -1,16 +1,18 @@
-<app-card closeLink="../" heading="Neues Lied">
-  <div [formGroup]="form" class="split">
-    <mat-form-field appearance="outline">
-      <mat-label>Nummer</mat-label>
-      <input formControlName="number" matInput />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Titel</mat-label>
-      <input formControlName="title" matInput />
-    </mat-form-field>
-  </div>
+<app-page-frame title="Lieder" [withMenu]="false">
+  <app-card closeLink="../" heading="Neues Lied" content>
+    <div [formGroup]="form" class="split">
+      <mat-form-field appearance="outline">
+        <mat-label>Nummer</mat-label>
+        <input formControlName="number" matInput />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Titel</mat-label>
+        <input formControlName="title" matInput />
+      </mat-form-field>
+    </div>
 
-  <app-button-row>
-    <app-button (click)="onSave()" [icon]="faSave">Anlegen</app-button>
-  </app-button-row>
-</app-card>
+    <app-button-row>
+      <app-button (click)="onSave()" [icon]="faSave">Anlegen</app-button>
+    </app-button-row>
+  </app-card>
+</app-page-frame>

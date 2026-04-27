@@ -1,0 +1,27 @@
+@if (withMenu() || title()) {
+  <div class="header">
+    @if (withMenu()) {
+      <button (click)="toggle()"
+              [attr.aria-expanded]="!collapsed"
+              aria-label="Sidebar umschalten"
+              class="sidebar-toggle"
+              mat-icon-button type="button">
+        <fa-icon [icon]="collapsed ? closedIcon : openIcon"></fa-icon>
+      </button>
+    }
+    <div class="title">{{ title() }}</div>
+  </div>
+}
+@if (!collapsed) {
+  <button (click)="close()" aria-label="Sidebar schließen" class="sidebar-backdrop" tabindex="-1"
+          type="button"></button>
+}
+<aside [class.collapsed]="collapsed">
+  <div aria-hidden="true" class="sidebar-toggle-placeholder"></div>
+  <div class="sidebar-body">
+    <ng-content select="[sidebar]"></ng-content>
+  </div>
+</aside>
+<div class="content">
+  <ng-content select="[content]"></ng-content>
+</div>

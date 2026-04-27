@@ -1,4 +1,12 @@
-import {ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, inject, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  HostListener,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {filter, map, shareReplay, switchMap, take, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowService} from '../services/show.service';
@@ -55,6 +63,7 @@ import {BadgeComponent, BadgeType} from '../../../widget-modules/components/badg
 import {ReportDialogComponent, ReportDialogSong} from '../dialog/report-dialog/report-dialog.component';
 import {PublishedTypePipe} from '../../../widget-modules/pipes/published-type-translator/published-type.pipe';
 import {ensureSwiperElement} from '../../../services/swiper-element';
+import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
 
 @Component({
   selector: 'app-show',
@@ -87,6 +96,7 @@ import {ensureSwiperElement} from '../../../services/swiper-element';
     ReportedTypePipe,
     PublishedTypePipe,
     BadgeComponent,
+    PageFrameComponent,
   ],
 })
 export class ShowComponent implements OnInit, OnDestroy {
@@ -140,7 +150,7 @@ export class ShowComponent implements OnInit, OnDestroy {
       shareReplay({
         bufferSize: 1,
         refCount: true,
-      })
+      }),
     );
     this.subs.push(
       this.activatedRoute.params
@@ -148,12 +158,12 @@ export class ShowComponent implements OnInit, OnDestroy {
           map(param => param as {showId: string}),
           map(param => param.showId),
           switchMap(showId => this.showSongService.list$(showId)),
-          filter(_ => !!_ && _.length > 0)
+          filter(_ => !!_ && _.length > 0),
         )
         .subscribe(_ => {
           this.showSongs = _;
           this.cRef.markForCheck();
-        })
+        }),
     );
 
     this.songs$ = this.show$.pipe(
@@ -161,7 +171,7 @@ export class ShowComponent implements OnInit, OnDestroy {
       shareReplay({
         bufferSize: 1,
         refCount: true,
-      })
+      }),
     );
   }
 

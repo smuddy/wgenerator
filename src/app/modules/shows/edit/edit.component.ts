@@ -1,4 +1,4 @@
-import {Component, OnInit, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ShowDataService} from '../services/show-data.service';
 import {Observable, take} from 'rxjs';
 import {Show} from '../services/show';
@@ -18,6 +18,7 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/m
 import {ButtonRowComponent} from '../../../widget-modules/components/button-row/button-row.component';
 import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
 
 @Component({
   selector: 'app-edit',
@@ -39,6 +40,7 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
     ButtonRowComponent,
     ButtonComponent,
     ShowTypePipe,
+    PageFrameComponent,
   ],
 })
 export class EditComponent implements OnInit {
@@ -70,7 +72,7 @@ export class EditComponent implements OnInit {
         map(param => param as {showId: string}),
         map(param => param.showId),
         switchMap((showId: string) => this.showService.read$(showId)),
-        take(1)
+        take(1),
       )
       .subscribe(show => {
         this.form.setValue({

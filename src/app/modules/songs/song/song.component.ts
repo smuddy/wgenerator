@@ -1,4 +1,4 @@
-import {Component, OnInit, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {SongService} from '../services/song.service';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
@@ -26,6 +26,7 @@ import {LegalOwnerPipe} from '../../../widget-modules/pipes/legal-owner-translat
 import {StatusPipe} from '../../../widget-modules/pipes/status-translater/status.pipe';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {MatTooltip} from '@angular/material/tooltip';
+import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
 
 @Component({
   selector: 'app-song',
@@ -50,6 +51,7 @@ import {MatTooltip} from '@angular/material/tooltip';
     StatusPipe,
     ShowTypePipe,
     MatTooltip,
+    PageFrameComponent,
   ],
 })
 export class SongComponent implements OnInit {
@@ -84,14 +86,14 @@ export class SongComponent implements OnInit {
     const song$ = this.activatedRoute.params.pipe(
       map(param => param as {songId: string}),
       map(param => param.songId),
-      switchMap(songId => this.songService.read$(songId))
+      switchMap(songId => this.songService.read$(songId)),
     );
     this.song$ = song$;
 
     this.files$ = this.activatedRoute.params.pipe(
       map(param => param as {songId: string}),
       map(param => param.songId),
-      switchMap(songId => this.fileService.read$(songId))
+      switchMap(songId => this.fileService.read$(songId)),
     );
 
     this.songCount$ = combineLatest([this.userService.user$, song$]).pipe(
@@ -102,7 +104,7 @@ export class SongComponent implements OnInit {
 
         return user?.songUsage?.[song.id] ?? 0;
       }),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
 
     this.songUsageShows$ = combineLatest([this.userService.user$, this.showService.list$(), song$]).pipe(
@@ -115,7 +117,7 @@ export class SongComponent implements OnInit {
           .filter(show => show.owner === user.id)
           .filter(show => (show.songIds ?? []).includes(song.id))
           .sort((a, b) => b.date.toMillis() - a.date.toMillis());
-      })
+      }),
     );
 
     this.songUsageTooltip$ = combineLatest([this.songCount$, this.songUsageShows$]).pipe(
@@ -129,7 +131,7 @@ export class SongComponent implements OnInit {
         }
 
         return shows.map(show => `${this.dateFormatter.format(show.date.toDate())} - ${this.showTypePipe.transform(show.showType)}`).join('\n');
-      })
+      }),
     );
   }
 

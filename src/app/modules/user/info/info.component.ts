@@ -1,4 +1,4 @@
-import {Component, OnInit, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {UserService} from '../../../services/user/user.service';
 import {Observable} from 'rxjs';
 import {User} from '../../../services/user/user';
@@ -17,6 +17,7 @@ import {ButtonComponent} from '../../../widget-modules/components/button/button.
 import {RouterLink} from '@angular/router';
 import {RoleDirective} from '../../../services/user/role.directive';
 import {UsersComponent} from './users/users.component';
+import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
 
 @Component({
   selector: 'app-info',
@@ -37,6 +38,7 @@ import {UsersComponent} from './users/users.component';
     RoleDirective,
     UsersComponent,
     AsyncPipe,
+    PageFrameComponent,
   ],
 })
 export class InfoComponent implements OnInit {

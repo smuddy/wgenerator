@@ -1,61 +1,77 @@
-<div class="split">
-  @if (song$ | async; as song) {
-  <app-card [heading]="song.number + ' - ' + song.title" closeLink="../">
-    <div class="song">
-      <div>
-        <div *appRole="['leader', 'contributor']" class="detail">
-          <div>Typ: {{ song.type | songType }}</div>
-          <div>Tonart: {{ song.key }}</div>
-          <div>Tempo: {{ song.tempo }}</div>
-          <div>Status: {{ (song.status | status) || "entwurf" }}</div>
-          @if (song.legalOwner) {
-          <div>Rechteinhaber: {{ song.legalOwner | legalOwner }}</div>
-          } @if (song.legalOwnerId && song.legalOwner === 'CCLI') {
+<app-page-frame title="Lieder" [withMenu]="false">
+  <div class="split" content>
+    @if (song$ | async; as song) {
+      <app-card [heading]="song.number + ' - ' + song.title" closeLink="../">
+        <div class="song">
           <div>
-            <a href="https://songselect.ccli.com/Songs/{{ song.legalOwnerId }}" target="_blank"> CCLI Nummer: {{ song.legalOwnerId }} </a>
+            <div *appRole="['leader', 'contributor']" class="detail">
+              <div>Typ: {{ song.type | songType }}</div>
+              <div>Tonart: {{ song.key }}</div>
+              <div>Tempo: {{ song.tempo }}</div>
+              <div>Status: {{ (song.status | status) || "entwurf" }}</div>
+              @if (song.legalOwner) {
+                <div>Rechteinhaber: {{ song.legalOwner | legalOwner }}</div>
+              }
+              @if (song.legalOwnerId && song.legalOwner === 'CCLI') {
+                <div>
+                  <a href="https://songselect.ccli.com/Songs/{{ song.legalOwnerId }}" target="_blank"> CCLI
+                    Nummer: {{ song.legalOwnerId }} </a>
+                </div>
+              }
+              @if (song.legalOwnerId && song.legalOwner !== 'CCLI') {
+                <div>Rechteinhaber ID: {{ song.legalOwnerId }}</div>
+              }
+              @if (song.artist) {
+                <div>Künstler: {{ song.artist }}</div>
+              }
+              @if (song.label) {
+                <div>Verlag: {{ song.label }}</div>
+              }
+              @if (song.origin) {
+                <div>Quelle: {{ song.origin }}</div>
+              }
+              <div [matTooltip]="songUsageTooltip$ | async" matTooltipPosition="above">Wie oft
+                verwendet: {{ songCount$ | async }}
+              </div>
+            </div>
           </div>
-          } @if (song.legalOwnerId && song.legalOwner !== 'CCLI') {
-          <div>Rechteinhaber ID: {{ song.legalOwnerId }}</div>
-          } @if (song.artist) {
-          <div>Künstler: {{ song.artist }}</div>
-          } @if (song.label) {
-          <div>Verlag: {{ song.label }}</div>
-          } @if (song.origin) {
-          <div>Quelle: {{ song.origin }}</div>
+          @if (user$ | async; as user) {
+            <app-song-text [chordMode]="user.chordMode" [showSwitch]="true" [text]="song.text"
+                           [validateChordNotation]="true"></app-song-text>
           }
-          <div [matTooltip]="songUsageTooltip$ | async" matTooltipPosition="above">Wie oft verwendet: {{ songCount$ | async }}</div>
+          <mat-chip-listbox *appRole="['leader', 'contributor']" aria-label="Attribute">
+            @for (flag of getFlags(song.flags); track flag) {
+              <mat-chip-option>{{ flag }}</mat-chip-option>
+            }
+          </mat-chip-listbox>
+          <div *appRole="['leader', 'contributor']" class="text">{{ song.comment }}</div>
         </div>
-      </div>
-      @if (user$ | async; as user) {
-      <app-song-text [chordMode]="user.chordMode" [showSwitch]="true" [text]="song.text" [validateChordNotation]="true"></app-song-text>
-      }
-      <mat-chip-listbox *appRole="['leader', 'contributor']" aria-label="Attribute">
-        @for (flag of getFlags(song.flags); track flag) {
-        <mat-chip-option>{{ flag }} </mat-chip-option>
-        }
-      </mat-chip-listbox>
-      <div *appRole="['leader', 'contributor']" class="text">{{ song.comment }}</div>
-    </div>
-    <app-button-row>
-      <app-button (click)="onDelete(song.id)" *appRole="['admin']" [icon]="faDelete">Löschen </app-button>
-      <app-button *appRole="['contributor']" [icon]="faEdit" routerLink="edit">Bearbeiten </app-button>
-      <ng-container *appRole="['leader']">
-        <app-button [icon]="faFileCirclePlus" [matMenuTriggerFor]="menu"> Zu Veranstaltung hinzufügen </app-button>
-        <mat-menu #menu="matMenu">
-          @for (show of privateShows$|async; track show.id) {
-          <app-button (click)="addSongToShow(show, song)"> {{ show.date.toDate() | date: "dd.MM.yyyy" }} {{ show.showType | showType }} </app-button>
-          }
-        </mat-menu>
-      </ng-container>
-    </app-button-row>
-  </app-card>
-  } @if (files$ | async; as files) { @if (files.length > 0) {
-  <app-card heading="Anhänge">
-    @for (file of files$ | async; track file.id) {
-    <p>
-      <app-file [file]="file"></app-file>
-    </p>
+        <app-button-row>
+          <app-button (click)="onDelete(song.id)" *appRole="['admin']" [icon]="faDelete">Löschen</app-button>
+          <app-button *appRole="['contributor']" [icon]="faEdit" routerLink="edit">Bearbeiten</app-button>
+          <ng-container *appRole="['leader']">
+            <app-button [icon]="faFileCirclePlus" [matMenuTriggerFor]="menu"> Zu Veranstaltung hinzufügen</app-button>
+            <mat-menu #menu="matMenu">
+              @for (show of privateShows$|async; track show.id) {
+                <app-button
+                  (click)="addSongToShow(show, song)"> {{ show.date.toDate() | date: "dd.MM.yyyy" }} {{ show.showType | showType }}
+                </app-button>
+              }
+            </mat-menu>
+          </ng-container>
+        </app-button-row>
+      </app-card>
     }
-  </app-card>
-  } }
-</div>
+    @if (files$ | async; as files) {
+      @if (files.length > 0) {
+        <app-card heading="Anhänge">
+          @for (file of files$ | async; track file.id) {
+            <p>
+              <app-file [file]="file"></app-file>
+            </p>
+          }
+        </app-card>
+      }
+    }
+  </div>
+</app-page-frame>

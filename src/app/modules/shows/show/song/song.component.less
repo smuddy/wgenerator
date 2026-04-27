@@ -18,7 +18,7 @@
     grid-template-areas: "keys title edit delete";
 
     @media screen and (max-width: 860px) {
-      grid-template-columns: var(--song-key-column-width, 30px) auto 45px 45px;
+      grid-template-columns: var(--song-key-column-width, 30px) auto 30px 30px;
     }
 
     &.with-drag {
@@ -26,7 +26,7 @@
       grid-template-areas: "drag keys title edit delete";
 
       @media screen and (max-width: 860px) {
-        grid-template-columns: 24px var(--song-key-column-width, 30px) auto 45px 45px;
+        grid-template-columns: 24px var(--song-key-column-width, 30px) auto 30px 30px;
       }
     }
   }
@@ -36,7 +36,7 @@
     grid-template-areas: "title keys edit delete";
 
     @media screen and (max-width: 860px) {
-      grid-template-columns: auto var(--song-key-column-width, 30px) 45px 45px;
+      grid-template-columns: auto var(--song-key-column-width, 30px) 30px 30px;
     }
 
     &.with-drag {
@@ -44,7 +44,7 @@
       grid-template-areas: "drag title keys edit delete";
 
       @media screen and (max-width: 860px) {
-        grid-template-columns: 24px auto var(--song-key-column-width, 30px) 45px 45px;
+        grid-template-columns: 24px auto var(--song-key-column-width, 30px) 30px 30px;
       }
     }
   }
@@ -176,4 +176,5 @@ button {
 
 textarea.edit {
   font-family: 'Ubuntu Mono', monospace;
+  line-height: 15px;
 }

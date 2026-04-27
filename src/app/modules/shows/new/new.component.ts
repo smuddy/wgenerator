@@ -1,4 +1,4 @@
-import {Component, OnInit, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ShowDataService} from '../services/show-data.service';
 import {Observable} from 'rxjs';
 import {Show} from '../services/show';
@@ -16,6 +16,7 @@ import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/m
 import {ButtonRowComponent} from '../../../widget-modules/components/button-row/button-row.component';
 import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
+import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
 
 @Component({
   selector: 'app-new',
@@ -37,6 +38,7 @@ import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/s
     ButtonRowComponent,
     ButtonComponent,
     ShowTypePipe,
+    PageFrameComponent,
   ],
 })
 export class NewComponent implements OnInit {

@@ -1,14 +1,14 @@
 @if (show) {
-<div class="list-item">
-  <div>{{ show.date.toDate() | date: "dd.MM.yyyy" }}</div>
-  <div>
-    <app-user-name [userId]="show.owner"></app-user-name>
+  <div class="list-item">
+    <div class="date">{{ show.date.toDate() | date: "dd.MM.yyyy" }}</div>
+    <div class="user">
+      <app-user-name [userId]="show.owner"></app-user-name>
+    </div>
+    <div class="show-type">{{ show.showType | showType }}</div>
+    <div class="badge">
+      @if (showStatusBadge) {
+        <app-badge [type]="showStatusBadgeType">{{ showStatusBadge }}</app-badge>
+      }
+    </div>
   </div>
-  <div>{{ show.showType | showType }}</div>
-  <div>
-    @if (showStatusBadge) {
-    <app-badge [type]="showStatusBadgeType">{{ showStatusBadge }}</app-badge>
-    }
-  </div>
-</div>
 }

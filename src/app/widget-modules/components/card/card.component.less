@@ -1,7 +1,7 @@
 @import "../../../../styles/shadow";
 
 .card {
-  margin: 20px;
+  margin: 20px 20px 0;
   border-radius: 8px;
   background: var(--surface);
   backdrop-filter: blur(15px);
@@ -14,10 +14,8 @@
   box-shadow: var(--shadow-card-3);
 
   @media screen and (max-width: 860px) {
-    width: 100vw;
-    border-radius: 0;
-    background: var(--surface-strong);
-    margin: 0;
+    width: calc(100vw - 10px);
+    margin: 5px;
     color: var(--text);
   }
 

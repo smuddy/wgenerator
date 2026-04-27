@@ -1,31 +1,33 @@
-<div>
-  <app-card closeLink="/shows" heading="Neue Veranstaltung">
-    <div [formGroup]="form" class="split">
-      <mat-form-field appearance="outline">
-        <mat-label>Art der Veranstaltung</mat-label>
-        <mat-select formControlName="showType">
-          <mat-optgroup label="öffentlich">
-            @for (key of showTypePublic; track key) {
-            <mat-option [value]="key">{{ key | showType }} </mat-option>
-            }
-          </mat-optgroup>
-          <mat-optgroup label="privat">
-            @for (key of showTypePrivate; track key) {
-            <mat-option [value]="key">{{ key | showType }} </mat-option>
-            }
-          </mat-optgroup>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Datum</mat-label>
-        <input [matDatepicker]="picker" formControlName="date" matInput />
-        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
-        <mat-datepicker #picker touchUi></mat-datepicker>
-      </mat-form-field>
-    </div>
+<app-page-frame title="Veranstaltungen" [withMenu]="false">
+  <div content>
+    <app-card closeLink="/shows" heading="Neue Veranstaltung">
+      <div [formGroup]="form" class="split">
+        <mat-form-field appearance="outline">
+          <mat-label>Art der Veranstaltung</mat-label>
+          <mat-select formControlName="showType">
+            <mat-optgroup label="öffentlich">
+              @for (key of showTypePublic; track key) {
+                <mat-option [value]="key">{{ key | showType }}</mat-option>
+              }
+            </mat-optgroup>
+            <mat-optgroup label="privat">
+              @for (key of showTypePrivate; track key) {
+                <mat-option [value]="key">{{ key | showType }}</mat-option>
+              }
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Datum</mat-label>
+          <input [matDatepicker]="picker" formControlName="date" matInput />
+          <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #picker touchUi></mat-datepicker>
+        </mat-form-field>
+      </div>
 
-    <app-button-row>
-      <app-button (click)="onSave()" [icon]="faSave">Anlegen</app-button>
-    </app-button-row>
-  </app-card>
-</div>
+      <app-button-row>
+        <app-button (click)="onSave()" [icon]="faSave">Anlegen</app-button>
+      </app-button-row>
+    </app-card>
+  </div>
+</app-page-frame>

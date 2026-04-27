@@ -14,7 +14,7 @@ import {FilterComponent} from './filter/filter.component';
 import {CardComponent} from '../../../widget-modules/components/card/card.component';
 import {RoleDirective} from '../../../services/user/role.directive';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
-import {SidebarComponent} from '../../../widget-modules/components/sidebar/sidebar.component';
+import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
 import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 
 interface SongListItem extends Song {
@@ -27,7 +27,7 @@ interface SongListItem extends Song {
   styleUrls: ['./song-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fade],
-  imports: [FilterComponent, CardComponent, RouterLink, RoleDirective, FaIconComponent, AsyncPipe, SidebarComponent, ButtonComponent],
+  imports: [FilterComponent, CardComponent, RouterLink, RoleDirective, FaIconComponent, AsyncPipe, PageFrameComponent, ButtonComponent],
 })
 export class SongListComponent {
   public faLegal = faBalanceScaleRight;
@@ -48,7 +48,7 @@ export class SongListComponent {
           ...song,
           hasChordValidationIssues: this.textRenderingService.validateChordNotation(song.text ?? '').length > 0,
         }));
-    })
+    }),
   );
 
   public trackBy = (index: number, show: SongListItem) => show.id;

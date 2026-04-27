@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, inject} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy} from '@angular/core';
 import {combineLatest, Subject} from 'rxjs';
 import {PresentationBackground, Show} from '../../shows/services/show';
 import {ShowSongService} from '../../shows/services/show-song.service';
@@ -26,6 +26,7 @@ import {MatSlider, MatSliderThumb} from '@angular/material/slider';
 import {AddSongComponent} from '../../../widget-modules/components/add-song/add-song.component';
 import {ShowTypePipe} from '../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {SectionTypePipe} from '../../../widget-modules/pipes/section-type-translator/section-type.pipe';
+import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
 
 export interface PresentationSong {
   id: string;
@@ -58,6 +59,7 @@ export interface PresentationSong {
     DatePipe,
     ShowTypePipe,
     SectionTypePipe,
+    PageFrameComponent,
   ],
 })
 export class RemoteComponent implements OnDestroy {
@@ -87,12 +89,12 @@ export class RemoteComponent implements OnDestroy {
       map(_ => _.currentShow),
       filter((showId): showId is string => !!showId),
       distinctUntilChanged(),
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$),
     );
 
     const show$ = currentShowId$.pipe(
       switchMap(showId => this.showService.read$(showId)),
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$),
     );
 
     const parsedSongs$ = currentShowId$.pipe(
@@ -105,7 +107,7 @@ export class RemoteComponent implements OnDestroy {
           sections: this.textRenderingService.parse(song.text, null, false),
         })),
       })),
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$),
     );
 
     combineLatest([show$, parsedSongs$])

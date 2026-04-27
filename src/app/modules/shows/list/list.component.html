@@ -1,40 +1,45 @@
 @if (showSidebar$ | async) {
-<app-sidebar>
-  <div class="sidebar-content" sidebar>
-    <app-filter [shows]="(publicShows$ | async) ?? []"></app-filter>
-  </div>
-  <div content>
-    @if (privateShows$ | async; as privateShows) {
-    <app-card [padding]="false" heading="Meine Veranstaltungen">
-      @for (show of privateShows; track trackBy($index, show)) {
-      <app-list-item
-        [routerLink]="show.id"
-        [showStatusBadgeType]="show.archived ? 'warn' : show.published ? 'error' : 'none'"
-        [showStatusBadge]="show.archived ? 'archiviert' : show.published ? 'nicht gemeldet' : 'unveröffentlicht'"
-        [show]="show"
-      ></app-list-item>
+  <app-page-frame title="Veranstaltungen">
+    <div class="sidebar-content" sidebar>
+      <app-filter [shows]="(publicShows$ | async) ?? []"></app-filter>
+    </div>
+    <div content>
+      @if (privateShows$ | async; as privateShows) {
+        <app-card [padding]="false" heading="Meine Veranstaltungen">
+          @for (show of privateShows; track trackBy($index, show)) {
+            <app-list-item
+              [routerLink]="show.id"
+              [showStatusBadgeType]="show.archived ? 'warn' : show.published ? 'error' : 'none'"
+              [showStatusBadge]="show.archived ? 'archiviert' : show.published ? 'nicht gemeldet' : 'unveröffentlicht'"
+              [show]="show"
+            ></app-list-item>
+          }
+          <div *appRole="['leader']" class="list-action">
+            <app-button [fullWidth]="true" [icon]="faNewShow" routerLink="new">Neue Veranstaltung anlegen</app-button>
+          </div>
+        </app-card>
       }
-      <div *appRole="['leader']" class="list-action">
-        <app-button [fullWidth]="true" [icon]="faNewShow" routerLink="new">Neue Veranstaltung anlegen </app-button>
-      </div>
-    </app-card>
-    } @if (publicShows$ | async; as shows) { @if (shows.length > 0) {
-    <app-card [padding]="false" heading="Veröffentlichte Veranstaltungen">
-      @for (show of shows; track trackBy($index, show)) {
-      <app-list-item [routerLink]="show.id" [show]="show"></app-list-item>
+      @if (publicShows$ | async; as shows) {
+        @if (shows.length > 0) {
+          <app-card [padding]="false" heading="Veröffentlichte Veranstaltungen">
+            @for (show of shows; track trackBy($index, show)) {
+              <app-list-item [routerLink]="show.id" [show]="show"></app-list-item>
+            }
+          </app-card>
+        }
       }
-    </app-card>
-    } }
-  </div>
-</app-sidebar>
+    </div>
+  </app-page-frame>
 } @else {
-<div>
-  @if (publicShows$ | async; as shows) { @if (shows.length > 0) {
-  <app-card [padding]="false" heading="Veröffentlichte Veranstaltungen">
-    @for (show of shows; track trackBy($index, show)) {
-    <app-list-item [routerLink]="show.id" [show]="show"></app-list-item>
+  <div>
+    @if (publicShows$ | async; as shows) {
+      @if (shows.length > 0) {
+        <app-card [padding]="false" heading="Veröffentlichte Veranstaltungen">
+          @for (show of shows; track trackBy($index, show)) {
+            <app-list-item [routerLink]="show.id" [show]="show"></app-list-item>
+          }
+        </app-card>
+      }
     }
-  </app-card>
-  } }
-</div>
+  </div>
 }
