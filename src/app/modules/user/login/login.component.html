@@ -12,11 +12,13 @@
         <input (keyup.enter)="onLogin()" formControlName="pass" matInput type="password" />
       </mat-form-field>
       @if (errorMessage) {
-      <p class="error">{{ errorMessage | authMessage }}</p>
+        <p class="error">{{ errorMessage | authMessage }}</p>
       }
-      <button (click)="onLogin()" class="btn-login" color="primary" mat-stroked-button>Anmelden</button>
-      <button class="btn-password" mat-stroked-button routerLink="/user/password">Passwort zurücksetzen</button>
-      <button class="btn-user" mat-stroked-button routerLink="/user/new">neuen Benutzer anlegen</button>
+      <div class="buttons">
+        <app-button class="full-width" (click)="onLogin()">Anmelden</app-button>
+        <app-button class="full-width" routerLink="/user/password">Passwort zurücksetzen</app-button>
+        <app-button class="full-width" routerLink="/user/new">neuen Benutzer anlegen</app-button>
+      </div>
     </div>
   </div>
 </div>

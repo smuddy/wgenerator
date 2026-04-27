@@ -1,4 +1,4 @@
-import {Component, OnInit, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {UserService} from '../../../services/user/user.service';
@@ -6,15 +6,14 @@ import {faSignInAlt, faUserPlus} from '@fortawesome/free-solid-svg-icons';
 import {LogoComponent} from '../../../widget-modules/components/logo/logo.component';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
-
-import {MatButton} from '@angular/material/button';
 import {AuthMessagePipe} from './auth-message.pipe';
+import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
-  imports: [LogoComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, RouterLink, AuthMessagePipe],
+  imports: [LogoComponent, ReactiveFormsModule, MatFormField, MatLabel, MatInput, RouterLink, AuthMessagePipe, ButtonComponent],
 })
 export class LoginComponent implements OnInit {
   private userService = inject(UserService);
