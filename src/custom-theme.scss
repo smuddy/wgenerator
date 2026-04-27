@@ -5,18 +5,123 @@
 @include mat.elevation-classes();
 @include mat.app-background();
 
-$wgenerator-primary: mat.m2-define-palette(mat.$m2-indigo-palette);
-$wgenerator-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
-$wgenerator-warn: mat.m2-define-palette(mat.$m2-red-palette);
-
-$wgenerator-theme: mat.m2-define-light-theme((
+$wgenerator-material-theme: mat.define-theme((
   color: (
-    primary: $wgenerator-primary,
-    accent: $wgenerator-accent,
-    warn: $wgenerator-warn,
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+    use-system-variables: true,
   ),
-  typography: mat.m2-define-typography-config(),
-  density: -2,
+  typography: (
+    use-system-variables: true,
+  ),
+  density: (
+    scale: -2,
+  ),
 ));
 
-@include mat.all-component-themes($wgenerator-theme);
+@include mat.all-component-themes($wgenerator-material-theme);
+
+:root {
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: -2,
+  ));
+
+  @include mat.theme-overrides((
+    background: var(--surface),
+    error: var(--danger),
+    error-container: color-mix(in srgb, var(--danger) 18%, var(--surface-strong)),
+    inverse-on-surface: var(--text-inverse),
+    inverse-primary: var(--primary-hover),
+    inverse-surface: var(--bg-deep),
+    on-background: var(--text),
+    on-error: var(--text-inverse),
+    on-error-container: var(--text),
+    on-primary: var(--text-inverse),
+    on-primary-container: var(--text),
+    on-secondary: var(--text-inverse),
+    on-secondary-container: var(--text),
+    on-surface: var(--text),
+    on-surface-variant: var(--text-soft),
+    on-tertiary: var(--text-inverse),
+    on-tertiary-container: var(--text),
+    outline: var(--surface-border),
+    outline-variant: var(--divider),
+    primary: var(--primary-color),
+    primary-container: color-mix(in srgb, var(--primary-color) 22%, var(--surface-strong)),
+    secondary: var(--primary-hover),
+    secondary-container: color-mix(in srgb, var(--primary-hover) 20%, var(--surface-strong)),
+    scrim: rgba(18, 24, 37, 0.62),
+    shadow: rgba(18, 24, 37, 0.28),
+    surface: var(--surface),
+    surface-bright: var(--surface-strong),
+    surface-container: color-mix(in srgb, var(--surface) 88%, white),
+    surface-container-high: color-mix(in srgb, var(--surface-strong) 92%, var(--primary-hover)),
+    surface-container-highest: color-mix(in srgb, var(--surface-strong) 84%, var(--primary-hover)),
+    surface-container-low: color-mix(in srgb, var(--surface) 96%, white),
+    surface-container-lowest: var(--surface-strong),
+    surface-dim: color-mix(in srgb, var(--surface) 78%, var(--surface-dark)),
+    surface-tint: var(--primary-color),
+    surface-variant: color-mix(in srgb, var(--surface) 72%, var(--primary-hover)),
+    tertiary: var(--accent-color),
+    tertiary-container: color-mix(in srgb, var(--accent-color) 18%, var(--surface-strong)),
+  ));
+}
+
+body.theme-dark {
+  @include mat.theme((
+    color: (
+      theme-type: dark,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: -2,
+  ));
+
+  @include mat.theme-overrides((
+    background: var(--surface-dark),
+    error: var(--danger),
+    error-container: color-mix(in srgb, var(--danger) 24%, rgba(255, 255, 255, 0.18)),
+    inverse-on-surface: var(--text),
+    inverse-primary: var(--primary-color),
+    inverse-surface: var(--text-inverse),
+    on-background: var(--text),
+    on-error: var(--text-inverse),
+    on-error-container: var(--text),
+    on-primary: #07111b,
+    on-primary-container: var(--text),
+    on-secondary: #07111b,
+    on-secondary-container: var(--text),
+    on-surface: var(--text),
+    on-surface-variant: color-mix(in srgb, var(--text) 78%, white),
+    on-tertiary: #07111b,
+    on-tertiary-container: var(--text),
+    outline: rgba(206, 223, 229, 0.34),
+    outline-variant: rgba(206, 223, 229, 0.22),
+    primary: var(--primary-hover),
+    primary-container: color-mix(in srgb, var(--primary-color) 36%, rgba(255, 255, 255, 0.18)),
+    secondary: color-mix(in srgb, var(--primary-hover) 92%, white),
+    secondary-container: color-mix(in srgb, var(--primary-active) 32%, rgba(255, 255, 255, 0.18)),
+    scrim: rgba(4, 10, 18, 0.82),
+    shadow: rgba(0, 0, 0, 0.45),
+    surface: rgba(36, 54, 72, 0.96),
+    surface-bright: rgba(46, 68, 89, 0.98),
+    surface-container: rgba(41, 61, 80, 0.97),
+    surface-container-high: rgba(48, 71, 93, 0.98),
+    surface-container-highest: rgba(57, 82, 106, 0.98),
+    surface-container-low: rgba(32, 48, 63, 0.94),
+    surface-container-lowest: rgba(25, 38, 50, 0.94),
+    surface-dim: rgba(20, 31, 42, 0.92),
+    surface-tint: var(--primary-hover),
+    surface-variant: rgba(52, 75, 96, 0.95),
+    tertiary: var(--accent-color),
+    tertiary-container: color-mix(in srgb, var(--accent-color) 26%, rgba(255, 255, 255, 0.18)),
+  ));
+}

@@ -32,9 +32,25 @@ nav {
   display: flex;
   height: 100%;
   align-items: center;
+  padding-right: 12px;
+}
+
+.actions-search {
   padding-right: 20px;
 }
 
+.theme-toggle {
+  color: var(--text-inverse);
+  transition: var(--transition-fast);
+
+  &:hover {
+    background: var(--hover-background);
+  }
+}
+
+.theme-toggle fa-icon {
+  font-size: 14px;
+}
 
 .links {
   display: flex;

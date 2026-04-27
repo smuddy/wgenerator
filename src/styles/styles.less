@@ -50,6 +50,150 @@
   --gap-s: calc(var(--gap-m) / 1.618);
 }
 
+body.theme-dark {
+  --bg-deep: #07111b;
+  --bg-mid: #102435;
+  --bg-soft: #1d3d4a;
+
+  --surface: rgba(13, 22, 34, 0.82);
+  --surface-strong: rgba(18, 31, 46, 0.94);
+  --surface-dark: rgba(4, 10, 18, 0.88);
+  --surface-border: rgba(167, 198, 206, 0.24);
+  --surface-subtle: rgba(255, 255, 255, 0.06);
+  --surface-muted: rgba(167, 198, 206, 0.08);
+
+  --text: #e8f0f4;
+  --text-soft: #b7c9cf;
+  --text-inverse: #f7fbff;
+
+  --color-primary-dark: #89acb5;
+  --color-primary: #7ea2ab;
+  --color-primary-light: #a7c6ce;
+  --primary-color-sat: #73bbc7;
+  --primary-color: #7ea2ab;
+  --primary-hover: #a7c6ce;
+  --primary-active: #638892;
+  --accent-color: #8ce3ca;
+
+  --navigation-background: rgba(4, 10, 18, 0.82);
+  --hover-background: rgba(126, 162, 171, 0.18);
+  --overlay: rgba(4, 10, 18, 0.68);
+  --overlay-strong: rgba(4, 10, 18, 0.9);
+  --divider: rgba(232, 240, 244, 0.12);
+  --link-color: var(--primary-hover);
+  --focus-ring: 0 0 0 2px rgba(126, 162, 171, 0.34);
+  --icon-button-color: var(--primary-hover);
+  --icon-button-hover-color: var(--text-inverse);
+
+  --mat-button-text-label-text-color: var(--text);
+  --mat-option-label-text-color: var(--text);
+  --mat-option-selected-state-label-text-color: var(--primary-hover);
+  --mat-optgroup-label-text-color: var(--text-soft);
+  --mat-select-enabled-trigger-text-color: var(--text);
+  --mat-select-disabled-trigger-text-color: rgba(232, 240, 244, 0.38);
+  --mat-select-placeholder-text-color: var(--text-soft);
+  --mat-select-enabled-arrow-color: var(--text-soft);
+  --mat-select-focused-arrow-color: var(--primary-hover);
+  --mat-form-field-enabled-select-arrow-color: var(--text-soft);
+  --mat-form-field-focus-select-arrow-color: var(--primary-hover);
+  --mat-form-field-outlined-input-text-color: var(--text);
+  --mat-form-field-outlined-label-text-color: var(--text-soft);
+  --mat-form-field-outlined-hover-label-text-color: var(--text);
+  --mat-form-field-outlined-focus-label-text-color: var(--primary-hover);
+  --mat-form-field-outlined-outline-color: rgba(206, 223, 229, 0.22);
+  --mat-form-field-outlined-hover-outline-color: rgba(206, 223, 229, 0.42);
+  --mat-form-field-outlined-focus-outline-color: var(--primary-hover);
+  --mat-form-field-outlined-caret-color: var(--primary-hover);
+  --mat-form-field-filled-input-text-color: var(--text);
+  --mat-form-field-filled-label-text-color: var(--text-soft);
+  --mat-form-field-filled-hover-label-text-color: var(--text);
+  --mat-form-field-filled-focus-label-text-color: var(--primary-hover);
+  --mat-form-field-filled-container-color: rgba(36, 54, 72, 0.96);
+  --mat-form-field-filled-active-indicator-color: rgba(206, 223, 229, 0.28);
+  --mat-form-field-filled-hover-active-indicator-color: rgba(206, 223, 229, 0.48);
+  --mat-form-field-filled-focus-active-indicator-color: var(--primary-hover);
+  --mat-form-field-input-text-placeholder-color: var(--text-soft);
+  --mat-form-field-filled-input-text-placeholder-color: var(--text-soft);
+  --mat-form-field-outlined-input-text-placeholder-color: var(--text-soft);
+  --mat-dialog-container-color: rgba(41, 61, 80, 0.98);
+  --mat-dialog-subhead-color: var(--text);
+  --mat-dialog-supporting-text-color: var(--text);
+  --mat-select-panel-background-color: rgba(41, 61, 80, 0.98);
+  --mat-autocomplete-background-color: rgba(41, 61, 80, 0.98);
+  --mat-menu-container-color: rgba(41, 61, 80, 0.98);
+  --mat-menu-item-label-text-color: var(--text);
+  --mat-menu-item-icon-color: var(--text-soft);
+  --mat-menu-item-hover-state-layer-color: rgba(255, 255, 255, 0.08);
+  --mat-menu-item-focus-state-layer-color: rgba(255, 255, 255, 0.12);
+  --mat-menu-divider-color: rgba(206, 223, 229, 0.16);
+}
+
+body.theme-dark .mat-mdc-text-field-wrapper {
+  background-color: rgba(36, 54, 72, 0.96);
+}
+
+body.theme-dark .mdc-notched-outline__leading,
+body.theme-dark .mdc-notched-outline__notch,
+body.theme-dark .mdc-notched-outline__trailing {
+  border-color: rgba(206, 223, 229, 0.22) !important;
+}
+
+body.theme-dark .mat-mdc-form-field:hover .mdc-notched-outline__leading,
+body.theme-dark .mat-mdc-form-field:hover .mdc-notched-outline__notch,
+body.theme-dark .mat-mdc-form-field:hover .mdc-notched-outline__trailing {
+  border-color: rgba(206, 223, 229, 0.42) !important;
+}
+
+body.theme-dark .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+body.theme-dark .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+body.theme-dark .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--primary-hover) !important;
+}
+
+body.theme-dark .mat-mdc-input-element,
+body.theme-dark .mat-mdc-select-value,
+body.theme-dark .mat-mdc-select-min-line {
+  color: var(--text) !important;
+}
+
+body.theme-dark .mat-mdc-form-field .mat-mdc-floating-label,
+body.theme-dark .mat-mdc-form-field .mat-mdc-select-placeholder {
+  color: var(--text-soft) !important;
+}
+
+body.theme-dark .mat-mdc-select-arrow svg {
+  fill: var(--text-soft) !important;
+}
+
+body.theme-dark .cdk-overlay-container .mat-mdc-select-panel,
+body.theme-dark .cdk-overlay-container .mat-mdc-autocomplete-panel,
+body.theme-dark .cdk-overlay-container .mat-mdc-menu-panel {
+  background: rgba(41, 61, 80, 0.98) !important;
+  color: var(--text) !important;
+}
+
+body.theme-dark .cdk-overlay-container .mat-mdc-select-panel,
+body.theme-dark .cdk-overlay-container .mat-mdc-autocomplete-panel {
+  --mat-select-panel-background-color: rgba(41, 61, 80, 0.98);
+  --mat-autocomplete-background-color: rgba(41, 61, 80, 0.98);
+}
+
+body.theme-dark .cdk-overlay-container .mat-mdc-option .mdc-list-item__primary-text,
+body.theme-dark .cdk-overlay-container .mat-mdc-option .mat-pseudo-checkbox,
+body.theme-dark .cdk-overlay-container .mat-mdc-menu-item .mat-mdc-menu-item-text {
+  color: var(--text) !important;
+}
+
+body.theme-dark .cdk-overlay-container .mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
+  color: var(--primary-hover) !important;
+}
+
+body.theme-dark .cdk-overlay-container .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+body.theme-dark .cdk-overlay-container .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled),
+body.theme-dark .cdk-overlay-container .mat-mdc-menu-item:hover:not([disabled]) {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
 html {
   scroll-behavior: auto;
 }
