@@ -2,6 +2,7 @@ import {Component, DestroyRef, inject, Input} from '@angular/core';
 import {KeyValue} from '@angular/common';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {faFilterCircleXmark} from '@fortawesome/free-solid-svg-icons';
 import {FilterValues} from './filter-values';
 import {Show} from '../../services/show';
 import {ShowService} from '../../services/show.service';
@@ -15,14 +16,23 @@ import {MatSelect} from '@angular/material/select';
 import {MatOptgroup, MatOption} from '@angular/material/core';
 import {ShowTypePipe} from '../../../../widget-modules/pipes/show-type-translater/show-type.pipe';
 import {MatCheckbox} from '@angular/material/checkbox';
+import {ButtonComponent} from '../../../../widget-modules/components/button/button.component';
+
+const DEFAULT_SHOW_FILTER: FilterValues = {
+  time: 1,
+  owner: '',
+  showType: '',
+  archived: false,
+};
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.less'],
-  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatOptgroup, ShowTypePipe, MatCheckbox],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatOptgroup, ShowTypePipe, MatCheckbox, ButtonComponent],
 })
 export class FilterComponent {
+  public faResetFilter = faFilterCircleXmark;
   @Input() public shows: Show[] = [];
   public showTypePublic = ShowService.SHOW_TYPE_PUBLIC;
   public showTypePrivate = ShowService.SHOW_TYPE_PRIVATE;
@@ -105,6 +115,20 @@ export class FilterComponent {
       map(owners => owners as {key: string; value: string}[])
     );
   };
+
+  public get filterActive(): boolean {
+    const filter = this.filterFormGroup.getRawValue();
+    return (
+      filter.time !== DEFAULT_SHOW_FILTER.time ||
+      !!filter.owner ||
+      !!filter.showType ||
+      filter.archived !== DEFAULT_SHOW_FILTER.archived
+    );
+  }
+
+  public resetFilter(): void {
+    this.filterStore.resetShowFilter();
+  }
 
   private filterValueChanged<T>(key: keyof FilterValues, value: T): void {
     this.filterStore.updateShowFilter({[key]: value} as Partial<FilterValues>);

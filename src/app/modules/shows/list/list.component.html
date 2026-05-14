@@ -1,11 +1,17 @@
 @if (showSidebar$ | async) {
-  <app-page-frame title="Veranstaltungen">
+  <app-page-frame title="Veranstaltungen" [menuBadge]="(filterActive$ | async) ?? false">
     <div class="sidebar-content" sidebar>
       <app-filter [shows]="(publicShows$ | async) ?? []"></app-filter>
     </div>
     <div content>
       @if (privateShows$ | async; as privateShows) {
         <app-card [padding]="false" heading="Meine Veranstaltungen">
+          @if ((filterActive$ | async) ?? false) {
+            <div class="filter-active">
+              <span>Filter aktiv: {{ privateShows.length }} Veranstaltungen angezeigt.</span>
+              <button (click)="resetFilter()" class="filter-reset-link" type="button">Filter zurücksetzen</button>
+            </div>
+          }
           @for (show of privateShows; track trackBy($index, show)) {
             <app-list-item
               [routerLink]="show.id"
@@ -20,8 +26,14 @@
         </app-card>
       }
       @if (publicShows$ | async; as shows) {
-        @if (shows.length > 0) {
+        @if (shows.length > 0 || ((filterActive$ | async) ?? false)) {
           <app-card [padding]="false" heading="Veröffentlichte Veranstaltungen">
+            @if ((filterActive$ | async) ?? false) {
+              <div class="filter-active">
+                <span>Filter aktiv: {{ shows.length }} Veranstaltungen angezeigt.</span>
+                <button (click)="resetFilter()" class="filter-reset-link" type="button">Filter zurücksetzen</button>
+              </div>
+            }
             @for (show of shows; track trackBy($index, show)) {
               <app-list-item [routerLink]="show.id" [show]="show"></app-list-item>
             }

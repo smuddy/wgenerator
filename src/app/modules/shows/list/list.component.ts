@@ -17,6 +17,13 @@ import {ButtonComponent} from '../../../widget-modules/components/button/button.
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {RoleDirective} from '../../../services/user/role.directive';
 
+const DEFAULT_SHOW_FILTER: FilterValues = {
+  time: 1,
+  owner: '',
+  showType: '',
+  archived: false,
+};
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -28,6 +35,7 @@ export class ListComponent {
   public faNewShow = faPlus;
   private filterStore = inject(FilterStoreService);
   public filter$ = this.filterStore.showFilter$;
+  public filterActive$ = this.filter$.pipe(map(filter => this.isFilterActive(filter)));
   public lastMonths$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.time || 1));
   public owner$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.owner));
   public showType$ = this.filter$.pipe(map((filterValues: FilterValues) => filterValues.showType));
@@ -69,6 +77,10 @@ export class ListComponent {
 
   public trackBy = (index: number, show: unknown) => (show as Show).id;
 
+  public resetFilter(): void {
+    this.filterStore.resetShowFilter();
+  }
+
   private matchesTimeFilter(show: Show, lastMonths: number): boolean {
     const startDate = new Date();
     startDate.setHours(0, 0, 0, 0);
@@ -87,5 +99,14 @@ export class ListComponent {
 
     const roles = role.split(';').map(item => item.trim());
     return roles.includes('admin') || roles.includes('leader');
+  }
+
+  private isFilterActive(filter: FilterValues): boolean {
+    return (
+      filter.time !== DEFAULT_SHOW_FILTER.time ||
+      !!filter.owner ||
+      !!filter.showType ||
+      filter.archived !== DEFAULT_SHOW_FILTER.archived
+    );
   }
 }

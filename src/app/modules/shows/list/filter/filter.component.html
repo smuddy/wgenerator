@@ -36,7 +36,9 @@
       </mat-select>
     </mat-form-field>
     <mat-checkbox formControlName="archived">Archiviert</mat-checkbox>
-  </div>
 
-  <!--  <i>Anzahl der Suchergebnisse: {{ shows?.length ?? 0 }}</i>-->
+    @if (filterActive) {
+      <app-button (click)="resetFilter()" [fullWidth]="true" [icon]="faResetFilter">Filter zurücksetzen</app-button>
+    }
+  </div>
 </div>
