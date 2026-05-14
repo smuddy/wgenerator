@@ -47,21 +47,25 @@
           <div *appRole="['leader', 'contributor']" class="text">{{ song.comment }}</div>
         </div>
         <app-button-row>
-          <app-button (click)="onDelete(song.id)" *appRole="['admin']" [icon]="faDelete">Löschen</app-button>
-          <app-button *appRole="['contributor']" [icon]="faEdit" routerLink="edit">Bearbeiten</app-button>
-          <ng-container *appRole="['leader']">
-            <app-button [icon]="faFileCirclePlus" [matMenuTriggerFor]="menu"> Zu Veranstaltung hinzufügen</app-button>
-            <mat-menu #menu="matMenu">
-              @for (show of privateShows$|async; track show.id) {
-                <app-button
-                  (click)="addSongToShow(show, song)"> {{ show.date.toDate() | date: "dd.MM.yyyy" }} {{ show.showType | showType }}
-                </app-button>
-              }
-            </mat-menu>
-          </ng-container>
-        </app-button-row>
-      </app-card>
-    }
+        <app-button (click)="onDelete(song.id)" *appRole="['admin']" [icon]="faDelete">Löschen</app-button>
+        <app-button *appRole="['contributor']" [icon]="faEdit" routerLink="edit">Bearbeiten</app-button>
+        <ng-container *appRole="['leader']">
+          @if (privateShows$ | async; as privateShows) {
+            @if (privateShows.length > 0) {
+              <app-button [icon]="faFileCirclePlus" [matMenuTriggerFor]="menu"> Zu Veranstaltung hinzufügen</app-button>
+              <mat-menu #menu="matMenu">
+                @for (show of privateShows; track show.id) {
+                  <app-button
+                    (click)="addSongToShow(show, song)"> {{ show.date.toDate() | date: "dd.MM.yyyy" }} {{ show.showType | showType }}
+                  </app-button>
+                }
+              </mat-menu>
+            }
+          }
+        </ng-container>
+      </app-button-row>
+    </app-card>
+  }
     @if (files$ | async; as files) {
       @if (files.length > 0) {
         <app-card heading="Anhänge">

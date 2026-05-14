@@ -55,4 +55,11 @@ describe('SongComponent', () => {
   it('should create', () => {
     void expect(component).toBeTruthy();
   });
+
+  it('should hide add-to-show when there are no private shows', () => {
+    const buttons = Array.from(fixture.nativeElement.querySelectorAll('app-button button')) as HTMLButtonElement[];
+    const addButton = buttons.find(button => button.textContent?.includes('Zu Veranstaltung hinzufügen'));
+
+    void expect(addButton).toBeUndefined();
+  });
 });
