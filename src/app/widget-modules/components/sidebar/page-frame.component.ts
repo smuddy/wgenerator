@@ -18,6 +18,7 @@ export class PageFrameComponent {
   public closedIcon = faBars;
   public title = input.required<string>();
   public withMenu = input<boolean>(true);
+  public menuBadge = input<boolean>(false);
 
   public toggle(): void {
     this.collapsed = !this.collapsed;

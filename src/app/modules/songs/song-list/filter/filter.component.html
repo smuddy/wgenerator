@@ -44,7 +44,8 @@
         }
       </mat-select>
     </mat-form-field>
+    @if (filterActive) {
+      <app-button (click)="resetFilter()" [fullWidth]="true" [icon]="faResetFilter">Filter zurücksetzen</app-button>
+    }
   </div>
-
-  <i>Anzahl der Suchergebnisse: {{ songs.length }}</i>
 </div>

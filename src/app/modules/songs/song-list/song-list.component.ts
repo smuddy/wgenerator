@@ -21,6 +21,11 @@ interface SongListItem extends Song {
   hasChordValidationIssues: boolean;
 }
 
+interface SongListViewModel {
+  songs: SongListItem[];
+  filterActive: boolean;
+}
+
 @Component({
   selector: 'app-songs',
   templateUrl: './song-list.component.html',
@@ -37,21 +42,30 @@ export class SongListComponent {
   private route = inject(ActivatedRoute);
   private textRenderingService = inject(TextRenderingService);
   private filterStore = inject(FilterStoreService);
-  public songs$: Observable<SongListItem[]> = combineLatest([
+  public viewModel$: Observable<SongListViewModel> = combineLatest([
     this.filterStore.songFilter$,
     this.route.data.pipe(map(data => (data['songs'] as Song[]).slice().sort((a, b) => a.number - b.number))),
   ]).pipe(
     map(([filter, songs]) => {
-      return searchSongs(songs, filter.q)
+      const filteredSongs = searchSongs(songs, filter.q)
         .filter(song => this.filter(song, filter))
         .map(song => ({
           ...song,
           hasChordValidationIssues: this.textRenderingService.validateChordNotation(song.text ?? '').length > 0,
         }));
+
+      return {
+        songs: filteredSongs,
+        filterActive: this.isFilterActive(filter),
+      };
     }),
   );
 
   public trackBy = (index: number, show: SongListItem) => show.id;
+
+  public resetFilter(): void {
+    this.filterStore.resetSongFilter();
+  }
 
   private filter(song: Song, filter: FilterValues): boolean {
     let baseFilter = !filter.type || filter.type === song.type;
@@ -60,6 +74,10 @@ export class SongListComponent {
     baseFilter = baseFilter && (!filter.flag || this.checkFlag(filter.flag, song.flags));
 
     return baseFilter;
+  }
+
+  private isFilterActive(filter: FilterValues): boolean {
+    return !!(filter.q || filter.type || filter.key || filter.legalType || filter.flag);
   }
 
   private checkFlag(flag: string, flags: string) {

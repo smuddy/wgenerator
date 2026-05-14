@@ -2,6 +2,7 @@ import {Component, DestroyRef, Input, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {faFilterCircleXmark} from '@fortawesome/free-solid-svg-icons';
 import {SongService} from '../../services/song.service';
 import {FilterValues} from './filter-values';
 import {Song} from '../../services/song';
@@ -15,16 +16,18 @@ import {MatOption} from '@angular/material/core';
 import {LegalTypePipe} from '../../../../widget-modules/pipes/legal-type-translator/legal-type.pipe';
 import {KeyPipe} from '../../../../widget-modules/pipes/key-translator/key.pipe';
 import {SongTypePipe} from '../../../../widget-modules/pipes/song-type-translater/song-type.pipe';
+import {ButtonComponent} from '../../../../widget-modules/components/button/button.component';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.less'],
-  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, MatOption, LegalTypePipe, KeyPipe, SongTypePipe],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, MatOption, LegalTypePipe, KeyPipe, SongTypePipe, ButtonComponent],
 })
 export class FilterComponent {
   private filterStore = inject(FilterStoreService);
   private destroyRef = inject(DestroyRef);
+  public faResetFilter = faFilterCircleXmark;
 
   public filterFormGroup: FormGroup<{
     q: FormControl<string>;
@@ -71,6 +74,15 @@ export class FilterComponent {
       .filter(_ => !!_);
 
     return flags.filter((n, i) => flags.indexOf(n) === i);
+  }
+
+  public get filterActive(): boolean {
+    const filter = this.filterFormGroup.getRawValue();
+    return !!(filter.q || filter.type || filter.key || filter.legalType || filter.flag);
+  }
+
+  public resetFilter(): void {
+    this.filterStore.resetSongFilter();
   }
 
   private filterValueChanged(key: keyof FilterValues, value: string): void {

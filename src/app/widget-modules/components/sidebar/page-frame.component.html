@@ -7,6 +7,9 @@
               class="sidebar-toggle"
               mat-icon-button type="button">
         <fa-icon [icon]="collapsed ? closedIcon : openIcon"></fa-icon>
+        @if (menuBadge()) {
+          <span aria-hidden="true" class="sidebar-toggle-badge"></span>
+        }
       </button>
     }
     <div class="title">{{ title() }}</div>

@@ -1,11 +1,17 @@
-@if (songs$ | async; as songs) {
-  <app-page-frame title="Lieder">
+@if (viewModel$ | async; as viewModel) {
+  <app-page-frame title="Lieder" [menuBadge]="viewModel.filterActive">
     <div class="sidebar-content" sidebar>
-      <app-filter [songs]="songs"></app-filter>
+      <app-filter [songs]="viewModel.songs"></app-filter>
     </div>
     <div content>
       <app-card [padding]="false">
-        @for (song of songs; track trackBy($index, song)) {
+        @if (viewModel.filterActive) {
+          <div class="filter-active">
+            <span>Filter aktiv: {{ viewModel.songs.length }} Lieder gefunden.</span>
+            <button (click)="resetFilter()" class="filter-reset-link" type="button">Filter zurücksetzen</button>
+          </div>
+        }
+        @for (song of viewModel.songs; track trackBy($index, song)) {
           <div [routerLink]="song.id" class="list-item">
             <div class="number">{{ song.number }}</div>
             <div class="title">

@@ -31,6 +31,31 @@
   text-align: right;
 }
 
+.filter-active {
+  padding: 10px 20px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: var(--danger);
+  font-weight: bold;
+}
+
+.filter-reset-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--link-color);
+  cursor: pointer;
+  font: inherit;
+  font-weight: normal;
+  text-decoration: underline;
+}
+
+.filter-reset-link:hover {
+  color: var(--primary-active);
+}
+
 .title {
   gap: 6px;
 }
