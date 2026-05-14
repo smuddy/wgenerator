@@ -41,6 +41,12 @@
   --icon-button-hover-color: var(--primary-active);
   --icon-button-opacity: 1;
   --icon-button-hover-opacity: 1;
+  --mat-sys-surface-container: var(--text-inverse);
+  --mat-sys-surface-container-high: var(--text-inverse);
+  --mat-sys-surface-container-highest: var(--text-inverse);
+  --mat-select-panel-background-color: var(--text-inverse);
+  --mat-autocomplete-background-color: var(--text-inverse);
+  --mat-menu-container-color: var(--text-inverse);
 
 
   --mat-dialog-supporting-text-color: var(--text);
@@ -85,6 +91,9 @@ body.theme-dark {
   --focus-ring: 0 0 0 2px rgba(126, 162, 171, 0.34);
   --icon-button-color: var(--primary-hover);
   --icon-button-hover-color: var(--text-inverse);
+  --mat-sys-surface-container: var(--bg-mid);
+  --mat-sys-surface-container-high: var(--bg-mid);
+  --mat-sys-surface-container-highest: var(--bg-mid);
 
   --mat-button-text-label-text-color: var(--text);
   --mat-option-label-text-color: var(--text);
@@ -116,12 +125,12 @@ body.theme-dark {
   --mat-form-field-input-text-placeholder-color: var(--text-soft);
   --mat-form-field-filled-input-text-placeholder-color: var(--text-soft);
   --mat-form-field-outlined-input-text-placeholder-color: var(--text-soft);
-  --mat-dialog-container-color: rgba(41, 61, 80, 0.98);
+  --mat-dialog-container-color: var(--bg-mid);
   --mat-dialog-subhead-color: var(--text);
   --mat-dialog-supporting-text-color: var(--text);
-  --mat-select-panel-background-color: rgba(41, 61, 80, 0.98);
-  --mat-autocomplete-background-color: rgba(41, 61, 80, 0.98);
-  --mat-menu-container-color: rgba(41, 61, 80, 0.98);
+  --mat-select-panel-background-color: var(--bg-mid);
+  --mat-autocomplete-background-color: var(--bg-mid);
+  --mat-menu-container-color: var(--bg-mid);
   --mat-menu-item-label-text-color: var(--text);
   --mat-menu-item-icon-color: var(--text-soft);
   --mat-menu-item-hover-state-layer-color: rgba(255, 255, 255, 0.08);
@@ -187,14 +196,22 @@ body.theme-dark .mat-mdc-select-arrow svg {
 body.theme-dark .cdk-overlay-container .mat-mdc-select-panel,
 body.theme-dark .cdk-overlay-container .mat-mdc-autocomplete-panel,
 body.theme-dark .cdk-overlay-container .mat-mdc-menu-panel {
-  background: rgba(41, 61, 80, 0.98) !important;
+  background-color: var(--bg-mid) !important;
+  opacity: 1 !important;
   color: var(--text) !important;
+}
+
+body.theme-dark .cdk-overlay-container .mat-mdc-select-panel.mdc-menu-surface,
+body.theme-dark .cdk-overlay-container .mat-mdc-autocomplete-panel.mdc-menu-surface,
+body.theme-dark .cdk-overlay-container .mat-mdc-menu-panel.mdc-menu-surface {
+  background-color: var(--bg-mid) !important;
+  opacity: 1 !important;
 }
 
 body.theme-dark .cdk-overlay-container .mat-mdc-select-panel,
 body.theme-dark .cdk-overlay-container .mat-mdc-autocomplete-panel {
-  --mat-select-panel-background-color: rgba(41, 61, 80, 0.98);
-  --mat-autocomplete-background-color: rgba(41, 61, 80, 0.98);
+  --mat-select-panel-background-color: var(--bg-mid);
+  --mat-autocomplete-background-color: var(--bg-mid);
 }
 
 body.theme-dark .cdk-overlay-container .mat-mdc-option .mdc-list-item__primary-text,
