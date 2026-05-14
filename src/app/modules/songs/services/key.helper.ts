@@ -154,3 +154,6 @@ export const scaleMapping: {[key: string]: string} = {
 
 export const getScale = (key: string): string[] => scaleAssignment[key];
 export const getScaleType = (key: string): string[][] => scaleTypeAssignment[key];
+
+export {KEY_FILTER_ACCIDENTALS, KEY_FILTER_MODES, KEY_FILTER_ROOTS, getKeysForFilter, hasAvailableKeyForRoot, matchesKeyFilter, supportsKeyAccidental} from './key-filter.helper';
+export type {KeyFilterSelection} from './key-filter.helper';

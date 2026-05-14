@@ -1,7 +1,10 @@
 export interface FilterValues {
   q: string;
   type: string;
-  key: string;
+  keyRoot: string;
+  keyMode: string;
+  keyAccidental: string;
+  includeRelativeMinor: boolean;
   legalType: string;
   flag: string;
 }

@@ -13,3 +13,85 @@ div[formGroup] {
 :host ::ng-deep .mat-mdc-form-field {
   width: 100%;
 }
+
+.key-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px 0 14px;
+}
+
+.key-filter-label {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.key-filter-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+mat-button-toggle-group {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
+}
+
+.key-mode-toggle-group {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.key-accidental-toggle-group {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+mat-button-toggle {
+  min-width: 0;
+}
+
+.key-filter mat-button-toggle {
+  --mat-standard-button-toggle-selected-state-background-color: transparent;
+  --mat-standard-button-toggle-selected-state-text-color: var(--mat-sys-primary);
+}
+
+.key-root-toggle-group {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.key-root-all {
+  grid-column: 1 / -1;
+}
+
+:host ::ng-deep .mat-button-toggle-label-content {
+  line-height: 36px;
+  padding: 0 8px;
+}
+
+:host ::ng-deep .key-filter .mat-button-toggle-checked .mat-button-toggle-label-content {
+  color: var(--mat-sys-primary);
+  font-weight: 700;
+}
+
+:host ::ng-deep .key-filter .mat-button-toggle-checked {
+  background-color: transparent;
+}
+
+:host ::ng-deep .key-filter .mat-button-toggle-checked .mat-button-toggle-button {
+  background-color: transparent;
+}
+
+:host ::ng-deep .key-filter .mat-button-toggle-checkbox-wrapper {
+  display: none;
+}
+
+:host ::ng-deep .key-filter .mat-button-toggle-checked .mat-button-toggle-button {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+:host ::ng-deep .key-filter .mat-button-toggle-checked .mat-pseudo-checkbox {
+  display: none;
+}

@@ -16,6 +16,7 @@ import {RoleDirective} from '../../../services/user/role.directive';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {PageFrameComponent} from '../../../widget-modules/components/sidebar/page-frame.component';
 import {ButtonComponent} from '../../../widget-modules/components/button/button.component';
+import {matchesKeyFilter} from '../services/key.helper';
 
 interface SongListItem extends Song {
   hasChordValidationIssues: boolean;
@@ -23,6 +24,7 @@ interface SongListItem extends Song {
 
 interface SongListViewModel {
   songs: SongListItem[];
+  availableSongs: Song[];
   filterActive: boolean;
 }
 
@@ -56,6 +58,7 @@ export class SongListComponent {
 
       return {
         songs: filteredSongs,
+        availableSongs: songs,
         filterActive: this.isFilterActive(filter),
       };
     }),
@@ -69,7 +72,14 @@ export class SongListComponent {
 
   private filter(song: Song, filter: FilterValues): boolean {
     let baseFilter = !filter.type || filter.type === song.type;
-    baseFilter = baseFilter && (!filter.key || filter.key === song.key);
+    baseFilter =
+      baseFilter &&
+      matchesKeyFilter(song.key, {
+        root: filter.keyRoot,
+        mode: filter.keyMode,
+        accidental: filter.keyAccidental,
+        includeRelativeMinor: filter.includeRelativeMinor,
+      });
     baseFilter = baseFilter && (!filter.legalType || filter.legalType === song.legalType);
     baseFilter = baseFilter && (!filter.flag || this.checkFlag(filter.flag, song.flags));
 
@@ -77,7 +87,7 @@ export class SongListComponent {
   }
 
   private isFilterActive(filter: FilterValues): boolean {
-    return !!(filter.q || filter.type || filter.key || filter.legalType || filter.flag);
+    return !!(filter.q || filter.type || filter.keyRoot || filter.legalType || filter.flag);
   }
 
   private checkFlag(flag: string, flags: string) {

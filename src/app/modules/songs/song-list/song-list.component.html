@@ -1,7 +1,7 @@
 @if (viewModel$ | async; as viewModel) {
   <app-page-frame title="Lieder" [menuBadge]="viewModel.filterActive">
     <div class="sidebar-content" sidebar>
-      <app-filter [songs]="viewModel.songs"></app-filter>
+      <app-filter [songs]="viewModel.availableSongs"></app-filter>
     </div>
     <div content>
       <app-card [padding]="false">

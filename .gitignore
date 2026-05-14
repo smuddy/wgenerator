@@ -315,3 +315,6 @@ testem.log
 # System Files
 Thumbs.db
 firebase.ts
+
+# AI assistant artifacts
+context-snapshot.json

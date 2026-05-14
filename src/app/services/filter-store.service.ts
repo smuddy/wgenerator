@@ -6,7 +6,10 @@ import {FilterValues as ShowFilterValues} from '../modules/shows/list/filter/fil
 const DEFAULT_SONG_FILTER: SongFilterValues = {
   q: '',
   type: '',
-  key: '',
+  keyRoot: '',
+  keyMode: 'major',
+  keyAccidental: '',
+  includeRelativeMinor: false,
   legalType: '',
   flag: '',
 };

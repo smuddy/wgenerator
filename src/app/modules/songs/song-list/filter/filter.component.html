@@ -15,15 +15,38 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Tonart</mat-label>
-      <mat-select formControlName="key">
-        <mat-option [value]="null">- kein Filter -</mat-option>
-        @for (key of keys; track key) {
-        <mat-option [value]="key">{{ key | key }} </mat-option>
+    <div class="key-filter">
+      <div class="key-filter-label">Grundtonart</div>
+      <mat-button-toggle-group aria-label="Grundtonart" class="key-root-toggle-group" formControlName="keyRoot">
+        @for (root of keyRoots; track root.value) {
+          <mat-button-toggle [class.key-root-all]="!root.value" [disabled]="isKeyRootDisabled(root.value)" [value]="root.value">{{ root.label }}</mat-button-toggle>
         }
-      </mat-select>
-    </mat-form-field>
+      </mat-button-toggle-group>
+
+      @if (filterFormGroup.controls.keyRoot.value) {
+        <div class="key-filter-details">
+          <div>
+            <div class="key-filter-label">Vorzeichen</div>
+            <mat-button-toggle-group aria-label="Vorzeichen" class="key-accidental-toggle-group" formControlName="keyAccidental">
+              @for (accidental of keyAccidentals; track accidental.value) {
+                <mat-button-toggle [disabled]="isAccidentalDisabled(accidental.value)" [value]="accidental.value">{{ accidental.label }}</mat-button-toggle>
+              }
+            </mat-button-toggle-group>
+          </div>
+
+          <div>
+            <div class="key-filter-label">Dur/Moll</div>
+            <mat-button-toggle-group aria-label="Dur oder Moll" class="key-mode-toggle-group" formControlName="keyMode">
+              @for (mode of keyModes; track mode.value) {
+                <mat-button-toggle [value]="mode.value">{{ mode.label }}</mat-button-toggle>
+              }
+            </mat-button-toggle-group>
+          </div>
+
+          <mat-checkbox formControlName="includeRelativeMinor">Parallele Tonart einschließen</mat-checkbox>
+        </div>
+      }
+    </div>
 
     <mat-form-field appearance="outline">
       <mat-label>Rechtlicher Status</mat-label>
