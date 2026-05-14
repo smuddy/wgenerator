@@ -16,7 +16,7 @@
     </mat-form-field>
 
     <div class="key-filter">
-      <div class="key-filter-label">Grundtonart</div>
+      <div class="key-filter-label">Tonart</div>
       <mat-button-toggle-group aria-label="Grundtonart" class="key-root-toggle-group" formControlName="keyRoot">
         @for (root of keyRoots; track root.value) {
           <mat-button-toggle [class.key-root-all]="!root.value" [disabled]="isKeyRootDisabled(root.value)" [value]="root.value">{{ root.label }}</mat-button-toggle>
