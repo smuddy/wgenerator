@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {MatIconButton} from '@angular/material/button';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
-import {faChalkboard, faMoon, faMusic, faPersonBooth, faSun, faUserCog} from '@fortawesome/free-solid-svg-icons';
+import {faChalkboard, faMoon, faMusic, faPersonBooth, faQuestion, faSun, faUserCog} from '@fortawesome/free-solid-svg-icons';
 import {fromEvent, Observable} from 'rxjs';
 import {distinctUntilChanged, map, shareReplay, startWith} from 'rxjs/operators';
 import {BrandComponent} from './brand/brand.component';
@@ -23,6 +23,7 @@ export class NavigationComponent {
   public faSongs = faMusic;
   public faShows = faPersonBooth;
   public faUser = faUserCog;
+  public faHelp = faQuestion;
   public faPresentation = faChalkboard;
   public faDarkMode = faMoon;
   public faLightMode = faSun;

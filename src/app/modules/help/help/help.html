@@ -1,0 +1,18 @@
+<app-page-frame title="Hilfe" [withMenu]="false">
+  <div content>
+    <app-card [heading]="heading">
+      <div (click)="onContentClick($event)" [innerHTML]="renderedHtml" class="help-content"></div>
+
+<!--      @if (loading && !hasLoadedContent) {-->
+<!--        <div class="help-state">Hilfe wird geladen.</div>-->
+<!--      } @else if (error && !hasLoadedContent) {-->
+<!--        <div class="help-state">{{ error }}</div>-->
+<!--      } @else {-->
+<!--        @if (loading) {-->
+<!--          <div class="help-inline-state">Seite wird geladen.</div>-->
+<!--        }-->
+<!--        <div (click)="onContentClick($event)" [innerHTML]="renderedHtml" class="help-content"></div>-->
+<!--      }-->
+    </app-card>
+  </div>
+</app-page-frame>

@@ -38,7 +38,12 @@
               "src/favicon-32x32.png",
               "src/mstile-150x150.png",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              {
+                "glob": "**/*",
+                "input": "man",
+                "output": "man"
+              }
             ],
             "styles": [
               "src/custom-theme.scss",

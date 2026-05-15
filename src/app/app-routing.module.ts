@@ -50,6 +50,10 @@ const routes: Routes = [
     path: 'guest',
     loadChildren: () => import('./modules/guest/guest.module').then(m => m.GuestModule),
   },
+  {
+    path: 'help',
+    loadChildren: () => import('./modules/help/help.module').then(m => m.HelpModule),
+  },
 ];
 
 @NgModule({

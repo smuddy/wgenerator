@@ -2,8 +2,6 @@
 
 Willkommen in der Benutzeranleitung für den Worshipgenerator. Diese Anleitung erklärt die Anwendung aus Anwendersicht: welche Seiten es gibt, welche Aufgaben dort erledigt werden und welche Berechtigungen dafür nötig sind.
 
-Die Anleitung beschreibt keine technischen Hintergründe. Wenn du wissen möchtest, wie die Anwendung intern aufgebaut ist, nutze stattdessen die [Projektdokumentation](../docs/index.md).
-
 ## Schnellstart
 
 - [Erste Schritte](tutorials/erste-schritte.md)
