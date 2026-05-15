@@ -1,6 +1,6 @@
 {
   "name": "wgenerator",
-  "version": "2.0",
+  "version": "2.1",
   "scripts": {
     "start": "ng serve",
     "build": "ng build --configuration production",
