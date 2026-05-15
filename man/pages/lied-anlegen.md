@@ -1,6 +1,6 @@
 # Lied anlegen
+[Zurück zur Übersicht](../index.md) | [Zu den Tutorials](../tutorials/index.md)
 
-[Zurück zur Übersicht](../index.md) | [Zur Liedliste](lieder-liste.md)
 
 ## Zweck
 
