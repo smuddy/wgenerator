@@ -1,5 +1,5 @@
 # Präsentation durchführen
-[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](index.md)
+[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](./index.md)
 
 ## Ziel
 
@@ -54,9 +54,9 @@ Die Live-Ausgabe zeigt immer den Inhalt, den du in der Präsentationssteuerung a
 
 ## Links
 
-- [Veranstaltung veröffentlichen und teilen](veranstaltung-veroeffentlichen-und-teilen.md)
-- [Neue Veranstaltung planen](neue-veranstaltung-planen.md)
-- [CCLI-Meldung und Handout](ccli-meldung-und-handout.md)
+- [Veranstaltung veröffentlichen und teilen](./veranstaltung-veroeffentlichen-und-teilen.md)
+- [Neue Veranstaltung planen](./neue-veranstaltung-planen.md)
+- [CCLI-Meldung und Handout](./ccli-meldung-und-handout.md)
 - [Präsentation steuern](../pages/praesentation-steuerung.md)
 - [Präsentation auswählen](../pages/praesentation-auswaehlen.md)
 - [Präsentationsmonitor](../pages/praesentation-monitor.md)

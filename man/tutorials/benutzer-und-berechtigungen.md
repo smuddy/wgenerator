@@ -1,5 +1,5 @@
 # Benutzer und Berechtigungen
-[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](index.md)
+[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](./index.md)
 
 ## Ziel
 
@@ -70,10 +70,10 @@ Benutzer erhalten genau die Berechtigungen, die sie für ihre Aufgaben brauchen.
 
 ## Links
 
-- [Erste Schritte](erste-schritte.md)
-- [Lied finden und nutzen](lied-finden-und-nutzen.md)
-- [Neue Veranstaltung planen](neue-veranstaltung-planen.md)
-- [Präsentation durchführen](praesentation-durchfuehren.md)
+- [Erste Schritte](./erste-schritte.md)
+- [Lied finden und nutzen](./lied-finden-und-nutzen.md)
+- [Neue Veranstaltung planen](./neue-veranstaltung-planen.md)
+- [Präsentation durchführen](./praesentation-durchfuehren.md)
 - [Anmelden](../pages/anmelden.md)
 - [Benutzerprofil](../pages/benutzerprofil.md)
 - [Benutzer anlegen](../pages/benutzer-anlegen.md)

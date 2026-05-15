@@ -1,5 +1,5 @@
 # Lied finden und nutzen
-[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](index.md)
+[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](./index.md)
 
 ## Ziel
 
@@ -49,9 +49,9 @@ Das Lied ist gefunden, geprüft und bei Bedarf in deiner Veranstaltung eingeplan
 
 ## Links
 
-- [Neue Veranstaltung planen](neue-veranstaltung-planen.md)
-- [CCLI-Meldung und Handout](ccli-meldung-und-handout.md)
-- [Benutzer und Berechtigungen](benutzer-und-berechtigungen.md)
+- [Neue Veranstaltung planen](./neue-veranstaltung-planen.md)
+- [CCLI-Meldung und Handout](./ccli-meldung-und-handout.md)
+- [Benutzer und Berechtigungen](./benutzer-und-berechtigungen.md)
 - [Liedliste](../pages/lieder-liste.md)
 - [Lieddetails](../pages/lied-details.md)
 - [Veranstaltungsliste](../pages/veranstaltungen-liste.md)

@@ -69,6 +69,6 @@ Diese Schritte gelten nur für Administratoren.
 
 ## Links
 
-- [Abmelden](abmelden.md)
-- [Neuer Benutzer ohne Rollen](neuer-benutzer-ohne-rollen.md)
+- [Abmelden](./abmelden.md)
+- [Neuer Benutzer ohne Rollen](./neuer-benutzer-ohne-rollen.md)
 - [Berechtigungen und Rollen](../berechtigungen.md)

@@ -8,7 +8,6 @@ import {BrandComponent} from './brand/brand.component';
 import {RouterLink} from '@angular/router';
 import {RoleDirective} from '../../../../services/user/role.directive';
 import {LinkComponent} from './link/link.component';
-import {FilterComponent} from './filter/filter.component';
 import {AsyncPipe} from '@angular/common';
 import {ThemeService} from '../../../../services/theme/theme.service';
 
@@ -16,7 +15,7 @@ import {ThemeService} from '../../../../services/theme/theme.service';
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.less'],
-  imports: [BrandComponent, RouterLink, RoleDirective, LinkComponent, FilterComponent, AsyncPipe, MatIconButton, FaIconComponent],
+  imports: [BrandComponent, RouterLink, RoleDirective, LinkComponent,  AsyncPipe, MatIconButton, FaIconComponent],
 })
 export class NavigationComponent {
   public readonly themeService = inject(ThemeService);

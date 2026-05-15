@@ -36,7 +36,7 @@ Mit **Anlegen** erstellst du die Veranstaltung. Danach öffnet sich die Detailse
 
 ### Neue Veranstaltung starten
 
-1. Öffne die [Veranstaltungsliste](veranstaltungen-liste.md).
+1. Öffne die [Veranstaltungsliste](./veranstaltungen-liste.md).
 2. Klicke im Bereich **Meine Veranstaltungen** auf **Neue Veranstaltung anlegen**.
 3. Die Seite **Neue Veranstaltung** wird geöffnet.
 
@@ -55,7 +55,7 @@ Mit **Anlegen** erstellst du die Veranstaltung. Danach öffnet sich die Detailse
 3. Bringe die Lieder in die gewünschte Reihenfolge.
 4. Prüfe bei Bedarf Tonarten und Liedtexte.
 
-Die weiteren Schritte sind in den [Veranstaltungsdetails](veranstaltung-details.md) beschrieben.
+Die weiteren Schritte sind in den [Veranstaltungsdetails](./veranstaltung-details.md) beschrieben.
 
 ## Hinweise und Fehlervermeidung
 
@@ -67,7 +67,7 @@ Die weiteren Schritte sind in den [Veranstaltungsdetails](veranstaltung-details.
 
 ## Links
 
-- [Veranstaltungsliste](veranstaltungen-liste.md)
-- [Veranstaltungsdetails](veranstaltung-details.md)
-- [Veranstaltung bearbeiten](veranstaltung-bearbeiten.md)
+- [Veranstaltungsliste](./veranstaltungen-liste.md)
+- [Veranstaltungsdetails](./veranstaltung-details.md)
+- [Veranstaltung bearbeiten](./veranstaltung-bearbeiten.md)
 - [Berechtigungen und Rollen](../berechtigungen.md)

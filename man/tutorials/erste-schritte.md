@@ -1,5 +1,5 @@
 # Erste Schritte
-[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](index.md)
+[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](./index.md)
 
 ## Ziel
 
@@ -28,10 +28,10 @@ Du meldest dich an, prüfst deine Berechtigungen und findest den passenden Einst
   - `alle anzeigen`: Akkorde anzeigen
 7. Wenn du nach der Registrierung auf einer Willkommensseite ohne weitere Bereiche landest, warte auf die Freischaltung durch einen Administrator.
 8. Wähle deinen Arbeitsbereich:
-  - Lieder suchen und ansehen: weiter mit [Lied finden und nutzen](lied-finden-und-nutzen.md)
-  - Veranstaltung vorbereiten: weiter mit [Neue Veranstaltung planen](neue-veranstaltung-planen.md)
-  - Live steuern: weiter mit [Präsentation durchführen](praesentation-durchfuehren.md)
-  - Benutzer freischalten: weiter mit [Benutzer und Berechtigungen](benutzer-und-berechtigungen.md)
+  - Lieder suchen und ansehen: weiter mit [Lied finden und nutzen](./lied-finden-und-nutzen.md)
+  - Veranstaltung vorbereiten: weiter mit [Neue Veranstaltung planen](./neue-veranstaltung-planen.md)
+  - Live steuern: weiter mit [Präsentation durchführen](./praesentation-durchfuehren.md)
+  - Benutzer freischalten: weiter mit [Benutzer und Berechtigungen](./benutzer-und-berechtigungen.md)
 
 ## Ergebnis
 
@@ -39,10 +39,10 @@ Du bist angemeldet, kennst deine Rollen und weißt, welcher Bereich für deine A
 
 ## Links
 
-- [Lied finden und nutzen](lied-finden-und-nutzen.md)
-- [Neue Veranstaltung planen](neue-veranstaltung-planen.md)
-- [Präsentation durchführen](praesentation-durchfuehren.md)
-- [Benutzer und Berechtigungen](benutzer-und-berechtigungen.md)
+- [Lied finden und nutzen](./lied-finden-und-nutzen.md)
+- [Neue Veranstaltung planen](./neue-veranstaltung-planen.md)
+- [Präsentation durchführen](./praesentation-durchfuehren.md)
+- [Benutzer und Berechtigungen](./benutzer-und-berechtigungen.md)
 - [Anmelden](../pages/anmelden.md)
 - [Benutzerprofil](../pages/benutzerprofil.md)
 - [Benutzer anlegen](../pages/benutzer-anlegen.md)

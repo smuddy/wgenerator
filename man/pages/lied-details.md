@@ -47,7 +47,7 @@ Zusätzliche sichtbare Bereiche und Aktionen hängen von deiner Rolle ab:
 
 ### Lied lesen
 
-1. Öffne ein Lied aus der [Liedliste](lieder-liste.md).
+1. Öffne ein Lied aus der [Liedliste](./lieder-liste.md).
 2. Lies Titel, Liedtext und Akkorde.
 3. Nutze den Akkordschalter, wenn du die Akkorde anders anzeigen möchtest.
 4. Prüfe bei Bedarf Tonart, Tempo, Status und Hinweise.
@@ -73,7 +73,7 @@ Der Button erscheint nur, wenn es mindestens eine eigene, noch nicht veröffentl
 1. Stelle sicher, dass du die Berechtigung **Mitarbeiter** hast.
 2. Klicke auf `Bearbeiten`.
 3. Bearbeite das Lied auf der Bearbeitungsseite.
-4. Folge der Anleitung unter [Lied bearbeiten](lied-bearbeiten.md).
+4. Folge der Anleitung unter [Lied bearbeiten](./lied-bearbeiten.md).
 
 ### Lied löschen
 
@@ -92,7 +92,7 @@ Der Button erscheint nur, wenn es mindestens eine eigene, noch nicht veröffentl
 
 ## Verwandte Seiten
 
-- [Liedliste](lieder-liste.md)
-- [Lied bearbeiten](lied-bearbeiten.md)
-- [Lied anlegen](lied-anlegen.md)
+- [Liedliste](./lieder-liste.md)
+- [Lied bearbeiten](./lied-bearbeiten.md)
+- [Lied anlegen](./lied-anlegen.md)
 - [Zur Benutzeranleitung](../index.md)

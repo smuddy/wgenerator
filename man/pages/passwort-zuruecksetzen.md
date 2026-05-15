@@ -36,6 +36,6 @@ Keine. Die Seite ist öffentlich erreichbar. Du musst nicht angemeldet sein.
 
 ## Links
 
-- [Passwort-Mail gesendet](passwort-mail-gesendet.md)
-- [Anmelden](anmelden.md)
-- [Benutzer anlegen](benutzer-anlegen.md)
+- [Passwort-Mail gesendet](./passwort-mail-gesendet.md)
+- [Anmelden](./anmelden.md)
+- [Benutzer anlegen](./benutzer-anlegen.md)

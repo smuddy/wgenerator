@@ -57,5 +57,5 @@ Es werden nur Veranstaltungen angezeigt, die für die Präsentation verfügbar s
 
 ## Links
 
-- [Präsentationssteuerung](praesentation-steuerung.md)
-- [Präsentationsmonitor](praesentation-monitor.md)
+- [Präsentationssteuerung](./praesentation-steuerung.md)
+- [Präsentationsmonitor](./praesentation-monitor.md)

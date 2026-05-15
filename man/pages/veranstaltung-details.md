@@ -181,7 +181,7 @@ Die Veranstaltung wird anschließend als gemeldet markiert. Klicke nicht auf die
 3. Lies den Hinweis im Dialog.
 4. Bestätige mit **Archivieren** oder brich mit **Abbrechen** ab.
 
-Archivierte Veranstaltungen verschwinden aus den normalen Listen. Du findest eigene archivierte Veranstaltungen wieder über den Filter **Archiviert** in der [Veranstaltungsliste](veranstaltungen-liste.md).
+Archivierte Veranstaltungen verschwinden aus den normalen Listen. Du findest eigene archivierte Veranstaltungen wieder über den Filter **Archiviert** in der [Veranstaltungsliste](./veranstaltungen-liste.md).
 
 ### Veranstaltung wiederherstellen
 
@@ -210,8 +210,8 @@ Die Veranstaltung erscheint danach wieder ohne Archiv-Filter.
 
 ## Links
 
-- [Veranstaltungsliste](veranstaltungen-liste.md)
-- [Veranstaltung anlegen](veranstaltung-anlegen.md)
-- [Veranstaltung bearbeiten](veranstaltung-bearbeiten.md)
-- [Gastansicht](gastansicht.md)
+- [Veranstaltungsliste](./veranstaltungen-liste.md)
+- [Veranstaltung anlegen](./veranstaltung-anlegen.md)
+- [Veranstaltung bearbeiten](./veranstaltung-bearbeiten.md)
+- [Gastansicht](./gastansicht.md)
 - [Berechtigungen und Rollen](../berechtigungen.md)

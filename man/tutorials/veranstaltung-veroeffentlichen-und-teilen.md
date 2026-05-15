@@ -1,5 +1,5 @@
 # Veranstaltung veröffentlichen und teilen
-[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](index.md)
+[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](./index.md)
 
 ## Ziel
 
@@ -10,7 +10,7 @@ Du gibst eine vorbereitete Veranstaltung frei, machst sie für andere sichtbar u
 - Du bist angemeldet.
 - Du hast die Berechtigung **Lobpreisleiter**.
 - Die Veranstaltung gehört dir.
-- Die Veranstaltung ist fertig vorbereitet. Wenn noch Lieder fehlen oder die Reihenfolge unsicher ist, arbeite zuerst mit [Neue Veranstaltung planen](neue-veranstaltung-planen.md).
+- Die Veranstaltung ist fertig vorbereitet. Wenn noch Lieder fehlen oder die Reihenfolge unsicher ist, arbeite zuerst mit [Neue Veranstaltung planen](./neue-veranstaltung-planen.md).
 
 ## Schritte
 
@@ -23,7 +23,7 @@ Du gibst eine vorbereitete Veranstaltung frei, machst sie für andere sichtbar u
   - rechtliche Hinweise
 4. Wähle `Veröffentlichen`.
 5. Prüfe den neuen Status der Veranstaltung.
-6. Wenn die Veranstaltung öffentlich ist und CCLI-pflichtige Lieder enthält, bleibt sie als `nicht gemeldet` markiert. Plane dann die Nachbereitung mit [CCLI-Meldung und Handout](ccli-meldung-und-handout.md).
+6. Wenn die Veranstaltung öffentlich ist und CCLI-pflichtige Lieder enthält, bleibt sie als `nicht gemeldet` markiert. Plane dann die Nachbereitung mit [CCLI-Meldung und Handout](./ccli-meldung-und-handout.md).
 7. Wenn du die Veranstaltung für Gaeste freigeben willst, wähle `Teilen`.
 8. Nutze den angezeigten Link oder QR-Code:
   - Link kopieren und versenden
@@ -53,9 +53,9 @@ Die Veranstaltung ist freigegeben. Andere berechtigte Benutzer können sie in de
 
 ## Links
 
-- [Neue Veranstaltung planen](neue-veranstaltung-planen.md)
-- [Präsentation durchführen](praesentation-durchfuehren.md)
-- [CCLI-Meldung und Handout](ccli-meldung-und-handout.md)
+- [Neue Veranstaltung planen](./neue-veranstaltung-planen.md)
+- [Präsentation durchführen](./praesentation-durchfuehren.md)
+- [CCLI-Meldung und Handout](./ccli-meldung-und-handout.md)
 - [Veranstaltungsliste](../pages/veranstaltungen-liste.md)
 - [Veranstaltungsdetails](../pages/veranstaltung-details.md)
 - [Gastansicht](../pages/gastansicht.md)

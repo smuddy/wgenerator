@@ -6,7 +6,7 @@
 
 Auf der Bearbeitungsseite pflegst du ein vorhandenes Lied. Hier änderst du Titel, Typ, Tonart, Tempo, Status, Liedtext, Akkorde, Kommentare, Attribute, rechtliche Angaben und Anhänge.
 
-Diese Seite wird nach dem Anlegen eines neuen Liedes automatisch geöffnet und ist auch über `Bearbeiten` in den [Lieddetails](lied-details.md) erreichbar.
+Diese Seite wird nach dem Anlegen eines neuen Liedes automatisch geöffnet und ist auch über `Bearbeiten` in den [Lieddetails](./lied-details.md) erreichbar.
 
 ## Erforderliche Berechtigung
 
@@ -40,7 +40,7 @@ Wenn du den Button nicht siehst, darfst du das Lied in der Regel nicht bearbeite
 
 ### Stammdaten bearbeiten
 
-1. Öffne ein Lied in den [Lieddetails](lied-details.md).
+1. Öffne ein Lied in den [Lieddetails](./lied-details.md).
 2. Klicke auf `Bearbeiten`.
 3. Ändere Titel, Typ, Tonart, Tempo oder Status.
 4. Prüfe, ob die Angaben zum Lied passen.
@@ -115,7 +115,7 @@ Wenn du den Button nicht siehst, darfst du das Lied in der Regel nicht bearbeite
 
 ## Verwandte Seiten
 
-- [Lieddetails](lied-details.md)
-- [Liedliste](lieder-liste.md)
-- [Lied anlegen](lied-anlegen.md)
+- [Lieddetails](./lied-details.md)
+- [Liedliste](./lieder-liste.md)
+- [Lied anlegen](./lied-anlegen.md)
 - [Zur Benutzeranleitung](../index.md)

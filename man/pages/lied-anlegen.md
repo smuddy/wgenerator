@@ -28,23 +28,23 @@ Beim Öffnen der Seite wird normalerweise automatisch eine freie Liednummer vorg
 
 ### Neues Lied anlegen
 
-1. Öffne die [Liedliste](lieder-liste.md).
+1. Öffne die [Liedliste](./lieder-liste.md).
 2. Klicke auf `Neuen Song anlegen`.
 3. Prüfe die vorgeschlagene `Nummer`.
 4. Ändere die Nummer nur, wenn du bewusst eine andere freie Liednummer verwenden möchtest.
 5. Gib im Feld `Titel` den Liedtitel ein.
 6. Klicke auf `Anlegen`.
 7. Die Bearbeitungsseite wird geöffnet.
-8. Ergänze dort Liedtext, Akkorde und weitere Angaben. Folge dafür der Anleitung [Lied bearbeiten](lied-bearbeiten.md).
+8. Ergänze dort Liedtext, Akkorde und weitere Angaben. Folge dafür der Anleitung [Lied bearbeiten](./lied-bearbeiten.md).
 
 ### Zur Liedliste zurückkehren
 
 1. Klicke auf den Zurück-Link in der Karte.
-2. Du gelangst wieder zur [Liedliste](lieder-liste.md).
+2. Du gelangst wieder zur [Liedliste](./lieder-liste.md).
 
 ## Hinweise und Fehlervermeidung
 
-- Lege ein Lied erst an, wenn du sicher bist, dass es noch nicht vorhanden ist. Suche vorher in der [Liedliste](lieder-liste.md) nach Titel und markanten Textstellen.
+- Lege ein Lied erst an, wenn du sicher bist, dass es noch nicht vorhanden ist. Suche vorher in der [Liedliste](./lieder-liste.md) nach Titel und markanten Textstellen.
 - Die vorgeschlagene Nummer soll helfen, doppelte Liednummern zu vermeiden. Prüfe trotzdem, ob die Nummer fachlich passt.
 - `Nummer` und `Titel` sind Pflichtangaben. Ohne diese Angaben kann das Lied nicht sinnvoll angelegt werden.
 - Ein neu angelegtes Lied ist zunächst ein Entwurf und hat rechtlich noch Klärungsbedarf. Ergänze die Angaben auf der Bearbeitungsseite, bevor das Lied regulär genutzt wird.
@@ -53,7 +53,7 @@ Beim Öffnen der Seite wird normalerweise automatisch eine freie Liednummer vorg
 
 ## Verwandte Seiten
 
-- [Liedliste](lieder-liste.md)
-- [Lieddetails](lied-details.md)
-- [Lied bearbeiten](lied-bearbeiten.md)
+- [Liedliste](./lieder-liste.md)
+- [Lieddetails](./lied-details.md)
+- [Lied bearbeiten](./lied-bearbeiten.md)
 - [Zur Benutzeranleitung](../index.md)

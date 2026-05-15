@@ -49,6 +49,6 @@ Je nach Situation können auch diese Meldungen erscheinen:
 
 ## Links
 
-- [Branding](branding.md)
-- [Anmelden](anmelden.md)
+- [Branding](./branding.md)
+- [Anmelden](./anmelden.md)
 - [Berechtigungen und Rollen](../berechtigungen.md)

@@ -80,7 +80,7 @@ Hinweissymbole in der Liste:
 1. Stelle sicher, dass du die Berechtigung **Mitarbeiter** hast.
 2. Scrolle ans Ende der Liedliste.
 3. Klicke auf `Neuen Song anlegen`.
-4. Folge der Anleitung unter [Lied anlegen](lied-anlegen.md).
+4. Folge der Anleitung unter [Lied anlegen](./lied-anlegen.md).
 
 ## Hinweise und Fehlervermeidung
 
@@ -92,7 +92,7 @@ Hinweissymbole in der Liste:
 
 ## Verwandte Seiten
 
-- [Lieddetails](lied-details.md)
-- [Lied anlegen](lied-anlegen.md)
-- [Lied bearbeiten](lied-bearbeiten.md)
+- [Lieddetails](./lied-details.md)
+- [Lied anlegen](./lied-anlegen.md)
+- [Lied bearbeiten](./lied-bearbeiten.md)
 - [Zur Benutzeranleitung](../index.md)

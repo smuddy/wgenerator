@@ -1,5 +1,5 @@
 # Berechtigungen und Rollen
-[Zurück zur Übersicht](index.md) | [Zu den Tutorials](tutorials/index.md)
+[Zurück zur Übersicht](./index.md) | [Zu den Tutorials](./tutorials/index.md)
 
 ## Zweck
 
@@ -97,12 +97,12 @@ Typische Aktionen:
 
 Einige Seiten benötigen keine Anmeldung:
 
-- [Anmelden](pages/anmelden.md)
-- [Benutzer anlegen](pages/benutzer-anlegen.md)
-- [Passwort zurücksetzen](pages/passwort-zuruecksetzen.md)
-- [Passwort-Mail gesendet](pages/passwort-mail-gesendet.md)
-- [Branding](pages/branding.md)
-- [Gastansicht](pages/gastansicht.md)
+- [Anmelden](./pages/anmelden.md)
+- [Benutzer anlegen](./pages/benutzer-anlegen.md)
+- [Passwort zurücksetzen](./pages/passwort-zuruecksetzen.md)
+- [Passwort-Mail gesendet](./pages/passwort-mail-gesendet.md)
+- [Branding](./pages/branding.md)
+- [Gastansicht](./pages/gastansicht.md)
 
 Die Gastansicht ist öffentlich, aber nur über den passenden Link sinnvoll nutzbar.
 
@@ -119,7 +119,7 @@ Für diese Bereiche brauchst du eine Anmeldung und passende Rollen:
 
 ## Rollen prüfen
 
-Deine eigenen Rollen siehst du im [Benutzerprofil](pages/benutzerprofil.md). Dort werden sie in verständlicher Sprache angezeigt, zum Beispiel Lobpreisleiter oder Präsentator.
+Deine eigenen Rollen siehst du im [Benutzerprofil](./pages/benutzerprofil.md). Dort werden sie in verständlicher Sprache angezeigt, zum Beispiel Lobpreisleiter oder Präsentator.
 
 Wenn du einen Bereich nicht öffnen kannst oder eine erwartete Schaltfläche fehlt, fehlt dir wahrscheinlich die passende Rolle. Wende dich dann an einen Administrator.
 
@@ -128,7 +128,7 @@ Wenn du einen Bereich nicht öffnen kannst oder eine erwartete Schaltfläche feh
 Nur Administratoren können Rollen vergeben.
 
 1. Als Administrator anmelden.
-2. Das [Benutzerprofil](pages/benutzerprofil.md) öffnen.
+2. Das [Benutzerprofil](./pages/benutzerprofil.md) öffnen.
 3. Im Bereich `registrierte Benutzer` den gewünschten Benutzer auswählen.
 4. Eine oder mehrere Rollen auswählen.
 5. Die Bearbeitung schließen.
@@ -143,7 +143,7 @@ Nur Administratoren können Rollen vergeben.
 
 ## Links
 
-- [Benutzerprofil](pages/benutzerprofil.md)
-- [Benutzer anlegen](pages/benutzer-anlegen.md)
-- [Neuer Benutzer ohne Rollen](pages/neuer-benutzer-ohne-rollen.md)
-- [Gastansicht](pages/gastansicht.md)
+- [Benutzerprofil](./pages/benutzerprofil.md)
+- [Benutzer anlegen](./pages/benutzer-anlegen.md)
+- [Neuer Benutzer ohne Rollen](./pages/neuer-benutzer-ohne-rollen.md)
+- [Gastansicht](./pages/gastansicht.md)

@@ -1,5 +1,5 @@
 # CCLI-Meldung und Handout
-[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](index.md)
+[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](./index.md)
 
 ## Ziel
 
@@ -52,9 +52,9 @@ Die CCLI-pflichtigen Lieder sind extern gemeldet und die Veranstaltung ist in wg
 
 ## Links
 
-- [Veranstaltung veröffentlichen und teilen](veranstaltung-veroeffentlichen-und-teilen.md)
-- [Neue Veranstaltung planen](neue-veranstaltung-planen.md)
-- [Präsentation durchführen](praesentation-durchfuehren.md)
+- [Veranstaltung veröffentlichen und teilen](./veranstaltung-veroeffentlichen-und-teilen.md)
+- [Neue Veranstaltung planen](./neue-veranstaltung-planen.md)
+- [Präsentation durchführen](./praesentation-durchfuehren.md)
 - [Veranstaltungsdetails](../pages/veranstaltung-details.md)
 - [Veranstaltungsliste](../pages/veranstaltungen-liste.md)
 - [Lieddetails](../pages/lied-details.md)

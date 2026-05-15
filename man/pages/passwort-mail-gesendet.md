@@ -32,5 +32,5 @@ Keine. Die Seite ist öffentlich erreichbar. Du musst nicht angemeldet sein.
 
 ## Links
 
-- [Passwort zurücksetzen](passwort-zuruecksetzen.md)
-- [Anmelden](anmelden.md)
+- [Passwort zurücksetzen](./passwort-zuruecksetzen.md)
+- [Anmelden](./anmelden.md)

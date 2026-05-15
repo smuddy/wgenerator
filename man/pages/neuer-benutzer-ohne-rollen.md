@@ -36,7 +36,7 @@ Die Seite selbst ist öffentlich erreichbar, zeigt den persönlichen Hinweis abe
 
 ## Links
 
-- [Benutzer anlegen](benutzer-anlegen.md)
-- [Benutzerprofil](benutzerprofil.md)
-- [Anmelden](anmelden.md)
+- [Benutzer anlegen](./benutzer-anlegen.md)
+- [Benutzerprofil](./benutzerprofil.md)
+- [Anmelden](./anmelden.md)
 - [Berechtigungen und Rollen](../berechtigungen.md)

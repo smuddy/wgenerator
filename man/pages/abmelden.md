@@ -13,7 +13,7 @@ Keine bestimmte Rolle. In der Praxis nutzt du die Seite, wenn du angemeldet bist
 
 Die Abmeldung läuft ohne eigene Eingabemaske ab. Normalerweise siehst du nur, dass du zur Startseite weitergeleitet wirst.
 
-Der sichtbare Einstieg befindet sich im [Benutzerprofil](benutzerprofil.md) als Button `Abmelden`.
+Der sichtbare Einstieg befindet sich im [Benutzerprofil](./benutzerprofil.md) als Button `Abmelden`.
 
 ## Schritte
 
@@ -31,7 +31,7 @@ Der sichtbare Einstieg befindet sich im [Benutzerprofil](benutzerprofil.md) als 
 
 ## Links
 
-- [Benutzerprofil](benutzerprofil.md)
-- [Anmelden](anmelden.md)
-- [Branding](branding.md)
-- [Gastansicht](gastansicht.md)
+- [Benutzerprofil](./benutzerprofil.md)
+- [Anmelden](./anmelden.md)
+- [Branding](./branding.md)
+- [Gastansicht](./gastansicht.md)

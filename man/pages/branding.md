@@ -30,6 +30,6 @@ Weitere Eingaben oder Aktionen sind auf dieser Seite nicht vorgesehen.
 
 ## Links
 
-- [Neuer Benutzer ohne Rollen](neuer-benutzer-ohne-rollen.md)
-- [Anmelden](anmelden.md)
-- [Gastansicht](gastansicht.md)
+- [Neuer Benutzer ohne Rollen](./neuer-benutzer-ohne-rollen.md)
+- [Anmelden](./anmelden.md)
+- [Gastansicht](./gastansicht.md)

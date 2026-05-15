@@ -85,5 +85,5 @@ Der Monitor versucht, als Vollbildausgabe zu erscheinen. Falls euer Browser oder
 
 ## Links
 
-- [Präsentationssteuerung](praesentation-steuerung.md)
-- [Präsentation auswählen](praesentation-auswaehlen.md)
+- [Präsentationssteuerung](./praesentation-steuerung.md)
+- [Präsentation auswählen](./praesentation-auswaehlen.md)

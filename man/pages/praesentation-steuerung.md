@@ -112,5 +112,5 @@ Ein ruhiger Hintergrund ist oft besser für Liedtexte. Auffälligere Hintergrün
 
 ## Links
 
-- [Präsentation auswählen](praesentation-auswaehlen.md)
-- [Präsentationsmonitor](praesentation-monitor.md)
+- [Präsentation auswählen](./praesentation-auswaehlen.md)
+- [Präsentationsmonitor](./praesentation-monitor.md)

@@ -41,8 +41,8 @@ Nach erfolgreicher Anmeldung wirst du zur Startseite weitergeleitet. Falls dein 
 
 ## Links
 
-- [Benutzer anlegen](benutzer-anlegen.md)
-- [Passwort zurücksetzen](passwort-zuruecksetzen.md)
-- [Benutzerprofil](benutzerprofil.md)
-- [Neuer Benutzer ohne Rollen](neuer-benutzer-ohne-rollen.md)
+- [Benutzer anlegen](./benutzer-anlegen.md)
+- [Passwort zurücksetzen](./passwort-zuruecksetzen.md)
+- [Benutzerprofil](./benutzerprofil.md)
+- [Neuer Benutzer ohne Rollen](./neuer-benutzer-ohne-rollen.md)
 - [Berechtigungen und Rollen](../berechtigungen.md)

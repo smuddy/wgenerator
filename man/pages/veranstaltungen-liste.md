@@ -45,7 +45,7 @@ Jede Veranstaltung wird mit diesen Angaben angezeigt:
 - Art der Veranstaltung
 - optionaler Statushinweis
 
-Klicke auf einen Eintrag, um die [Veranstaltungsdetails](veranstaltung-details.md) zu öffnen.
+Klicke auf einen Eintrag, um die [Veranstaltungsdetails](./veranstaltung-details.md) zu öffnen.
 
 ### Filter
 
@@ -99,7 +99,7 @@ Der Button ist nur sichtbar, wenn du Veranstaltungen anlegen darfst.
 
 ## Links
 
-- [Veranstaltungsdetails](veranstaltung-details.md)
-- [Veranstaltung anlegen](veranstaltung-anlegen.md)
-- [Veranstaltung bearbeiten](veranstaltung-bearbeiten.md)
+- [Veranstaltungsdetails](./veranstaltung-details.md)
+- [Veranstaltung anlegen](./veranstaltung-anlegen.md)
+- [Veranstaltung bearbeiten](./veranstaltung-bearbeiten.md)
 - [Berechtigungen und Rollen](../berechtigungen.md)

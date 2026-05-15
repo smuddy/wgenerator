@@ -5,7 +5,7 @@
 
 Auf der Seite **Veranstaltung ändern** bearbeitest du die Kopfdaten einer bestehenden Veranstaltung. Dazu gehören die Art der Veranstaltung und das Datum.
 
-Die Seite ist für Korrekturen am Rahmen der Veranstaltung gedacht. Lieder, Reihenfolge, Veröffentlichung, Archivierung, Teilen, CCLI-Meldung und Downloads verwaltest du auf der [Detailseite](veranstaltung-details.md).
+Die Seite ist für Korrekturen am Rahmen der Veranstaltung gedacht. Lieder, Reihenfolge, Veröffentlichung, Archivierung, Teilen, CCLI-Meldung und Downloads verwaltest du auf der [Detailseite](./veranstaltung-details.md).
 
 ## Berechtigung
 
@@ -41,7 +41,7 @@ Mit **Speichern** übernimmst du die Änderungen und kehrst zur Detailseite zur�
 
 ### Bearbeitung öffnen
 
-1. Öffne die [Veranstaltungsdetails](veranstaltung-details.md) der eigenen unveröffentlichten Veranstaltung.
+1. Öffne die [Veranstaltungsdetails](./veranstaltung-details.md) der eigenen unveröffentlichten Veranstaltung.
 2. Klicke auf **Ändern**.
 3. Die Seite **Veranstaltung ändern** wird geöffnet.
 
@@ -75,7 +75,7 @@ Mit **Speichern** übernimmst du die Änderungen und kehrst zur Detailseite zur�
 
 ## Links
 
-- [Veranstaltungsdetails](veranstaltung-details.md)
-- [Veranstaltungsliste](veranstaltungen-liste.md)
-- [Veranstaltung anlegen](veranstaltung-anlegen.md)
+- [Veranstaltungsdetails](./veranstaltung-details.md)
+- [Veranstaltungsliste](./veranstaltungen-liste.md)
+- [Veranstaltung anlegen](./veranstaltung-anlegen.md)
 - [Berechtigungen und Rollen](../berechtigungen.md)

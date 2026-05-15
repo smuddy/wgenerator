@@ -1,5 +1,5 @@
 # Neue Veranstaltung planen
-[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](index.md)
+[Zurück zur Übersicht](../index.md) | [Zur Tutorial-Übersicht](./index.md)
 
 ## Ziel
 
@@ -43,15 +43,15 @@ Die Veranstaltung ist als Entwurf vorbereitet. Sie kann nun veröffentlicht, als
 
 ## Nächste Schritte
 
-- Wenn der Ablauf final ist, lies [Veranstaltung veröffentlichen und teilen](veranstaltung-veroeffentlichen-und-teilen.md).
-- Für Band- oder Ablaufunterlagen lies [CCLI-Meldung und Handout](ccli-meldung-und-handout.md).
-- Für die Live-Ausgabe lies [Präsentation durchführen](praesentation-durchfuehren.md).
+- Wenn der Ablauf final ist, lies [Veranstaltung veröffentlichen und teilen](./veranstaltung-veroeffentlichen-und-teilen.md).
+- Für Band- oder Ablaufunterlagen lies [CCLI-Meldung und Handout](./ccli-meldung-und-handout.md).
+- Für die Live-Ausgabe lies [Präsentation durchführen](./praesentation-durchfuehren.md).
 
 ## Links
 
-- [Lied finden und nutzen](lied-finden-und-nutzen.md)
-- [Veranstaltung veröffentlichen und teilen](veranstaltung-veroeffentlichen-und-teilen.md)
-- [Präsentation durchführen](praesentation-durchfuehren.md)
+- [Lied finden und nutzen](./lied-finden-und-nutzen.md)
+- [Veranstaltung veröffentlichen und teilen](./veranstaltung-veroeffentlichen-und-teilen.md)
+- [Präsentation durchführen](./praesentation-durchfuehren.md)
 - [Veranstaltungsliste](../pages/veranstaltungen-liste.md)
 - [Veranstaltung anlegen](../pages/veranstaltung-anlegen.md)
 - [Veranstaltungsdetails](../pages/veranstaltung-details.md)

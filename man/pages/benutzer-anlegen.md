@@ -40,7 +40,7 @@ Nach dem Anlegen brauchst du eine Freischaltung durch einen Administrator, bevor
 
 ## Links
 
-- [Anmelden](anmelden.md)
-- [Neuer Benutzer ohne Rollen](neuer-benutzer-ohne-rollen.md)
-- [Benutzerprofil](benutzerprofil.md)
+- [Anmelden](./anmelden.md)
+- [Neuer Benutzer ohne Rollen](./neuer-benutzer-ohne-rollen.md)
+- [Benutzerprofil](./benutzerprofil.md)
 - [Berechtigungen und Rollen](../berechtigungen.md)
