@@ -1,13 +1,14 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject, of} from 'rxjs';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {GuestComponent} from './guest.component';
 import {GuestShowDataService} from './guest-show-data.service';
 
 describe('GuestComponent', () => {
   let component: GuestComponent;
   let fixture: ComponentFixture<GuestComponent>;
-  let guestShowDataServiceSpy: jasmine.SpyObj<GuestShowDataService>;
+  let guestShowDataServiceSpy: {read: ReturnType<typeof vi.fn>; read$: ReturnType<typeof vi.fn>};
   let guestShowSubject: BehaviorSubject<unknown>;
 
   beforeEach(async () => {
@@ -26,8 +27,8 @@ describe('GuestComponent', () => {
         },
       ],
     });
-    guestShowDataServiceSpy = jasmine.createSpyObj<GuestShowDataService>('GuestShowDataService', ['read', 'read$']);
-    guestShowDataServiceSpy.read.and.resolveTo({
+    guestShowDataServiceSpy = {read: vi.fn(), read$: vi.fn()};
+    guestShowDataServiceSpy.read.mockResolvedValue({
       id: 'guest-1',
       showType: 'service-worship',
       date: {
@@ -42,7 +43,7 @@ describe('GuestComponent', () => {
         },
       ],
     } as never);
-    guestShowDataServiceSpy.read$.and.returnValue(guestShowSubject.asObservable() as never);
+    guestShowDataServiceSpy.read$.mockReturnValue(guestShowSubject.asObservable() as never);
 
     await TestBed.configureTestingModule({
       imports: [GuestComponent],

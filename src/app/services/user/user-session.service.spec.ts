@@ -2,23 +2,24 @@ import {TestBed} from '@angular/core/testing';
 import {Router} from '@angular/router';
 import {BehaviorSubject, firstValueFrom, of} from 'rxjs';
 import {Auth} from '@angular/fire/auth';
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 import {DbService} from '../db.service';
 import {UserSessionService} from './user-session.service';
 
 describe('UserSessionService', () => {
   let service: UserSessionService;
-  let dbServiceSpy: jasmine.SpyObj<DbService>;
-  let routerSpy: jasmine.SpyObj<Router>;
+  let dbServiceSpy: {col$: ReturnType<typeof vi.fn>; doc$: ReturnType<typeof vi.fn>; doc: ReturnType<typeof vi.fn>};
+  let routerSpy: {navigateByUrl: ReturnType<typeof vi.fn>};
   let authStateSubject: BehaviorSubject<unknown>;
-  let createAuthStateSpy: jasmine.Spy;
-  let runInFirebaseContextSpy: jasmine.Spy;
+  let createAuthStateSpy: ReturnType<typeof vi.fn>;
+  let runInFirebaseContextSpy: ReturnType<typeof vi.fn>;
 
   beforeEach(async () => {
     authStateSubject = new BehaviorSubject<unknown>(null);
-    dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['col$', 'doc$', 'doc']);
-    routerSpy = jasmine.createSpyObj<Router>('Router', ['navigateByUrl']);
-    dbServiceSpy.col$.and.returnValue(of([{id: 'user-1'}]) as never);
-    dbServiceSpy.doc$.and.callFake((path: string) => {
+    dbServiceSpy = {col$: vi.fn(), doc$: vi.fn(), doc: vi.fn()};
+    routerSpy = {navigateByUrl: vi.fn()};
+    dbServiceSpy.col$.mockReturnValue(of([{id: 'user-1'}]) as never);
+    dbServiceSpy.doc$.mockImplementation((path: string) => {
       if (path === 'users/user-1') {
         return of({id: 'user-1', name: 'Benjamin', role: 'leader', chordMode: 'letters', songUsage: {}}) as never;
       }
@@ -28,15 +29,15 @@ describe('UserSessionService', () => {
 
       return of(null) as never;
     });
-    dbServiceSpy.doc.and.returnValue({
-      update: jasmine.createSpy('update').and.resolveTo(),
-      set: jasmine.createSpy('set').and.resolveTo(),
+    dbServiceSpy.doc.mockReturnValue({
+      update: vi.fn().mockResolvedValue(undefined),
+      set: vi.fn().mockResolvedValue(undefined),
     } as never);
-    routerSpy.navigateByUrl.and.resolveTo(true);
+    routerSpy.navigateByUrl.mockResolvedValue(true);
 
-    createAuthStateSpy = spyOn(UserSessionService.prototype as UserSessionService & {createAuthState$: () => unknown}, 'createAuthState$').and.returnValue(
-      authStateSubject.asObservable() as never
-    );
+    createAuthStateSpy = vi
+      .spyOn(UserSessionService.prototype as unknown as {createAuthState$: () => unknown}, 'createAuthState$')
+      .mockReturnValue(authStateSubject.asObservable() as never) as unknown as ReturnType<typeof vi.fn>;
 
     await TestBed.configureTestingModule({
       providers: [
@@ -47,7 +48,13 @@ describe('UserSessionService', () => {
     });
 
     service = TestBed.inject(UserSessionService);
-    runInFirebaseContextSpy = spyOn(service as UserSessionService & {runInFirebaseContext: (...args: unknown[]) => Promise<unknown>}, 'runInFirebaseContext');
+    runInFirebaseContextSpy = vi.spyOn(service as unknown as {runInFirebaseContext: (...args: unknown[]) => Promise<unknown>}, 'runInFirebaseContext') as unknown as ReturnType<
+      typeof vi.fn
+    >;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should be created', () => {
@@ -58,14 +65,14 @@ describe('UserSessionService', () => {
   it('should derive userId$ and loggedIn$ from authState', async () => {
     authStateSubject.next({uid: 'user-1'});
 
-    await expectAsync(firstValueFrom(service.userId$)).toBeResolvedTo('user-1');
-    await expectAsync(firstValueFrom(service.loggedIn$())).toBeResolvedTo(true);
+    await expect(firstValueFrom(service.userId$)).resolves.toEqual('user-1');
+    await expect(firstValueFrom(service.loggedIn$())).resolves.toEqual(true);
   });
 
   it('should resolve the current user document from auth state', async () => {
     authStateSubject.next({uid: 'user-1'});
 
-    await expectAsync(firstValueFrom(service.user$)).toBeResolvedTo(jasmine.objectContaining({id: 'user-1', name: 'Benjamin'}) as never);
+    await expect(firstValueFrom(service.user$)).resolves.toEqual(expect.objectContaining({id: 'user-1', name: 'Benjamin'}) as never);
   });
 
   it('should cache user lookups by id', async () => {
@@ -73,30 +80,30 @@ describe('UserSessionService', () => {
     const second$ = service.getUserbyId$('user-2');
 
     expect(first$).toBe(second$);
-    await expectAsync(firstValueFrom(first$)).toBeResolvedTo(jasmine.objectContaining({id: 'user-2'}) as never);
+    await expect(firstValueFrom(first$)).resolves.toEqual(expect.objectContaining({id: 'user-2'}) as never);
   });
 
   it('should login and initialize songUsage when missing', async () => {
-    dbServiceSpy.doc$.and.callFake((path: string) => {
+    dbServiceSpy.doc$.mockImplementation((path: string) => {
       if (path === 'users/user-1') {
         return of({id: 'user-1', name: 'Benjamin', role: 'leader', chordMode: 'letters'}) as never;
       }
 
       return of(null) as never;
     });
-    const updateSpy = jasmine.createSpy('update').and.resolveTo();
-    dbServiceSpy.doc.and.returnValue({update: updateSpy} as never);
-    runInFirebaseContextSpy.and.resolveTo({user: {uid: 'user-1'}});
+    const updateSpy = vi.fn().mockResolvedValue(undefined);
+    dbServiceSpy.doc.mockReturnValue({update: updateSpy} as never);
+    runInFirebaseContextSpy.mockResolvedValue({user: {uid: 'user-1'}});
     authStateSubject.next({uid: 'user-1'});
 
-    await expectAsync(service.login('mail', 'secret')).toBeResolvedTo('user-1');
+    await expect(service.login('mail', 'secret')).resolves.toEqual('user-1');
 
     expect(runInFirebaseContextSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith({songUsage: {}});
   });
 
   it('should wait for auth state propagation before resolving login', async () => {
-    runInFirebaseContextSpy.and.resolveTo({user: {uid: 'user-1'}});
+    runInFirebaseContextSpy.mockResolvedValue({user: {uid: 'user-1'}});
 
     let resolved = false;
     const loginPromise = service.login('mail', 'secret').then(result => {
@@ -105,15 +112,15 @@ describe('UserSessionService', () => {
     });
 
     await Promise.resolve();
-    expect(resolved).toBeFalse();
+    expect(resolved).toBe(false);
 
     authStateSubject.next({uid: 'user-1'});
 
-    await expectAsync(loginPromise).toBeResolvedTo('user-1');
+    await expect(loginPromise).resolves.toEqual('user-1');
   });
 
   it('should delegate logout and password reset to AngularFire auth APIs', async () => {
-    runInFirebaseContextSpy.and.resolveTo();
+    runInFirebaseContextSpy.mockResolvedValue(undefined);
 
     await service.logout();
     await service.changePassword('mail@example.com');
@@ -122,16 +129,16 @@ describe('UserSessionService', () => {
   });
 
   it('should create a new user document and navigate afterwards', async () => {
-    dbServiceSpy.doc$.and.callFake((path: string) => {
+    dbServiceSpy.doc$.mockImplementation((path: string) => {
       if (path === 'users/user-3') {
         return of({id: 'user-3', name: 'New User', role: 'user', chordMode: 'onlyFirst', songUsage: {}}) as never;
       }
 
       return of(null) as never;
     });
-    const setSpy = jasmine.createSpy('set').and.resolveTo();
-    dbServiceSpy.doc.and.returnValue({set: setSpy} as never);
-    runInFirebaseContextSpy.and.resolveTo({user: {uid: 'user-3'}});
+    const setSpy = vi.fn().mockResolvedValue(undefined);
+    dbServiceSpy.doc.mockReturnValue({set: setSpy} as never);
+    runInFirebaseContextSpy.mockResolvedValue({user: {uid: 'user-3'}});
 
     await service.createNewUser('mail@example.com', 'New User', 'secret');
 

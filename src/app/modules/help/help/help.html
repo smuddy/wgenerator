@@ -1,7 +1,11 @@
 <app-page-frame title="Hilfe" [withMenu]="false">
   <div content>
     <app-card [heading]="heading">
-      <div (click)="onContentClick($event)" [innerHTML]="renderedHtml" class="help-content"></div>
+      <div (click)="onContentClick($event)"
+           (keydown)="onContentKeydown($event)"
+           [innerHTML]="renderedHtml"
+           class="help-content"
+           tabindex="0"></div>
 
 <!--      @if (loading && !hasLoadedContent) {-->
 <!--        <div class="help-state">Hilfe wird geladen.</div>-->

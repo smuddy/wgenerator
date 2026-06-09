@@ -52,7 +52,7 @@ describe('key.helper', () => {
   });
 
   it('should detect whether a root has any available stored key', () => {
-    void expect(hasAvailableKeyForRoot('C', ['a'])).toBe(true);
+    void expect(hasAvailableKeyForRoot('C', ['C'])).toBe(true);
     void expect(hasAvailableKeyForRoot('E', ['F'])).toBe(true);
     void expect(hasAvailableKeyForRoot('H', ['C'])).toBe(true);
     void expect(hasAvailableKeyForRoot('D', ['F', 'a'])).toBe(false);

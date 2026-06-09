@@ -1,31 +1,38 @@
 import {TestBed} from '@angular/core/testing';
 import {of} from 'rxjs';
+import {vi} from 'vitest';
 import {DbService} from '../../../services/db.service';
 import {ShowSongDataService} from './show-song-data.service';
 
 describe('ShowSongDataService', () => {
   let service: ShowSongDataService;
-  let docUpdateSpy: jasmine.Spy<() => Promise<void>>;
-  let docDeleteSpy: jasmine.Spy<() => Promise<void>>;
-  let docSpy: jasmine.Spy;
-  let colAddSpy: jasmine.Spy<() => Promise<{id: string}>>;
-  let colSpy: jasmine.Spy;
-  let dbServiceSpy: jasmine.SpyObj<DbService>;
+  let docUpdateSpy: ReturnType<typeof vi.fn>;
+  let docDeleteSpy: ReturnType<typeof vi.fn>;
+  let docSpy: ReturnType<typeof vi.fn>;
+  let colAddSpy: ReturnType<typeof vi.fn>;
+  let colSpy: ReturnType<typeof vi.fn>;
+  let dbServiceSpy: {
+    col$: ReturnType<typeof vi.fn>;
+    doc$: ReturnType<typeof vi.fn>;
+    doc: ReturnType<typeof vi.fn>;
+    col: ReturnType<typeof vi.fn>;
+  };
 
   beforeEach(async () => {
-    docUpdateSpy = jasmine.createSpy('update').and.resolveTo();
-    docDeleteSpy = jasmine.createSpy('delete').and.resolveTo();
-    docSpy = jasmine.createSpy('doc').and.returnValue({
+    docUpdateSpy = vi.fn().mockResolvedValue(undefined);
+    docDeleteSpy = vi.fn().mockResolvedValue(undefined);
+    docSpy = vi.fn().mockReturnValue({
       update: docUpdateSpy,
       delete: docDeleteSpy,
     });
-    colAddSpy = jasmine.createSpy('add').and.resolveTo({id: 'show-song-3'});
-    colSpy = jasmine.createSpy('col').and.returnValue({add: colAddSpy});
-    dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['col$', 'doc$', 'doc', 'col']);
-    dbServiceSpy.col$.and.callFake(() => of([{id: 'show-song-1'}]) as never);
-    dbServiceSpy.doc$.and.returnValue(of({id: 'show-song-1'}) as never);
-    dbServiceSpy.doc.and.callFake(docSpy);
-    dbServiceSpy.col.and.callFake(colSpy);
+    colAddSpy = vi.fn().mockResolvedValue({id: 'show-song-3'});
+    colSpy = vi.fn().mockReturnValue({add: colAddSpy});
+    dbServiceSpy = {
+      col$: vi.fn().mockImplementation(() => of([{id: 'show-song-1'}]) as never),
+      doc$: vi.fn().mockReturnValue(of({id: 'show-song-1'}) as never),
+      doc: docSpy,
+      col: colSpy,
+    };
 
     await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
@@ -77,7 +84,7 @@ describe('ShowSongDataService', () => {
     await service.update$('show-4', 'song-5', {title: 'Updated'} as never);
 
     expect(docSpy).toHaveBeenCalledWith('shows/show-4/songs/song-5');
-    const [updatePayload] = docUpdateSpy.calls.mostRecent().args as unknown as [Record<string, unknown>];
+    const [updatePayload] = docUpdateSpy.mock.lastCall as [Record<string, unknown>];
     expect(updatePayload).toEqual({title: 'Updated'});
   });
 
@@ -89,10 +96,10 @@ describe('ShowSongDataService', () => {
   });
 
   it('should add a song to the nested show songs collection and return the id', async () => {
-    await expectAsync(service.add('show-4', {songId: 'song-5'} as never)).toBeResolvedTo('show-song-3');
+    await expect(service.add('show-4', {songId: 'song-5'} as never)).resolves.toBe('show-song-3');
 
     expect(colSpy).toHaveBeenCalledWith('shows/show-4/songs');
-    const [addPayload] = colAddSpy.calls.mostRecent().args as unknown as [Record<string, unknown>];
+    const [addPayload] = colAddSpy.mock.lastCall as [Record<string, unknown>];
     expect(addPayload).toEqual({songId: 'song-5'});
   });
 });

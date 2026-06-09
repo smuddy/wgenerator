@@ -1,5 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 import {BehaviorSubject, of} from 'rxjs';
+import {vi} from 'vitest';
 import {SongDataService} from '../../songs/services/song-data.service';
 import {UserService} from '../../../services/user/user.service';
 import {ShowService} from './show.service';
@@ -12,10 +13,25 @@ import {User} from '../../../services/user/user';
 
 describe('ShowSongService', () => {
   let service: ShowSongService;
-  let showSongDataServiceSpy: jasmine.SpyObj<ShowSongDataService>;
-  let songDataServiceSpy: jasmine.SpyObj<SongDataService>;
-  let userServiceSpy: jasmine.SpyObj<UserService>;
-  let showServiceSpy: jasmine.SpyObj<ShowService>;
+  let showSongDataServiceSpy: {
+    add: ReturnType<typeof vi.fn>;
+    read$: ReturnType<typeof vi.fn>;
+    list$: ReturnType<typeof vi.fn>;
+    delete: ReturnType<typeof vi.fn>;
+    update$: ReturnType<typeof vi.fn>;
+  };
+  let songDataServiceSpy: {
+    read$: ReturnType<typeof vi.fn>;
+  };
+  let userServiceSpy: {
+    incSongCount: ReturnType<typeof vi.fn>;
+    decSongCount: ReturnType<typeof vi.fn>;
+    user$: ReturnType<BehaviorSubject<User | null>['asObservable']>;
+  };
+  let showServiceSpy: {
+    read$: ReturnType<typeof vi.fn>;
+    update$: ReturnType<typeof vi.fn>;
+  };
   let user$: BehaviorSubject<User | null>;
   const song = {id: 'song-1', key: 'G', title: 'Amazing Grace'} as unknown as Song;
   const showSong = {id: 'show-song-1', songId: 'song-1'} as unknown as ShowSong;
@@ -23,23 +39,36 @@ describe('ShowSongService', () => {
 
   beforeEach(async () => {
     user$ = new BehaviorSubject<User | null>({id: 'user-1', name: 'Benjamin', role: 'editor', chordMode: 'onlyFirst', songUsage: {}});
-    showSongDataServiceSpy = jasmine.createSpyObj<ShowSongDataService>('ShowSongDataService', ['add', 'read$', 'list$', 'delete', 'update$']);
-    songDataServiceSpy = jasmine.createSpyObj<SongDataService>('SongDataService', ['read$']);
-    userServiceSpy = jasmine.createSpyObj<UserService>('UserService', ['incSongCount', 'decSongCount'], {
+    showSongDataServiceSpy = {
+      add: vi.fn(),
+      read$: vi.fn(),
+      list$: vi.fn(),
+      delete: vi.fn(),
+      update$: vi.fn(),
+    };
+    songDataServiceSpy = {
+      read$: vi.fn(),
+    };
+    userServiceSpy = {
+      incSongCount: vi.fn(),
+      decSongCount: vi.fn(),
       user$: user$.asObservable(),
-    });
-    showServiceSpy = jasmine.createSpyObj<ShowService>('ShowService', ['read$', 'update$']);
+    };
+    showServiceSpy = {
+      read$: vi.fn(),
+      update$: vi.fn(),
+    };
 
-    showSongDataServiceSpy.add.and.resolveTo('show-song-2');
-    showSongDataServiceSpy.read$.and.returnValue(of(showSong));
-    showSongDataServiceSpy.list$.and.returnValue(of([showSong]));
-    showSongDataServiceSpy.delete.and.resolveTo();
-    showSongDataServiceSpy.update$.and.resolveTo();
-    songDataServiceSpy.read$.and.returnValue(of(song));
-    userServiceSpy.incSongCount.and.resolveTo();
-    userServiceSpy.decSongCount.and.resolveTo();
-    showServiceSpy.read$.and.returnValue(of(show));
-    showServiceSpy.update$.and.resolveTo();
+    showSongDataServiceSpy.add.mockResolvedValue('show-song-2');
+    showSongDataServiceSpy.read$.mockReturnValue(of(showSong));
+    showSongDataServiceSpy.list$.mockReturnValue(of([showSong]));
+    showSongDataServiceSpy.delete.mockResolvedValue(undefined);
+    showSongDataServiceSpy.update$.mockResolvedValue(undefined);
+    songDataServiceSpy.read$.mockReturnValue(of(song));
+    userServiceSpy.incSongCount.mockResolvedValue(undefined);
+    userServiceSpy.decSongCount.mockResolvedValue(undefined);
+    showServiceSpy.read$.mockReturnValue(of(show));
+    showServiceSpy.update$.mockResolvedValue(undefined);
 
     await TestBed.configureTestingModule({
       providers: [
@@ -58,7 +87,7 @@ describe('ShowSongService', () => {
   });
 
   it('should create a show song from the song and current user', async () => {
-    await expectAsync(service.new$('show-1', 'song-1', true)).toBeResolvedTo('show-song-2');
+    await expect(service.new$('show-1', 'song-1', true)).resolves.toBe('show-song-2');
 
     expect(userServiceSpy.incSongCount).toHaveBeenCalledWith('song-1');
     expect(showSongDataServiceSpy.add).toHaveBeenCalledWith('show-1', {
@@ -72,9 +101,9 @@ describe('ShowSongService', () => {
   });
 
   it('should return null when the song is missing', async () => {
-    songDataServiceSpy.read$.and.returnValue(of(null));
+    songDataServiceSpy.read$.mockReturnValue(of(null));
 
-    await expectAsync(service.new$('show-1', 'song-1')).toBeResolvedTo(null);
+    await expect(service.new$('show-1', 'song-1')).resolves.toBe(null);
 
     expect(showSongDataServiceSpy.add).not.toHaveBeenCalled();
     expect(userServiceSpy.incSongCount).not.toHaveBeenCalled();
@@ -83,19 +112,19 @@ describe('ShowSongService', () => {
   it('should return null when the current user is missing', async () => {
     user$.next(null);
 
-    await expectAsync(service.new$('show-1', 'song-1')).toBeResolvedTo(null);
+    await expect(service.new$('show-1', 'song-1')).resolves.toBe(null);
 
     expect(showSongDataServiceSpy.add).not.toHaveBeenCalled();
     expect(userServiceSpy.incSongCount).not.toHaveBeenCalled();
   });
 
   it('should delegate reads to the data service', async () => {
-    await expectAsync(service.read('show-1', 'show-song-1')).toBeResolvedTo(showSong);
+    await expect(service.read('show-1', 'show-song-1')).resolves.toBe(showSong);
     expect(showSongDataServiceSpy.read$).toHaveBeenCalledWith('show-1', 'show-song-1');
   });
 
   it('should delegate list access to the data service', async () => {
-    await expectAsync(service.list('show-1')).toBeResolvedTo([showSong]);
+    await expect(service.list('show-1')).resolves.toEqual([showSong]);
     expect(showSongDataServiceSpy.list$).toHaveBeenCalledWith('show-1');
   });
 
@@ -103,12 +132,12 @@ describe('ShowSongService', () => {
     await service.delete$('show-1', 'show-song-1', 0);
 
     expect(showSongDataServiceSpy.delete).toHaveBeenCalledWith('show-1', 'show-song-1');
-    expect(showServiceSpy.update$).toHaveBeenCalledWith('show-1', jasmine.objectContaining({order: ['show-song-2']}));
+    expect(showServiceSpy.update$).toHaveBeenCalledWith('show-1', expect.objectContaining({order: ['show-song-2']}));
     expect(userServiceSpy.decSongCount).toHaveBeenCalledWith('song-1');
   });
 
   it('should stop delete when the show is missing', async () => {
-    showServiceSpy.read$.and.returnValue(of(null));
+    showServiceSpy.read$.mockReturnValue(of(null));
 
     await service.delete$('show-1', 'show-song-1', 0);
 
@@ -118,7 +147,7 @@ describe('ShowSongService', () => {
   });
 
   it('should stop delete when the show song is missing', async () => {
-    showSongDataServiceSpy.read$.and.returnValue(of(null));
+    showSongDataServiceSpy.read$.mockReturnValue(of(null));
 
     await service.delete$('show-1', 'show-song-1', 0);
 

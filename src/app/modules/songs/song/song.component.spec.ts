@@ -18,20 +18,27 @@ describe('SongComponent', () => {
   };
 
   beforeEach(async () => {
-    const songServiceSpy = jasmine.createSpyObj<SongService>('SongService', ['read$']);
-    const fileDataServiceSpy = jasmine.createSpyObj<FileDataService>('FileDataService', ['read$']);
-    const userServiceSpy = jasmine.createSpyObj<UserService>('UserService', ['incSongCount', 'decSongCount'], {
+    const songServiceSpy = {
+      read$: vi.fn().mockReturnValue(of({id: '4711', title: 'Test Song', number: '1', text: '', showType: '', flags: ''} as never)),
+    };
+    const fileDataServiceSpy = {
+      read$: vi.fn().mockReturnValue(of([])),
+    };
+    const userServiceSpy = {
+      incSongCount: vi.fn(),
+      decSongCount: vi.fn(),
       user$: of({id: 'user-1', name: 'Benjamin', role: 'leader', chordMode: 'onlyFirst', songUsage: {'4711': 2}}),
       userId$: of('user-1'),
-    });
-    const showServiceSpy = jasmine.createSpyObj<ShowService>('ShowService', ['list$', 'update$']);
-    const showSongServiceSpy = jasmine.createSpyObj<ShowSongService>('ShowSongService', ['new$']);
-
-    songServiceSpy.read$.and.returnValue(of({id: '4711', title: 'Test Song', number: '1', text: '', showType: '', flags: ''} as never));
-    fileDataServiceSpy.read$.and.returnValue(of([]));
-    showServiceSpy.list$.and.returnValue(of([]));
-    userServiceSpy.loggedIn$ = jasmine.createSpy('loggedIn$').and.returnValue(of(true));
-    userServiceSpy.getUserbyId$ = jasmine.createSpy('getUserbyId$').and.returnValue(of({name: 'Benjamin'}));
+      loggedIn$: vi.fn().mockReturnValue(of(true)),
+      getUserbyId$: vi.fn().mockReturnValue(of({name: 'Benjamin'})),
+    };
+    const showServiceSpy = {
+      list$: vi.fn().mockReturnValue(of([])),
+      update$: vi.fn(),
+    };
+    const showSongServiceSpy = {
+      new$: vi.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [SongComponent],

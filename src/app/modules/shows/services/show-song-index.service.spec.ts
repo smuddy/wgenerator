@@ -1,5 +1,6 @@
 import {TestBed} from '@angular/core/testing';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
+import {vi} from 'vitest';
 import {ShowDataService} from './show-data.service';
 import {ShowSongDataService} from './show-song-data.service';
 import {ShowSongIndexService} from './show-song-index.service';
@@ -8,20 +9,34 @@ import {User} from '../../../services/user/user';
 
 describe('ShowSongIndexService', () => {
   let service: ShowSongIndexService;
-  let showDataServiceSpy: jasmine.SpyObj<ShowDataService>;
-  let showSongDataServiceSpy: jasmine.SpyObj<ShowSongDataService>;
-  let sessionSpy: jasmine.SpyObj<UserSessionService>;
+  let showDataServiceSpy: {
+    listRaw$: ReturnType<typeof vi.fn>;
+    update: ReturnType<typeof vi.fn>;
+  };
+  let showSongDataServiceSpy: {
+    list$: ReturnType<typeof vi.fn>;
+  };
+  let sessionSpy: {
+    update$: ReturnType<typeof vi.fn>;
+    user$: Observable<User>;
+  };
 
   beforeEach(async () => {
-    showDataServiceSpy = jasmine.createSpyObj<ShowDataService>('ShowDataService', ['listRaw$', 'update']);
-    showSongDataServiceSpy = jasmine.createSpyObj<ShowSongDataService>('ShowSongDataService', ['list$']);
-    sessionSpy = jasmine.createSpyObj<UserSessionService>('UserSessionService', ['update$'], {
+    showDataServiceSpy = {
+      listRaw$: vi.fn(),
+      update: vi.fn(),
+    };
+    showSongDataServiceSpy = {
+      list$: vi.fn(),
+    };
+    sessionSpy = {
+      update$: vi.fn(),
       user$: of({id: 'admin-1', name: 'Admin', role: 'admin', chordMode: 'onlyFirst', songUsage: {}} as User),
-    });
+    };
 
-    showDataServiceSpy.listRaw$.and.returnValue(of([{id: 'show-1'}, {id: 'show-2'}] as never) as unknown as ReturnType<ShowDataService['listRaw$']>);
-    showDataServiceSpy.update.and.resolveTo();
-    showSongDataServiceSpy.list$.and.callFake((showId: string) => {
+    showDataServiceSpy.listRaw$.mockReturnValue(of([{id: 'show-1'}, {id: 'show-2'}] as never) as unknown as ReturnType<ShowDataService['listRaw$']>);
+    showDataServiceSpy.update.mockResolvedValue(undefined);
+    showSongDataServiceSpy.list$.mockImplementation((showId: string) => {
       if (showId === 'show-1') {
         return of([{songId: 'song-1'}, {songId: 'song-2'}, {songId: 'song-1'}] as never) as never;
       }
@@ -41,7 +56,7 @@ describe('ShowSongIndexService', () => {
   });
 
   it('should rebuild the distinct songIds index for all shows', async () => {
-    await expectAsync(service.rebuildShowSongIds()).toBeResolvedTo({
+    await expect(service.rebuildShowSongIds()).resolves.toEqual({
       showsProcessed: 2,
       showSongsProcessed: 4,
     });
@@ -55,6 +70,6 @@ describe('ShowSongIndexService', () => {
       value: of({id: 'user-1', name: 'User', role: 'leader', chordMode: 'onlyFirst', songUsage: {}} as User),
     });
 
-    await expectAsync(service.rebuildShowSongIds()).toBeRejectedWithError('Admin role required to rebuild show song ids.');
+    await expect(service.rebuildShowSongIds()).rejects.toThrow('Admin role required to rebuild show song ids.');
   });
 });

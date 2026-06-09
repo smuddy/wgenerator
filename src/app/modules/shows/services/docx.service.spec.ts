@@ -1,4 +1,5 @@
 import {TestBed} from '@angular/core/testing';
+import {vi} from 'vitest';
 import {DocxService} from './docx.service';
 
 describe('DocxService', () => {
@@ -15,7 +16,7 @@ describe('DocxService', () => {
   type DocxModuleLike = {
     Packer: {toBlob: (document: unknown) => Promise<Blob>};
   };
-  type DocxServiceInternals = DocxService & {
+  type DocxServiceInternals = {
     prepareData: (showId: string) => Promise<PreparedData | null>;
     renderTitle: (docx: unknown, title: string) => unknown[];
     renderSongs: (docx: unknown, songs: unknown[], options: unknown, config: unknown) => unknown[];
@@ -29,14 +30,18 @@ describe('DocxService', () => {
     service = TestBed.inject(DocxService);
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should be created', () => {
     void expect(service).toBeTruthy();
   });
 
   it('should not try to save a document when the required data cannot be prepared', async () => {
-    const serviceInternals = service as DocxServiceInternals;
-    const prepareDataSpy = spyOn(serviceInternals, 'prepareData').and.resolveTo(null);
-    const saveAsSpy = spyOn(serviceInternals, 'saveAs');
+    const serviceInternals = service as unknown as DocxServiceInternals;
+    const prepareDataSpy = vi.spyOn(serviceInternals, 'prepareData').mockResolvedValue(null);
+    const saveAsSpy = vi.spyOn(serviceInternals, 'saveAs');
 
     await service.create('show-1');
 
@@ -48,11 +53,11 @@ describe('DocxService', () => {
     const blob = new Blob(['docx']);
     const docxModule: DocxModuleLike = {
       Packer: {
-        toBlob: jasmine.createSpy('toBlob').and.resolveTo(blob),
+        toBlob: vi.fn().mockResolvedValue(blob),
       },
     };
-    const serviceInternals = service as DocxServiceInternals;
-    const prepareDataSpy = spyOn(serviceInternals, 'prepareData').and.resolveTo({
+    const serviceInternals = service as unknown as DocxServiceInternals;
+    const prepareDataSpy = vi.spyOn(serviceInternals, 'prepareData').mockResolvedValue({
       show: {
         showType: 'service-worship',
         date: {toDate: () => new Date('2026-03-10T00:00:00Z')},
@@ -61,17 +66,17 @@ describe('DocxService', () => {
       user: {name: 'Benjamin'},
       config: {ccliLicenseId: '12345'},
     });
-    spyOn(serviceInternals, 'loadDocx').and.resolveTo(docxModule);
-    spyOn(serviceInternals, 'renderTitle').and.returnValue([]);
-    spyOn(serviceInternals, 'renderSongs').and.returnValue([]);
-    const prepareNewDocumentSpy = spyOn(serviceInternals, 'prepareNewDocument').and.returnValue({doc: true});
-    const saveAsSpy = spyOn(serviceInternals, 'saveAs');
+    vi.spyOn(serviceInternals, 'loadDocx').mockResolvedValue(docxModule);
+    vi.spyOn(serviceInternals, 'renderTitle').mockReturnValue([]);
+    vi.spyOn(serviceInternals, 'renderSongs').mockReturnValue([]);
+    const prepareNewDocumentSpy = vi.spyOn(serviceInternals, 'prepareNewDocument').mockReturnValue({doc: true});
+    const saveAsSpy = vi.spyOn(serviceInternals, 'saveAs');
 
     await service.create('show-1', {copyright: true});
 
     expect(prepareDataSpy).toHaveBeenCalledWith('show-1');
     expect(prepareNewDocumentSpy).toHaveBeenCalled();
     expect(docxModule.Packer.toBlob).toHaveBeenCalledWith({doc: true} as never);
-    expect(saveAsSpy).toHaveBeenCalledWith(blob, jasmine.stringMatching(/\.docx$/));
+    expect(saveAsSpy).toHaveBeenCalledWith(blob, expect.stringMatching(/\.docx$/));
   });
 });

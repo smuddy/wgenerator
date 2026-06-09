@@ -31,10 +31,10 @@ describe('ReportDialogComponent', () => {
   });
 
   it('should mark numbers as opened locally', () => {
-    expect(component.wasOpened('12345')).toBeFalse();
+    expect(component.wasOpened('12345')).toBe(false);
 
     component.markOpened('12345');
 
-    expect(component.wasOpened('12345')).toBeTrue();
+    expect(component.wasOpened('12345')).toBe(true);
   });
 });

@@ -7,8 +7,14 @@ import {Timestamp} from '@angular/fire/firestore';
 
 describe('SongService', () => {
   let service: SongService;
-  let songDataServiceSpy: jasmine.SpyObj<SongDataService>;
-  let userServiceSpy: jasmine.SpyObj<UserService>;
+  let songDataServiceSpy: {
+    read$: ReturnType<typeof vi.fn>;
+    update$: ReturnType<typeof vi.fn>;
+    add: ReturnType<typeof vi.fn>;
+    delete: ReturnType<typeof vi.fn>;
+    list$: unknown;
+  };
+  let userServiceSpy: {currentUser: ReturnType<typeof vi.fn>};
   const song = {
     id: 'song-1',
     title: 'Amazing Grace',
@@ -16,16 +22,22 @@ describe('SongService', () => {
   } as never;
 
   beforeEach(async () => {
-    songDataServiceSpy = jasmine.createSpyObj<SongDataService>('SongDataService', ['read$', 'update$', 'add', 'delete'], {
+    songDataServiceSpy = {
+      read$: vi.fn(),
+      update$: vi.fn(),
+      add: vi.fn(),
+      delete: vi.fn(),
       list$: of([song]),
-    });
-    userServiceSpy = jasmine.createSpyObj<UserService>('UserService', ['currentUser']);
+    };
+    userServiceSpy = {
+      currentUser: vi.fn(),
+    };
 
-    songDataServiceSpy.read$.and.returnValue(of(song));
-    songDataServiceSpy.update$.and.resolveTo();
-    songDataServiceSpy.add.and.resolveTo('song-2');
-    songDataServiceSpy.delete.and.resolveTo();
-    userServiceSpy.currentUser.and.resolveTo({name: 'Benjamin'} as never);
+    songDataServiceSpy.read$.mockReturnValue(of(song));
+    songDataServiceSpy.update$.mockResolvedValue(undefined);
+    songDataServiceSpy.add.mockResolvedValue('song-2');
+    songDataServiceSpy.delete.mockResolvedValue(undefined);
+    userServiceSpy.currentUser.mockResolvedValue({name: 'Benjamin'} as never);
 
     await TestBed.configureTestingModule({
       providers: [
@@ -37,33 +49,37 @@ describe('SongService', () => {
     service = TestBed.inject(SongService);
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
   it('should list songs from the data service', async () => {
-    await expectAsync(firstValueFrom(service.list$())).toBeResolvedTo([song]);
+    await expect(firstValueFrom(service.list$())).resolves.toEqual([song]);
   });
 
   it('should delegate reads to the data service', async () => {
-    await expectAsync(service.read('song-1')).toBeResolvedTo(song);
+    await expect(service.read('song-1')).resolves.toEqual(song);
     expect(songDataServiceSpy.read$).toHaveBeenCalledWith('song-1');
   });
 
   it('should append an edit with the current user when updating a song', async () => {
     const timestamp = {seconds: 1} as never;
-    spyOn(Timestamp, 'now').and.returnValue(timestamp);
+    vi.spyOn(Timestamp, 'now').mockReturnValue(timestamp);
 
     await service.update$('song-1', {title: 'Updated'});
 
     expect(songDataServiceSpy.update$).toHaveBeenCalled();
-    const [, payload] = songDataServiceSpy.update$.calls.mostRecent().args as unknown as [string, Record<string, unknown>];
+    const [, payload] = songDataServiceSpy.update$.mock.calls.at(-1) as unknown as [string, Record<string, unknown>];
     expect(payload.title).toBe('Updated');
     expect(payload.edits).toEqual([{username: 'Benjamin', timestamp}]);
   });
 
   it('should not update when the song does not exist', async () => {
-    songDataServiceSpy.read$.and.returnValue(of(null));
+    songDataServiceSpy.read$.mockReturnValue(of(null));
 
     await service.update$('missing-song', {title: 'Updated'});
 
@@ -71,7 +87,7 @@ describe('SongService', () => {
   });
 
   it('should not update when no current user is available', async () => {
-    userServiceSpy.currentUser.and.resolveTo(null);
+    userServiceSpy.currentUser.mockResolvedValue(null);
 
     await service.update$('song-1', {title: 'Updated'});
 
@@ -79,7 +95,7 @@ describe('SongService', () => {
   });
 
   it('should create new songs with the expected defaults', async () => {
-    await expectAsync(service.new(42, 'New Song')).toBeResolvedTo('song-2');
+    await expect(service.new(42, 'New Song')).resolves.toEqual('song-2');
 
     expect(songDataServiceSpy.add).toHaveBeenCalledWith({
       number: 42,

@@ -1,29 +1,36 @@
 import {TestBed} from '@angular/core/testing';
 import {firstValueFrom, of, Subject} from 'rxjs';
 import {take} from 'rxjs/operators';
+import {vi} from 'vitest';
 import {DbService} from '../../../services/db.service';
 import {ShowDataService} from './show-data.service';
 
 describe('ShowDataService', () => {
   let service: ShowDataService;
   let shows$: Subject<Array<{id: string; date: {toMillis: () => number}; archived?: boolean}>>;
-  let docUpdateSpy: jasmine.Spy<() => Promise<void>>;
-  let docSpy: jasmine.Spy;
-  let colAddSpy: jasmine.Spy<() => Promise<{id: string}>>;
-  let colSpy: jasmine.Spy;
-  let dbServiceSpy: jasmine.SpyObj<DbService>;
+  let docUpdateSpy: ReturnType<typeof vi.fn>;
+  let docSpy: ReturnType<typeof vi.fn>;
+  let colAddSpy: ReturnType<typeof vi.fn>;
+  let colSpy: ReturnType<typeof vi.fn>;
+  let dbServiceSpy: {
+    col$: ReturnType<typeof vi.fn>;
+    doc$: ReturnType<typeof vi.fn>;
+    doc: ReturnType<typeof vi.fn>;
+    col: ReturnType<typeof vi.fn>;
+  };
 
   beforeEach(async () => {
     shows$ = new Subject<Array<{id: string; date: {toMillis: () => number}; archived?: boolean}>>();
-    docUpdateSpy = jasmine.createSpy('update').and.resolveTo();
-    docSpy = jasmine.createSpy('doc').and.returnValue({update: docUpdateSpy});
-    colAddSpy = jasmine.createSpy('add').and.resolveTo({id: 'show-3'});
-    colSpy = jasmine.createSpy('col').and.returnValue({add: colAddSpy});
-    dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['col$', 'doc$', 'doc', 'col']);
-    dbServiceSpy.col$.and.returnValue(shows$.asObservable());
-    dbServiceSpy.doc$.and.returnValue(of(null));
-    dbServiceSpy.doc.and.callFake(docSpy);
-    dbServiceSpy.col.and.callFake(colSpy);
+    docUpdateSpy = vi.fn().mockResolvedValue(undefined);
+    docSpy = vi.fn().mockReturnValue({update: docUpdateSpy});
+    colAddSpy = vi.fn().mockResolvedValue({id: 'show-3'});
+    colSpy = vi.fn().mockReturnValue({add: colAddSpy});
+    dbServiceSpy = {
+      col$: vi.fn().mockReturnValue(shows$.asObservable()),
+      doc$: vi.fn().mockReturnValue(of(null)),
+      doc: docSpy,
+      col: colSpy,
+    };
 
     await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
@@ -77,12 +84,12 @@ describe('ShowDataService', () => {
 
   it('should request only published recent shows and filter archived entries', async () => {
     const publicShows$ = of([{id: 'show-1', archived: false}, {id: 'show-2', archived: true}, {id: 'show-3'}]);
-    dbServiceSpy.col$.and.returnValue(publicShows$ as never);
+    dbServiceSpy.col$.mockReturnValue(publicShows$ as never);
 
     const result = await firstValueFrom(service.listPublicSince$(3));
 
-    expect(dbServiceSpy.col$).toHaveBeenCalledWith('shows', jasmine.any(Array));
-    const [, queryConstraints] = dbServiceSpy.col$.calls.mostRecent().args as [string, unknown[]];
+    expect(dbServiceSpy.col$).toHaveBeenCalledWith('shows', expect.any(Array));
+    const [, queryConstraints] = dbServiceSpy.col$.mock.lastCall as [string, unknown[]];
     expect(queryConstraints.length).toBe(3);
     expect(result.map(show => show.id)).toEqual(['show-1', 'show-3']);
   });
@@ -97,15 +104,15 @@ describe('ShowDataService', () => {
     await service.update('show-8', {archived: true});
 
     expect(docSpy).toHaveBeenCalledWith('shows/show-8');
-    const [updatePayload] = docUpdateSpy.calls.mostRecent().args as unknown as [Record<string, unknown>];
+    const [updatePayload] = docUpdateSpy.mock.lastCall as [Record<string, unknown>];
     expect(updatePayload).toEqual({archived: true});
   });
 
   it('should add a show to the shows collection and return the new id', async () => {
-    await expectAsync(service.add({published: true})).toBeResolvedTo('show-3');
+    await expect(service.add({published: true})).resolves.toBe('show-3');
 
     expect(colSpy).toHaveBeenCalledWith('shows');
-    const [addPayload] = colAddSpy.calls.mostRecent().args as unknown as [Record<string, unknown>];
+    const [addPayload] = colAddSpy.mock.lastCall as [Record<string, unknown>];
     expect(addPayload).toEqual({published: true});
   });
 });

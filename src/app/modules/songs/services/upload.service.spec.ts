@@ -6,26 +6,29 @@ import {UploadService} from './upload.service';
 
 describe('UploadService', () => {
   let service: UploadService;
-  let fileDataServiceSpy: jasmine.SpyObj<FileDataService>;
+  let fileDataServiceSpy: {set: ReturnType<typeof vi.fn>};
   type UploadTaskLike = {
     on: (event: string, progress: (snapshot: {bytesTransferred: number; totalBytes: number}) => void, error: () => void, success: () => void) => void;
   };
-  type UploadServiceInternals = UploadService & {
-    startUpload: (path: string, file: File) => UploadTaskLike;
-  };
 
   beforeEach(async () => {
-    fileDataServiceSpy = jasmine.createSpyObj<FileDataService>('FileDataService', ['set']);
-    fileDataServiceSpy.set.and.resolveTo('file-1');
+    fileDataServiceSpy = {
+      set: vi.fn().mockResolvedValue('file-1'),
+    };
 
     await TestBed.configureTestingModule({
       providers: [
+        UploadService,
         {provide: Storage, useValue: {app: 'test-storage'}},
         {provide: FileDataService, useValue: fileDataServiceSpy},
       ],
     });
 
     service = TestBed.inject(UploadService);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should be created', () => {
@@ -39,7 +42,8 @@ describe('UploadService', () => {
         success();
       },
     };
-    const uploadSpy = spyOn(service as UploadServiceInternals, 'startUpload').and.returnValue(task);
+    const uploadSpy = vi.fn<(path: string, file: File) => UploadTaskLike>().mockReturnValue(task);
+    Object.assign(service, {startUpload: uploadSpy});
     const upload = new Upload(new File(['content'], 'test.pdf', {type: 'application/pdf'}));
 
     service.pushUpload('song-1', upload);
@@ -50,10 +54,10 @@ describe('UploadService', () => {
     expect(upload.path).toBe('/attachments/song-1');
     expect(fileDataServiceSpy.set).toHaveBeenCalledWith(
       'song-1',
-      jasmine.objectContaining({
+      expect.objectContaining({
         name: 'test.pdf',
         path: '/attachments/song-1',
-        createdAt: jasmine.any(Date),
+        createdAt: expect.any(Date),
       })
     );
   });

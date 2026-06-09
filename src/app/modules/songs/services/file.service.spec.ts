@@ -5,18 +5,16 @@ import {FileService} from './file.service';
 
 describe('FileService', () => {
   let service: FileService;
-  let fileDataServiceSpy: jasmine.SpyObj<FileDataService>;
-  type FileServiceInternals = FileService & {
-    resolveDownloadUrl: (path: string) => Promise<string>;
-    deleteFromStorage: (path: string) => Promise<void>;
-  };
+  let fileDataServiceSpy: {delete: ReturnType<typeof vi.fn>};
 
   beforeEach(async () => {
-    fileDataServiceSpy = jasmine.createSpyObj<FileDataService>('FileDataService', ['delete']);
-    fileDataServiceSpy.delete.and.resolveTo();
+    fileDataServiceSpy = {
+      delete: vi.fn().mockResolvedValue(undefined),
+    };
 
     await TestBed.configureTestingModule({
       providers: [
+        FileService,
         {provide: Storage, useValue: {app: 'test-storage'}},
         {provide: FileDataService, useValue: fileDataServiceSpy},
       ],
@@ -25,20 +23,26 @@ describe('FileService', () => {
     service = TestBed.inject(FileService);
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
   it('should resolve download urls via AngularFire storage helpers', async () => {
-    const resolveSpy = spyOn(service as FileServiceInternals, 'resolveDownloadUrl').and.resolveTo('https://cdn.example/file.pdf');
+    const resolveSpy = vi.fn<(path: string) => Promise<string>>().mockResolvedValue('https://cdn.example/file.pdf');
+    Object.assign(service, {resolveDownloadUrl: resolveSpy});
 
-    await expectAsync(service.getDownloadUrl('songs/song-1/file.pdf').toPromise()).toBeResolvedTo('https://cdn.example/file.pdf');
+    await expect(service.getDownloadUrl('songs/song-1/file.pdf').toPromise()).resolves.toEqual('https://cdn.example/file.pdf');
 
     expect(resolveSpy).toHaveBeenCalledWith('songs/song-1/file.pdf');
   });
 
   it('should delete the file from storage and metadata from firestore', async () => {
-    const deleteFromStorageSpy = spyOn(service as FileServiceInternals, 'deleteFromStorage').and.resolveTo();
+    const deleteFromStorageSpy = vi.fn<(path: string) => Promise<void>>().mockResolvedValue(undefined);
+    Object.assign(service, {deleteFromStorage: deleteFromStorageSpy});
 
     await service.delete('songs/song-1/file.pdf', 'song-1', 'file-1');
 

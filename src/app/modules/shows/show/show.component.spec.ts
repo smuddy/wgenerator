@@ -1,5 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {BehaviorSubject, of} from 'rxjs';
+import {vi} from 'vitest';
 import {ShowComponent} from './show.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ShowService} from '../services/show.service';
@@ -13,23 +14,39 @@ import {GuestShowService} from '../../guest/guest-show.service';
 describe('ShowComponent', () => {
   let component: ShowComponent;
   let fixture: ComponentFixture<ShowComponent>;
-  let showServiceSpy: jasmine.SpyObj<ShowService>;
-  let showSongServiceSpy: jasmine.SpyObj<ShowSongService>;
-  let dialogSpy: jasmine.SpyObj<MatDialog>;
+  let showServiceSpy: {
+    update$: ReturnType<typeof vi.fn>;
+    read$: ReturnType<typeof vi.fn>;
+  };
+  let showSongServiceSpy: {
+    list$: ReturnType<typeof vi.fn>;
+    list: ReturnType<typeof vi.fn>;
+  };
+  let dialogSpy: {
+    open: ReturnType<typeof vi.fn>;
+  };
   let user$: BehaviorSubject<unknown>;
   let userId$: BehaviorSubject<string | null>;
 
   beforeEach(async () => {
-    showServiceSpy = jasmine.createSpyObj<ShowService>('ShowService', ['update$', 'read$']);
-    showSongServiceSpy = jasmine.createSpyObj<ShowSongService>('ShowSongService', ['list$', 'list']);
-    dialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+    showServiceSpy = {
+      update$: vi.fn(),
+      read$: vi.fn(),
+    };
+    showSongServiceSpy = {
+      list$: vi.fn(),
+      list: vi.fn(),
+    };
+    dialogSpy = {
+      open: vi.fn(),
+    };
     user$ = new BehaviorSubject<unknown>({id: 'user-1', role: ['leader']});
     userId$ = new BehaviorSubject<string | null>('user-1');
 
-    showServiceSpy.read$.and.returnValue(of(null));
-    showServiceSpy.update$.and.resolveTo();
-    showSongServiceSpy.list$.and.returnValue(of([]));
-    showSongServiceSpy.list.and.resolveTo([]);
+    showServiceSpy.read$.mockReturnValue(of(null));
+    showServiceSpy.update$.mockResolvedValue(undefined);
+    showSongServiceSpy.list$.mockReturnValue(of([]));
+    showSongServiceSpy.list.mockResolvedValue([]);
 
     await TestBed.configureTestingModule({
       imports: [ShowComponent],
@@ -38,8 +55,8 @@ describe('ShowComponent', () => {
         {provide: ShowService, useValue: showServiceSpy},
         {provide: SongService, useValue: {list$: () => of([])}},
         {provide: ShowSongService, useValue: showSongServiceSpy},
-        {provide: DocxService, useValue: {create: jasmine.createSpy('create').and.resolveTo()}},
-        {provide: Router, useValue: {navigateByUrl: jasmine.createSpy('navigateByUrl')}},
+        {provide: DocxService, useValue: {create: vi.fn().mockResolvedValue(undefined)}},
+        {provide: Router, useValue: {navigateByUrl: vi.fn()}},
         {
           provide: UserService,
           useValue: {
@@ -49,7 +66,7 @@ describe('ShowComponent', () => {
           },
         },
         {provide: MatDialog, useValue: dialogSpy},
-        {provide: GuestShowService, useValue: {share: jasmine.createSpy('share').and.resolveTo('https://example.invalid')}},
+        {provide: GuestShowService, useValue: {share: vi.fn().mockResolvedValue('https://example.invalid')}},
       ],
     }).compileComponents();
 
@@ -74,7 +91,7 @@ describe('ShowComponent', () => {
   });
 
   it('should set pending for public shows with reportable CCLI songs', async () => {
-    showSongServiceSpy.list.and.resolveTo([{legalOwner: 'CCLI', legalOwnerId: '123'}] as never);
+    showSongServiceSpy.list.mockResolvedValue([{legalOwner: 'CCLI', legalOwnerId: '123'}] as never);
 
     await component.onPublish({id: 'show-1', public: true} as never, true);
 
@@ -82,7 +99,7 @@ describe('ShowComponent', () => {
   });
 
   it('should set not-required for public shows without reportable CCLI songs', async () => {
-    showSongServiceSpy.list.and.resolveTo([{legalOwner: 'CCLI', legalOwnerId: ''}] as never);
+    showSongServiceSpy.list.mockResolvedValue([{legalOwner: 'CCLI', legalOwnerId: ''}] as never);
 
     await component.onPublish({id: 'show-1', public: true} as never, true);
 
@@ -96,11 +113,11 @@ describe('ShowComponent', () => {
       {id: 'show-song-3', songId: 'song-2', title: 'Beta', legalOwner: 'other', legalOwnerId: '456'},
       {id: 'show-song-4', songId: 'song-3', title: 'Gamma', legalOwner: 'CCLI', legalOwnerId: '789'},
     ] as never;
-    dialogSpy.open.and.returnValue({afterClosed: () => of(true)} as never);
+    dialogSpy.open.mockReturnValue({afterClosed: () => of(true)} as never);
 
     component.onReport({id: 'show-1', order: ['show-song-1', 'show-song-2', 'show-song-3', 'show-song-4']} as never);
 
-    expect(dialogSpy.open).toHaveBeenCalledWith(jasmine.any(Function), {
+    expect(dialogSpy.open).toHaveBeenCalledWith(expect.any(Function), {
       width: '640px',
       data: {
         songs: [

@@ -1,11 +1,12 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ShareDialogComponent} from './share-dialog.component';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {vi} from 'vitest';
 
 describe('ShareDialogComponent', () => {
   let component: ShareDialogComponent;
   let fixture: ComponentFixture<ShareDialogComponent>;
-  type ShareDialogComponentInternals = ShareDialogComponent & {
+  type ShareDialogComponentInternals = {
     generateQrCode: () => Promise<string>;
   };
 
@@ -28,8 +29,12 @@ describe('ShareDialogComponent', () => {
 
     fixture = TestBed.createComponent(ShareDialogComponent);
     component = fixture.componentInstance;
-    spyOn(component as ShareDialogComponentInternals, 'generateQrCode').and.resolveTo('data:image/jpeg;base64,test');
+    vi.spyOn(component as unknown as ShareDialogComponentInternals, 'generateQrCode').mockResolvedValue('data:image/jpeg;base64,test');
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should create', () => {

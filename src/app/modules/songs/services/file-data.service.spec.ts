@@ -5,30 +5,29 @@ import {FileDataService} from './file-data.service';
 
 describe('FileDataService', () => {
   let service: FileDataService;
-  let filesCollectionValueChangesSpy: jasmine.Spy;
-  let filesCollectionAddSpy: jasmine.Spy;
-  let songDocCollectionSpy: jasmine.Spy;
-  let songDocSpy: jasmine.Spy;
-  let fileDeleteSpy: jasmine.Spy;
-  let dbServiceSpy: jasmine.SpyObj<DbService>;
+  let filesCollectionValueChangesSpy: ReturnType<typeof vi.fn<() => unknown>>;
+  let filesCollectionAddSpy: ReturnType<typeof vi.fn<() => Promise<{id: string}>>>;
+  let songDocCollectionSpy: ReturnType<typeof vi.fn<() => {add: typeof filesCollectionAddSpy; valueChanges: typeof filesCollectionValueChangesSpy}>>;
+  let songDocSpy: ReturnType<typeof vi.fn<(path: string) => unknown>>;
+  let fileDeleteSpy: ReturnType<typeof vi.fn<() => Promise<void>>>;
+  let dbServiceSpy: {doc: typeof songDocSpy};
 
   beforeEach(async () => {
-    filesCollectionValueChangesSpy = jasmine.createSpy('valueChanges').and.returnValue(of([{id: 'file-1', name: 'plan.pdf'}]));
-    filesCollectionAddSpy = jasmine.createSpy('add').and.resolveTo({id: 'file-2'});
-    songDocCollectionSpy = jasmine.createSpy('collection').and.returnValue({
+    filesCollectionValueChangesSpy = vi.fn().mockReturnValue(of([{id: 'file-1', name: 'plan.pdf'}]));
+    filesCollectionAddSpy = vi.fn().mockResolvedValue({id: 'file-2'});
+    songDocCollectionSpy = vi.fn().mockReturnValue({
       add: filesCollectionAddSpy,
       valueChanges: filesCollectionValueChangesSpy,
     });
-    songDocSpy = jasmine.createSpy('songDoc').and.callFake((path: string) => {
+    songDocSpy = vi.fn().mockImplementation((path: string) => {
       if (path.includes('/files/')) {
         return {delete: fileDeleteSpy};
       }
 
       return {collection: songDocCollectionSpy};
     });
-    fileDeleteSpy = jasmine.createSpy('delete').and.resolveTo();
-    dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['doc']);
-    dbServiceSpy.doc.and.callFake(songDocSpy);
+    fileDeleteSpy = vi.fn().mockResolvedValue(undefined);
+    dbServiceSpy = {doc: songDocSpy};
 
     await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
@@ -44,7 +43,7 @@ describe('FileDataService', () => {
   it('should add files to the song files subcollection and return the generated id', async () => {
     const file = {name: 'setlist.pdf', path: 'songs/song-1/files', createdAt: new Date()};
 
-    await expectAsync(service.set('song-1', file)).toBeResolvedTo('file-2');
+    await expect(service.set('song-1', file)).resolves.toEqual('file-2');
 
     expect(songDocSpy).toHaveBeenCalledWith('songs/song-1');
     expect(songDocCollectionSpy).toHaveBeenCalledWith('files');

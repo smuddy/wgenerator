@@ -7,7 +7,7 @@ import {ChordAddDescriptor} from './chord';
 
 describe('TextRenderingService', () => {
   const descriptor = (raw: string, partial: Partial<ChordAddDescriptor>) =>
-    jasmine.objectContaining({
+    expect.objectContaining({
       raw,
       quality: null,
       extensions: [],
@@ -198,12 +198,12 @@ Text`;
       void expect(sections[2].lines[0].text).toBe('c c# db c7   cmaj7    c/e');
 
       void expect(sections[2].lines[0].chords).toEqual([
-        jasmine.objectContaining({chord: 'c', length: 1, position: 0, add: null, slashChord: null, addDescriptor: null}),
-        jasmine.objectContaining({chord: 'c#', length: 2, position: 2, add: null, slashChord: null, addDescriptor: null}),
-        jasmine.objectContaining({chord: 'db', length: 2, position: 5, add: null, slashChord: null, addDescriptor: null}),
-        jasmine.objectContaining({chord: 'c', length: 2, position: 8, add: '7', slashChord: null, addDescriptor: descriptor('7', {extensions: ['7']})}),
-        jasmine.objectContaining({chord: 'c', length: 5, position: 13, add: 'maj7', slashChord: null, addDescriptor: descriptor('maj7', {quality: 'major', extensions: ['7']})}),
-        jasmine.objectContaining({chord: 'c', length: 3, position: 22, add: null, slashChord: 'e', addDescriptor: null}),
+        expect.objectContaining({chord: 'c', length: 1, position: 0, add: null, slashChord: null, addDescriptor: null}),
+        expect.objectContaining({chord: 'c#', length: 2, position: 2, add: null, slashChord: null, addDescriptor: null}),
+        expect.objectContaining({chord: 'db', length: 2, position: 5, add: null, slashChord: null, addDescriptor: null}),
+        expect.objectContaining({chord: 'c', length: 2, position: 8, add: '7', slashChord: null, addDescriptor: descriptor('7', {extensions: ['7']})}),
+        expect.objectContaining({chord: 'c', length: 5, position: 13, add: 'maj7', slashChord: null, addDescriptor: descriptor('maj7', {quality: 'major', extensions: ['7']})}),
+        expect.objectContaining({chord: 'c', length: 3, position: 22, add: null, slashChord: 'e', addDescriptor: null}),
       ]);
     });
 
@@ -228,9 +228,9 @@ Text`;
       const sections = service.parse(text, null);
 
       void expect(sections[0].lines[0].chords).toEqual([
-        jasmine.objectContaining({chord: 'C', length: 1, position: 0, add: null, slashChord: null, addDescriptor: null}),
-        jasmine.objectContaining({chord: 'G', length: 3, position: 8, add: null, slashChord: 'B', addDescriptor: null}),
-        jasmine.objectContaining({chord: 'A', length: 2, position: 17, add: 'm', slashChord: null, addDescriptor: descriptor('m', {quality: 'minor'})}),
+        expect.objectContaining({chord: 'C', length: 1, position: 0, add: null, slashChord: null, addDescriptor: null}),
+        expect.objectContaining({chord: 'G', length: 3, position: 8, add: null, slashChord: 'B', addDescriptor: null}),
+        expect.objectContaining({chord: 'A', length: 2, position: 17, add: 'm', slashChord: null, addDescriptor: descriptor('m', {quality: 'minor'})}),
       ]);
     });
 
@@ -244,11 +244,11 @@ Text`;
 
       void expect(sections[0].lines[0].type).toBe(LineType.chord);
       void expect(sections[0].lines[0].chords).toEqual([
-        jasmine.objectContaining({chord: 'C', length: 5, position: 0, add: 'maj7', slashChord: null, addDescriptor: descriptor('maj7', {quality: 'major', extensions: ['7']})}),
-        jasmine.objectContaining({chord: 'D', length: 3, position: 6, add: 'm7', slashChord: null, addDescriptor: descriptor('m7', {quality: 'minor', extensions: ['7']})}),
-        jasmine.objectContaining({chord: 'G', length: 5, position: 10, add: 'sus4', slashChord: null, addDescriptor: descriptor('sus4', {suspensions: ['4']})}),
-        jasmine.objectContaining({chord: 'A', length: 5, position: 16, add: 'add9', slashChord: null, addDescriptor: descriptor('add9', {additions: ['9']})}),
-        jasmine.objectContaining({chord: 'C', length: 7, position: 22, add: 'maj7', slashChord: 'E', addDescriptor: descriptor('maj7', {quality: 'major', extensions: ['7']})}),
+        expect.objectContaining({chord: 'C', length: 5, position: 0, add: 'maj7', slashChord: null, addDescriptor: descriptor('maj7', {quality: 'major', extensions: ['7']})}),
+        expect.objectContaining({chord: 'D', length: 3, position: 6, add: 'm7', slashChord: null, addDescriptor: descriptor('m7', {quality: 'minor', extensions: ['7']})}),
+        expect.objectContaining({chord: 'G', length: 5, position: 10, add: 'sus4', slashChord: null, addDescriptor: descriptor('sus4', {suspensions: ['4']})}),
+        expect.objectContaining({chord: 'A', length: 5, position: 16, add: 'add9', slashChord: null, addDescriptor: descriptor('add9', {additions: ['9']})}),
+        expect.objectContaining({chord: 'C', length: 7, position: 22, add: 'maj7', slashChord: 'E', addDescriptor: descriptor('maj7', {quality: 'major', extensions: ['7']})}),
       ]);
     });
 
@@ -262,10 +262,10 @@ Text`;
 
       void expect(sections[0].lines[0].type).toBe(LineType.chord);
       void expect(sections[0].lines[0].chords).toEqual([
-        jasmine.objectContaining({chord: 'H', length: 5, position: 0, add: 'moll', slashChord: null, addDescriptor: descriptor('moll', {quality: 'minor'})}),
-        jasmine.objectContaining({chord: 'E', length: 4, position: 6, add: 'dur', slashChord: null, addDescriptor: descriptor('dur', {quality: 'major'})}),
-        jasmine.objectContaining({chord: 'C', length: 5, position: 11, add: 'verm', slashChord: null, addDescriptor: descriptor('verm', {quality: 'diminished'})}),
-        jasmine.objectContaining({chord: 'F', length: 4, position: 17, add: 'aug', slashChord: null, addDescriptor: descriptor('aug', {quality: 'augmented'})}),
+        expect.objectContaining({chord: 'H', length: 5, position: 0, add: 'moll', slashChord: null, addDescriptor: descriptor('moll', {quality: 'minor'})}),
+        expect.objectContaining({chord: 'E', length: 4, position: 6, add: 'dur', slashChord: null, addDescriptor: descriptor('dur', {quality: 'major'})}),
+        expect.objectContaining({chord: 'C', length: 5, position: 11, add: 'verm', slashChord: null, addDescriptor: descriptor('verm', {quality: 'diminished'})}),
+        expect.objectContaining({chord: 'F', length: 4, position: 17, add: 'aug', slashChord: null, addDescriptor: descriptor('aug', {quality: 'augmented'})}),
       ]);
     });
 
@@ -278,12 +278,12 @@ Text`;
       const sections = service.parse(text, null);
 
       void expect(sections[0].lines[0].chords).toEqual([
-        jasmine.objectContaining({chord: 'C', length: 2, position: 0, add: '7', slashChord: null, addDescriptor: descriptor('7', {extensions: ['7']})}),
-        jasmine.objectContaining({chord: 'D', length: 2, position: 3, add: '9', slashChord: null, addDescriptor: descriptor('9', {extensions: ['9']})}),
-        jasmine.objectContaining({chord: 'E', length: 3, position: 6, add: '11', slashChord: null, addDescriptor: descriptor('11', {extensions: ['11']})}),
-        jasmine.objectContaining({chord: 'F', length: 3, position: 10, add: '13', slashChord: null, addDescriptor: descriptor('13', {extensions: ['13']})}),
-        jasmine.objectContaining({chord: 'G', length: 6, position: 14, add: 'add#9', slashChord: null, addDescriptor: descriptor('add#9', {additions: ['#9']})}),
-        jasmine.objectContaining({chord: 'A', length: 4, position: 21, add: '7-5', slashChord: null, addDescriptor: descriptor('7-5', {extensions: ['7'], alterations: ['-5']})}),
+        expect.objectContaining({chord: 'C', length: 2, position: 0, add: '7', slashChord: null, addDescriptor: descriptor('7', {extensions: ['7']})}),
+        expect.objectContaining({chord: 'D', length: 2, position: 3, add: '9', slashChord: null, addDescriptor: descriptor('9', {extensions: ['9']})}),
+        expect.objectContaining({chord: 'E', length: 3, position: 6, add: '11', slashChord: null, addDescriptor: descriptor('11', {extensions: ['11']})}),
+        expect.objectContaining({chord: 'F', length: 3, position: 10, add: '13', slashChord: null, addDescriptor: descriptor('13', {extensions: ['13']})}),
+        expect.objectContaining({chord: 'G', length: 6, position: 14, add: 'add#9', slashChord: null, addDescriptor: descriptor('add#9', {additions: ['#9']})}),
+        expect.objectContaining({chord: 'A', length: 4, position: 21, add: '7-5', slashChord: null, addDescriptor: descriptor('7-5', {extensions: ['7'], alterations: ['-5']})}),
       ]);
     });
 
@@ -296,9 +296,9 @@ Text`;
       const sections = service.parse(text, null);
 
       void expect(sections[0].lines[0].chords).toEqual([
-        jasmine.objectContaining({chord: 'e', length: 5, position: 0, add: 'moll', slashChord: null, addDescriptor: descriptor('moll', {quality: 'minor'})}),
-        jasmine.objectContaining({chord: 'd', length: 4, position: 6, add: null, slashChord: 'F#', addDescriptor: null}),
-        jasmine.objectContaining({chord: 'c', length: 7, position: 11, add: 'maj7', slashChord: 'e', addDescriptor: descriptor('maj7', {quality: 'major', extensions: ['7']})}),
+        expect.objectContaining({chord: 'e', length: 5, position: 0, add: 'moll', slashChord: null, addDescriptor: descriptor('moll', {quality: 'minor'})}),
+        expect.objectContaining({chord: 'd', length: 4, position: 6, add: null, slashChord: 'F#', addDescriptor: null}),
+        expect.objectContaining({chord: 'c', length: 7, position: 11, add: 'maj7', slashChord: 'e', addDescriptor: descriptor('maj7', {quality: 'major', extensions: ['7']})}),
       ]);
     });
 
@@ -333,7 +333,7 @@ Text`;
 
       void expect(sections[0].lines[0].text).toBe('Cmaj7(add9)');
       void expect(sections[0].lines[0].chords).toEqual([
-        jasmine.objectContaining({
+        expect.objectContaining({
           chord: 'C',
           length: 11,
           position: 0,
@@ -362,13 +362,13 @@ Text`;
       void expect(sections[0].lines[0].type).toBe(LineType.chord);
       void expect(sections[0].lines[0].text).toBe('C F G e C  (F G)');
       void expect(sections[0].lines[0].chords).toEqual([
-        jasmine.objectContaining({chord: 'C', length: 1, position: 0, add: null, slashChord: null, addDescriptor: null}),
-        jasmine.objectContaining({chord: 'F', length: 1, position: 2, add: null, slashChord: null, addDescriptor: null}),
-        jasmine.objectContaining({chord: 'G', length: 1, position: 4, add: null, slashChord: null, addDescriptor: null}),
-        jasmine.objectContaining({chord: 'e', length: 1, position: 6, add: null, slashChord: null, addDescriptor: null}),
-        jasmine.objectContaining({chord: 'C', length: 1, position: 8, add: null, slashChord: null, addDescriptor: null}),
-        jasmine.objectContaining({chord: 'F', length: 2, position: 11, add: null, slashChord: null, addDescriptor: null, prefix: '('}),
-        jasmine.objectContaining({chord: 'G', length: 2, position: 14, add: null, slashChord: null, addDescriptor: null, suffix: ')'}),
+        expect.objectContaining({chord: 'C', length: 1, position: 0, add: null, slashChord: null, addDescriptor: null}),
+        expect.objectContaining({chord: 'F', length: 1, position: 2, add: null, slashChord: null, addDescriptor: null}),
+        expect.objectContaining({chord: 'G', length: 1, position: 4, add: null, slashChord: null, addDescriptor: null}),
+        expect.objectContaining({chord: 'e', length: 1, position: 6, add: null, slashChord: null, addDescriptor: null}),
+        expect.objectContaining({chord: 'C', length: 1, position: 8, add: null, slashChord: null, addDescriptor: null}),
+        expect.objectContaining({chord: 'F', length: 2, position: 11, add: null, slashChord: null, addDescriptor: null, prefix: '('}),
+        expect.objectContaining({chord: 'G', length: 2, position: 14, add: null, slashChord: null, addDescriptor: null, suffix: ')'}),
       ]);
     });
 
@@ -389,8 +389,8 @@ Text`;
     it('should call the transpose service when a transpose mode is provided', () => {
       const service: TextRenderingService = TestBed.inject(TextRenderingService);
       const transposeService = TestBed.inject(TransposeService);
-      const transposeSpy = spyOn(transposeService, 'transpose').and.callThrough();
-      const renderSpy = spyOn(transposeService, 'renderChords').and.callThrough();
+      const transposeSpy = vi.spyOn(transposeService, 'transpose');
+      const renderSpy = vi.spyOn(transposeService, 'renderChords');
       const text = `Strophe
 C D E
 Text`;
@@ -404,8 +404,8 @@ Text`;
     it('should use renderChords when no transpose mode is provided', () => {
       const service: TextRenderingService = TestBed.inject(TextRenderingService);
       const transposeService = TestBed.inject(TransposeService);
-      const transposeSpy = spyOn(transposeService, 'transpose').and.callThrough();
-      const renderSpy = spyOn(transposeService, 'renderChords').and.callThrough();
+      const transposeSpy = vi.spyOn(transposeService, 'transpose');
+      const renderSpy = vi.spyOn(transposeService, 'renderChords');
       const text = `Strophe
 C D E
 Text`;
@@ -434,9 +434,9 @@ Am Dm7 cdur C
 Text`;
 
       void expect(service.validateChordNotation(text)).toEqual([
-        jasmine.objectContaining({lineNumber: 2, token: 'Am', suggestion: 'a', reason: 'minor_format'}),
-        jasmine.objectContaining({lineNumber: 2, token: 'Dm7', suggestion: 'd7', reason: 'minor_format'}),
-        jasmine.objectContaining({lineNumber: 2, token: 'cdur', suggestion: 'C', reason: 'major_format'}),
+        expect.objectContaining({lineNumber: 2, token: 'Am', suggestion: 'a', reason: 'minor_format'}),
+        expect.objectContaining({lineNumber: 2, token: 'Dm7', suggestion: 'd7', reason: 'minor_format'}),
+        expect.objectContaining({lineNumber: 2, token: 'cdur', suggestion: 'C', reason: 'major_format'}),
       ]);
     });
 
@@ -447,8 +447,8 @@ Am/C# Dm7/F#
 Text`;
 
       void expect(service.validateChordNotation(text)).toEqual([
-        jasmine.objectContaining({lineNumber: 2, token: 'Am/C#', suggestion: 'a/C#', reason: 'minor_format'}),
-        jasmine.objectContaining({lineNumber: 2, token: 'Dm7/F#', suggestion: 'd7/F#', reason: 'minor_format'}),
+        expect.objectContaining({lineNumber: 2, token: 'Am/C#', suggestion: 'a/C#', reason: 'minor_format'}),
+        expect.objectContaining({lineNumber: 2, token: 'Dm7/F#', suggestion: 'd7/F#', reason: 'minor_format'}),
       ]);
     });
 
@@ -462,7 +462,7 @@ Text`;
 
       void expect(sections[0].lines[0].type).toBe(LineType.chord);
       void expect(sections[0].lines[0].text).toBe('C Es G');
-      void expect(service.validateChordNotation(text)).toEqual([jasmine.objectContaining({lineNumber: 2, token: 'Es', reason: 'unknown_token', suggestion: null})]);
+      void expect(service.validateChordNotation(text)).toEqual([expect.objectContaining({lineNumber: 2, token: 'Es', reason: 'unknown_token', suggestion: null})]);
     });
 
     it('should flag unknown tokens on mostly chord lines', () => {
@@ -471,7 +471,7 @@ Text`;
 C Foo G a
 Text`;
 
-      void expect(service.validateChordNotation(text)).toEqual([jasmine.objectContaining({lineNumber: 2, token: 'Foo', reason: 'unknown_token', suggestion: null})]);
+      void expect(service.validateChordNotation(text)).toEqual([expect.objectContaining({lineNumber: 2, token: 'Foo', reason: 'unknown_token', suggestion: null})]);
     });
 
     it('should reject tabs on chord lines', () => {
@@ -480,7 +480,7 @@ Text`;
 
       void expect(service.validateChordNotation(text)).toEqual(
         expect.arrayContaining([
-          jasmine.objectContaining({
+          expect.objectContaining({
             lineNumber: 2,
             token: '\t',
             reason: 'tab_character',

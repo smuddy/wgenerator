@@ -1,18 +1,19 @@
 import {TestBed} from '@angular/core/testing';
 import {firstValueFrom, of} from 'rxjs';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {DbService} from './db.service';
 import {GlobalSettingsService} from './global-settings.service';
 
 describe('GlobalSettingsService', () => {
   let service: GlobalSettingsService;
-  let dbServiceSpy: jasmine.SpyObj<DbService>;
-  let updateSpy: jasmine.Spy;
+  let dbServiceSpy: {doc$: ReturnType<typeof vi.fn>; doc: ReturnType<typeof vi.fn>};
+  let updateSpy: ReturnType<typeof vi.fn>;
 
   beforeEach(async () => {
-    updateSpy = jasmine.createSpy('update').and.resolveTo();
-    dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['doc$', 'doc']);
-    dbServiceSpy.doc$.and.returnValue(of({churchName: 'ICF'}) as never);
-    dbServiceSpy.doc.and.returnValue({update: updateSpy} as never);
+    updateSpy = vi.fn().mockResolvedValue(undefined);
+    dbServiceSpy = {doc$: vi.fn(), doc: vi.fn()};
+    dbServiceSpy.doc$.mockReturnValue(of({churchName: 'ICF'}) as never);
+    dbServiceSpy.doc.mockReturnValue({update: updateSpy} as never);
 
     await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
@@ -31,7 +32,7 @@ describe('GlobalSettingsService', () => {
   });
 
   it('should expose the shared settings stream via the getter', async () => {
-    await expectAsync(firstValueFrom(service.get$)).toBeResolvedTo({churchName: 'ICF'} as never);
+    await expect(firstValueFrom(service.get$)).resolves.toEqual({churchName: 'ICF'} as never);
   });
 
   it('should update the static global settings document', async () => {

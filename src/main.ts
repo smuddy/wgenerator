@@ -13,11 +13,12 @@ import {provideAuth} from '@angular/fire/auth';
 import {initializeApp} from 'firebase/app';
 import {getAuth} from 'firebase/auth';
 import {initializeFirestore, persistentLocalCache, persistentMultipleTabManager} from 'firebase/firestore';
-import {UserService} from './app/services/user/user.service';
+import {AdminService} from './app/services/admin/admin.service';
 
 declare global {
   interface Window {
     wgeneratorAdmin?: {
+      downloadSongs(): Promise<unknown>;
       rebuildSongUsage(): Promise<unknown>;
       rebuildShowSongIds(): Promise<unknown>;
     };
@@ -50,12 +51,18 @@ bootstrapApplication(AppComponent, {
   ],
 })
   .then(appRef => {
-    const userService = appRef.injector.get(UserService);
+    const adminService = appRef.injector.get(AdminService);
     window.wgeneratorAdmin = {
-      rebuildSongUsage: () => userService.rebuildSongUsage(),
+      downloadSongs: async () => {
+        console.info('[wgeneratorAdmin] downloadSongs started');
+        const result = await adminService.downloadSongs();
+        console.info('[wgeneratorAdmin] downloadSongs finished', result);
+        return result;
+      },
+      rebuildSongUsage: () => adminService.rebuildSongUsage(),
       rebuildShowSongIds: async () => {
         console.info('[wgeneratorAdmin] rebuildShowSongIds started');
-        const result = await userService.rebuildShowSongIds(progress => {
+        const result = await adminService.rebuildShowSongIds(progress => {
           console.info(`[wgeneratorAdmin] rebuildShowSongIds ${progress.processed}/${progress.total} shows processed`, {
             showId: progress.showId,
             showSongsProcessed: progress.showSongsProcessed,

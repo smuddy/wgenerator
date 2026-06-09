@@ -6,6 +6,7 @@ describe('HelpComponent', () => {
   let component: HelpComponent;
   let fixture: ComponentFixture<HelpComponent>;
   let fetchMock: ReturnType<typeof vi.fn>;
+  type FetchResponse = {ok: boolean; text: () => Promise<string>};
 
   beforeEach(async () => {
     fetchMock = vi.fn().mockResolvedValue({
@@ -40,11 +41,11 @@ describe('HelpComponent', () => {
   });
 
   it('should keep the current content visible while the next page loads', async () => {
-    let resolveFetch: ((value: {ok: boolean; text: () => Promise<string>}) => void) | null = null;
+    let resolveFetch!: (value: FetchResponse) => void;
 
     fetchMock.mockImplementationOnce(
       () =>
-        new Promise(resolve => {
+        new Promise<FetchResponse>(resolve => {
           resolveFetch = resolve;
         })
     );
@@ -52,19 +53,21 @@ describe('HelpComponent', () => {
     const oldHtml = component.renderedHtml;
     const oldHeading = component.heading;
 
-    void (component as {loadDocument(path: string): Promise<void>}).loadDocument('man/pages/lieder-liste.md');
+    const loadPromise = (component as unknown as {loadDocument(path: string): Promise<void>}).loadDocument(
+      'man/pages/lieder-liste.md'
+    );
     fixture.detectChanges();
 
     expect(component.loading).toBe(true);
     expect(component.renderedHtml).toBe(oldHtml);
     expect(component.heading).toBe(oldHeading);
 
-    resolveFetch?.({
+    resolveFetch({
       ok: true,
       text: () => Promise.resolve('# Liedliste\n\nInhalt'),
     });
 
-    await fixture.whenStable();
+    await loadPromise;
     fixture.detectChanges();
 
     expect(component.loading).toBe(false);

@@ -13,6 +13,8 @@ describe('SidebarComponent', () => {
 
     fixture = TestBed.createComponent(PageFrameComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('title', 'Test');
+    fixture.detectChanges();
     await fixture.whenStable();
   });
 
@@ -21,12 +23,12 @@ describe('SidebarComponent', () => {
   });
 
   it('should toggle and close the sidebar', () => {
-    expect(component.collapsed).toBeTrue();
+    expect(component.collapsed).toBe(true);
 
     component.toggle();
-    expect(component.collapsed).toBeFalse();
+    expect(component.collapsed).toBe(false);
 
     component.close();
-    expect(component.collapsed).toBeTrue();
+    expect(component.collapsed).toBe(true);
   });
 });

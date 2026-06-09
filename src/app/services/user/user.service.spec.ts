@@ -1,49 +1,64 @@
 import {TestBed} from '@angular/core/testing';
 import {firstValueFrom, of} from 'rxjs';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {UserService} from './user.service';
 import {UserSessionService} from './user-session.service';
 import {UserSongUsageService} from './user-song-usage.service';
-import {ShowSongIndexService} from '../../modules/shows/services/show-song-index.service';
 
 describe('UserService', () => {
   let service: UserService;
-  let sessionSpy: jasmine.SpyObj<UserSessionService>;
-  let songUsageSpy: jasmine.SpyObj<UserSongUsageService>;
-  let showSongIndexSpy: jasmine.SpyObj<ShowSongIndexService>;
+  let sessionSpy: {
+    currentUser: ReturnType<typeof vi.fn>;
+    getUserbyId: ReturnType<typeof vi.fn>;
+    getUserbyId$: ReturnType<typeof vi.fn>;
+    login: ReturnType<typeof vi.fn>;
+    loggedIn$: ReturnType<typeof vi.fn>;
+    list$: ReturnType<typeof vi.fn>;
+    logout: ReturnType<typeof vi.fn>;
+    update$: ReturnType<typeof vi.fn>;
+    changePassword: ReturnType<typeof vi.fn>;
+    createNewUser: ReturnType<typeof vi.fn>;
+    users$: unknown;
+    userId$: unknown;
+    user$: unknown;
+  };
+  let songUsageSpy: {incSongCount: ReturnType<typeof vi.fn>; decSongCount: ReturnType<typeof vi.fn>};
 
   beforeEach(async () => {
-    sessionSpy = jasmine.createSpyObj<UserSessionService>(
-      'UserSessionService',
-      ['currentUser', 'getUserbyId', 'getUserbyId$', 'login', 'loggedIn$', 'list$', 'logout', 'update$', 'changePassword', 'createNewUser'],
-      {
-        users$: of([{id: 'user-1'}]) as never,
-        userId$: of('user-1'),
-        user$: of({id: 'user-1'}) as never,
-      }
-    );
-    songUsageSpy = jasmine.createSpyObj<UserSongUsageService>('UserSongUsageService', ['incSongCount', 'decSongCount', 'rebuildSongUsage']);
-    showSongIndexSpy = jasmine.createSpyObj<ShowSongIndexService>('ShowSongIndexService', ['rebuildShowSongIds']);
+    sessionSpy = {
+      currentUser: vi.fn(),
+      getUserbyId: vi.fn(),
+      getUserbyId$: vi.fn(),
+      login: vi.fn(),
+      loggedIn$: vi.fn(),
+      list$: vi.fn(),
+      logout: vi.fn(),
+      update$: vi.fn(),
+      changePassword: vi.fn(),
+      createNewUser: vi.fn(),
+      users$: of([{id: 'user-1'}]) as never,
+      userId$: of('user-1'),
+      user$: of({id: 'user-1'}) as never,
+    };
+    songUsageSpy = {incSongCount: vi.fn(), decSongCount: vi.fn()};
 
-    sessionSpy.currentUser.and.resolveTo({id: 'user-1'} as never);
-    sessionSpy.getUserbyId.and.resolveTo({id: 'user-2'} as never);
-    sessionSpy.getUserbyId$.and.returnValue(of({id: 'user-2'}) as never);
-    sessionSpy.login.and.resolveTo('user-1');
-    sessionSpy.loggedIn$.and.returnValue(of(true));
-    sessionSpy.list$.and.returnValue(of([{id: 'user-1'}]) as never);
-    sessionSpy.logout.and.resolveTo();
-    sessionSpy.update$.and.resolveTo();
-    sessionSpy.changePassword.and.resolveTo();
-    sessionSpy.createNewUser.and.resolveTo();
-    songUsageSpy.incSongCount.and.resolveTo();
-    songUsageSpy.decSongCount.and.resolveTo();
-    songUsageSpy.rebuildSongUsage.and.resolveTo({usersProcessed: 1, showsProcessed: 2, showSongsProcessed: 3});
-    showSongIndexSpy.rebuildShowSongIds.and.resolveTo({showsProcessed: 2, showSongsProcessed: 3});
+    sessionSpy.currentUser.mockResolvedValue({id: 'user-1'} as never);
+    sessionSpy.getUserbyId.mockResolvedValue({id: 'user-2'} as never);
+    sessionSpy.getUserbyId$.mockReturnValue(of({id: 'user-2'}) as never);
+    sessionSpy.login.mockResolvedValue('user-1');
+    sessionSpy.loggedIn$.mockReturnValue(of(true));
+    sessionSpy.list$.mockReturnValue(of([{id: 'user-1'}]) as never);
+    sessionSpy.logout.mockResolvedValue(undefined);
+    sessionSpy.update$.mockResolvedValue(undefined);
+    sessionSpy.changePassword.mockResolvedValue(undefined);
+    sessionSpy.createNewUser.mockResolvedValue(undefined);
+    songUsageSpy.incSongCount.mockResolvedValue(undefined);
+    songUsageSpy.decSongCount.mockResolvedValue(undefined);
 
     await TestBed.configureTestingModule({
       providers: [
         {provide: UserSessionService, useValue: sessionSpy},
         {provide: UserSongUsageService, useValue: songUsageSpy},
-        {provide: ShowSongIndexService, useValue: showSongIndexSpy},
       ],
     });
 
@@ -55,15 +70,15 @@ describe('UserService', () => {
   });
 
   it('should expose the session streams directly', async () => {
-    await expectAsync(firstValueFrom(service.userId$)).toBeResolvedTo('user-1');
-    await expectAsync(firstValueFrom(service.user$)).toBeResolvedTo({id: 'user-1'} as never);
-    await expectAsync(firstValueFrom(service.users$)).toBeResolvedTo([{id: 'user-1'}] as never);
+    await expect(firstValueFrom(service.userId$)).resolves.toEqual('user-1');
+    await expect(firstValueFrom(service.user$)).resolves.toEqual({id: 'user-1'} as never);
+    await expect(firstValueFrom(service.users$)).resolves.toEqual([{id: 'user-1'}] as never);
   });
 
   it('should delegate session operations to UserSessionService', async () => {
-    await expectAsync(service.currentUser()).toBeResolvedTo({id: 'user-1'} as never);
-    await expectAsync(service.getUserbyId('user-2')).toBeResolvedTo({id: 'user-2'} as never);
-    await expectAsync(service.login('mail', 'secret')).toBeResolvedTo('user-1');
+    await expect(service.currentUser()).resolves.toEqual({id: 'user-1'} as never);
+    await expect(service.getUserbyId('user-2')).resolves.toEqual({id: 'user-2'} as never);
+    await expect(service.login('mail', 'secret')).resolves.toEqual('user-1');
     await service.logout();
     await service.update$('user-1', {name: 'Benjamin'} as never);
     await service.changePassword('mail');
@@ -79,9 +94,9 @@ describe('UserService', () => {
   });
 
   it('should delegate user lookup and loggedIn/list streams to UserSessionService', async () => {
-    await expectAsync(firstValueFrom(service.getUserbyId$('user-2'))).toBeResolvedTo({id: 'user-2'} as never);
-    await expectAsync(firstValueFrom(service.loggedIn$())).toBeResolvedTo(true);
-    await expectAsync(firstValueFrom(service.list$())).toBeResolvedTo([{id: 'user-1'}] as never);
+    await expect(firstValueFrom(service.getUserbyId$('user-2'))).resolves.toEqual({id: 'user-2'} as never);
+    await expect(firstValueFrom(service.loggedIn$())).resolves.toEqual(true);
+    await expect(firstValueFrom(service.list$())).resolves.toEqual([{id: 'user-1'}] as never);
     expect(sessionSpy.getUserbyId$).toHaveBeenCalledWith('user-2');
     expect(sessionSpy.loggedIn$).toHaveBeenCalled();
     expect(sessionSpy.list$).toHaveBeenCalled();
@@ -90,12 +105,8 @@ describe('UserService', () => {
   it('should delegate song usage operations to UserSongUsageService', async () => {
     await service.incSongCount('song-1');
     await service.decSongCount('song-2');
-    await expectAsync(service.rebuildSongUsage()).toBeResolvedTo({usersProcessed: 1, showsProcessed: 2, showSongsProcessed: 3});
-    await expectAsync(service.rebuildShowSongIds()).toBeResolvedTo({showsProcessed: 2, showSongsProcessed: 3});
 
     expect(songUsageSpy.incSongCount).toHaveBeenCalledWith('song-1');
     expect(songUsageSpy.decSongCount).toHaveBeenCalledWith('song-2');
-    expect(songUsageSpy.rebuildSongUsage).toHaveBeenCalled();
-    expect(showSongIndexSpy.rebuildShowSongIds).toHaveBeenCalled();
   });
 });

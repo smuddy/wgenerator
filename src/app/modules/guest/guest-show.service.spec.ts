@@ -4,18 +4,19 @@ import {GuestShowService} from './guest-show.service';
 import {ShowService} from '../shows/services/show.service';
 import {Show} from '../shows/services/show';
 import {Song} from '../songs/services/song';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 
 describe('GuestShowService', () => {
   let service: GuestShowService;
-  let guestShowDataServiceSpy: jasmine.SpyObj<GuestShowDataService>;
-  let showServiceSpy: jasmine.SpyObj<ShowService>;
+  let guestShowDataServiceSpy: {add: ReturnType<typeof vi.fn>; update$: ReturnType<typeof vi.fn>};
+  let showServiceSpy: {update$: ReturnType<typeof vi.fn>};
 
   beforeEach(async () => {
-    guestShowDataServiceSpy = jasmine.createSpyObj<GuestShowDataService>('GuestShowDataService', ['add', 'update$']);
-    showServiceSpy = jasmine.createSpyObj<ShowService>('ShowService', ['update$']);
-    guestShowDataServiceSpy.add.and.resolveTo('share-1');
-    guestShowDataServiceSpy.update$.and.resolveTo();
-    showServiceSpy.update$.and.resolveTo();
+    guestShowDataServiceSpy = {add: vi.fn(), update$: vi.fn()};
+    showServiceSpy = {update$: vi.fn()};
+    guestShowDataServiceSpy.add.mockResolvedValue('share-1');
+    guestShowDataServiceSpy.update$.mockResolvedValue(undefined);
+    showServiceSpy.update$.mockResolvedValue(undefined);
 
     await TestBed.configureTestingModule({
       providers: [
@@ -36,17 +37,17 @@ describe('GuestShowService', () => {
     const songs = [{id: 'song-1'}] as unknown as Song[];
     const expectedUrl = window.location.protocol + '//' + window.location.host + '/guest/share-1';
 
-    await expectAsync(service.share(show, songs)).toBeResolvedTo(expectedUrl);
+    await expect(service.share(show, songs)).resolves.toEqual(expectedUrl);
 
-    const [addPayload] = guestShowDataServiceSpy.add.calls.mostRecent().args as [Record<string, unknown>];
+    const [addPayload] = guestShowDataServiceSpy.add.mock.calls.at(-1) as [Record<string, unknown>];
     expect(addPayload).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         showType: 'service-worship',
         date: show.date,
         songs,
       })
     );
-    expect(addPayload['updatedAt']).toEqual(jasmine.any(Date));
+    expect(addPayload['updatedAt']).toEqual(expect.any(Date));
     expect(showServiceSpy.update$).toHaveBeenCalledWith('show-1', {shareId: 'share-1'});
   });
 
@@ -55,18 +56,18 @@ describe('GuestShowService', () => {
     const songs = [{id: 'song-1'}] as unknown as Song[];
     const expectedUrl = window.location.protocol + '//' + window.location.host + '/guest/share-9';
 
-    await expectAsync(service.share(show, songs)).toBeResolvedTo(expectedUrl);
+    await expect(service.share(show, songs)).resolves.toEqual(expectedUrl);
 
-    const [shareId, updatePayload] = guestShowDataServiceSpy.update$.calls.mostRecent().args as [string, Record<string, unknown>];
+    const [shareId, updatePayload] = guestShowDataServiceSpy.update$.mock.calls.at(-1) as [string, Record<string, unknown>];
     expect(shareId).toBe('share-9');
     expect(updatePayload).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         showType: 'service-worship',
         date: show.date,
         songs,
       })
     );
-    expect(updatePayload['updatedAt']).toEqual(jasmine.any(Date));
+    expect(updatePayload['updatedAt']).toEqual(expect.any(Date));
     expect(guestShowDataServiceSpy.add).not.toHaveBeenCalled();
     expect(showServiceSpy.update$).not.toHaveBeenCalled();
   });

@@ -1,15 +1,16 @@
 import {TestBed} from '@angular/core/testing';
 import {firstValueFrom, of} from 'rxjs';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {DbService} from './db.service';
 import {ConfigService} from './config.service';
 
 describe('ConfigService', () => {
   let service: ConfigService;
-  let dbServiceSpy: jasmine.SpyObj<DbService>;
+  let dbServiceSpy: {doc$: ReturnType<typeof vi.fn>};
 
   beforeEach(async () => {
-    dbServiceSpy = jasmine.createSpyObj<DbService>('DbService', ['doc$']);
-    dbServiceSpy.doc$.and.returnValue(of({copyright: 'CCLI'}) as never);
+    dbServiceSpy = {doc$: vi.fn()};
+    dbServiceSpy.doc$.mockReturnValue(of({copyright: 'CCLI'}) as never);
 
     await TestBed.configureTestingModule({
       providers: [{provide: DbService, useValue: dbServiceSpy}],
@@ -28,10 +29,10 @@ describe('ConfigService', () => {
   });
 
   it('should expose the shared config stream via get$', async () => {
-    await expectAsync(firstValueFrom(service.get$())).toBeResolvedTo({copyright: 'CCLI'} as never);
+    await expect(firstValueFrom(service.get$())).resolves.toEqual({copyright: 'CCLI'} as never);
   });
 
   it('should resolve the current config via get()', async () => {
-    await expectAsync(service.get()).toBeResolvedTo({copyright: 'CCLI'} as never);
+    await expect(service.get()).resolves.toEqual({copyright: 'CCLI'} as never);
   });
 });

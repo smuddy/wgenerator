@@ -46,6 +46,14 @@ export class HelpComponent implements OnInit {
     void this.loadDocument(resolvedPath);
   }
 
+  public onContentKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'Enter' && event.key !== ' ') {
+      return;
+    }
+
+    this.onContentClick(event as unknown as MouseEvent);
+  }
+
   private async loadDocument(path: string): Promise<void> {
     if (!path.startsWith('man/')) {
       if (!this.hasLoadedContent) {
@@ -119,9 +127,9 @@ export class HelpComponent implements OnInit {
         } else {
           htmlParts.push(`<p>${this.renderInlineMarkdown(text)}</p>`);
         }
-        }
-        paragraphLines.length = 0;
-      };
+      }
+      paragraphLines.length = 0;
+    };
 
     const flushCodeBlock = () => {
       if (!inCodeBlock) {
@@ -300,14 +308,18 @@ export class HelpComponent implements OnInit {
       return `<a href="${safeHref}">${safeLabel}</a>`;
     });
     html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    html = html.replace(/(^|[^\*])\*([^*]+)\*/g, '$1<em>$2</em>');
+    html = html.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
 
     return html;
   }
 
   private decodePlainText(text: string): string {
-    const html = this.renderInlineMarkdown(text);
-    const sanitized = this.sanitizer.sanitize(SecurityContext.HTML, html)?.replace(/<[^>]+>/g, '').trim() ?? text;
+    const html = this.renderInlineMarkdown(this.decodeHtmlEntities(text));
+    const sanitized =
+      this.sanitizer
+        .sanitize(SecurityContext.HTML, html)
+        ?.replace(/<[^>]+>/g, '')
+        .trim() ?? text;
     return this.decodeHtmlEntities(sanitized);
   }
 

@@ -80,6 +80,6 @@ describe('TransposeService', () => {
     const rendered = service.renderChords(line);
 
     void expect(rendered.text.length).toBe(121);
-    void expect(rendered.text.endsWith('C')).toBeTrue();
+    void expect(rendered.text.endsWith('C')).toBe(true);
   });
 });
