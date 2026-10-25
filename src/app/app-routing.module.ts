@@ -45,6 +45,7 @@ const routes: Routes = [
   {
     path: 'brand',
     loadChildren: () => import('./modules/brand/brand.module').then(m => m.BrandModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'guest',

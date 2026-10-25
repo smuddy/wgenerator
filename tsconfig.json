@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "module": "es2020",
     "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "importHelpers": true,
     "target": "ES2022",
     "strict": true,

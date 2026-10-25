@@ -16,6 +16,38 @@ npm start
 
 `npm start` führt `ng serve` aus. Die Standard-Serve-Konfiguration ist `development`.
 
+## Abhängigkeiten und Sicherheitsupdates
+
+Build, Entwicklungsserver und Tests verwenden direkt `@angular/build`. Der ältere
+Wrapper `@angular-devkit/build-angular` wird nicht benötigt. `less` ist als
+Entwicklungsabhängigkeit erforderlich, damit die LESS-Styles kompiliert werden.
+
+Stand 25. Oktober 2026 ist Firebase auf `12.18.0` festgesetzt, weil `12.19.0`
+unvollständige Typdefinitionen für `Temporal.Instant` enthält. Bei einem späteren
+Firebase-Update muss dieser Compilerfehler erneut geprüft werden.
+
+Die `overrides` in `package.json` haben folgende Gründe:
+
+- `@firebase/app`: eine gemeinsame App-Instanz für alle Firebase-Dienste;
+  unterschiedliche Versionen können zu „Service firestore is not available“ führen.
+- Firestore → `@grpc/grpc-js`: Sicherheitsupdate innerhalb der Hauptversion 1.
+- Angular Build → `undici`: Sicherheitsupdate innerhalb der Hauptversion 7.
+- gaxios 6 → `uuid`: Version 11 enthält die Sicherheitskorrektur und unterstützt
+  weiterhin CommonJS sowie den von gaxios verwendeten `v4`-Aufruf.
+- `qs`: Sicherheitsupdate innerhalb der Hauptversion 6.
+
+Bei Updates der übergeordneten Pakete prüfen, ob diese Overrides entfernt werden
+können. Danach `npm test -- --watch=false`, `npm run build:dev` und `npm audit`
+ausführen.
+
+Es verbleiben drei moderate Audit-Meldungen aus derselben Kette:
+`firebase-tools` → `@google-cloud/pubsub` → `@opentelemetry/core`.
+Firebase CLI 15.34.1 verlangt noch Pub/Sub 5; die korrigierte OpenTelemetry-Version
+2.8 liegt außerhalb dessen Abhängigkeitsbereichs. Ein erzwungener Wechsel auf
+Pub/Sub 6 oder OpenTelemetry 2 ist ohne Prüfung der CLI-Kompatibilität keine
+geeignete Korrektur. `npm audit fix --force` schlägt stattdessen ein Downgrade der
+Firebase CLI vor und sollte dafür nicht verwendet werden.
+
 ## Firebase-Konfiguration
 
 `src/environments/environment.ts` und `src/environments/environment.prod.ts` importieren beide `src/environments/firebase.ts`. Diese Datei ist nicht versioniert und muss lokal vorhanden sein. In CI wird sie aus Secrets erzeugt.
