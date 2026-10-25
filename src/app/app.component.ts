@@ -3,6 +3,7 @@ import {fader} from './animations';
 import {RouterOutlet} from '@angular/router';
 import {NavigationComponent} from './widget-modules/components/application-frame/navigation/navigation.component';
 import {ThemeService} from './services/theme/theme.service';
+import {AppUpdateService} from './services/app-update.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import {ThemeService} from './services/theme/theme.service';
 export class AppComponent implements OnInit {
   public constructor() {
     inject(ThemeService);
+    inject(AppUpdateService);
   }
 
   public ngOnInit(): void {

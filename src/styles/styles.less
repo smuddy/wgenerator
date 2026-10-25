@@ -160,6 +160,28 @@ body.theme-dark .mat-mdc-text-field-wrapper {
   background-color: rgba(36, 54, 72, 0.96);
 }
 
+body.theme-dark .mat-button-toggle:not(.mat-button-toggle-checked) {
+  --mat-standard-button-toggle-background-color: var(--surface-strong);
+  --mat-standard-button-toggle-text-color: var(--text);
+  --mat-standard-button-toggle-state-layer-color: var(--primary-hover);
+  --mat-standard-button-toggle-disabled-state-background-color: var(--surface-muted);
+  --mat-standard-button-toggle-disabled-state-text-color: var(--text-soft);
+  background-color: var(--surface-strong);
+  color: var(--text);
+}
+
+body.theme-dark .mat-button-toggle:not(.mat-button-toggle-checked) .mat-button-toggle-button {
+  background-color: var(--surface-strong);
+}
+
+body.theme-dark .mat-button-toggle:not(.mat-button-toggle-checked) .mat-button-toggle-label-content {
+  color: var(--text);
+}
+
+body.theme-dark .mat-button-toggle:not(.mat-button-toggle-checked):hover {
+  background-color: var(--surface);
+}
+
 body.theme-dark .mdc-notched-outline__leading,
 body.theme-dark .mdc-notched-outline__notch,
 body.theme-dark .mdc-notched-outline__trailing {

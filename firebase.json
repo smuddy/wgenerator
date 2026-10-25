@@ -18,20 +18,11 @@
     ],
     "headers": [
       {
-        "source": "/**/!(*.*)",
+        "source": "**",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "max-age=1"
-          }
-        ]
-      },
-      {
-        "source": "**/*.@(js|css)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=846000"
+            "value": "no-cache"
           }
         ]
       }
